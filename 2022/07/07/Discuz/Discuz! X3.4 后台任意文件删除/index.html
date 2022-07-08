@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Discuz! X3.4 后台任意文件删除一、漏洞简介后台任意文件删除，需要有管理员的权限。 二、漏洞影响Discuz!X V3.4 三、复现过程漏洞分析分析一下该请求的流程。 请求URL：&#x2F;dz&#x2F;upload&#x2F;admin.php?action&#x3D;forums&amp;operation&#x3D;edit&amp;fid&#x3D;2&amp;replybgnew&#x3D;..&#x2F;..&#x2F;..&#x2F;testfile.txt&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X3.4%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Discuz! X3.4 后台任意文件删除一、漏洞简介后台任意文件删除，需要有管理员的权限。 二、漏洞影响Discuz!X V3.4 三、复现过程漏洞分析分析一下该请求的流程。 请求URL：&#x2F;dz&#x2F;upload&#x2F;admin.php?action&#x3D;forums&amp;operation&#x3D;edit&amp;fid&#x3D;2&amp;replybgnew&#x3D;..&#x2F;..&#x2F;..&#x2F;testfile.txt&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId28.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.611Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Discuz/Discuz! X3.4 后台任意文件删除" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Discuz/Discuz!%20X3.4%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.611Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Discuz-X3-4-后台任意文件删除"><a href="#Discuz-X3-4-后台任意文件删除" class="headerlink" title="Discuz! X3.4 后台任意文件删除"></a>Discuz! X3.4 后台任意文件删除</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>后台任意文件删除，需要有管理员的权限。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Discuz!X V3.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>分析一下该请求的流程。</p>
+<p>请求URL：<code>/dz/upload/admin.php?action=forums&amp;operation=edit&amp;fid=2&amp;replybgnew=../../../testfile.txt&amp;delreplybg=1</code></p>
+<p>在<code>admin.php</code>中接收了action参数，在第58行经过<code>admincpfile</code>函数处理后返回文件路径，并包含该文件。</p>
+<pre><code>if($admincp-&gt;allow($action, $operation, $do) || $action == &#39;index&#39;) &#123;
+        require $admincp-&gt;admincpfile($action);
+</code></pre>
+<p>看一下该函数的处理过程：</p>
+<pre><code>function admincpfile($action) &#123;
+        return &#39;./source/admincp/admincp_&#39;.$action.&#39;.php&#39;;
+    &#125;
+</code></pre>
+<p>经过处理返回的内容是：<code>./source/admincp/admincp_forums.php</code>，也就来到了漏洞存在的地方。</p>
+<p>根据if/else的判断条件，进入else中的代码：</p>
+<pre><code>if(!submitcheck(&#39;detailsubmit&#39;)) &#123;
+  ......
+&#125;
+else&#123;
+
+&#125;
+</code></pre>
+<p>造成漏洞的代码：</p>
+<pre><code>if(!$multiset) &#123;
+  if($_GET[&#39;delreplybg&#39;]) &#123;
+    $valueparse = parse_url($_GET[&#39;replybgnew&#39;]);
+    if(!isset($valueparse[&#39;host&#39;]) &amp;&amp; file_exists($_G[&#39;setting&#39;][&#39;attachurl&#39;].&#39;common/&#39;.$_GET[&#39;replybgnew&#39;])) &#123;
+      @unlink($_G[&#39;setting&#39;][&#39;attachurl&#39;].&#39;common/&#39;.$_GET[&#39;replybgnew&#39;]);
+    &#125;
+    $_GET[&#39;replybgnew&#39;] = &#39;&#39;;
+  &#125;
+</code></pre>
+<p><code>$multiset</code>默认为0，只要不给该参数赋值就满足条件进入if语句。</p>
+<p>第二个if语句，检查GET参数<code>delreplybg</code>有没有内容，然后做了下检测，检测parse_url函数返回的结果中有没有host这个变量，来确保GET参数<code>replybgnew</code>不是url，但是并不影响传入文件路径。</p>
+<p>这里<code>$_G[&#39;setting&#39;][&#39;attachurl&#39;</code>的值为<code>data/attachment/</code>，再拼接上<code>common/</code>和<code>$_GET[&#39;replybgnew&#39;]</code>，这样路径就可控了。通过unlink达到文件删除的目的。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>登陆后台，进入论坛-&gt;模块管理-&gt;编辑板块，使用burp拦截提交的数据。</p>
+<p><img src="/resource/Discuz!X3.4%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId26.png"></p>
+<p><img src="/resource/Discuz!X3.4%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId27.png"></p>
+<p>发送，查看文件发现被删除。</p>
+<p><img src="/resource/Discuz!X3.4%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId28.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7492/#toc-7">https://xz.aliyun.com/t/7492\#toc-7</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X3.4%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" data-id="cl5c2qnsq0053y8v1ax5z25ny" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Discuz/Discuz!ML%203.x%20%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X3.4%20%E5%89%8D%E5%8F%B0ssrf/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

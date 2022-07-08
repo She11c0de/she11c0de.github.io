@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Tomcat样例目录session操纵漏洞一、漏洞简介在Apachetomcat中，有一个默认的example示例目录，该example目录中存着众多的样例，其中&#x2F;examples&#x2F;servlets&#x2F;servlet&#x2F;SessionExample允许用户对Session进行操作。由于Session是存储在服务器端的用于验证用户身份的东西。所以，理论上，只要我们可以操控Session，就可以伪造任意用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Tomcat/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Tomcat样例目录session操纵漏洞一、漏洞简介在Apachetomcat中，有一个默认的example示例目录，该example目录中存着众多的样例，其中&#x2F;examples&#x2F;servlets&#x2F;servlet&#x2F;SessionExample允许用户对Session进行操作。由于Session是存储在服务器端的用于验证用户身份的东西。所以，理论上，只要我们可以操控Session，就可以伪造任意用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="article:published_time" content="2022-07-08T06:26:05.501Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.402Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Tomcat/Tomcat样例目录session操纵漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.501Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Tomcat样例目录session操纵漏洞"><a href="#Tomcat样例目录session操纵漏洞" class="headerlink" title="Tomcat样例目录session操纵漏洞"></a>Tomcat样例目录session操纵漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在Apache<br>tomcat中，有一个默认的example示例目录，该example目录中存着众多的样例，其中/examples/servlets/servlet/SessionExample<br>允许用户对Session进行操作。由于Session是存储在服务器端的用于验证用户身份的东西。所以，理论上，只要我们可以操控Session，就可以伪造任意用户身份信息。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>如图，是Apache tomcat 网站根目录下的文件夹，默认是有一个examples目录的</p>
+<p><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>这是examples目录下的文件</p>
+<p><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>我们访问该SessionExample页面，该页面可以对Session进行操控，本来该页面是Apache<br>tomcat用来给开发者操纵Session示例的页面。但是，如果实际生产环境中不删除该页面的话，可能存在伪造任意用户身份的漏洞。</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1:8080/examples/servlets/servlet/SessionExample">http://127.0.0.1:8080/examples/servlets/servlet/SessionExample</a></p>
+<p><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>那么我们来看看SessionExample页面是如何通过接收用户输入的值，来对Session进行控制的。</p>
+<p>表单部分代码，接收用户输入的Name和Value值。</p>
+<pre><code>out.println(&quot;&lt;P&gt;&quot;);
+out.print(&quot;&lt;form action=\&quot;&quot;);
+out.print(response.encodeURL(&quot;SessionExample&quot;));
+out.print(&quot;\&quot; &quot;);
+out.println(&quot;method=POST&gt;&quot;);
+out.println(rb.getString(&quot;sessions.dataname&quot;));
+out.println(&quot;&lt;input type=text size=20 name=dataname&gt;&quot;);
+out.println(&quot;&lt;br&gt;&quot;);
+out.println(rb.getString(&quot;sessions.datavalue&quot;));
+out.println(&quot;&lt;input type=text size=20 name=datavalue&gt;&quot;);
+out.println(&quot;&lt;br&gt;&quot;);
+out.println(&quot;&lt;input type=submit&gt;&quot;);
+out.println(&quot;&lt;/form&gt;&quot;);
+</code></pre>
+<p>核心代码，将接收的用户输入的Name和Value值写入到Session中</p>
+<pre><code>HttpSession session = request.getSession(true);
+out.println(rb.getString(&quot;sessions.id&quot;) + &quot; &quot; +session.getId());
+out.println(&quot;&lt;br&gt;&quot;);
+out.println(rb.getString(&quot;sessions.created&quot;) + &quot; &quot;);
+out.println(new Date(session.getCreationTime()) +&quot;&lt;br&gt;&quot;);
+out.println(rb.getString(&quot;sessions.lastaccessed&quot;) + &quot;&quot;);
+out.println(new Date(session.getLastAccessedTime()));
+String dataName = request.getParameter(&quot;dataname&quot;);//获取dataname参数的值
+String dataValue = request.getParameter(&quot;datavalue&quot;);//获取datavalue参数的值
+if (dataName != null &amp;&amp; dataValue != null) &#123;
+    session.setAttribute(dataName, dataValue);//将dataname和datavalue写入session
+&#125;
+</code></pre>
+<p>也就是说，用户通过表单提交Name和Value参数，然后通过request.getParameter（）函数获取这两个参数的值，再通过session.setAttribute()<br>函数将Name和Value的值写入Session中。</p>
+<p><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId28.png"></p>
+<h3 id="漏洞示例"><a href="#漏洞示例" class="headerlink" title="漏洞示例"></a>漏洞示例</h3><p>我们先来编写 login.jsp 、login_check.jsp 、 index.jsp<br>这三个页面，通过这三个页面来模拟一般网站身份验证的过程。</p>
+<p>login.jsp</p>
+<pre><code>&lt;form action=login_check.jsp method=&quot;POST&quot; &gt;  
+    用户名: &lt;input type=&quot;text&quot;name=&quot;username&quot;&gt;&lt;br&gt; 
+    密码: &lt;input type=&quot;text&quot; name=&quot;password&quot;&gt;&lt;br&gt; 
+    &lt;inputtype=&quot;submit&quot; value=&quot;登录&quot;&gt;&lt;br&gt; 
+&lt;form&gt;
+</code></pre>
+<p>login_check.jsp</p>
+<pre><code>&lt;% 
+      if(request.getParameter(&quot;username&quot;) != null &amp;&amp; 
+      request.getParameter(&quot;password&quot;)!= null) &#123;  
+      String username =request.getParameter(&quot;username&quot;); 
+      String password =request.getParameter(&quot;password&quot;); 
+      //验证身份 
+      if (username.equals(&quot;admin&quot;)&amp;&amp; password.equals(&quot;admin&quot;)) &#123;  
+        session.setAttribute(&quot;login&quot;,&quot;admin&quot;); 
+        response.sendRedirect(&quot;index.jsp&quot;); 
+        &#125;else &#123; 
+           response.sendRedirect(&quot;login.jsp&quot;); 
+        &#125;  
+      &#125; 
+%&gt;
+</code></pre>
+<p>index.jsp</p>
+<pre><code> &lt;% 
+     if(session.getAttribute(&quot;login&quot;)!= null &amp;&amp;
+     ((String)session.getAttribute(&quot;login&quot;)).equals(&quot;admin&quot;))&#123; 
+        out.println(&quot;Login&quot;); 
+      &#125; else&#123;
+       response.sendRedirect(&quot;login.jsp&quot;);
+       &#125;
+%&gt;
+</code></pre>
+<p>我们直接打开网站后台，即 index.jsp</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1:8080/examples/index.jsp">http://127.0.0.1:8080/examples/index.jsp</a></p>
+<p><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId31.png"></p>
+<p>发现被重定向到login.jsp了。因为我们没有登录，所以被重定向到了登录页面</p>
+<p>打开SessionExample</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1:8080/examples/servlets/servlet/SessionExample">http://127.0.0.1:8080/examples/servlets/servlet/SessionExample</a></p>
+<p>在Name of Session Attribute: 里输入 login</p>
+<p>在Value of Session Attribute:里输入 admin<br><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId32.png"></p>
+<p>提交后显示login=admin已经写入session</p>
+<p><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId33.png"></p>
+<p>再次打开index.jsp，显示成功登录</p>
+<p><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId34.png"></p>
+<blockquote>
+<p>注：但是在现实生产环境中，我们很难知道服务器后端的Session中是通过什么参数(Name)和值(Value)来判断用户登录状态的。所以就是我们根本很难利用该页面来进行任意用户伪造，只是说理论上是可行的。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwya00j5y8v14wh6384a" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Tomcat/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%20%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Tomcat/Tomcat%20%E5%90%8E%E5%8F%B0%E9%83%A8%E7%BD%B2war%E6%9C%A8%E9%A9%ACgetshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

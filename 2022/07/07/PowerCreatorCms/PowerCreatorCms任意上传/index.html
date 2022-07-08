@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PowerCreatorCms任意上传编辑器任意文件上传根据描述，是编辑器的漏洞，查看源码发现该CMS采用了kindeditor编辑器，该编辑器存在任意文件上传漏洞  因为这个是烂大街的东西，关于对kindeditor编辑器任意文件上传的分析文章网上一搜一大堆，因此这里就略了。另外经过复现发现，只能传txt和html，不能传aspx，很鸡肋。   任意文件上传漏洞UploadResourcePic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/PowerCreatorCms/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="PowerCreatorCms任意上传编辑器任意文件上传根据描述，是编辑器的漏洞，查看源码发现该CMS采用了kindeditor编辑器，该编辑器存在任意文件上传漏洞  因为这个是烂大街的东西，关于对kindeditor编辑器任意文件上传的分析文章网上一搜一大堆，因此这里就略了。另外经过复现发现，只能传txt和html，不能传aspx，很鸡肋。   任意文件上传漏洞UploadResourcePic">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104204822-05ba7d7a-1e9c-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104205137-79d2316c-1e9c-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104205140-7bf49d2c-1e9c-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104205815-66f1683c-1e9d-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212911-b9c0d7d8-1ea1-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212921-bf728582-1ea1-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104210127-d9de64b2-1e9d-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104210302-12435cb8-1e9e-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104213121-06d7b6f4-1ea2-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104213208-22b78188-1ea2-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212109-9a30a296-1ea0-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104211833-3ce4e96c-1ea0-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104214631-25a495e6-1ea4-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212327-ec6e00a8-1ea0-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212342-f5a4e6be-1ea0-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212612-4e7a1d40-1ea1-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212642-605d172e-1ea1-1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212652-6652c19c-1ea1-1.png">
+<meta property="article:published_time" content="2022-07-08T06:26:02.995Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104204822-05ba7d7a-1e9c-1.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PowerCreatorCms/PowerCreatorCms任意上传" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PowerCreatorCms/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.995Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PowerCreatorCms任意上传"><a href="#PowerCreatorCms任意上传" class="headerlink" title="PowerCreatorCms任意上传"></a>PowerCreatorCms任意上传</h1><h2 id="编辑器任意文件上传"><a href="#编辑器任意文件上传" class="headerlink" title="编辑器任意文件上传"></a>编辑器任意文件上传</h2><p>根据描述，是编辑器的漏洞，查看源码发现该CMS采用了kindeditor编辑器，该编辑器存在任意文件上传漏洞</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104204822-05ba7d7a-1e9c-1.png" alt="20201104204822-05ba7d7a-1e9c-1"></p>
+<p>因为这个是烂大街的东西，关于对<code>kindeditor</code>编辑器任意文件上传的分析文章网上一搜一大堆，因此这里就略了。另外经过复现发现，只能传<code>txt</code>和<code>html</code>，不能传<code>aspx</code>，很鸡肋。</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104205137-79d2316c-1e9c-1.png" alt="20201104205137-79d2316c-1e9c-1"></p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104205140-7bf49d2c-1e9c-1.png" alt="20201104205140-7bf49d2c-1e9c-1"></p>
+<h2 id="任意文件上传漏洞"><a href="#任意文件上传漏洞" class="headerlink" title="任意文件上传漏洞"></a>任意文件上传漏洞</h2><h3 id="UploadResourcePic-ashx"><a href="#UploadResourcePic-ashx" class="headerlink" title="UploadResourcePic.ashx"></a>UploadResourcePic.ashx</h3><p>根据发现的两个shell，很明显shell的命名不是通过kindeditor编辑器上传的，一定是通过其他的方法上传上去的，那么我们来分析一下漏洞到底在哪呢？查找具有上传功能的点，发现了upload目录里全是上传功能文件</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104205815-66f1683c-1e9d-1.png" alt="20201104205815-66f1683c-1e9d-1"></p>
+<p>再结合第一个webshell路径：第一个shell：<a target="_blank" rel="noopener" href="http://xxx.xxx.xxx.xxx./resourcePic/MQ==.ASPX">http://xxx.xxx.xxx.xxx./resourcePic/MQ==.ASPX</a><br>根据这个ResourcePic目录，发现是上传功能目录下UploadResourcePic.ashx这样一个文件上传后保存的位置，对其进行代码审计</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ WebHandler Language=<span class="string">&quot;C#&quot;</span> Class=<span class="string">&quot;UploadResourcePic&quot;</span> %&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Web;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UploadResourcePic</span> : <span class="title">IHttpHandler</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ProcessRequest</span>(<span class="params">HttpContext context</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        context.Response.ContentType = <span class="string">&quot;text/plain&quot;</span>;</span><br><span class="line">        <span class="built_in">string</span> rid = context.Request[<span class="string">&quot;ResourceID&quot;</span>] ?? <span class="built_in">string</span>.Empty;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(rid))</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (context.Request.Files.Count &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                HttpPostedFile file = context.Request.Files[<span class="number">0</span>];</span><br><span class="line">                <span class="built_in">string</span> Url = PowerCreator.MediaServer.PublicClass.WebUtils.WebRoot + <span class="string">&quot;./resourcePic/&quot;</span>;</span><br><span class="line">                <span class="built_in">string</span> Path = context.Server.MapPath(Url);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (System.IO.Directory.Exists(Path) == <span class="literal">false</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    System.IO.Directory.CreateDirectory(Path);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="built_in">string</span> ext = file.FileName.Substring(file.FileName.LastIndexOf(<span class="string">&#x27;.&#x27;</span>)).ToUpper();</span><br><span class="line">                <span class="keyword">if</span> (file.ContentType != <span class="string">&quot;image/jpeg&quot;</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    context.Response.Write(<span class="number">-2</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">string</span> newFileName = PowerCreator.MediaServer.PublicClass.Base64.Encode(rid) + ext;</span><br><span class="line">                    file.SaveAs(Path + newFileName);</span><br><span class="line">                    context.Response.Write(newFileName);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                context.Response.Write(<span class="number">-1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            context.Response.Write(<span class="string">&quot;参数错误&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        context.Response.End();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">bool</span> IsReusable</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码逻辑及漏洞如图所示：</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212911-b9c0d7d8-1ea1-1.png" alt="20201104212911-b9c0d7d8-1ea1-1"></p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212921-bf728582-1ea1-1.png" alt="20201104212921-bf728582-1ea1-1"></p>
+<p>根据上面的分析，其实漏洞的关键点就是上传接口未授权访问可以直接进行上传操作，存在一个Content-Type为image/jpeg的判断，另外需要注意的是传递一个ResourceID变量才能成功进入到上传逻辑。</p>
+<p>直接访问，没传递rid变量，回显参数错误，因此上传接口前面没有任何校验，可以直接进行文件上传操作</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104210127-d9de64b2-1e9d-1.png" alt="20201104210127-d9de64b2-1e9d-1"></p>
+<p>给rid变量赋个值，也即任意使用get方法或者post方法传递ResourceID变量，但是由于不存在文件上传操作，报文类型不符合multipart/form-data规范，因此返回-1</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104210302-12435cb8-1e9e-1.png" alt="20201104210302-12435cb8-1e9e-1"></p>
+<p>那么只要本地构造一个上传表单，在上传的时候将Content-Type改成image/jpeg，就可以进行任意文件上传，上传过后文件命会是ResourceID变量的值进行base64编码+上传文件的扩展名</p>
+<p>本地构造表单</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;http://xxx.xxx.xxx.xxx/upload/UploadResourcePic.ashx?ResourceID=1&quot;</span> <span class="attr">enctype</span>=<span class="string">&quot;multipart/form-data&quot;</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;file&quot;</span> <span class="attr">class</span>=<span class="string">&quot;file1&quot;</span> <span class="attr">name</span>=<span class="string">&quot;file1&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">class</span>=<span class="string">&quot;but1&quot;</span>&gt;</span>上传<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>改一个Content-Type为image/jpeg，即可成功getshell</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104213121-06d7b6f4-1ea2-1.png" alt="20201104213121-06d7b6f4-1ea2-1"></p>
+<h3 id="uploadCoursePic-ashx"><a href="#uploadCoursePic-ashx" class="headerlink" title="uploadCoursePic.ashx"></a>uploadCoursePic.ashx</h3><p>接下来还有一个webshell，<a target="_blank" rel="noopener" href="http://xxx.xxx.xxx.xxx/fileManager/UploadFile/CoursePic/485b1b71-8035-44c1-9ceb-637cd68eda19.ASPX">http://xxx.xxx.xxx.xxx/fileManager/UploadFile/CoursePic/485b1b71-8035-44c1-9ceb-637cd68eda19.ASPX</a></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ WebHandler Language=<span class="string">&quot;C#&quot;</span> Class=<span class="string">&quot;uploadCoursePic&quot;</span> %&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Web;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">uploadCoursePic</span> : <span class="title">IHttpHandler</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ProcessRequest</span>(<span class="params">HttpContext context</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        context.Response.ContentType = <span class="string">&quot;text/plain&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">string</span> delFileName = context.Request[<span class="string">&quot;fileName&quot;</span>];</span><br><span class="line">        <span class="built_in">string</span> CourseID = context.Request[<span class="string">&quot;CourseID&quot;</span>];</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(CourseID))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (delFileName == <span class="keyword">new</span> PowerCreator.MediaServer.Course.Logic.Course().Load(<span class="built_in">int</span>.Parse(CourseID)).PicPath)</span><br><span class="line">                delFileName = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(delFileName))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                System.IO.File.Delete(context.Server.MapPath(delFileName));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception e) &#123; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (context.Request.Files.Count &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            HttpPostedFile file = context.Request.Files[<span class="number">0</span>];</span><br><span class="line">            <span class="built_in">string</span> Url = PowerCreator.MediaServer.PublicClass.WebUtils.WebRoot + <span class="string">&quot;/fileManager/UploadFile/CoursePic/&quot;</span>;</span><br><span class="line">            <span class="built_in">string</span> Path = context.Server.MapPath(Url);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (System.IO.Directory.Exists(Path) == <span class="literal">false</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                System.IO.Directory.CreateDirectory(Path);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">string</span> ext = file.FileName.Substring(file.FileName.LastIndexOf(<span class="string">&#x27;.&#x27;</span>)).ToUpper();</span><br><span class="line">            <span class="keyword">if</span> (!<span class="string">&quot;.PNG.JPG&quot;</span>.Contains(ext))</span><br><span class="line">            &#123;</span><br><span class="line">                context.Response.Write(<span class="number">-2</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">string</span> newFileName = Guid.NewGuid().ToString() + ext;</span><br><span class="line">            file.SaveAs(Path + newFileName);</span><br><span class="line">            context.Response.Write(Url + newFileName);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            context.Response.Write(<span class="number">-1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">bool</span> IsReusable</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前面一部分代码做了一个文件删除的操作，没什么用，重点在28行开始，分析如下：</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104213208-22b78188-1ea2-1.png" alt="20201104213208-22b78188-1ea2-1"></p>
+<p>漏洞原因在于：如果没有通过扩展名为图片的判断的话，会返回-2，但是返回以后程序并没有退出或跳过文件上传操作，依然进行了文件上传操作。我真是没想明白，开发做了这一步判断的目的是什么。。。。。。。。</p>
+<p>那么payload的构造就很简单了，直接对着uploadCoursePic.ashx接口发一个multipart/form-data规范报文，无需任何绕过</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212109-9a30a296-1ea0-1.png" alt="20201104212109-9a30a296-1ea0-1"></p>
+<p>返回了一个-2，紧接着跟着了成功上传的webshell的地址，和我们分析的预期一模一样</p>
+<h3 id="UploadLogo-ashx"><a href="#UploadLogo-ashx" class="headerlink" title="UploadLogo.ashx"></a>UploadLogo.ashx</h3><p>本来分析应该到此为止了的，正好作为一个合格的划水的蓝方，闲着也是闲着，不如把其他上传接口也一并看一遍吧，UploadLogo.ashx，代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ WebHandler Language=<span class="string">&quot;C#&quot;</span> Class=<span class="string">&quot;UploadLogo&quot;</span> %&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Web;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UploadLogo</span> : <span class="title">IHttpHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ProcessRequest</span> (<span class="params">HttpContext context</span>)</span> &#123;</span><br><span class="line">        context.Response.ContentType = <span class="string">&quot;text/plain&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span> (context.Request.Files.Count &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            HttpPostedFile file = context.Request.Files[<span class="number">0</span>];</span><br><span class="line">            <span class="built_in">string</span> Url = PowerCreator.MediaServer.PublicClass.WebUtils.WebRoot + <span class="string">&quot;/images/logo/&quot;</span>;</span><br><span class="line">            <span class="built_in">string</span> Path = context.Server.MapPath(Url);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (System.IO.Directory.Exists(Path) == <span class="literal">false</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                System.IO.Directory.CreateDirectory(Path);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">string</span> ext = file.FileName.Substring(file.FileName.LastIndexOf(<span class="string">&#x27;.&#x27;</span>)).ToUpper();</span><br><span class="line">            <span class="built_in">string</span> newFileName = context.Request[<span class="string">&quot;fileName&quot;</span>];</span><br><span class="line">            file.SaveAs(Path + newFileName);</span><br><span class="line">            context.Response.Write(Url + newFileName);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            context.Response.Write(<span class="number">-1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        context.Response.End();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">bool</span> IsReusable &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104211833-3ce4e96c-1ea0-1.png" alt="20201104211833-3ce4e96c-1ea0-1"></p>
+<p>文件会传到logo目录，如图</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104214631-25a495e6-1ea4-1.png" alt="20201104214631-25a495e6-1ea4-1"></p>
+<p>如果不赋值fileName变量会报错，如图</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212327-ec6e00a8-1ea0-1.png" alt="20201104212327-ec6e00a8-1ea0-1"></p>
+<p>只要在上传的时候通过get或者post给fileName赋值即可，payload如下</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212342-f5a4e6be-1ea0-1.png" alt="20201104212342-f5a4e6be-1ea0-1"></p>
+<h3 id="uploadActPic-aspx不存在漏洞"><a href="#uploadActPic-aspx不存在漏洞" class="headerlink" title="uploadActPic.aspx不存在漏洞"></a>uploadActPic.aspx不存在漏洞</h3><p>其实其他几个文件都不存在任意文件上传漏洞了，这里就不再赘述，但是uploadActPic.aspx这个文件比较特殊，里面全是HTML代码，真正的代码通过父类来引入，在dll中，分析过程如下:</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212612-4e7a1d40-1ea1-1.png" alt="20201104212612-4e7a1d40-1ea1-1"></p>
+<p>哥斯拉导出bin目录</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212642-605d172e-1ea1-1.png" alt="20201104212642-605d172e-1ea1-1"></p>
+<p>使用dnspy反编译dll文件，uploadActPic方法在LMS_MediaServer.dll这个文件里，查看逻辑使用白名单校验，不存在任意文件上传</p>
+<p><img src="/resource/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/media/20201104212652-6652c19c-1ea1-1.png" alt="20201104212652-6652c19c-1ea1-1"></p>
+<p>至此，代码审计结束</p>
+<h2 id="文章来源"><a href="#文章来源" class="headerlink" title="文章来源"></a>文章来源</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8478">https://xz.aliyun.com/t/8478</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PowerCreatorCms/PowerCreatorCms%E4%BB%BB%E6%84%8F%E4%B8%8A%E4%BC%A0/" data-id="cl5c2qv2u00fcy8v1946mhrlt" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Pulse%20Secure/%EF%BC%88CVE-2019-11510%EF%BC%89Pulse%20Secure%20SSL%20VPN%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/PostgreSQL/%EF%BC%88CVE-2019-9193%EF%BC%89PostgreSQL%20%E9%AB%98%E6%9D%83%E9%99%90%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

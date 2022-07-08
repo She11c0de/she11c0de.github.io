@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="通过jmx攻击Tomcat一、漏洞简介利用条件   &#x2F;manager应用程序不限于本地主机   jmx可访问（没有身份验证）   tomcat用户数据库可写  二、漏洞影响三、复现过程我们通过jconsole连接到服务器，可以执行一些特定于Tomcat的方法让我们进入。  如果UserDatabase标记为writable &#x3D; true，则readonly &#x3D; false：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Tomcat/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="通过jmx攻击Tomcat一、漏洞简介利用条件   &#x2F;manager应用程序不限于本地主机   jmx可访问（没有身份验证）   tomcat用户数据库可写  二、漏洞影响三、复现过程我们通过jconsole连接到服务器，可以执行一些特定于Tomcat的方法让我们进入。  如果UserDatabase标记为writable &#x3D; true，则readonly &#x3D; false：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId32.png">
+<meta property="article:published_time" content="2022-07-08T06:26:05.506Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.402Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Tomcat/通过jmx攻击Tomcat" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.506Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通过jmx攻击Tomcat"><a href="#通过jmx攻击Tomcat" class="headerlink" title="通过jmx攻击Tomcat"></a>通过jmx攻击Tomcat</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h3 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h3><ul>
+<li>  <code>/manager</code>应用程序不限于本地主机</li>
+<li>  jmx可访问（没有身份验证）</li>
+<li>  tomcat用户数据库可写</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>我们通过<code>jconsole</code>连接到服务器，可以执行一些特定于Tomcat的方法让我们进入。</p>
+<p><img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId25.png" alt="1.png"></p>
+<p>如果UserDatabase标记为<code>writable = true</code>，则<code>readonly = false</code>：</p>
+<p><img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId26.png" alt="2.png"></p>
+<p>在UserDatabase节点下，我们可以创建新用户。我们将用户名密码新建为<code>tomcat</code>：</p>
+<p><img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId27.png" alt="3.png"></p>
+<p>确保我们也在服务器上创建了manager-gui角色，因此我们得到了完全授权：</p>
+<p><img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId28.png" alt="4.png"></p>
+<p>移动到<code>Users</code> 树中的节点，我们可以将创建的用户与创建的角色相关联：</p>
+<p><img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId29.png" alt="5.png"></p>
+<p>保存配置后：</p>
+<p><img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId30.png" alt="6.png"></p>
+<p>我们可以在<code>/manager/html</code>端点上输入我们的凭据：<img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId31.png" alt="7.png"></p>
+<p>成功登陆进去！</p>
+<p><img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId32.png" alt="8.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/" data-id="cl5c2qwyb00j7y8v11j0f3lhn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2016-1240%EF%BC%89Tomcat%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Tomcat/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%20%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

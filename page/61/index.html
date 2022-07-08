@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/61/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-MKCMS/MKCMS v6.2 验证码重用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20%E9%AA%8C%E8%AF%81%E7%A0%81%E9%87%8D%E7%94%A8/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.470Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MKCMS-v6-2-验证码重用"><a href="#MKCMS-v6-2-验证码重用" class="headerlink" title="MKCMS v6.2 验证码重用"></a>MKCMS v6.2 验证码重用</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MKCMS v6.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><code>/admin/cms_login.php</code>验证码处的逻辑如下，比较session中的验证码和输入的是否一致，不一致就进入<code>alert_href</code>，这个<code>js</code>跳转，实际是在刷新页面</p>
+<pre><code>/admin/cms_login.php:
+&lt;?php 
+ 6   ...
+ 7  if(isset($_POST[&#39;submit&#39;]))&#123;
+ 8:     if ($_SESSION[&#39;verifycode&#39;] != $_POST[&#39;verifycode&#39;]) &#123;
+ 9          alert_href(&#39;验证码错误&#39;,&#39;cms_login.php&#39;);
+10      &#125;
+</code></pre>
+<p><img src="/resource/MKCMSv6.2%E9%AA%8C%E8%AF%81%E7%A0%81%E9%87%8D%E7%94%A8/media/rId24.png"></p>
+<p>跳转后就会刷新验证码，然而我用的是burp，默认是不解析js的</p>
+<p>全局搜索这个<code>$_SESSION[&#39;verifycode&#39;]</code>，发现只在<code>/system/verifycode.php</code>有赋值，也就是说，如果使用验证码后，我们不跟随<code>js</code>跳转，就不会重置验证码，<strong>验证码也就能被重复使用</strong>了</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20%E9%AA%8C%E8%AF%81%E7%A0%81%E9%87%8D%E7%94%A8/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v6.2%20%E9%AA%8C%E8%AF%81%E7%A0%81%E9%87%8D%E7%94%A8/" data-id="cl5c2qsam00biy8v1cczuhka3" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-MKCMS/MKCMS v6.2 备份文件路径可猜解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84%E5%8F%AF%E7%8C%9C%E8%A7%A3/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.468Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MKCMS-v6-2-备份文件路径可猜解"><a href="#MKCMS-v6-2-备份文件路径可猜解" class="headerlink" title="MKCMS v6.2 备份文件路径可猜解"></a>MKCMS v6.2 备份文件路径可猜解</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MKCMS v6.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>/backupdata/movie.sql</p>
+<pre><code>/admin/cms_backup.php
+&lt;?php
+$filename=&quot;../backupdata/&quot;.DATA_NAME.&quot;.sql&quot;; //存放路径，默认存放到项目最外层
+$fp = fopen($filename,&#39;w&#39;);
+fputs($fp,$mysql);
+fclose($fp);
+alert_href(&#39;备份成功!&#39;,&#39;cms_data.php&#39;);
+?&gt;
+</code></pre>
+<p>全局搜<code>DATA_NAME</code>变量，是安装时候设置的数据库名</p>
+<p><img src="/resource/MKCMSv6.2%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84%E5%8F%AF%E7%8C%9C%E8%A7%A3/media/rId24.png"></p>
+<p>默认的<code>DATA_NAME</code>值是<code>movie</code></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84%E5%8F%AF%E7%8C%9C%E8%A7%A3/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v6.2%20%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84%E5%8F%AF%E7%8C%9C%E8%A7%A3/" data-id="cl5c2qsal00bhy8v1gciaeiqb" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-MKCMS/MKCMS v6.2 任意用户密码找回漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.465Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MKCMS-v6-2-任意用户密码找回漏洞"><a href="#MKCMS-v6-2-任意用户密码找回漏洞" class="headerlink" title="MKCMS v6.2 任意用户密码找回漏洞"></a>MKCMS v6.2 任意用户密码找回漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MKCMS v6.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>任意用户密码找回这个问题主要是<code>/ucenter/repass.php</code>代码里，找回密码的逻辑有问题，第10行查询到<code>username</code>、<br><code>email</code>能对应上之后，14行就直接重置密码了。。。而且密码的范围在12行有写，只有90000种可能，重置之后，burp跑一下不就ok了？（当然要结合验证码重用才能有效爆破）</p>
+<p><img src="/resource/MKCMSv6.2%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7580/#toc-4">https://xz.aliyun.com/t/7580\#toc-4</a></p>
+</blockquote>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v6.2%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsak00bgy8v1greahcgp" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-MKCMS/MKCMS v6.2 _ucenter_reg.php前台sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20_ucenter_reg.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.463Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MKCMS-v6-2-ucenter-reg-php前台sql注入漏洞"><a href="#MKCMS-v6-2-ucenter-reg-php前台sql注入漏洞" class="headerlink" title="MKCMS v6.2 /ucenter/reg.php前台sql注入漏洞"></a>MKCMS v6.2 /ucenter/reg.php前台sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MKCMS v6.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><code>/ucenter/reg.php</code>的<code>name</code>参数，存在注入</p>
+<pre><code>/ucenter/reg.php
+&lt;?php 
+...
+if(isset($_POST[&#39;submit&#39;]))&#123;
+$username = stripslashes(trim($_POST[&#39;name&#39;]));
+// 检测用户名是否存在
+$query = mysql_query(&quot;select u_id from mkcms_user where u_name=&#39;$username&#39;&quot;);
+  ...
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7580/#toc-4">https://xz.aliyun.com/t/7580\#toc-4</a></p>
+</blockquote>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20_ucenter_reg.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v6.2%20_ucenter_reg.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsaj00bfy8v14ho46dq6" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-MKCMS/MKCMS v6.2 _ucenter_active.php前台sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20_ucenter_active.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.460Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MKCMS-v6-2-ucenter-active-php前台sql注入漏洞"><a href="#MKCMS-v6-2-ucenter-active-php前台sql注入漏洞" class="headerlink" title="MKCMS v6.2 /ucenter/active.php前台sql注入漏洞"></a>MKCMS v6.2 /ucenter/active.php前台sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MKCMS v6.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><code>/ucenter/active.php?verify=1</code>存在注入</p>
+<pre><code>/ucenter/active.php
+&lt;?php
+...
+$verify = stripslashes(trim($_GET[&#39;verify&#39;]));  //去掉了转义用的    $nowtime = time();
+$query = mysql_query(&quot;select u_id from mkcms_user where u_question=&#39;$verify&#39;&quot;);
+$row = mysql_fetch_array($query);
+...
+</code></pre>
+<p>sqlmap直接跑即可</p>
+<pre><code>[INFO] GET parameter &#39;verify&#39; appears to be &#39;MySQL &gt;= 5.0.12 AND time-based blind (query SLEEP)&#39; injectable
+[INFO] GET parameter &#39;verify&#39; is &#39;Generic UNION query (NULL) - 1 to 20 columns&#39; injectable
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20_ucenter_active.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v6.2%20_ucenter_active.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsaj00bey8v1c18d30it" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-MKCMS/MKCMS v5.0 任意密码重置漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MKCMS/MKCMS%20v5.0%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.458Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MKCMS-v5-0-任意密码重置漏洞"><a href="#MKCMS-v5-0-任意密码重置漏洞" class="headerlink" title="MKCMS v5.0 任意密码重置漏洞"></a>MKCMS v5.0 任意密码重置漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MKCMS v5.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞出现在<code>/ucenter/repass.php</code>第1-44行:</p>
+<pre><code>&lt;?php 
+include(&#39;../system/inc.php&#39;);
+if(isset($_SESSION[&#39;user_name&#39;]))&#123;
+header(&#39;location:index.php&#39;);
+&#125;;
+
+if(isset($_POST[&#39;submit&#39;]))&#123;
+$username = stripslashes(trim($_POST[&#39;name&#39;]));
+$email = trim($_POST[&#39;email&#39;]);
+// 检测用户名是否存在
+$query = mysql_query(&quot;select u_id from mkcms_user where u_name=&#39;$username&#39; and u_email=&#39;$email&#39;&quot;);
+if(!! $row = mysql_fetch_array($query))&#123;
+$_data[&#39;u_password&#39;] = md5(123456);
+$sql = &#39;update mkcms_user set &#39;.arrtoupdate($_data).&#39; where u_name=&quot;&#39;.$username.&#39;&quot;&#39;;
+if (mysql_query($sql)) &#123;
+
+$token =$row[&#39;u_question&#39;];
+include(&quot;emailconfig.php&quot;);
+    //创建$smtp对象 这里面的一个true是表示使用身份验证,否则不使用身份验证.
+    $smtp = new Smtp($MailServer, $MailPort, $smtpuser, $smtppass, true); 
+    $smtp-&gt;debug = false; 
+    $mailType = &quot;HTML&quot;; //信件类型，文本:text；网页：HTML
+    $email = $email;  //收件人邮箱
+    $emailTitle = &quot;&quot;.$mkcms_name.&quot;用户找回密码&quot;; //邮件主题
+    $emailBody = &quot;亲爱的&quot;.$username.&quot;：&lt;br/&gt;感谢您在我站注册帐号。&lt;br/&gt;您的初始密码为123456&lt;br/&gt;如果此次找回密码请求非你本人所发，请忽略本邮件。&lt;br/&gt;&lt;p style=&#39;text-align:right&#39;&gt;-------- &quot;.$mkcms_name.&quot; 敬上&lt;/p&gt;&quot;;
+
+    // sendmail方法
+    // 参数1是收件人邮箱
+    // 参数2是发件人邮箱
+    // 参数3是主题（标题）
+    // 参数4是邮件主题（标题）
+    // 参数4是邮件内容  参数是内容类型文本:text 网页:HTML
+    $rs = $smtp-&gt;sendmail($email, $smtpMail, $emailTitle, $emailBody, $mailType);
+if($rs==true)&#123;
+echo &#39;&lt;script&gt;alert(&quot;请登录到您的邮箱查看您的密码！&quot;);window.history.go(-1);&lt;/script&gt;&#39;;
+&#125;else&#123;
+echo &quot;找回密码失败&quot;;
+&#125;
+
+&#125;
+&#125;
+&#125;
+
+?&gt;
+</code></pre>
+<p>本质上来说此处是一个逻辑问题，程序未通过邮箱等验证是否为用户本身就直接先在第13-14行把用户密码重置为<code>123456</code>了，根本没管邮件发送成功没有。</p>
+<p><img src="/resource/MKCMSv5.0%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId24.jpg"></p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MKCMS/MKCMS%20v5.0%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v5.0%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsaj00bdy8v1056p2tik" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-MKCMS/MKCMS v5.0 _ucenter_reg.php前台注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MKCMS/MKCMS%20v5.0%20_ucenter_reg.php%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.455Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MKCMS-v5-0-ucenter-reg-php前台sql注入漏洞"><a href="#MKCMS-v5-0-ucenter-reg-php前台sql注入漏洞" class="headerlink" title="MKCMS v5.0 /ucenter/reg.php前台sql注入漏洞"></a>MKCMS v5.0 /ucenter/reg.php前台sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MKCMS v5.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞出现在<code>/ucenter/reg.php</code>第7-19行:</p>
+<pre><code>if(isset($_POST[&#39;submit&#39;]))&#123;
+$username = stripslashes(trim($_POST[&#39;name&#39;]));
+// 检测用户名是否存在
+$query = mysql_query(&quot;select u_id from mkcms_user where u_name=&#39;$username&#39;&quot;);
+if(mysql_fetch_array($query))&#123;
+echo &#39;&lt;script&gt;alert(&quot;用户名已存在，请换个其他的用户名&quot;);window.history.go(-1);&lt;/script&gt;&#39;;
+exit;
+&#125;
+$result = mysql_query(&#39;select * from mkcms_user where u_email = &quot;&#39;.$_POST[&#39;email&#39;].&#39;&quot;&#39;);
+if(mysql_fetch_array($result))&#123;
+echo &#39;&lt;script&gt;alert(&quot;邮箱已存在，请换个其他的邮箱&quot;);window.history.go(-1);&lt;/script&gt;&#39;;
+exit;
+&#125;
+</code></pre>
+<p>注册用户名时<code>$username</code>参数传到后台后经过<code>stripslashes()</code>函数处理，而<code>stripslashes()</code>函数的作用是删除<code>addslashes()</code><br>函数添加的反斜杠。这里就很郁闷了，过滤反斜杠干嘛？</p>
+<p>当前页面无输出点，只是返回一个注册/未注册（通过if判断true或者false)，可以使用布尔盲注来解决这个问题</p>
+<p>POC：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MKCMS/MKCMS%20v5.0%20_ucenter_reg.php%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v5.0%20_ucenter_reg.php%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsai00bcy8v1c42u2fq9" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-MIP建站系统/MIP建站系统 v5.0.5 SSRF漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MIP%E5%BB%BA%E7%AB%99%E7%B3%BB%E7%BB%9F/MIP%E5%BB%BA%E7%AB%99%E7%B3%BB%E7%BB%9F%20v5.0.5%20SSRF%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.437Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MIP建站系统-v5-0-5-SSRF漏洞"><a href="#MIP建站系统-v5-0-5-SSRF漏洞" class="headerlink" title="MIP建站系统 v5.0.5 SSRF漏洞"></a>MIP建站系统 v5.0.5 SSRF漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MIP建站系统 v5.0.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>进行简单的漏洞分析。根据漏洞定位代码文件：app/setting/controller/ApiAdminDomainSettings.php受影响代码：</p>
+<pre><code>public function urlPost(Request $request) &#123;
+        $postAddress = input(&#39;post.postAddress&#39;);
+        if (!$postAddress) &#123;
+            return jsonError(&#39;请先去设置推送的接口&#39;);
+        &#125;
+        $api = trim($postAddress);
+        if (strpos($api,&#39;type=realtime&#39;) !== false || strpos($api,&#39;type=batch&#39;) !== false) &#123;
+            if (!config(&#39;siteInfo&#39;)[&#39;guanfanghaoStatus&#39;]) &#123;
+                return jsonError(&#39;检测到您未开启熊掌号，请开启后再推送&#39;);
+            &#125;
+        &#125;
+        $url = input(&#39;post.url&#39;);
+        $id = input(&#39;post.id&#39;);
+        if (!$url) &#123;
+            return jsonError(&#39;没有检测到你推送的页面地址&#39;);
+        &#125;   
+        $urls[] = $url;
+        $ch = curl_init();
+        $options =  array(
+            CURLOPT_URL =&gt; $api,
+            CURLOPT_POST =&gt; true,
+            CURLOPT_RETURNTRANSFER =&gt; true,
+            CURLOPT_POSTFIELDS =&gt; implode(&quot;\n&quot;, $urls),
+            CURLOPT_HTTPHEADER =&gt; array(&#39;Content-Type: text/plain&#39;),
+        );
+        curl_setopt_array($ch, $options);
+        $result = curl_exec($ch);
+</code></pre>
+<p>流程分析：</p>
+<pre><code>1、$ postAddress = input(&#39;post.postAddress&#39;);  
+    //POST方法将$postAddress参数传入
+
+2、$api = trim($postAddress);    
+$options =  array(
+            CURLOPT_URL =&gt; $api,
+            CURLOPT_POST =&gt; true,
+            CURLOPT_RETURNTRANSFER =&gt; true,
+            CURLOPT_POSTFIELDS =&gt; implode(&quot;\n&quot;, $urls),
+            CURLOPT_HTTPHEADER =&gt; array(&#39;Content-Type: text/plain&#39;),
+        );
+        curl_setopt_array($ch, $options); 
+    //赋予$api参数，一直至$ch，未进行任何过滤
+3、$result = curl_exec($ch);    
+    //最后执行
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MIP%E5%BB%BA%E7%AB%99%E7%B3%BB%E7%BB%9F/MIP%E5%BB%BA%E7%AB%99%E7%B3%BB%E7%BB%9F%20v5.0.5%20SSRF%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MIP%E5%BB%BA%E7%AB%99%E7%B3%BB%E7%BB%9F/MIP%E5%BB%BA%E7%AB%99%E7%B3%BB%E7%BB%9F%20v5.0.5%20SSRF%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qs6200bay8v1a81p4486" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Mintinstall/（CVE-2019-17080）Mintinstall object injection" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Mintinstall/%EF%BC%88CVE-2019-17080%EF%BC%89Mintinstall%20object%20injection/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.430Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-17080）Mintinstall-object-injection"><a href="#（CVE-2019-17080）Mintinstall-object-injection" class="headerlink" title="（CVE-2019-17080）Mintinstall object injection"></a>（CVE-2019-17080）Mintinstall object injection</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Linux mint软件管理器（v 7.9.5 /<br>9）由于配置错误而导致对象注入和任意代码执行。</p>
+<p>Linux Mint Software Manager（v 7.9.5 /<br>9）由于配置错误而导致我们执行对象注入和任意代码</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Version: 7.9.9</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>mintinsall
+</code></pre>
+<p>我们运行Mint软件管理器还会检查是否有新注释，如果<a target="_blank" rel="noopener" href="https://community.linuxmint.com/data/">new-reviews.list</a><br>下载中有 新注释并写入文件。</p>
+<p>如果有新评论，请从文件<a target="_blank" rel="noopener" href="https://community.linuxmint.com/data/">new-reviews.list</a>下载并写入文件</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Mintinstall/%EF%BC%88CVE-2019-17080%EF%BC%89Mintinstall%20object%20injection/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Mintinstall/%EF%BC%88CVE-2019-17080%EF%BC%89Mintinstall%20object%20injection/" data-id="cl5c2qrxl00b7y8v13zw6hxi7" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Mini_httpd/（CVE-2018-18778）Mini_httpd 任意文件读取漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Mini_httpd/%EF%BC%88CVE-2018-18778%EF%BC%89Mini_httpd%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.411Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-18778）Mini-httpd-任意文件读取漏洞"><a href="#（CVE-2018-18778）Mini-httpd-任意文件读取漏洞" class="headerlink" title="（CVE-2018-18778）Mini_httpd 任意文件读取漏洞"></a>（CVE-2018-18778）Mini_httpd 任意文件读取漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Mini_httpd是一个微型的Http服务器，在占用系统资源较小的情况下可以保持一定程度的性能（约为Apache的90%），因此广泛被各类IOT（路由器，交换器，摄像头等）作为嵌入式服务器。而包括华为，zyxel，海康威视，树莓派等在内的厂商的旗下设备都曾采用Mini_httpd组件。</p>
+<p>在mini_httpd开启虚拟主机模式的情况下，用户请求<code>http://HOST/FILE</code>将会访问到当前目录下的<code>HOST/FILE</code>文件。</p>
+<pre><code>(void) snprintf( vfile, sizeof(vfile), &quot;%s/%s&quot;, req_hostname, f );
+</code></pre>
+<p>见上述代码，分析如下：</p>
+<ul>
+<li>  当HOST=<code>example.com</code>、FILE=<code>index.html</code>的时候，上述语句结果为<code>example.com/index.html</code>，文件正常读取。</li>
+<li>  当HOST为空、FILE=<code>etc/passwd</code>的时候，上述语句结果为<code>/etc/passwd</code>。</li>
+</ul>
+<p>后者被作为绝对路径，于是读取到了<code>/etc/passwd</code>，造成任意文件读取漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Mini_httpd/%EF%BC%88CVE-2018-18778%EF%BC%89Mini_httpd%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Mini_httpd/%EF%BC%88CVE-2018-18778%EF%BC%89Mini_httpd%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qs7h00bby8v1cv7fc9i1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/60/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/59/">59</a><a class="page-number" href="/page/60/">60</a><span class="page-number current">61</span><a class="page-number" href="/page/62/">62</a><a class="page-number" href="/page/63/">63</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/62/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

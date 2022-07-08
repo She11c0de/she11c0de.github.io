@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Thinkphp 3.1.3 sql注入漏洞一、漏洞简介二、漏洞影响Thinkphp 3.1.3 三、复现过程首先在网上下载对应的压缩包。 漏洞位于ThinkPHP&#x2F;Lib&#x2F;Core&#x2F;Model.class.php 文件的parseSql函数 将这一条修复语句注释后开始一步步复现  在ThinkPHP目录下创建app文件夹后创建index.php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.1.3_sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Thinkphp 3.1.3 sql注入漏洞一、漏洞简介二、漏洞影响Thinkphp 3.1.3 三、复现过程首先在网上下载对应的压缩包。 漏洞位于ThinkPHP&#x2F;Lib&#x2F;Core&#x2F;Model.class.php 文件的parseSql函数 将这一条修复语句注释后开始一步步复现  在ThinkPHP目录下创建app文件夹后创建index.php">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="article:published_time" content="2022-07-08T06:26:04.459Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 3.x 漏洞/Thinkphp_3.1.3_sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.1.3_sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.459Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-3-1-3-sql注入漏洞"><a href="#Thinkphp-3-1-3-sql注入漏洞" class="headerlink" title="Thinkphp 3.1.3 sql注入漏洞"></a>Thinkphp 3.1.3 sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Thinkphp 3.1.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先在网上下载对应的压缩包。</p>
+<p>漏洞位于<code>ThinkPHP/Lib/Core/Model.class.php</code> 文件的parseSql函数</p>
+<p>将这一条修复语句注释后开始一步步复现</p>
+<p><img src="/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>在ThinkPHP目录下创建app文件夹后创建index.php</p>
+<p><img src="/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="2.png"></p>
+<p>访问相应页面，显示这个则说明成功。</p>
+<p><img src="/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="3.png"></p>
+<p>成功后app文件夹下会生成工程文件</p>
+<p><img src="/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png" alt="4.png"></p>
+<p>然后开始配置数据库(在app/conf/config.php下配置)</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="comment">//&#x27;配置项&#x27;=&gt;&#x27;配置值&#x27;</span></span><br><span class="line"><span class="comment">// 添加数据库配置信息</span></span><br><span class="line"><span class="string">&#x27;DB_TYPE&#x27;</span>   =&gt; <span class="string">&#x27;mysql&#x27;</span>, <span class="comment">// 数据库类型</span></span><br><span class="line"><span class="string">&#x27;DB_HOST&#x27;</span>   =&gt; <span class="string">&#x27;localhost&#x27;</span>, <span class="comment">// 服务器地址</span></span><br><span class="line"><span class="string">&#x27;DB_NAME&#x27;</span>   =&gt; <span class="string">&#x27;security&#x27;</span>, <span class="comment">// 数据库名</span></span><br><span class="line"><span class="string">&#x27;DB_USER&#x27;</span>   =&gt; <span class="string">&#x27;root&#x27;</span>, <span class="comment">// 用户名</span></span><br><span class="line"><span class="string">&#x27;DB_PWD&#x27;</span>    =&gt; <span class="string">&#x27;root&#x27;</span>, <span class="comment">// 密码</span></span><br><span class="line"><span class="string">&#x27;DB_PORT&#x27;</span>   =&gt; <span class="number">3306</span>, <span class="comment">// 端口</span></span><br><span class="line"><span class="string">&#x27;DB_PREFIX&#x27;</span> =&gt; <span class="string">&#x27;think_&#x27;</span>, <span class="comment">// 数据库表前缀</span></span><br><span class="line">);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>下一步开始为模块定义一个控制器类:<code>IndexAction.class.php</code>。命名规范（模块名+Action.class.php）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 本类由系统自动生成，仅供测试用途</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IndexAction</span> <span class="keyword">extends</span> <span class="title">Action</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="comment">//$this-&gt;name = &#x27;thinkphp&#x27;; // 进行模板变量赋值</span></span><br><span class="line">      <span class="comment">//$this-&gt;display();</span></span><br><span class="line">        </span><br><span class="line">    <span class="variable">$Data</span> = <span class="title function_ invoke__">M</span>(<span class="string">&#x27;Data&#x27;</span>); <span class="comment">// 实例化Data数据模型</span></span><br><span class="line">    <span class="variable language_">$this</span>-&gt;data = <span class="variable">$Data</span>-&gt;<span class="title function_ invoke__">select</span>();</span><br><span class="line">    <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">display</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="variable">$model</span>=<span class="title function_ invoke__">M</span>(<span class="string">&#x27;think_data&#x27;</span>);</span><br><span class="line">    <span class="variable">$m</span>=<span class="variable">$model</span>-&gt;<span class="title function_ invoke__">query</span>(<span class="string">&#x27;select * from think_data where id=&quot;%s&quot;&#x27;</span>,<span class="keyword">array</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>]));</span><br><span class="line">    <span class="title function_ invoke__">dump</span>(<span class="variable">$m</span>);<span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建视图：在<code>./Tpl</code>下创建<code>Index/index.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    //<span class="tag">&lt;<span class="name">p</span>&gt;</span>hello, &#123;$name&#125;!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">volist</span> <span class="attr">name</span>=<span class="string">&quot;data&quot;</span> <span class="attr">id</span>=<span class="string">&quot;vo&quot;</span>&gt;</span></span><br><span class="line">    &#123;$vo.id&#125;--&#123;$vo.data&#125;<span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">volist</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在浏览器访问</p>
+</blockquote>
+<p><code>https://www.0-sec.org:9090/ThinkPHP_3.1.3_full/ThinkPHP/app/</code></p>
+<p><img src="/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.png" alt="5.png"></p>
+<p><code>https://www.0-sec.org:9090/ThinkPHP_3.1.3_full/ThinkPHP/app/?id=1&quot; or 1 –</code></p>
+<p><img src="/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.png" alt="6.png"></p>
+<p>复现结束</p>
+<h2 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.freesion.com/article/3289785672/">https://www.freesion.com/article/3289785672/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.1.3_sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwh300hjy8v10cdwhimm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%E4%B8%93%E7%94%A8shell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

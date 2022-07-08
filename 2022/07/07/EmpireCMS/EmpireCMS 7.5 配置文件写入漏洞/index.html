@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="EmpireCMS 7.5 配置文件写入漏洞一、漏洞简介该漏洞是由于安装程序时没有对用户的输入做严格过滤,导致用户输入的可控参数被写入配置文件,造成任意代码执行漏洞。 二、漏洞影响EmpireCMS 7.5 三、复现过程漏洞分析1、漏洞出现位置如下图,phome_表前缀没有被严格过滤导致攻击者构造恶意的代码 　　![img](&#x2F;resource&#x2F;EmpireCMS%207.5%20%E9%85%8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="EmpireCMS 7.5 配置文件写入漏洞一、漏洞简介该漏洞是由于安装程序时没有对用户的输入做严格过滤,导致用户输入的可控参数被写入配置文件,造成任意代码执行漏洞。 二、漏洞影响EmpireCMS 7.5 三、复现过程漏洞分析1、漏洞出现位置如下图,phome_表前缀没有被严格过滤导致攻击者构造恶意的代码 　　![img](&#x2F;resource&#x2F;EmpireCMS%207.5%20%E9%85%8">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:55.688Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.905Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-EmpireCMS/EmpireCMS 7.5 配置文件写入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.688Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EmpireCMS-7-5-配置文件写入漏洞"><a href="#EmpireCMS-7-5-配置文件写入漏洞" class="headerlink" title="EmpireCMS 7.5 配置文件写入漏洞"></a>EmpireCMS 7.5 配置文件写入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞是由于安装程序时没有对用户的输入做严格过滤,导致用户输入的可控参数被写入配置文件,造成任意代码执行漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>EmpireCMS 7.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>1、漏洞出现位置如下图,phome_表前缀没有被严格过滤导致攻击者构造恶意的代码</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/c7beff56f6faabdad2bee689227611e9b6c.png)</p>
+<p>2、定位漏洞出现的位置,发现在/e/install/index.php,下图可以看到表名前缀phome_,将获取表名前缀交给了mydbtbpre参数。</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/9f060721d9ed93cf1ad2820e2dbf21d7554.png)</p>
+<p>3、全文搜索,$mydbtbpre,然后跟进参数传递,发现将用户前端输入的表前缀替换掉后带入了sql语句进行表的创建,期间并没有对前端传入的数据做严格的过滤</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/fdd7d9f6ce951861d03919c638077917b37.png)</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/b116de83cb3b8b512c8afa8eae97e2e340b.png)</p>
+<p>4、创建表的同时将配置数据和可以由用户控制的表前缀一起写入到config.php配置文件</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/be582ea8422c6a7d59506beff33c19074eb.png)</p>
+<p>5、通过对整个install过程的代码分析,可以发现没有对用户数据进行过滤,导致配置文件代码写入。</p>
+<p>5.1、burp对漏洞存在页面进行抓包,修改phome参数的值,构造payload,payload如下:</p>
+<p>‘;phpinfo();//</p>
+<p>5.2、在burp中的phome参数的值中输入特殊构造的payload</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/b188b7ef4bc35fe99964f64c9253eb3ef8c.png)</p>
+<p>6、查看config.php配置文件,发现成功写入配置文件</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/13dc7505eb0f3d38971a0ad5aa482ed6c06.png)</p>
+<p>7、再次访问安装结束的页面, <a target="_blank" rel="noopener" href="http://192.168.10.171/empirecms/e/install/index.php?enews=moddata&amp;f=4&amp;ok=1&amp;defaultdata=1">http://192.168.10.171/empirecms/e/install/index.php?enews=moddata&amp;f=4&amp;ok=1&amp;defaultdata=1</a></p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/f6d307b9cdf4c99e5c11f2c0984a1d03045.png)</p>
+<p>8、构造特殊的payload getshell</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/fab62a4019dd772b64fe034ee6bfe35fa58.png)</p>
+<p>9、菜刀连接,成功getshell</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/1592114-20190817185808239-1484058557.png)</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://qclover.cn/2018/10/10/EmpireCMS/_V7.5%E7%9A%84%E4%B8%80%E6%AC%A1%E5%AE%A1%E8%AE%A1.html">http://qclover.cn/2018/10/10/EmpireCMS\_V7.5%E7%9A%84%E4%B8%80%E6%AC%A1%E5%AE%A1%E8%AE%A1.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qoio006ay8v1cjswc6o0" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%20%E4%BB%BB%E6%84%8F%E5%85%85%E5%80%BC%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

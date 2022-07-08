@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="WordPress Plugin - WPdiscuz 7.0.4 任意文件上传漏洞一、漏洞简介二、漏洞影响WPdiscuz 7.0.0 - WPdiscuz 7.0.4 三、复现过程漏洞分析   1.环境搭建后，手动安装wpdiscuz插件后，看到文章下增加评论模块      2.phpstorm导入web目录，点击图片按钮，上传一个php文件测试一下，上传路径是http:&#x2F;&#x2F;www.0-sec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/WordPress%20Plugin%20-%20WPdiscuz%207.0.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="WordPress Plugin - WPdiscuz 7.0.4 任意文件上传漏洞一、漏洞简介二、漏洞影响WPdiscuz 7.0.0 - WPdiscuz 7.0.4 三、复现过程漏洞分析   1.环境搭建后，手动安装wpdiscuz插件后，看到文章下增加评论模块      2.phpstorm导入web目录，点击图片按钮，上传一个php文件测试一下，上传路径是http:&#x2F;&#x2F;www.0-sec">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId38.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId39.png">
+<meta property="article:published_time" content="2022-07-08T06:26:07.123Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.401Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Wordpress/Wordpress 插件漏洞/WordPress Plugin - WPdiscuz 7.0.4 任意文件上传漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/WordPress%20Plugin%20-%20WPdiscuz%207.0.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.123Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="WordPress-Plugin-WPdiscuz-7-0-4-任意文件上传漏洞"><a href="#WordPress-Plugin-WPdiscuz-7-0-4-任意文件上传漏洞" class="headerlink" title="WordPress Plugin - WPdiscuz 7.0.4 任意文件上传漏洞"></a>WordPress Plugin - WPdiscuz 7.0.4 任意文件上传漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WPdiscuz 7.0.0 - WPdiscuz 7.0.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><ul>
+<li>  1.环境搭建后，手动安装wpdiscuz插件后，看到文章下增加评论模块</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+<ul>
+<li>  2.phpstorm导入web目录，点击图片按钮，上传一个php文件测试一下，上传路径是<code>http://www.0-sec.org:8888/wordpress/wp-admin/admin-ajax.php</code>，默认是上传不了的。</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="2.png"></p>
+<ul>
+<li>  3.从入口点分析，如图是wp_filter的action过滤</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId27.png" alt="3.png"></p>
+<ul>
+<li>  4.跟进去，可以看到上传的功能点，再进去</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId28.png" alt="4.png"></p>
+<ul>
+<li>  5.可以看到如图位置，使用getMimeType方法根据文件内容获取文件类型，并不是通过文件后缀名判断，进一步根据$mineType判断是否是允许的上传类型。</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId29.png" alt="5.png"></p>
+<ul>
+<li>6.跟入查看isAllowedFileType方法，在判斷$mineType是否在$this -&gt;<br>  options -&gt; content[&quot;wmuMimeTypes&quot;]中存在。</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId30.png" alt="6.png"></p>
+<ul>
+<li>  7.如图，进入$options中，可以content[&quot;wmuMimeTypes&quot;]使用三目运算判断，搜索上下文得知，结果就是$defaultOptions[self::TAB_CONTENT][&quot;wmuMimeTypes&quot;]</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId31.png" alt="7.png"></p>
+<ul>
+<li>8.进入$defaultOptions中可以得到最终$this -&gt; options -&gt;<br>  content[&quot;wmuMimeTypes&quot;]的值是几种常见的图片类型。</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId32.png" alt="8.png"></p>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId33.png" alt="9.png"></p>
+<ul>
+<li>  9.很明显此时文件类型已经通过getMimeType()方法修改为text/plain了，但是回到进入isAllowedFileType的代码，发现程序只在此处对上传文件进行了判断后，直接保存了文件。</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId34.png" alt="10.png"></p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>如此，程序只是根据文件内容判断文件类型，并未对文件后缀进行效验，构造一个图片马，或者手动在webshell前面加上图片头信息即可绕过。</p>
+<ul>
+<li>  1.把后门文件追加到图片后</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId36.png" alt="11.png"></p>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId37.png" alt="12.png"></p>
+<ul>
+<li>  2.上传并修改后缀名为php，可以看到返回路径</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId38.png" alt="13.png"></p>
+<ul>
+<li>  3.连接webshell</li>
+</ul>
+<p><img src="/resource/WordPressPlugin-WPdiscuz7.0.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId39.png" alt="14.png"></p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>import requests
+import re
+import sys
+
+class wpdiscuz():
+    def __init__(self):
+        self.s = requests.session()
+        self.s.headrs = &#123;
+            &quot;User-Agent&quot;:
+            &quot;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36 Edg/80.0.361.66&quot;
+        &#125;
+        self.nonce = &quot;&quot;
+        self.state = False
+
+    def check(self, url):
+        res = self.s.get(url=url)
+
+        pat1 = &quot;wpdiscuz/themes/default/style\.css\?ver=(.*?)&#39;&quot;
+        reSearch1 = re.search(pat1, res.text)
+        if reSearch1 == None:
+            print(&quot;%s 评论插件不存在任意文件漏洞&quot; % url) 
+            return
+        mess = reSearch1.group(0)
+        version = reSearch1.group(1)
+        # 判断版本
+        vers = version.split(&quot;.&quot;)
+        if (len(vers) == 3):
+            if int(vers[0]) == 7:
+                if int(vers[2]) &lt;= 4:
+                    print(url + &quot; 存在任意文件上传漏洞 wpdiscuz版本为 %s&quot; % version)
+                    self.state = True
+
+        if self.state == True:
+            # nonce
+            pat2 = &#39;&quot;wmuSecurity&quot;:&quot;(.*?)&quot;&#39;
+            reSearch2 = re.search(pat2, res.text)
+            nonce = reSearch2.group(1)
+            self.nonce = nonce
+        else:
+            print(&quot;%s 评论插件不存在任意文件漏洞&quot; % url)    
+
+    def exp(self, url, project, filepath):
+        pass
+
+if __name__ == &quot;__main__&quot;:
+    wpdiscuz = wpdiscuz()
+    url = sys.argv[1]
+    print(&quot;检测漏洞结果:&quot;)
+    wpdiscuz.check(url)
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8138/#toc-1">https://xz.aliyun.com/t/8138\#toc-1</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/WordPress%20Plugin%20-%20WPdiscuz%207.0.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qybo00lpy8v12z050l38" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-%202019-10866%EF%BC%89WordPress%20Plugin%20-%20Form%20Maker%201.13.3%20sql%E6%B3%A8%E5%85%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/WordPress%20Plugin%20-%20Social%20Warfare_=3.5.2%20RCE%20/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

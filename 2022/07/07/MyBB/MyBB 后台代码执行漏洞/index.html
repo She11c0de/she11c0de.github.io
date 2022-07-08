@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MyBB 后台代码执行漏洞一、漏洞简介二、漏洞影响三、复现过程漏洞分析首先全局搜索inclued函数，在\mybb\admin\modules\config\languages.php页面的432行发现include函数：@include$editfile;  该函数包含editfile文件，进行查看该文件来源，可以看到418行该文件由folder文件夹和file文件拼接，其中408行看到file">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/MyBB/MyBB%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="MyBB 后台代码执行漏洞一、漏洞简介二、漏洞影响三、复现过程漏洞分析首先全局搜索inclued函数，在\mybb\admin\modules\config\languages.php页面的432行发现include函数：@include$editfile;  该函数包含editfile文件，进行查看该文件来源，可以看到418行该文件由folder文件夹和file文件拼接，其中408行看到file">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId38.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId39.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId40.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId41.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId42.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId43.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId44.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId45.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId46.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId47.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId48.png">
+<meta property="article:published_time" content="2022-07-08T06:25:59.813Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.670Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MyBB/MyBB 后台代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MyBB/MyBB%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.813Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MyBB-后台代码执行漏洞"><a href="#MyBB-后台代码执行漏洞" class="headerlink" title="MyBB 后台代码执行漏洞"></a>MyBB 后台代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>首先全局搜索inclued函数，在<code>\mybb\admin\modules\config\languages.php</code>页面的432行发现include函数：@include<br>$editfile;</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>该函数包含<code>editfile</code>文件，进行查看该文件来源，可以看到418行该文件由folder文件夹和file文件拼接，其中408行看到file文件由post请求提交，接下来查看folder文件夹来源</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<p>通过该文件84行看到foler文件夹为<code>MYBB_ROOT.&quot;inc/languages/&quot;.$editlang.&quot;/&quot;</code>，接下来查看editlang变量，通过89行看到判断该文件名后缀为php的文件是否存在，然后查看该文件下辖的php文件只有english文件，猜测editlang为english，稍后验证，该变量会通过post请求输入</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>现在文件的目录结构分析完毕，接下来查看该漏洞页面的接口位置：由于该文件目录为<code>\mybb\admin\modules\config\languages.php</code>，因此，入口为config模板的language方法中，其中控制器为edit，从369行可以看到，同时408行看到post请求中输入file文件</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png"></p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+<p>因此我们查看该页面uri大概为以下样子：<code>/mybb/admin/index.php?module=config-languages&amp;action=edit</code>现在进行分析，该目录为<code>inc/languages/english</code>，因此我们需要向该文件夹下进行上传一个图片，因此我们需要将上传文件目录修改为该文件夹，现在分析如何修改该文件夹：通过对头像上传文件夹进行跟踪，发现在<code>function_upload.php</code>的222行，该文件夹由全局变量settings控制</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId30.png"></p>
+<p>对该变量进行跟踪，<code>$mybb-&gt;settings[&#39;avataruploadpath&#39;]</code>，发现对$mybb-&gt;settings[&#39;uploadspath&#39;]变量的控制就需要对文件进行修改进行查询，针对关键函数进行搜索：<code>$db-&gt;update_query(&quot;settings&quot;</code>发现在<code>\mybb\admin\modules\config\settings.php</code>文件下1101行：</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId31.png"></p>
+<p>通过value和name变量进行更新，其中value变量是从post请求中的<code>upsetting</code>数组中进行获取其name变量的值：</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId32.png"></p>
+<p>我们跟踪<code>avataruploadpath</code>变量，进行搜索，有1042行定义数组，而<code>avataruploadpath</code>为数组中的参数，同时也有post请求的<code>upsetting</code>数组进行输入:</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId33.png"></p>
+<p>现在寻找数据传入方式，发现action方法为<code>change</code>，请求方式为<code>post</code>：</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId34.png"></p>
+<p>通过该页面17行，发现页面在index页面下调用的模板为config下的<code>setting</code>模板：</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId35.png"></p>
+<p>因此我们构建的页面就可以为这样，从该页面进行传入数据</p>
+<pre><code>http://www.0-sec.org/mybb/admin/index.php?module=config-settings&amp;action=change
+</code></pre>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>通过上传头像（上传的头像图片小于1kb，因为网站会进行压缩，将php脚本破坏，因此制作木马要保证大小小于1kb，已做好的图片放在了附件中）通过修改setting中的<code>avataruploadpath</code>值为<code>./inc/languages/english</code></p>
+<p>修改<code>avataruploadpath</code>值为<code>./inc/languages/English</code>，查看所有的settins变量：链接：<a target="_blank" rel="noopener" href="http://www.0-sec.org/mybb/admin/index.php?module=config-settings&amp;action=change">http://www.0-sec.org/mybb/admin/index.php?module=config-settings&amp;action=change</a></p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId37.png"></p>
+<p>找到**<code>Avatar Upload Path</code>**并修改<code>./inc/languages/english</code></p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId38.png"></p>
+<p>通过上传头像图片：<a target="_blank" rel="noopener" href="http://www.0-sec.org/mybb/admin/index.php?module=user-users&amp;action=edit&amp;uid=1%5C#tab\_avatar%E5%8B%BE%E9%80%89%E5%8E%BB%E6%8E%89%E5%BD%93%E5%89%8D%E5%A4%B4%E5%83%8F">http://www.0-sec.org/mybb/admin/index.php?module=user-users&amp;action=edit&amp;uid=1\#tab\_avatar勾选去掉当前头像</a></p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId39.png"></p>
+<p>点击save user发现文件已经上传成功，并且<code>avataruploadpath</code>也修改成功，下面进行包含操作，访问url：<a target="_blank" rel="noopener" href="http://www.0-sec.org/mybb/admin/index.php?module=config-languages&amp;action=edit&amp;lang=englishConfig%E6%A8%A1%E5%9D%97%E4%B8%8B%E7%9A%84languages%E4%B8%8B%EF%BC%8C">http://www.0-sec.org/mybb/admin/index.php?module=config-languages&amp;action=edit&amp;lang=englishConfig模块下的languages下，</a></p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId40.png"></p>
+<p>因为该页面包含需要post请求，并且控制器入口为edit，因此我们进行edit，随便点一个php文件进行编辑：</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId41.png"></p>
+<p><strong>什么都不用更改</strong>，点击save languagefile</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId42.png"></p>
+<p>bp抓包：</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId43.png"></p>
+<p>将file变量改为我们的头像图片文件名，名字可以从这里看到</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId44.png"></p>
+<p>通过邮件查看图片链接：右键复制链接打开可以看到文件名为<code>avatar_1.jpg</code></p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId45.png"></p>
+<p>然后放包发现该代码执行成功，phpinfo()</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId46.png"></p>
+<p>测试一句话木马eval($_GET[&#39;a&#39;]);</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId47.png"></p>
+<p>测试成功文件上传后，包含后图像文件会损坏，所以需要执行完命令，创建一个新的shell文件，然后通过poc进行验证shell文件存在写一句话木马到网站，请使用muma.jpg,然后包含，会在/mybb/admin生成shell.php,一句话木马密码为a</p>
+<p><img src="/resource/MyBB%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId48.png"></p>
+<h3 id="文中附件下载链接"><a href="#文中附件下载链接" class="headerlink" title="文中附件下载链接"></a>文中附件下载链接</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="http://wiki.0-sec.org/download/Mybb/_pic.7z">http://wiki.0-sec.org/download/Mybb\_pic.7z</a></p>
+</blockquote>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7213/#toc-2">https://xz.aliyun.com/t/7213\#toc-2</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MyBB/MyBB%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsow00bsy8v1c5k09oq7" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/MyBB/Mybb-XSS_SQL_RCE-POC(CVE-2021-27890%20&%20CVE-2021-27889)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/MyBB/MyBB%20_=%201.8.3%20rce%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

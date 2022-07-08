@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpcms v9.6.0 任意文件上传一、漏洞简介二、漏洞影响Phpcms v9.6.0 三、复现过程这个漏洞存在于用户注册处。这里有一个可控变量 $_POST[&#39;info&#39;]传入了 member_input 类的 get方法中，跟进该方法。(下图对应文件位置：phpcms&#x2F;modules&#x2F;member&#x2F;index.php)  在 get 方法中，我们发现 $data 变量来自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpcms v9.6.0 任意文件上传一、漏洞简介二、漏洞影响Phpcms v9.6.0 三、复现过程这个漏洞存在于用户注册处。这里有一个可控变量 $_POST[&#39;info&#39;]传入了 member_input 类的 get方法中，跟进该方法。(下图对应文件位置：phpcms&#x2F;modules&#x2F;member&#x2F;index.php)  在 get 方法中，我们发现 $data 变量来自">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId34.png">
+<meta property="article:published_time" content="2022-07-08T06:26:01.721Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpcms/Phpcms v9.6.0 任意文件上传" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.721Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-v9-6-0-任意文件上传"><a href="#Phpcms-v9-6-0-任意文件上传" class="headerlink" title="Phpcms v9.6.0 任意文件上传"></a>Phpcms v9.6.0 任意文件上传</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms v9.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个漏洞存在于用户注册处。这里有一个可控变量 <strong>$_POST[&#39;info&#39;]</strong><br>传入了 <strong>member_input</strong> 类的 <strong>get</strong><br>方法中，跟进该方法。(下图对应文件位置：phpcms/modules/member/index.php)</p>
+<p><img src="/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId24.png"></p>
+<p>在 <strong>get</strong> 方法中，我们发现 <strong>$data</strong> 变量来自 <strong>$_POST[&#39;info&#39;]</strong><br>，并且我们可以调用 <strong>member_input</strong> 类的所有方法（对应下图<br><strong>第47-48行</strong><br>代码）。(下图对应文件位置：caches/caches_model/caches_data/member_input.class.php)</p>
+<p><img src="/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId25.png"></p>
+<p>看了一下 <strong>member_input</strong> 类的所有方法，只有一个 <strong>editor</strong><br>方法比较好利用，而本次漏洞正是利用到这个方法。在这个方法中，调用了<br><strong>attachment</strong> 类的 <strong>download</strong><br>方法。(下图对应文件位置：caches/caches_model/caches_data/member_input.class.php)</p>
+<p><img src="/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId26.png"></p>
+<p>在 <strong>download</strong> 方法中，程序先使用正则对图片 <strong>URL</strong> 进行匹配，其中<br><strong>$ext</strong> 只允许为<strong>gif|jpg|jpeg|bmp|png</strong> ，而我们使用<br><a target="_blank" rel="noopener" href="http://xxxx/1.php?a.jpg"><strong>http://xxxx/1.php?a.jpg</strong></a> 或者<br><a target="_blank" rel="noopener" href="http://xxxx/1.php#a.jpg"><strong>http://xxxx/1.php#a.jpg</strong></a><br>即可绕过正则。(下图对应文件位置：phpcms/libs/classes/attachment.class.php)</p>
+<p><img src="/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId29.png"></p>
+<p>接着又使用 <strong>fillurl</strong> 方法对匹配到的远程图片地址进行处理，其实就是将<br><strong>#</strong> 号之后的字符全部去除，例如<br><a target="_blank" rel="noopener" href="http://xxxx/1.php#a.jpg"><strong>http://xxxx/1.php#a.jpg</strong></a> 会被处理成<br><a target="_blank" rel="noopener" href="http://xxxx/1.php"><strong>http://xxxx/1.php</strong></a><br>。(下图对应文件位置：phpcms/libs/classes/attachment.class.php)</p>
+<p><img src="/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId31.png"></p>
+<p><strong>fillurl</strong> 方法处理后，又回到了 <strong>download</strong> 方法。程序直接调用<br><strong>copy</strong> 函数将远程文件复制到本地（对应下图 <strong>161</strong><br>行代码），远程文件名可预测，后缀名为上边处理后的 <strong>URL</strong> 文件名后缀，即<br><strong>php</strong> ，最终导致 <strong>getshell</strong> 。其中 <strong>webshell</strong> 地址为<br><strong><a target="_blank" rel="noopener" href="http://website/uploadfile/date(&#39;Y/md/&#39;)/date(&#39;Ymdhis&#39;).rand(100">http://website/uploadfile/date(&#39;Y/md/&#39;)/date(&#39;Ymdhis&#39;).rand(100</a>,<br>999).&#39;.&#39;.$fileext</strong><br>。(下图对应文件位置：phpcms/libs/classes/attachment.class.php)</p>
+<p><img src="/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId33.png"></p>
+<p>最后我们再来看一下在官方发布的 <strong>PHPCMS v9.6.1</strong><br>中是如何修复这个漏洞的，代码具体如下。可以明确看到，在官方补丁中，对<br><strong>fileext($file)</strong><br>获取到的文件后缀进行了黑名单校验。虽然暂时不能直接上传 <strong>shell</strong><br>，但是还是可以上传图片马。如果 <strong>CMS</strong><br>存在任意文件包含或任意文件名修改的漏洞，同样还是可以 <strong>getshell</strong><br>，这里最好再对远程图片的内容进行校验下比较好。(下图对应文件位置：phpcms/libs/classes/attachment.class.php，左半图为PHPCMSv9.6.0，右半图为PHPCMSv9.6.1)</p>
+<p><img src="/resource/Phpcmsv9.6.0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId34.png"></p>
+<p>实际上，单这个补丁中的正则来说，是可以绕过的，例如： <strong>.php%7f</strong><br>，Windows下会将非法字符替换成空，但是其实后续还有一系列的问题，导致我没绕过。本以为要挖到0day了，我傻乐了半天：)</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/5730">https://xz.aliyun.com/t/5730</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" data-id="cl5c2qu5t00e0y8v10i9h7f5f" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%88%86%E7%A0%B4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

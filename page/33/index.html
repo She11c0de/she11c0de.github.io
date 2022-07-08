@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/33/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Tomcat/（CVE-2016-8735）Tomcat 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2016-8735%EF%BC%89Tomcat%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.511Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2016-8735）Tomcat-反序列化漏洞"><a href="#（CVE-2016-8735）Tomcat-反序列化漏洞" class="headerlink" title="（CVE-2016-8735）Tomcat 反序列化漏洞"></a>（CVE-2016-8735）Tomcat 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞与之前Oracle发布的mxRemoteLifecycleListener反序列化漏洞（CVE-2016-3427）相关，是由于使用了JmxRemoteLifecycleListener的监听功能所导致。而在Oracle官方发布修复后，Tomcat未能及时修复更新而导致的远程代码执行。<br>该漏洞所造成的最根本原因是Tomcat在配置JMX做监控时使用了JmxRemoteLifecycleListener的方法。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ApacheTomcat 9.0.0.M1 到9.0.0.M11 ApacheTomcat 8.5.0 到8.5.6<br>ApacheTomcat 8.0.0.RC1 到8.0.38 ApacheTomcat 7.0.0 到7.0.72 ApacheTomcat<br>6.0.0 到6.0.47</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞利用条件："><a href="#漏洞利用条件：" class="headerlink" title="漏洞利用条件："></a>漏洞利用条件：</h3><p>外部需要开启JmxRemoteLifecycleListener监听的10001和10002端口，来实现远程代码执行。</p>
+<h3 id="构造命令"><a href="#构造命令" class="headerlink" title="构造命令"></a>构造命令</h3><p>Win ping一次命令：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2016-8735%EF%BC%89Tomcat%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2016-8735%EF%BC%89Tomcat%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwyd00j9y8v10tc1gnjo" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/（CVE-2016-1240）Tomcat本地提权漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2016-1240%EF%BC%89Tomcat%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.508Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2016-1240）Tomcat本地提权漏洞"><a href="#（CVE-2016-1240）Tomcat本地提权漏洞" class="headerlink" title="（CVE-2016-1240）Tomcat本地提权漏洞"></a>（CVE-2016-1240）Tomcat本地提权漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Debian系统的Linux上管理员通常利用apt-get进行包管理，CVE-2016-1240这一漏洞其问题出在Tomcat的deb包中,使<br>deb包安装的Tomcat程序会自动为管理员安装一个启动脚本：<code>/etc/init.d/tocat*</code>利用该脚本，可导致攻击者通过低权限的Tomcat用户获得系统root权限！</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Tomcat 8 &lt;= 8.0.36-2 Tomcat 7 &lt;= 7.0.70-2 Tomcat 6 &lt;=<br>6.0.45+dfsg-1~deb8u1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>Debian系统的Linux上管理员通常利用apt-get进行包管理，CVE-2016-1240这一漏洞其问题出在Tomcat的deb包中,使用deb包安装的Tomcat程序会自动为管理员安装一个启动脚本：/etc/init.d/tomcat&lt;版本号&gt;.sh。利用该脚本，可导致攻击者通过低权限的Tomcat用户获得系统root权限。<br>现在我们查看文件 /etc/init.d/tomcat7 操作如下： 首先我们使用<br>Evrething搜索<code>xshell</code>，选中xshell.exe运行xshell，然后连接上目标机的低权限用户tomcat7，账号是tomcat7，密码是：tomcat7。</p>
+<p><img src="/resource/(CVE-2016-1240)Tomcat%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/media/rId25.gif"></p>
+<p>然后执行命令<code>whoami</code>，可以看到，现在是tomcat7的权限，也就是低权限账户</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2016-1240%EF%BC%89Tomcat%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2016-1240%EF%BC%89Tomcat%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwzm00jgy8v10r1e676i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/通过jmx攻击Tomcat" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.506Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通过jmx攻击Tomcat"><a href="#通过jmx攻击Tomcat" class="headerlink" title="通过jmx攻击Tomcat"></a>通过jmx攻击Tomcat</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h3 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h3><ul>
+<li>  <code>/manager</code>应用程序不限于本地主机</li>
+<li>  jmx可访问（没有身份验证）</li>
+<li>  tomcat用户数据库可写</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>我们通过<code>jconsole</code>连接到服务器，可以执行一些特定于Tomcat的方法让我们进入。</p>
+<p><img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId25.png" alt="1.png"></p>
+<p>如果UserDatabase标记为<code>writable = true</code>，则<code>readonly = false</code>：</p>
+<p><img src="/resource/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/media/rId26.png" alt="2.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/" data-id="cl5c2qwyb00j7y8v11j0f3lhn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/基于Tomcat的内存Webshell 无文件攻击技术" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%20%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.503Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="基于Tomcat的内存Webshell-无文件攻击技术"><a href="#基于Tomcat的内存Webshell-无文件攻击技术" class="headerlink" title="基于Tomcat的内存Webshell 无文件攻击技术"></a>基于Tomcat的内存Webshell 无文件攻击技术</h1><h2 id="0x01-tomcat通用的获取request和response"><a href="#0x01-tomcat通用的获取request和response" class="headerlink" title="0x01 tomcat通用的获取request和response"></a>0x01 tomcat通用的获取request和response</h2><p>首先我们看看一个普通http请求进来的时候，tomcat的部分执行栈：</p>
+<pre><code>at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+at java.lang.Thread.run(Thread.java:745)
+</code></pre>
+<p>按照kingkk师傅的方法，利用的点是在<br>org.apache.catalina.core.ApplicationFilterChain.internalDoFilter：</p>
+<pre><code>if (ApplicationDispatcher.WRAP_SAME_OBJECT) &#123;
+    lastServicedRequest.set(request);
+    lastServicedResponse.set(response);
+&#125;
+</code></pre>
+<p>其中，通过反射修改ApplicationDispatcher.WRAP_SAME_OBJECT为true，并且对lastServicedRequest和lastServicedResponse这两个ThreadLocal进行初始化，之后，每次请求进来，就能通过这两个ThreadLocal获取到相应的request和response了。但是，也存在一点小限制，在其set之前，看：</p>
+<pre><code>private void internalDoFilter(ServletRequest request,
+                                  ServletResponse response)
+    throws IOException, ServletException &#123;
+
+    // Call the next filter if there is one
+    if (pos &lt; n) &#123;
+        ApplicationFilterConfig filterConfig = filters[pos++];
+        try &#123;
+            Filter filter = filterConfig.getFilter();
+
+            if (request.isAsyncSupported() &amp;&amp; &quot;false&quot;.equalsIgnoreCase(
+                    filterConfig.getFilterDef().getAsyncSupported())) &#123;
+                request.setAttribute(Globals.ASYNC_SUPPORTED_ATTR, Boolean.FALSE);
+            &#125;
+            if( Globals.IS_SECURITY_ENABLED ) &#123;
+                final ServletRequest req = request;
+                final ServletResponse res = response;
+                Principal principal =
+                    ((HttpServletRequest) req).getUserPrincipal();
+
+                Object[] args = new Object[]&#123;req, res, this&#125;;
+                SecurityUtil.doAsPrivilege (&quot;doFilter&quot;, filter, classType, args, principal);
+            &#125; else &#123;
+                filter.doFilter(request, response, this);
+            &#125;
+        &#125; catch (IOException | ServletException | RuntimeException e) &#123;
+            throw e;
+        &#125; catch (Throwable e) &#123;
+            e = ExceptionUtils.unwrapInvocationTargetException(e);
+            ExceptionUtils.handleThrowable(e);
+            throw new ServletException(sm.getString(&quot;filterChain.filter&quot;), e);
+        &#125;
+        return;
+    &#125;
+
+    // We fell off the end of the chain -- call the servlet instance
+    try &#123;
+        if (ApplicationDispatcher.WRAP_SAME_OBJECT) &#123;
+            lastServicedRequest.set(request);
+            lastServicedResponse.set(response);
+        &#125;
+        ...
+    &#125; catch (IOException | ServletException | RuntimeException e) &#123;
+        throw e;
+    &#125; catch (Throwable e) &#123;
+        e = ExceptionUtils.unwrapInvocationTargetException(e);
+        ExceptionUtils.handleThrowable(e);
+        throw new ServletException(sm.getString(&quot;filterChain.servlet&quot;), e);
+    &#125; finally &#123;
+        if (ApplicationDispatcher.WRAP_SAME_OBJECT) &#123;
+            lastServicedRequest.set(null);
+            lastServicedResponse.set(null);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>先执行完所有的Filter了<code>filter.doFilter(request, response, this)</code></p>
+<p>因此，对于shiro的反序列化利用就没办法通过这种方式取到response回显了。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%20%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%20%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/" data-id="cl5c2qwzk00jfy8v1fntodakz" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/Tomcat样例目录session操纵漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.501Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Tomcat样例目录session操纵漏洞"><a href="#Tomcat样例目录session操纵漏洞" class="headerlink" title="Tomcat样例目录session操纵漏洞"></a>Tomcat样例目录session操纵漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在Apache<br>tomcat中，有一个默认的example示例目录，该example目录中存着众多的样例，其中/examples/servlets/servlet/SessionExample<br>允许用户对Session进行操作。由于Session是存储在服务器端的用于验证用户身份的东西。所以，理论上，只要我们可以操控Session，就可以伪造任意用户身份信息。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>如图，是Apache tomcat 网站根目录下的文件夹，默认是有一个examples目录的</p>
+<p><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>这是examples目录下的文件</p>
+<p><img src="/resource/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>我们访问该SessionExample页面，该页面可以对Session进行操控，本来该页面是Apache<br>tomcat用来给开发者操纵Session示例的页面。但是，如果实际生产环境中不删除该页面的话，可能存在伪造任意用户身份的漏洞。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwya00j5y8v14wh6384a" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/Tomcat 后台部署war木马getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/Tomcat%20%E5%90%8E%E5%8F%B0%E9%83%A8%E7%BD%B2war%E6%9C%A8%E9%A9%ACgetshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.497Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Tomcat-后台部署war木马getshell"><a href="#Tomcat-后台部署war木马getshell" class="headerlink" title="Tomcat 后台部署war木马getshell"></a>Tomcat 后台部署war木马getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在获取到令牌后，我们可以进入Tomcat后台了：</p>
+<p><img src="/resource/Tomcat%E5%90%8E%E5%8F%B0%E9%83%A8%E7%BD%B2war%E6%9C%A8%E9%A9%ACgetshell/media/rId24.jpg"></p>
+<p>在这个后台，我们可以操作每个应用的状态……以及读取每个应用下的Session。</p>
+<p>但是这都不是最大的安全隐患 :)</p>
+<p>下面来讲一下如何制作war包。</p>
+<blockquote>
+<p>war包：Java<br>web工程，都是打成war包，进行发布，如果我们的服务器选择TOMCAT等轻量级服务器，一般就打出WAR包进行发布</p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/Tomcat%20%E5%90%8E%E5%8F%B0%E9%83%A8%E7%BD%B2war%E6%9C%A8%E9%A9%ACgetshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/Tomcat%20%E5%90%8E%E5%8F%B0%E9%83%A8%E7%BD%B2war%E6%9C%A8%E9%A9%ACgetshell/" data-id="cl5c2qwyb00j6y8v155g3a0cc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/Tomcat 后台爆破" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/Tomcat%20%E5%90%8E%E5%8F%B0%E7%88%86%E7%A0%B4/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.494Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Tomcat-后台爆破"><a href="#Tomcat-后台爆破" class="headerlink" title="Tomcat 后台爆破"></a>Tomcat 后台爆破</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在渗透测试中，我们经常遇到tomcat后台被默认部署在外部的情况，类似于<code>http://192.168.3.204:8080/host-manager/html</code></p>
+<p>在这种情况下，我们都会选择去爆破来进入后台部署shell。</p>
+<p>先抓取一下我们的登录包：</p>
+<pre><code>GET /host-manager/html HTTP/1.1
+Host: 192.168.3.204:8080
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0 FirePHP/0.7.4
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+DNT: 1
+x-insight: activate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Authorization: Basic YWRtaW46MTIzNDU2
+</code></pre>
+<p>在Tomcat后台登录的数据包中我们发现它会将输入的账号和密码都编码成Base64密文。</p>
+<p>格式：<code>用户名:密码</code> =&gt; <code>admin:123456</code> =&gt; <code>YWRtaW46MTIzNDU2</code></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/Tomcat%20%E5%90%8E%E5%8F%B0%E7%88%86%E7%A0%B4/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/Tomcat%20%E5%90%8E%E5%8F%B0%E7%88%86%E7%A0%B4/" data-id="cl5c2qwy900j4y8v1bq1g6kqj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-ThinkSNS/ThinkSNS V4 后台任意文件下载导致getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ThinkSNS/ThinkSNS%20V4%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E5%AF%BC%E8%87%B4getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.489Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ThinkSNS-V4-后台任意文件下载导致getshell"><a href="#ThinkSNS-V4-后台任意文件下载导致getshell" class="headerlink" title="ThinkSNS V4 后台任意文件下载导致getshell"></a>ThinkSNS V4 后台任意文件下载导致getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>存在漏洞代码<code>\ts4\apps\admin\Lib\Action\UpgradeAction.class.php</code>中的一个函数中。</p>
+<pre><code>public function step1()
+&#123;
+    $downUrl = $_GET[&#39;upurl&#39;];
+    $downUrl = urldecode($downUrl);
+    $path = DATA_PATH.&#39;/&#39;.&#39;upgrade/&#39;.basename($downUrl);
+
+    // # 备份老配置文件
+    $oldConf = file_get_contents(CONF_PATH.&#39;/thinksns.conf.php&#39;);
+    file_put_contents(DATA_PATH.&#39;/old.thinksns.conf.php&#39;, $oldConf);
+
+    // # 下载增量包
+    is_dir(dirname($path)) or mkdir(dirname($path), 0777, true);
+    file_put_contents($path, file_get_contents($downUrl));
+    file_exists($path) or $this-&gt;showError(&#39;下载升级包失败，请检查&#39;.dirname($path).&#39;目录是否可写，如果可写，请刷新重试！&#39;);
+
+    // 验证hash判断包是否合法。
+    $filename = dirname($path).&#39;/upgrade.json&#39;;
+    $data = file_get_contents($filename);
+    $data = json_decode($data, false);
+    if (md5_file($path) != $data-&gt;md5) &#123;
+        $this-&gt;showError(&#39;更新包校验失败，请重新执行升级.&#39;);
+    &#125;
+</code></pre>
+<p>函数</p>
+<pre><code>file_put_contents — 将一个字符串写入文件
+file_get_contents — 将整个文件读入一个字符串
+</code></pre>
+<p>在这段函数中，先备份老配置文件，然后下载增量包，下载参数$downUrl未经过任何处理，直接下载到网站目录下，接着验证hash判断包是否合法，但是并没有删除下载的增量包，导致程序在实现上存在任意文件下载漏洞，下载远程文件到网站目录下，攻击者可指定第三方url下载恶意脚本到网站目录，进一步触发恶意代码，控制网站服务器。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/ThinkSNS/ThinkSNS%20V4%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E5%AF%BC%E8%87%B4getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ThinkSNS/ThinkSNS%20V4%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E5%AF%BC%E8%87%B4getshell/" data-id="cl5c2qwsn00ivy8v18t4e4r57" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp shop/（CVE-2018-9919）Thinkphp Shop后门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp%20shop/%EF%BC%88CVE-2018-9919%EF%BC%89Thinkphp%20Shop%E5%90%8E%E9%97%A8/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.483Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-9919）Thinkphp-Shop后门"><a href="#（CVE-2018-9919）Thinkphp-Shop后门" class="headerlink" title="（CVE-2018-9919）Thinkphp Shop后门"></a>（CVE-2018-9919）Thinkphp Shop后门</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞源于/vendor/phpdocumentor/reflection-docblock/tests/phpDocumentor/Reflection/DocBlock/Tag/LinkTagTeet.php可以将文件下载到其他服务器上。远程攻击者可利用该漏洞获取敏感信息，并可能执行命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Backdoor in Tpshop &lt;= 2.0.8</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>攻击者可以利用此漏洞来攻击服务器并增加其特权，例如：下载任意文件PS！扫描网络端口PS！信息检测，攻击内部网络易受攻击的服务器。</p>
+<p><a target="_blank" rel="noopener" href="http://www.0-sec.org/vendor/phpdocumentor/reflection-docblock/tests/phpDocumentor/Reflection/DocBlock/Tag/LinkTagTeet.php?bddlj=save%5C_filename&amp;down%5C_url=download%5C_url&amp;jmmy=decry">http://www.0-sec.org/vendor/phpdocumentor/reflection-docblock/tests/phpDocumentor/Reflection/DocBlock/Tag/LinkTagTeet.php?bddlj=save\_filename&amp;down\_url=download\_url&amp;jmmy=decry</a></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp%20shop/%EF%BC%88CVE-2018-9919%EF%BC%89Thinkphp%20Shop%E5%90%8E%E9%97%A8/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp%20shop/%EF%BC%88CVE-2018-9919%EF%BC%89Thinkphp%20Shop%E5%90%8E%E9%97%A8/" data-id="cl5c2qwso00iyy8v14otofmb3" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp shop/Thinkphp Shop前台SQL注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp%20shop/Thinkphp%20Shop%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.480Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-Shop前台SQL注入"><a href="#Thinkphp-Shop前台SQL注入" class="headerlink" title="Thinkphp Shop前台SQL注入"></a>Thinkphp Shop前台SQL注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><a target="_blank" rel="noopener" href="http://www.0-sec.org/mobile/index/index2/id/1">http://www.0-sec.org/mobile/index/index2/id/1</a>&#39;</p>
+<p>sqlmap -u &quot;<a target="_blank" rel="noopener" href="http://www.0-sec.org/mobile/index/index2/id/1*">http://www.0-sec.org/mobile/index/index2/id/1*</a>&quot;<br>--random-agent --batch --dbms &quot;mysql&quot; --</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp%20shop/Thinkphp%20Shop%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp%20shop/Thinkphp%20Shop%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5/" data-id="cl5c2qwsn00iwy8v13064howp" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/32/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/page/34/">34</a><a class="page-number" href="/page/35/">35</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/34/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

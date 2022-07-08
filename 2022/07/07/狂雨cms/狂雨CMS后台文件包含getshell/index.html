@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="狂雨CMS后台文件包含getshell审计首先还是先看代码结构 12345678910addons          插件代码application     主要后端代码config          配置文件extend          一些基础类文件public          静态文件route           路由runtime         主要是缓存template">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E7%8B%82%E9%9B%A8cms/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="狂雨CMS后台文件包含getshell审计首先还是先看代码结构 12345678910addons          插件代码application     主要后端代码config          配置文件extend          一些基础类文件public          静态文件route           路由runtime         主要是缓存template">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/media/Zm3a6wItfYr45sx.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/media/XkU4DbL6ZfNOVGE.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/media/JUqLGubNYmsD14i.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/media/iDNHBzdJfhsjlFG.png">
+<meta property="article:published_time" content="2022-07-08T06:26:10.337Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.296Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/media/Zm3a6wItfYr45sx.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-狂雨cms/狂雨CMS后台文件包含getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%8B%82%E9%9B%A8cms/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.337Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="狂雨CMS后台文件包含getshell"><a href="#狂雨CMS后台文件包含getshell" class="headerlink" title="狂雨CMS后台文件包含getshell"></a>狂雨CMS后台文件包含getshell</h1><h2 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h2><p>首先还是先看代码结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">addons          插件代码</span><br><span class="line">application     主要后端代码</span><br><span class="line">config          配置文件</span><br><span class="line">extend          一些基础类文件</span><br><span class="line">public          静态文件</span><br><span class="line">route           路由</span><br><span class="line">runtime         主要是缓存</span><br><span class="line">template        模板文件</span><br><span class="line">thinkphp        thinkphp</span><br><span class="line">uploads         上传文件</span><br></pre></td></tr></table></figure>
+
+<p>主要的审计中心放在application下</p>
+<h3 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h3><p>主要是提供了可修改模板功能，然后利用thinkphp的模板语法进行文件包含</p>
+<p>主要代码</p>
+<p><code>application/admin/controller/Template.php-&gt;edit()</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">edit</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable">$Template</span>=<span class="title function_ invoke__">model</span>(<span class="string">&#x27;template&#x27;</span>);</span><br><span class="line">        <span class="variable">$data</span>=<span class="variable language_">$this</span>-&gt;request-&gt;<span class="title function_ invoke__">post</span>();</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable language_">$this</span>-&gt;request-&gt;<span class="title function_ invoke__">isPost</span>())&#123;</span><br><span class="line">            <span class="variable">$res</span> = <span class="variable">$Template</span>-&gt;<span class="title function_ invoke__">edit</span>(<span class="variable">$data</span>);</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$res</span>  !== <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">success</span>(<span class="string">&#x27;模版文件修改成功！&#x27;</span>,<span class="title function_ invoke__">url</span>(<span class="string">&#x27;index&#x27;</span>));</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">error</span>(<span class="variable">$Template</span>-&gt;<span class="title function_ invoke__">getError</span>());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$path</span>=<span class="title function_ invoke__">urldecode</span>(<span class="variable">$this</span>-&gt;request-&gt;<span class="title function_ invoke__">param</span>(<span class="string">&#x27;path&#x27;</span>));</span><br><span class="line">            <span class="variable">$info</span>=<span class="variable">$Template</span>-&gt;<span class="title function_ invoke__">file_info</span>(<span class="variable">$path</span>);</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">assign</span>(<span class="string">&#x27;path&#x27;</span>,<span class="variable">$path</span>);</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">assign</span>(<span class="string">&#x27;content&#x27;</span>,<span class="variable">$info</span>);</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">assign</span>(<span class="string">&#x27;meta_title&#x27;</span>,<span class="string">&#x27;修改模版文件&#x27;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">fetch</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>跟入edit函数</p>
+<p><code>application/admin/model/Template.php-&gt;edit()</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">edit</span>(<span class="params"><span class="variable">$data</span></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title class_">File</span>::<span class="title function_ invoke__">put</span>(<span class="variable">$data</span>[<span class="string">&#x27;path&#x27;</span>],<span class="variable">$data</span>[<span class="string">&#x27;content&#x27;</span>]);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>继续跟入</p>
+<p><code>extend/org/File.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">static</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">put</span>(<span class="params"><span class="variable">$filename</span>,<span class="variable">$content</span>,<span class="variable">$type</span>=<span class="string">&#x27;&#x27;</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable">$dir</span>   =  <span class="title function_ invoke__">dirname</span>(<span class="variable">$filename</span>);</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">is_dir</span>(<span class="variable">$dir</span>))</span><br><span class="line">            <span class="title function_ invoke__">mkdir</span>(<span class="variable">$dir</span>,<span class="number">0755</span>,<span class="literal">true</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">false</span> === <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>,<span class="variable">$content</span>))&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> \think\<span class="built_in">Exception</span>(<span class="string">&#x27;文件写入错误:&#x27;</span>.<span class="variable">$filename</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">self</span>::<span class="variable">$contents</span>[<span class="variable">$filename</span>]=<span class="variable">$content</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到这里没经过任何过滤，直接进行了写入。关于这里的模板功能，肯定还有其他利用方式，就靠师傅们自己去测试了</p>
+<h3 id="防御方法"><a href="#防御方法" class="headerlink" title="防御方法"></a>防御方法</h3><p>针对该处漏洞的防御，觉得还是对上传进行过滤比较容易，比如说进行内容的检查，或者对图片进行一定的改动譬如缩放，从而破坏图片马的结构，不过只是治标不治本，一旦找到新的上传方式，还是会被利用。</p>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>后台可以修改模板文件，在模板文件中调用模板代码可实现文件包含</p>
+<p><img src="/resource/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/media/Zm3a6wItfYr45sx.png" alt="Zm3a6wItfYr45sx"></p>
+<p>首先在设置中上传logo处，上传图片马，需要注意不能是用户的头像上传处上传木马，因为头像会进行缩放，导致文件内容被修改</p>
+<p><img src="/resource/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/media/XkU4DbL6ZfNOVGE.png" alt="XkU4DbL6ZfNOVGE"></p>
+<p>上传成功后会返回路径，图片马内容为<code>&lt;?php phpinfo(); ?&gt;</code>，需要注意php代码必须包含最后的<code>?&gt;</code>，否则会报语法错误</p>
+<p><img src="/resource/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/media/JUqLGubNYmsD14i.png" alt="JUqLGubNYmsD14i"></p>
+<p>进入模板功能处，在index.html，即主页模板中添加模板代码，同样需要注意，路径不能以/开头，否则会被找不到错误</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="keyword">include</span> file=<span class="string">&quot;uploads/config/20200325/033966a7d27975812915522464e252a3.jpg&quot;</span> /&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/resource/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/media/iDNHBzdJfhsjlFG.png" alt="iDNHBzdJfhsjlFG"></p>
+<p>接着打开主页，即可看到phpinfo信息</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/0daybug/p/12624364.html">https://www.cnblogs.com/0daybug/p/12624364.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%8B%82%E9%9B%A8cms/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/" data-id="cl5c2r0i700poy8v1dif526ay" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E7%8B%82%E9%9B%A8cms/%E7%8B%82%E9%9B%A8CMS%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%9C%B0%E5%9D%80%E7%88%86%E7%A0%B4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E7%8B%82%E9%9B%A8cms/%E7%8B%82%E9%9B%A8CMS%E5%90%8E%E5%8F%B0SQL%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

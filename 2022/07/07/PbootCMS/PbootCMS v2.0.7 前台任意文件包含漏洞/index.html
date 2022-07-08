@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PbootCMS v2.0.7 前台任意文件包含漏洞一、漏洞简介二、漏洞影响PbootCMS v2.0.7 三、复现过程漏洞分析漏洞发生在PbootCMS内核的模板解析函数中为了方便看直接上一个完整的Parser代码吧 public function parser($file)     &amp;#123;         &#x2F;&#x2F; 设置主题         $theme &#x3D; isset($this-&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="PbootCMS v2.0.7 前台任意文件包含漏洞一、漏洞简介二、漏洞影响PbootCMS v2.0.7 三、复现过程漏洞分析漏洞发生在PbootCMS内核的模板解析函数中为了方便看直接上一个完整的Parser代码吧 public function parser($file)     &amp;#123;         &#x2F;&#x2F; 设置主题         $theme &#x3D; isset($this-&gt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="article:published_time" content="2022-07-08T06:26:00.908Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PbootCMS/PbootCMS v2.0.7 前台任意文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.908Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-v2-0-7-前台任意文件包含漏洞"><a href="#PbootCMS-v2-0-7-前台任意文件包含漏洞" class="headerlink" title="PbootCMS v2.0.7 前台任意文件包含漏洞"></a>PbootCMS v2.0.7 前台任意文件包含漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PbootCMS v2.0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞发生在PbootCMS内核的模板解析函数中为了方便看直接上一个完整的Parser代码吧</p>
+<pre><code>public function parser($file)
+    &#123;
+        // 设置主题
+        $theme = isset($this-&gt;vars[&#39;theme&#39;]) ? $this-&gt;vars[&#39;theme&#39;] : &#39;default&#39;;
+        //file形式:xxxxx/../../../可以双写穿越
+        $theme = preg_replace(&#39;/\.\.(\/|\\\)/&#39;, &#39;&#39;, $theme); // 过滤掉相对路径
+        $file = preg_replace(&#39;/\.\.(\/|\\\)/&#39;, &#39;&#39;, $file); // 过滤掉相对路径
+
+        if (strpos($file, &#39;/&#39;) === 0) &#123; // 绝对路径模板
+            $tpl_file = ROOT_PATH . $file;
+        &#125; elseif (! ! $pos = strpos($file, &#39;@&#39;)) &#123; // 跨模块调用
+            $path = APP_PATH . &#39;/&#39; . substr($file, 0, $pos) . &#39;/view/&#39; . $theme;
+            define(&#39;APP_THEME_DIR&#39;, str_replace(DOC_PATH, &#39;&#39;, $path));
+            if (! is_dir($path)) &#123; // 检查主题是否存在
+                error(&#39;模板主题目录不存在！主题路径：&#39; . $path);
+            &#125; else &#123;
+                $this-&gt;tplPath = $path;
+            &#125;
+            $tpl_file = $path . &#39;/&#39; . substr($file, $pos + 1);
+        &#125; else &#123;
+            // 定义当前应用主题目录
+            define(&#39;APP_THEME_DIR&#39;, str_replace(DOC_PATH, &#39;&#39;, APP_VIEW_PATH) . &#39;/&#39; . $theme);
+            if (! is_dir($this-&gt;tplPath .= &#39;/&#39; . $theme)) &#123; // 检查主题是否存在
+                error(&#39;模板主题目录不存在！主题路径：&#39; . APP_THEME_DIR);
+            &#125;
+            $tpl_file = $this-&gt;tplPath . &#39;/&#39; . $file; // 模板文件
+        &#125;
+        $note = Config::get(&#39;tpl_html_dir&#39;) ? &#39;&lt;br&gt;同时检测到您系统中启用了模板子目录&#39; . Config::get(&#39;tpl_html_dir&#39;) . &#39;，请核对是否是此原因导致！&#39; : &#39;&#39;;
+        file_exists($tpl_file) ?: error(&#39;模板文件&#39; . APP_THEME_DIR . &#39;/&#39; . $file . &#39;不存在！&#39; . $note);
+        $tpl_c_file = $this-&gt;tplcPath . &#39;/&#39; . md5($tpl_file) . &#39;.php&#39;; // 编译文件
+
+        // 当编译文件不存在，或者模板文件修改过，则重新生成编译文件
+        if (! file_exists($tpl_c_file) || filemtime($tpl_c_file) &lt; filemtime($tpl_file) || ! Config::get(&#39;tpl_parser_cache&#39;)) &#123;
+            $content = Parser::compile($this-&gt;tplPath, $tpl_file); // 解析模板
+            file_put_contents($tpl_c_file, $content) ?: error(&#39;编译文件&#39; . $tpl_c_file . &#39;生成出错！请检查目录是否有可写权限！&#39;); // 写入编译文件
+            $compile = true;
+        &#125;
+        //tplPath:PbootCMS/template
+        ob_start(); // 开启缓冲区,引入编译文件
+        $rs = include $tpl_c_file;
+        if (! isset($compile)) &#123;
+            foreach ($rs as $value) &#123; // 检查包含文件是否更新,其中一个包含文件不存在或修改则重新解析模板
+                if (! file_exists($value) || filemtime($tpl_c_file) &lt; filemtime($value) || ! Config::get(&#39;tpl_parser_cache&#39;)) &#123;
+                    $content = Parser::compile($this-&gt;tplPath, $tpl_file); // 解析模板
+                    file_put_contents($tpl_c_file, $content) ?: error(&#39;编译文件&#39; . $tpl_c_file . &#39;生成出错！请检查目录是否有可写权限！&#39;); // 写入编译文件
+                    ob_clean();
+                    include $tpl_c_file;
+                    break;
+                &#125;
+            &#125;
+        &#125;
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    &#125;
+</code></pre>
+<p>简单讲一下重点<img src="/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png">这里对传入路径的过滤并不严格，可以双写绕过再往下跟一下<img src="/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="2.png">当模板文件不在缓存中的时候，会读取$tpl_file中的内容，然后写入缓存文件中并且包含。也就是说，当parser函数的参数可以被控制的时候，就会造成一个任意文件包含。所以，要找一个可控参数的parser调用经过简单寻找，就可以发现前台控制器TagController中的index方法，完美符合我们的要求上代码：</p>
+<pre><code>public function index()
+    &#123;
+        // 在非兼容模式接受地址第二参数值
+        if (defined(&#39;RVAR&#39;)) &#123;
+            $_GET[&#39;tag&#39;] = RVAR;
+        &#125;
+
+        if (! get(&#39;tag&#39;)) &#123;
+            _404(&#39;您访问的页面不存在，请核对后重试！&#39;);
+        &#125;
+        $a=get(&#39;tag&#39;);
+        $tagstpl = request(&#39;tagstpl&#39;);
+        if (! preg_match(&#39;/^[\w\-\.\/]+$/&#39;, $tagstpl)) &#123;
+            $tagstpl = &#39;tags.html&#39;;
+        &#125;
+        $content = parent::parser($this-&gt;htmldir . $tagstpl); // 框架标签解析
+        $content = $this-&gt;parser-&gt;parserBefore($content); // CMS公共标签前置解析
+        $content = $this-&gt;parser-&gt;parserPositionLabel($content, 0, &#39;相关内容&#39;, homeurl(&#39;tag/&#39; . get(&#39;tag&#39;))); // CMS当前位置标签解析
+        $content = $this-&gt;parser-&gt;parserSpecialPageSortLabel($content, - 2, &#39;相关内容&#39;, homeurl(&#39;tag/&#39; . get(&#39;tag&#39;))); // 解析分类标签
+        $content = $this-&gt;parser-&gt;parserAfter($content); // CMS公共标签后置解析
+        $this-&gt;cache($content, true);
+    &#125;
+</code></pre>
+<p>传入parser的参数，是通过request接收的参数$tagstpl和$this-&gt;htmldir拼接的，因为已经知道在函数内部可以出现目录穿越，所以前面的路径不管怎么拼接都无所谓啦。这样就完成了整个攻击链，TagController-&gt;parser-&gt;双写绕过-&gt;文件读取-&gt;文件写入-&gt;文件包含</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>因为是windows搭的环境，就不读/etc/passwd了，读一下D盘根目录的文件吧</p>
+<p><img src="/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId28.png" alt="3.png">成功再包含个phpinfo试试<img src="/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId29.png" alt="4.png">也是可以的漏洞验证完成本来是想再看看有没有什么组合利用的姿势，毕竟文件包含这种洞本身利用的灵活度还是蛮高的不过既然最新版已经修了 就不多看了</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7744">https://xz.aliyun.com/t/7744</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qti900d8y8v17yk86snh" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

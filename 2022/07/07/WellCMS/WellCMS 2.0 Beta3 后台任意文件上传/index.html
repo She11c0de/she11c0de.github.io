@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="WellCMS 2.0 Beta3 后台任意文件上传一、漏洞简介二、漏洞影响三、复现过程漏洞分析根据漏洞定位代码文件：route&#x2F;attach.php，代码如下： if ($action &#x3D;&#x3D; &#39;create&#39;) &amp;#123;     &#x2F;&#x2F; hook attach_create_start.php     user_login_check();     &#x2F;&#x2F; hook attach">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/WellCMS/WellCMS%202.0%20Beta3%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="WellCMS 2.0 Beta3 后台任意文件上传一、漏洞简介二、漏洞影响三、复现过程漏洞分析根据漏洞定位代码文件：route&#x2F;attach.php，代码如下： if ($action &#x3D;&#x3D; &#39;create&#39;) &amp;#123;     &#x2F;&#x2F; hook attach_create_start.php     user_login_check();     &#x2F;&#x2F; hook attach">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId30.png">
+<meta property="article:published_time" content="2022-07-08T06:26:07.044Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.402Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-WellCMS/WellCMS 2.0 Beta3 后台任意文件上传" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/WellCMS/WellCMS%202.0%20Beta3%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.044Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="WellCMS-2-0-Beta3-后台任意文件上传"><a href="#WellCMS-2-0-Beta3-后台任意文件上传" class="headerlink" title="WellCMS 2.0 Beta3 后台任意文件上传"></a>WellCMS 2.0 Beta3 后台任意文件上传</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>根据漏洞定位代码文件：route/attach.php，代码如下：</p>
+<pre><code>if ($action == &#39;create&#39;) &#123;
+    // hook attach_create_start.php
+    user_login_check();
+    // hook attach_create_check_after.php
+    $backstage = param(2, 0);
+    $width = param(&#39;width&#39;, 0);
+    $height = param(&#39;height&#39;, 0);
+    $is_image = param(&#39;is_image&#39;, 0); // 图片
+    $name = param(&#39;name&#39;);
+    $data = param_base64(&#39;data&#39;);
+    $mode = param(&#39;mode&#39;, 0); // 上传类型 1主图
+    $filetype = param(&#39;filetype&#39;); // 压缩图片后缀jpeg jpg png等
+    $convert = param(&#39;convert&#39;, 0); // 图片转换压缩 = 1
+    $n = param(&#39;n&#39;, 0); // 对应主图赋值
+    $type = param(&#39;type&#39;, 0); // type = 0则按照SESSION数组附件数量统计，type = 1则按照传入的n数值
+    // hook attach_create_before.php
+    // 允许的文件后缀名
+    //$types = include _include(APP_PATH.&#39;conf/attach.conf.php&#39;);
+    //$allowtypes = $types[&#39;all&#39;];
+    empty($group[&#39;allowattach&#39;]) AND $gid != 1 AND message(2, &#39;您无权上传&#39;);
+    // hook attach_create_center.php
+    empty($data) AND message(1, lang(&#39;data_is_empty&#39;));
+    //$data = base64_decode_file_data($data);
+    $size = strlen($data);
+    $size &gt; 20480000 AND message(1, lang(&#39;filesize_too_large&#39;, array(&#39;maxsize&#39; =&gt; &#39;20M&#39;, &#39;size&#39; =&gt; $size)));
+    // hook attach_create_file_ext_start.php
+    // 获取文件后缀名 111.php.shtmll
+    $ext = file_ext($name, 7);
+    $filetypes = include APP_PATH . &#39;conf/attach.conf.php&#39;;
+    // hook attach_create_file_ext_before.php
+    //主图必须为图片
+    if ($is_image == 1 &amp;&amp; $mode == 1 &amp;&amp; !in_array($ext, $filetypes[&#39;image&#39;])) message(1, lang(&#39;well_up_picture_error&#39;));
+
+    // hook attach_create_file_ext_center.php
+
+    // 如果文件后缀不在规定范围内 改变后缀名
+    //!in_array($ext, $filetypes[&#39;all&#39;]) AND $ext = &#39;_&#39; . $ext;
+    if (!in_array($ext, $filetypes[&#39;all&#39;])) &#123;
+        $ext = &#39;_&#39; . $ext;
+    &#125; else &#123;
+        // CMS上传图片
+        $t == 1 AND $convert == 1 AND $is_image == 1 AND $ext = $filetype;
+    &#125;
+    // hook attach_create_file_ext_after.php
+    $tmpanme = $uid . &#39;_&#39; . xn_rand(15) . &#39;.&#39; . $ext;
+    // hook attach_create_tmpanme_after.php
+    $tmpfile = $conf[&#39;upload_path&#39;] . &#39;tmp/&#39; . $tmpanme;
+    // hook attach_create_tmpfile_after.php
+    $tmpurl = $conf[&#39;upload_url&#39;] . &#39;tmp/&#39; . $tmpanme;
+    // hook attach_create_tmpurl_after.php
+    $filetype = attach_type($name, $filetypes);
+    // hook attach_create_save_before.php
+    file_put_contents($tmpfile, $data) OR message(1, lang(&#39;write_to_file_failed&#39;));
+    // hook attach_create_save_after.php
+    // 保存到 session，发帖成功以后，关联到帖子。
+    // save attach information to session, associate to post after create thread.
+    // 抛弃之前的 $_SESSION 数据，重新启动 session，降低 session 并发写入的问题
+    // Discard the previous $_SESSION data, restart the session, reduce the problem of concurrent session write
+    sess_restart();
+    empty($t) AND empty($_SESSION[&#39;tmp_files&#39;]) AND $_SESSION[&#39;tmp_files&#39;] = array();
+    $t == 1 AND empty($_SESSION[&#39;tmp_website_files&#39;]) AND $_SESSION[&#39;tmp_website_files&#39;] = array();
+
+    // hook attach_create_after.php
+    // type = 0则按照SESSION数组附件数量统计，type = 1则按照传入的n数值
+    empty($type) AND $n = ($t == 1) ? count($_SESSION[&#39;tmp_website_files&#39;]) : count($_SESSION[&#39;tmp_files&#39;]);
+    $filesize = filesize($tmpfile);
+    $attach = array(
+        &#39;backstage&#39; =&gt; $backstage, // 0前台 1后台
+        &#39;url&#39; =&gt; $backstage ? &#39;../&#39; . $tmpurl : &#39;&#39; . $tmpurl,
+        &#39;path&#39; =&gt; $tmpfile,
+        &#39;orgfilename&#39; =&gt; $name,
+        &#39;filetype&#39; =&gt; $filetype,
+        &#39;filesize&#39; =&gt; $filesize,
+        &#39;width&#39; =&gt; $width,
+        &#39;height&#39; =&gt; $height,
+        &#39;isimage&#39; =&gt; $is_image,
+        &#39;downloads&#39; =&gt; 0,
+        &#39;aid&#39; =&gt; &#39;_&#39; . $n
+    );
+    // hook attach_create_array_after.php
+    if ($mode == 1) &#123;
+        // hook attach_create_thumbnail_beofre.php
+        $_SESSION[&#39;tmp_thumbnail&#39;] = $attach;
+        // hook attach_create_thumbnail_after.php
+    &#125; else &#123;
+        // hook attach_create_website_files_beofre.php
+        // 0 BBS 1 CMS
+        $t == 1 ? $_SESSION[&#39;tmp_website_files&#39;][$n] = $attach : $_SESSION[&#39;tmp_files&#39;][$n] = $attach;
+        // hook attach_create_website_files_after.php
+    &#125;
+    // hook attach_create_session_after.php
+    unset($attach[&#39;path&#39;]);
+    // hook attach_create_end.php
+    message(0, $attach);
+&#125;
+</code></pre>
+<p>大致流程：1、 首先，接受相关参数，将filetype自行设置成”php”：</p>
+<pre><code>$data = param_base64(&#39;data&#39;);
+$filetype = param(&#39;filetype&#39;); /
+</code></pre>
+<p>2、 进行逻辑判断：</p>
+<pre><code>if (!in_array($ext, $filetypes[&#39;all&#39;])) &#123;
+        $ext = &#39;_&#39; . $ext;
+    &#125; else &#123;
+        // CMS上传图片
+        $t == 1 AND $convert == 1 AND $is_image == 1 AND $ext = $filetype;
+    &#125;
+</code></pre>
+<p>3、 最后成功写入：</p>
+<pre><code>$tmpanme = $uid . &#39;_&#39; . xn_rand(15) . &#39;.&#39; . $ext;
+    // hook attach_create_tmpanme_after.php
+    $tmpfile = $conf[&#39;upload_path&#39;] . &#39;tmp/&#39; . $tmpanme;
+    // hook attach_create_tmpfile_after.php
+    $tmpurl = $conf[&#39;upload_url&#39;] . &#39;tmp/&#39; . $tmpanme;
+    // hook attach_create_tmpurl_after.php
+    $filetype = attach_type($name, $filetypes);
+    // hook attach_create_save_before.php
+    file_put_contents($tmpfile, $data) OR message(1, lang(&#39;write_to_file_failed&#39;));
+</code></pre>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>第一步，登陆该CMS后台：</p>
+<p><img src="/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId26.png"></p>
+<p>第二步，进入”后台管理”，定位利用点，点击下图红框中图片进行上传：</p>
+<p><img src="/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId27.png"></p>
+<p>上传并抓取数据包：</p>
+<p><img src="/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId28.png"></p>
+<p>第三步，修改post包中”filetype”参数类型为”php”；经分析<br>“data”参数为base64加密，这里我们将测试数据””经过base64加密等构造，形成”data”参数的数据：data%3Aimage%2Fjpeg%3Bbase64%2CPD9waHAgcGhwaW5mbygpOz8%2B，最后数据包放行，返回成功上传为php文件的路径：</p>
+<p><img src="/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId29.png"></p>
+<p>最后，尝试访问，成功：</p>
+<p><img src="/resource/WellCMS2.0Beta3%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/media/rId30.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7284">https://xz.aliyun.com/t/7284</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/WellCMS/WellCMS%202.0%20Beta3%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" data-id="cl5c2qxu600ldy8v1era35vst" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E6%8F%92%E4%BB%B6%E6%BC%8F%E6%B4%9E/WordPress%20Plugin%20-%20AutoSuggest%20sql%E6%B3%A8%E5%85%A5%20/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/WellCMS/WellCMS%201.1.02%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

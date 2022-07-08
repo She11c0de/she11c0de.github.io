@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Thinkphp 6.1 任意文件创建&amp;删除漏洞一、漏洞简介漏洞允许攻击者在启用session的目标环境下创建任意文件以及删除任意文件（仅Windows下），在特定情况下还可以getshell。 二、漏洞影响ThinkPHP&lt;6.0.2 三、复现过程环境搭建ThinkPHP6.0.1+PHP7.2+Windows composer create-project topthink&#x2F;th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Thinkphp 6.1 任意文件创建&amp;删除漏洞一、漏洞简介漏洞允许攻击者在启用session的目标环境下创建任意文件以及删除任意文件（仅Windows下），在特定情况下还可以getshell。 二、漏洞影响ThinkPHP&lt;6.0.2 三、复现过程环境搭建ThinkPHP6.0.1+PHP7.2+Windows composer create-project topthink&#x2F;th">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId26.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId27.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId28.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId29.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId30.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId31.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId32.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId34.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId35.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId36.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId37.jpg">
+<meta property="article:published_time" content="2022-07-08T06:26:05.227Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId26.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 6.x 漏洞/Thinkphp 6.1 任意文件创建&amp;删除漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.227Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-6-1-任意文件创建-amp-删除漏洞"><a href="#Thinkphp-6-1-任意文件创建-amp-删除漏洞" class="headerlink" title="Thinkphp 6.1 任意文件创建&amp;删除漏洞"></a>Thinkphp 6.1 任意文件创建&amp;删除漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>漏洞允许攻击者在启用session的目标环境下创建任意文件以及删除任意文件（仅Windows下），在特定情况下还可以getshell。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ThinkPHP&lt;6.0.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>ThinkPHP6.0.1+PHP7.2+Windows</p>
+<pre><code>composer create-project topthink/think tp6.0.1
+#修改json后
+composer update
+</code></pre>
+<ol>
+<li> <strong>开启session</strong></li>
+</ol>
+<p>middleware.php中添加</p>
+<pre><code>\think\middleware\SessionInit::class
+</code></pre>
+<ol>
+<li> <strong>控制器</strong></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>public function session()&#123;
+    session(&#39;name&#39;, &#39;&lt;?php phpinfo();?&gt;&#39;);#模拟写入内容可控
+    $SessionName = config(&#39;session.name&#39;);
+    $SessionID = cookie($SessionName);
+    echo $SessionID;
+&#125;
+</code></pre>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>官方修复<code>vendor/topthink/framework/src/think/session/Store.php</code>中<code>setId()</code>方法</p>
+<p>在修复之前，参数id为32位时直接将其值赋值给$this-&gt;id</p>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId26.jpg"></p>
+<p>回溯该方法调用情况，在<code>vendor/topthink/framework/src/think/middleware/SessionInit.php</code>中发现调用</p>
+<p>同时从图中可知$sessionId的值来源途径之一为cookie中获取，而$cookieName默认值为”PHPSESSID”</p>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId27.jpg"></p>
+<p><code>handle()</code>方法作用是初始化session，在下面发现end()方法，在响应过程中一定会触发end()方法，因为在框架入口文件index.php中已经写明：</p>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId28.jpg"></p>
+<p>end()中存在save()方法：</p>
+<pre><code>public function end(Response $response)
+&#123;
+    $this-&gt;session-&gt;save();
+&#125;
+</code></pre>
+<p>save()位于<code>vendor/topthink/framework/src/think/session/Store.php</code></p>
+<p>此处$sessionId值可来源于cookie[‘PHPSESSID’]，可控，但</p>
+<p>$this-&gt;data可决定创建文件或删除文件，经过调试得知，其值来源于程序写入session的值，例如：</p>
+<pre><code>session(&quot;PHPSESSID&quot;,&quot;admin&quot;);
+</code></pre>
+<p>则$this-&gt;data值为”admin”，因此如果写入session可控，则可写入任意内容文件。</p>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId29.jpg"></p>
+<p>写入write()和创建文件delete()均是接口方法</p>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId30.jpg"></p>
+<p>在程序处理过程中肯定会涉及其他类，因此搜索实现了该接口的类，发现：</p>
+<p><code>vendor/topthink/framework/src/think/session/driver/File.php</code>符合条件</p>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId31.jpg"></p>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId32.jpg"></p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>在上文write()方法中，文件名$filename经过了getFIleName()的处理，而该方法会在传入参数前添加”sess_“，也就是说文件名后部分可控，这是比较重要的一个点。</p>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId34.jpg"></p>
+<p>**任意文件删除：**删除public目录下aaaaaaaaaaa.php</p>
+<blockquote>
+<p>需开启session，且仅Windows下可行</p>
+</blockquote>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId35.jpg"></p>
+<p><strong>文件写入</strong>：</p>
+<blockquote>
+<p>要求开启session，且写入session可控</p>
+</blockquote>
+<pre><code>session(&#39;name&#39;, &#39;&lt;?php phpinfo();?&gt;&#39;);
+</code></pre>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId36.jpg"></p>
+<p><img src="/resource/Thinkphp6.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId37.jpg"></p>
+<p>写入和删除文件时的测试：</p>
+<pre><code>#以下均可行，系统将sess_视作一个目录
+file_put_contents(&quot;D:\tp6.0.1\runtime\session\sess_/../../../public/aa.php&quot;,1)
+include &quot;D:\tp6.0.1\runtime\session\sess_/../../../public/aa.php&quot;
+#unlink()有区别：Windows下可行,Linux下无法识别目录
+unlink(&quot;D:\tp6.0.1\runtime\session\sess_/../../../public/aa.php&quot;)#成功删除
+unlink(&quot;/var/www/html/runtime\session\sess_/../../../public/aa.php&quot;)#删除失败
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://pines404.online/2020/01/21/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/ThinkPHP/ThinkPHP6.0.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E5%92%8C%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">http://pines404.online/2020/01/21/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/ThinkPHP/ThinkPHP6.0.1%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E5%92%8C%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwsk00iry8v1exw2di14" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%20_%206.0.2%20session%20id%E6%9C%AA%E4%BD%9C%E8%BF%87%E6%BB%A4%E5%AF%BC%E8%87%B4getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5pop%E9%93%BE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

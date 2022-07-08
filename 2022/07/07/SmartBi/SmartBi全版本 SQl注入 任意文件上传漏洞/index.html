@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SmartBi全版本 SQl注入 任意文件上传漏洞前言Smarbi是由思迈特软件开发的一款企业级商业智能和大数据分析平台，满足用户在企业级报表、数据可视化分析、自助分析平台、数据挖掘建模、AI智能分析等大数据分析需求。致力于打造产品销售、产品整合、产品应用的生态系统，与上下游厂商、专业实施伙伴和销售渠道伙伴共同为最终用户服务，通过Smartbi应用商店（BI+行业应用）为客户提供场景化、行业化数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/SmartBi/SmartBi%E5%85%A8%E7%89%88%E6%9C%AC%20SQl%E6%B3%A8%E5%85%A5%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="SmartBi全版本 SQl注入 任意文件上传漏洞前言Smarbi是由思迈特软件开发的一款企业级商业智能和大数据分析平台，满足用户在企业级报表、数据可视化分析、自助分析平台、数据挖掘建模、AI智能分析等大数据分析需求。致力于打造产品销售、产品整合、产品应用的生态系统，与上下游厂商、专业实施伙伴和销售渠道伙伴共同为最终用户服务，通过Smartbi应用商店（BI+行业应用）为客户提供场景化、行业化数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:03.672Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.904Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SmartBi/SmartBi全版本 SQl注入 任意文件上传漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/SmartBi/SmartBi%E5%85%A8%E7%89%88%E6%9C%AC%20SQl%E6%B3%A8%E5%85%A5%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.672Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SmartBi全版本-SQl注入-任意文件上传漏洞"><a href="#SmartBi全版本-SQl注入-任意文件上传漏洞" class="headerlink" title="SmartBi全版本 SQl注入 任意文件上传漏洞"></a>SmartBi全版本 SQl注入 任意文件上传漏洞</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Smarbi是由思迈特软件开发的一款企业级商业智能和大数据分析平台，满足用户在企业级报表、数据可视化分析、自助分析平台、数据挖掘建模、AI智能分析等大数据分析需求。致力于打造产品销售、产品整合、产品应用的生态系统，与上下游厂商、专业实施伙伴和销售渠道伙伴共同为最终用户服务，通过Smartbi应用商店（BI+行业应用）为客户提供场景化、行业化数据分析应用。通过官网可知国内大部分银行，央企，部委都部署有该系统。在一次安全评估项目中遇到该平台，在网上找到相关源码后遂对该平台进行分析审计，挖掘出了一些问题。</p>
+<h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><p>本来是想找个RCE的漏洞。但发现存在SQL注入。打开web.xml文件。发现一个FileResource类。感觉像是一个文件的读写类。我们追踪到class，然后看下类实现方法，通过浏览代码语法我们可以了解到该系统使用Servlet实现http的交互。这里简单的阐述一下Servlet的概念，方便后续理解。</p>
+<p>大家都知道Servlet，但是不一定很清楚servlet框架，这个框架是由两个Java包组成:javax.servlet和javax.servlet.http，在javax.servlet包中定义了所有的Servlet类都必须实现或扩展的的通用接口和类，在javax.servlet.http包中定义了采用HTTP通信协议的HttpServlet类，Servlet的框架的核心是javax.servlet.Servlet接口,所有的Servlet都必须实现这一接口，在Servlet接口中定义了5个方法,如图琐事哦，其中前3个方法代表了Servlet的声明周期:</p>
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/1.png)</p>
+<p>当Web容器接收到某个Servlet请求时,Servlet把请求封装成一个HttpServletRequest对象,然后把对象传给Servlet的对应的服务方法。HTTP的请求方式包括DELETE,GET,OPTIONS,POST,PUT和TRACE,在HttpServlet类中分别提供了相应的服务方法,它们是,doDelete(),doGet(),doOptions(),doPost(), doPut()和doTrace().。当我们了解了这些前置知识后。大大的方便了我们理解接下来的代码。</p>
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/2.png)</p>
+<p>根据我们前面所了解到的一些前置知识。我们来看doGet方法的实现。</p>
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/3.png)</p>
+<p>前面一堆巴拉巴拉我们先不讲。我们直接来看353-363行。resID通过getParameter获取。我们可控，然后直接在363行就将变量拼接到SQL语句里去了。而且直接就executeQuery了，前面都用了prepareStatement来预防SQL注入。为啥这里就直接拼接SQL语句了呢。我严重怀疑这是临时工写的代码。很明显这里存在SQL注入了。</p>
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/4.png)</p>
+<p>我们直接构造payload注入即可：</p>
+<p><code>http://www.xxx.com//vision/FileResource?op=OPEN&amp;resId=LOGIN_BG_IMG</code></p>
+<p>由于数据库存在差异。大家直接丢sqlmap跑就行了</p>
+<h2 id="任意文件上传"><a href="#任意文件上传" class="headerlink" title="任意文件上传"></a>任意文件上传</h2><p>挖注入不是我的本来目的，任何以渗透测试为目的的代码审计最终的目标都是RCE或者任意文件上传。于是我继续寻找涉及文件操作的相关代码。PS:此处踩了很多坑。通过寻找web.xml里的配置信息。我快速定位到了一处上传接口UploadImageServlet。跟进看看</p>
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/5.png)</p>
+<p>如果type不为download和view则进入uploadImage。跟进</p>
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/6.png)</p>
+<p>看uploadImage前面的代码看的我很开心，仿佛好像没有过滤后缀之类的。仿佛任意文件上传就在眼前，代码的执行逻辑我写在注释里了。看到base64的操作我很疑惑。正常不应该直接写文件了么。直到我看到saveImageContent时，我的心一凉。根据函数名不难理解为保存图片内容。跟进看看。是否为我猜想的直接把文件内容入库了。</p>
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/7.png)</p>
+<p>跟进saveImageContent，看到PageDAO后心彻底凉了。这里可以确定文件入库了，并没有落地到目录。就算没有过滤后缀。也没办法利用。</p>
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/8.png)</p>
+<p>于是乎我就继续找呀找呀。发现这套系统百分之99的文件上传都是写到数据库里，着实恶心到我了。这时候我转战寻找jsp文件。我寻思独立写的jsp文件应该没有这么严谨。山重水复疑无路，柳暗花明又一村。经过耐心的寻找。终于定位到一个 上传文件。</p>
+<p><code>/vision/designer/imageimport.jsp</code></p>
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/9.png)</p>
+<p>纵观代码逻辑。先定义写入目录。然后判断目录是否存在，如果不存在则创建目录。然后读取header里的两个参数，用来作为文件名和文件类型，随后简单的判断一下type是否为image。然后就直接fos.write了。文件落地到/vision/designer/images/。一个比后门还要后门的文件上传写法。要不是我看到同目录其他的一些文件我差点以为这是一个后门了。构造上传也就很简单了。在header里面添加两个参数。X-File-Name为文件名。POST正文为你要上传的文件内容。请求即可</p>
+<p>Payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST /vision/designer/imageimport.jsp HTTP/1.1</span><br><span class="line">Host: 127.0.0.1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Cookie: UserLogging=false; FQConfigLogined=; FQPassword=; JSESSIONID=AAEDEBC8984E4F540DFAAF8C0F932035</span><br><span class="line">X-File-Type: image</span><br><span class="line">X-File-Name: 1.jsp</span><br><span class="line">Connection: close</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Content-Type: multipart/form-data; boundary=---------------------------2927288396864</span><br><span class="line">Content-Length: 374</span><br><span class="line"></span><br><span class="line">test</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/SmartBi全版本-SQl注入-任意文件上传漏洞/media/10.png)</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>通过对smartBI的代码进行分析。不难看出开发设计人员还是很具备安全意识的，文件上传操作几乎都是直接入库了。大部分请求也通过RMIServlet进行处理。且接口请求数据和返回数据都加密处理了。但是百密终有一疏，出现拼接SQL注入这种写法着实不应该。这篇文章有很多不足，写的也很浅显。只做抛砖引玉。欢迎各位师傅多多指正。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/SmartBi/SmartBi%E5%85%A8%E7%89%88%E6%9C%AC%20SQl%E6%B3%A8%E5%85%A5%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvmt00gwy8v17jnx2oin" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Smarty/%EF%BC%88CVE-2017-1000480%EF%BC%89Smarty_=3.1.31%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8CRCE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/SiteServer/SiteServer%20CMS%205.0%20%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0Cookie%E6%AC%BA%E9%AA%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

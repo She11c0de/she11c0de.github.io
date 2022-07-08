@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Semcms v2.7 密码找回漏洞一、漏洞简介二、漏洞影响SemCMS v2.7 三、复现过程先在本地搭建好环境。 访问后台登录页面如下：  先来看看正常的找回密码的过程。 首先，查看 tfmp_Admin&#x2F;index.html 的源码：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Semcms/Semcms%20v2.7%20%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Semcms v2.7 密码找回漏洞一、漏洞简介二、漏洞影响SemCMS v2.7 三、复现过程先在本地搭建好环境。 访问后台登录页面如下：  先来看看正常的找回密码的过程。 首先，查看 tfmp_Admin&#x2F;index.html 的源码：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId38.png">
+<meta property="article:published_time" content="2022-07-08T06:26:03.536Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Semcms/Semcms v2.7 密码找回漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Semcms/Semcms%20v2.7%20%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.536Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Semcms-v2-7-密码找回漏洞"><a href="#Semcms-v2-7-密码找回漏洞" class="headerlink" title="Semcms v2.7 密码找回漏洞"></a>Semcms v2.7 密码找回漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>SemCMS v2.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>先在本地搭建好环境。</p>
+<p>访问后台登录页面如下：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>先来看看正常的找回密码的过程。</p>
+<p>首先，查看 tfmp_Admin/index.html 的源码：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>从代码可以看到，当点击登录按钮旁边的链接”如果忘记账号与密码，试试找回？”，时，会执行<br>js的views() 函数，该函数是弹出一个对话框并向SEMCMS_Remail.php?type=find<br>发送请求，让用户填写要接收重置后密码的邮箱地址，如下：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<p>可以看到，就是构造上面那个要求输入E-mail的表单，点击”确认找回”按钮，该表单会提交到</p>
+<pre><code>../Include/web_email.php?type=findpassword
+</code></pre>
+<p>，再看一下 web_email.php 中 type=findpassword 时的代码：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>代码会根据用户输入的E-mail地址，查找 sc_user<br>表，看是否存在使用该E-mail地址的用户，如果存在，则随机生成4位数的认证码，并将其拼接到一个密码重置链接中，最后以邮件的形式发送给用户。用户点击邮件中的密码重置链接即可；但如果不存在，则弹出对话框，提示”此邮箱不存在！”，如图：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId28.png"></p>
+<p>这里假设知道了管理员的邮箱，由于认证码是随机的4位数，这里很容易想到暴力破解。但通过</p>
+<pre><code>../Include/web_email.php?type=findpassword
+</code></pre>
+<p>无法进行暴力破解，因为如上面代码所示，每次进入 if ($Type ==<br>&#39;findpassword&#39;)<br>语句块，认证码会重新生成。所以只能看看有没有别的地方可以利用。</p>
+<p>回头再查看 index.html 的代码：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+<p>当请求参数 type=ok<br>时，SEMCMS_Remail.php后面跟的参数type也是ok，而前面提到，这种情况下，SEMCMS_Remail.php会构造另外一个表单，如下：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId30.png"></p>
+<p>点击”确认找回”按钮，会提交到</p>
+<pre><code>../Include/web_email.php?type=findok
+</code></pre>
+<p>，web_email.php 相应部分的代码如下：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId31.png"></p>
+<p>可以看到，密码会经过md5加密后再存入数据库中。 因此，这里可以通过</p>
+<pre><code>http://0-sec.org/semcms_php_v2.7/tfmp_Admin/index.html?type=ok&amp;umail=41864438@qq.com
+</code></pre>
+<p>弹出的表单，提交表单，使用BurpSuite进行暴力破解从而将密码重置。</p>
+<p>为了本地测试方便，所以将初始密码设置为<br>111111，其md5的值为：96e79218965eb72c92a549dd5a330112。重置后密码将变为123456，MD5加密后即<br>e10adc3949ba59abbe56e057f20f883e</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId32.png"></p>
+<p>先用Python生成一个四位数字的字典：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId33.png"></p>
+<p>利用BurpSuite 进行暴力破解：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId34.png"></p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId35.png"></p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId36.png"></p>
+<p>结束后，查看数据库，发现密码确实被重置了：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId37.png"></p>
+<p>使用 Admin/123456 可以成功登陆后台管理页面：</p>
+<p><img src="/resource/Semcmsv2.7%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/media/rId38.png"></p>
+<p>另外，这里涉及到表单提交，所以过程中我也想到过能否使用sql注入，然而每一次表单的提交，php代码中都在sql语句构造前，对用户的表单输入通过<br>test_input() 函数进行了安全检查和过滤，所以不存在SQL注入的问题。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4776cec565c1">https://www.jianshu.com/p/4776cec565c1</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Semcms/Semcms%20v2.7%20%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvln00gdy8v1480z8o23" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Semcms/Semcms%20v3.5%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Semcms/Semcms%20v2.7%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

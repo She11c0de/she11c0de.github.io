@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="LerxCMS 6.5 后台ssrf getshell一、漏洞简介LerxCMS 6.5版本后台在加载模板时存在SSRF漏洞，通过深入利用该漏洞可以通过远程加载指定的模板文件来Getshell~ 二、漏洞影响LerxCMS 6.5 三、复现过程漏洞分析文件位置：lerx_v6.3.0\WebContent\WEB-INF\views\jsp\templet\portal\remote.jsp 漏洞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/LerxCMS/LerxCMS%206.5%20%E5%90%8E%E5%8F%B0ssrf%20getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="LerxCMS 6.5 后台ssrf getshell一、漏洞简介LerxCMS 6.5版本后台在加载模板时存在SSRF漏洞，通过深入利用该漏洞可以通过远程加载指定的模板文件来Getshell~ 二、漏洞影响LerxCMS 6.5 三、复现过程漏洞分析文件位置：lerx_v6.3.0\WebContent\WEB-INF\views\jsp\templet\portal\remote.jsp 漏洞">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId38.png">
+<meta property="article:published_time" content="2022-07-08T06:25:58.863Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.673Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-LerxCMS/LerxCMS 6.5 后台ssrf getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/LerxCMS/LerxCMS%206.5%20%E5%90%8E%E5%8F%B0ssrf%20getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.863Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="LerxCMS-6-5-后台ssrf-getshell"><a href="#LerxCMS-6-5-后台ssrf-getshell" class="headerlink" title="LerxCMS 6.5 后台ssrf getshell"></a>LerxCMS 6.5 后台ssrf getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>LerxCMS 6.5<br>版本后台在加载模板时存在SSRF漏洞，通过深入利用该漏洞可以通过远程加载指定的模板文件来Getshell~</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>LerxCMS 6.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>文件位置：<code>lerx_v6.3.0\WebContent\WEB-INF\views\jsp\templet\portal\remote.jsp</code></p>
+<p>漏洞描述：下载时未对来源做检查，只要URL非空即可，故而存在SSRF：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId25.png" alt="1.png"></p>
+<p><code>lerx_v6.3.0\src\com\lerx\handlers\TempletMainPortalHandler.java</code></p>
+<p>之后初始化相关设置，并连接提供的URL下载文件,此处的template的路径被初始化为：templates/portal</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId26.png" alt="2.png"></p>
+<p>之后对zip压缩包进行解压，并通过for循环遍历读取zip中的文件并赋值到templetPortalDir目录下，也就是templates/portal目录，之后还会进行一次可读权限赋予操作：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId27.png" alt="3.png"></p>
+<p>在以上整个过程中，未对url的请求源做安全检查存在SSRF，同时由于模板如果是zip文件则会对其进行一次解压缩操作，故而攻击者可以伪造模板下载服务，之后下载存在shell.jsp文件的压缩包并解压到templates/portal目录，从而成功写入shell到目标站点~</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>首先，在本地将冰蝎提供的shell.jsp打包为zip文件，同时使用python开启一个simpleHTTP服务，来模拟攻击者远程主机提供模板下载服务：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId29.png" alt="4.png"></p>
+<p>之后使用管理账号lerx/ilovelerx登陆后台，进入到模板页面，选择模板加载：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId30.png" alt="5.png"></p>
+<p>之后选择默认模板</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId31.png" alt="6.png"></p>
+<p>之后点击获取，同时使用burpsuite抓包：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId32.png" alt="7.png"></p>
+<p>之后修改url为攻击者主机提供的下载服务对应的地址：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId33.png" alt="8.png"></p>
+<p>之后释放请求数据包，在攻击者提供的下载服务端成功接受到请求，可见存在SSRF：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId34.png" alt="9.png"></p>
+<p>之后在服务器端成功上载shell.jsp文件(我们的模板为shell.zip，上载过程中会进行解压缩操作将我们的shell.jsp木马文件解压到templates/portal目录目录下面)：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId35.png" alt="10.png"></p>
+<p>之后使用冰蝎进行连接：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId36.png" alt="11.png"></p>
+<p>连接成功：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId37.png" alt="12.png"></p>
+<p>执行命令：</p>
+<p><img src="/resource/LerxCMS6.5%E5%90%8E%E5%8F%B0ssrfgetshell/media/rId38.png" alt="13.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8179/#toc-2">https://xz.aliyun.com/t/8179\#toc-2</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/LerxCMS/LerxCMS%206.5%20%E5%90%8E%E5%8F%B0ssrf%20getshell/" data-id="cl5c2qroj00ady8v1hxtd37jw" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/LFCMS/LFCMS%20AjaxController.class.php%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Laravel/%EF%BC%88CVE-2019-9081%EF%BC%89Laravel%205.7%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96rce/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

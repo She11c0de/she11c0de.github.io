@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="新点OA V7.0 V8.0 Getshell.md漏洞利用案例：溧阳市住房和城乡建设协同办公系统 8.0登录地址：http:&#x2F;&#x2F;58.215.56.61&#x2F;OA&#x2F;Login.aspx  获取所有用户列表（厂商没修复）：http:&#x2F;&#x2F;58.215.56.61&#x2F;OA&#x2F;ExcelExport&#x2F;%E4%BA%BA%E5%91%98%E5%88%97%E8%A1%A8.xls  使用burp，可以很轻易的跑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E6%96%B0%E7%82%B9%E7%BD%91%E7%BB%9C%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E7%B3%BB%E7%BB%9F/%E6%96%B0%E7%82%B9OA%20V7.0%20V8.0%20Getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="新点OA V7.0 V8.0 Getshell.md漏洞利用案例：溧阳市住房和城乡建设协同办公系统 8.0登录地址：http:&#x2F;&#x2F;58.215.56.61&#x2F;OA&#x2F;Login.aspx  获取所有用户列表（厂商没修复）：http:&#x2F;&#x2F;58.215.56.61&#x2F;OA&#x2F;ExcelExport&#x2F;%E4%BA%BA%E5%91%98%E5%88%97%E8%A1%A8.xls  使用burp，可以很轻易的跑">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01013610801d2d2008577bddf5757379b3c71cce.jpeg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01013700988533cf95ff182144e9ff9a16b97b06.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/0101375166edbcb7bca2ff9c8b1e8d3aee3d63c4.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/0101393210e0097fcbff11bb1fbbf0cb7d1260e0.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/010140061ee7a4ef9182be1349a6ac55a9ef4be4.jpeg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01014116d872c31807a0accc5145dd075d649daf.jpeg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01014215519a24dec8e5b482d120fce11305147f.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01014409dd6fcb58dc3322197913b65404cff23c.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/0101433423d92b926ff9cf8b4f85a789a6109335.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/010144487305199ba79e822bf79934a03cb3a57e.png">
+<meta property="article:published_time" content="2022-07-08T06:26:11.520Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.296Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01013610801d2d2008577bddf5757379b3c71cce.jpeg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-新点网络协同办公系统/新点OA V7.0 V8.0 Getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E6%96%B0%E7%82%B9%E7%BD%91%E7%BB%9C%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E7%B3%BB%E7%BB%9F/%E6%96%B0%E7%82%B9OA%20V7.0%20V8.0%20Getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.520Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="新点OA-V7-0-V8-0-Getshell-md"><a href="#新点OA-V7-0-V8-0-Getshell-md" class="headerlink" title="新点OA V7.0 V8.0 Getshell.md"></a>新点OA V7.0 V8.0 Getshell.md</h1><h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>案例：溧阳市住房和城乡建设协同办公系统 8.0<br>登录地址：<br><a target="_blank" rel="noopener" href="http://58.215.56.61/OA/Login.aspx">http://58.215.56.61/OA/Login.aspx</a></p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/01013610801d2d2008577bddf5757379b3c71cce.jpg"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01013610801d2d2008577bddf5757379b3c71cce.jpeg" alt="登录.jpg"></a></p>
+<p>获取所有用户列表（厂商没修复）：<br><a target="_blank" rel="noopener" href="http://58.215.56.61/OA/ExcelExport/%E4%BA%BA%E5%91%98%E5%88%97%E8%A1%A8.xls">http://58.215.56.61/OA/ExcelExport/%E4%BA%BA%E5%91%98%E5%88%97%E8%A1%A8.xls</a></p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/01013700988533cf95ff182144e9ff9a16b97b06.png"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01013700988533cf95ff182144e9ff9a16b97b06.png" alt="用户.png"></a></p>
+<p>使用burp，可以很轻易的跑出密码。<br>我们使用用户：lih 密码：11111登录。<br>然后找到如下上传地址：</p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/0101375166edbcb7bca2ff9c8b1e8d3aee3d63c4.png"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/0101375166edbcb7bca2ff9c8b1e8d3aee3d63c4.png" alt="上传.png"></a></p>
+<p>当然，7.0的也是在同样这个地方。<br>上传jpg后缀的asp一句话马，格式如下（注意看格式）：</p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/0101393210e0097fcbff11bb1fbbf0cb7d1260e0.png"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/0101393210e0097fcbff11bb1fbbf0cb7d1260e0.png" alt="命名.png"></a></p>
+<p>因为其他格式上传有可能遭到拦截，如图：</p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/010140061ee7a4ef9182be1349a6ac55a9ef4be4.jpg"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/010140061ee7a4ef9182be1349a6ac55a9ef4be4.jpeg" alt="文件检查.jpg"></a></p>
+<p>再使用burp抓包，修改后缀为cer（注意，要修改2处地方）：</p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/01014116d872c31807a0accc5145dd075d649daf.jpg"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01014116d872c31807a0accc5145dd075d649daf.jpeg" alt="抓包.jpg"></a></p>
+<p>上传成功后，直接打开shell文件，即可看到地址。</p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/01014215519a24dec8e5b482d120fce11305147f.png"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01014215519a24dec8e5b482d120fce11305147f.png" alt="地址.png"></a></p>
+<p>要成功连接shell，需要先用菜刀内置的浏览器登录一下系统，然后在连接，密码前面给过了。</p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/01014409dd6fcb58dc3322197913b65404cff23c.png"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/01014409dd6fcb58dc3322197913b65404cff23c.png" alt="内置浏览器.png"></a></p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/0101433423d92b926ff9cf8b4f85a789a6109335.png"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/0101433423d92b926ff9cf8b4f85a789a6109335.png" alt="菜刀.png"></a></p>
+<p>下面的网站可以做验证：<br><a target="_blank" rel="noopener" href="http://61.183.36.24/oa8/">http://61.183.36.24/oa8/</a> 8.0版本<br><a target="_blank" rel="noopener" href="http://61.132.114.180:8080/mail/login.aspx?loginid=%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD&amp;password=ad+&amp;tj=%EF%BF%BD%EF%BF%BD+%C2%BD">http://61.132.114.180:8080/mail/login.aspx?loginid=%B0%AE%B5%C4&amp;password=ad+&amp;tj=%B5%C7+%C2%BD</a> 7.0版本</p>
+<p><a target="_blank" rel="noopener" href="http://wooyun.laolisafe.com/upload/201508/010144487305199ba79e822bf79934a03cb3a57e.png"><img src="/resource/%E6%96%B0%E7%82%B9OA-V7.0-V8.0-Getshell/media/010144487305199ba79e822bf79934a03cb3a57e.png" alt="客户.png"></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E6%96%B0%E7%82%B9%E7%BD%91%E7%BB%9C%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E7%B3%BB%E7%BB%9F/%E6%96%B0%E7%82%B9OA%20V7.0%20V8.0%20Getshell/" data-id="cl5c2r1q100rey8v1e1lh4iv7" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E4%BF%A1%E5%91%BCoa/%E4%BF%A1%E5%91%BCoa%201.9.0-1.9.1%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E5%BE%AE%E6%93%8E/%E5%BE%AE%E6%93%8Ecms%20v2.1.2%20%E5%90%8E%E5%8F%B0getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

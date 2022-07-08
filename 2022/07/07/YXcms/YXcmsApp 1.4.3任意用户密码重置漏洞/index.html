@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="YXcms 1.4.3 任意用户密码重置漏洞一、漏洞简介二、漏洞影响2017-03-26 YXcmsApp 1.4.3 三、复现过程漏洞原理从框架上（基于CanPHP的二次开发）看不出来什么缺陷，那就来看看代码逻辑上有什么披露。来到protected&#x2F;apps&#x2F;member&#x2F;controller&#x2F;indexController.php中是一些关于会员账号的逻辑，其中的getpassword函数是找">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/YXcms/YXcmsApp%201.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="YXcms 1.4.3 任意用户密码重置漏洞一、漏洞简介二、漏洞影响2017-03-26 YXcmsApp 1.4.3 三、复现过程漏洞原理从框架上（基于CanPHP的二次开发）看不出来什么缺陷，那就来看看代码逻辑上有什么披露。来到protected&#x2F;apps&#x2F;member&#x2F;controller&#x2F;indexController.php中是一些关于会员账号的逻辑，其中的getpassword函数是找">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId25.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId26.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId27.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId28.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId29.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId30.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId31.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId32.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId34.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId35.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId36.jpg">
+<meta property="article:published_time" content="2022-07-08T06:26:08.639Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.318Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId25.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-YXcms/YXcmsApp 1.4.3任意用户密码重置漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YXcms/YXcmsApp%201.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.639Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="YXcms-1-4-3-任意用户密码重置漏洞"><a href="#YXcms-1-4-3-任意用户密码重置漏洞" class="headerlink" title="YXcms 1.4.3 任意用户密码重置漏洞"></a>YXcms 1.4.3 任意用户密码重置漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>2017-03-26 YXcmsApp 1.4.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><p>从框架上（基于CanPHP的二次开发）看不出来什么缺陷，那就来看看代码逻辑上有什么披露。来到protected/apps/member/controller/indexController.php中是一些关于会员账号的逻辑，其中的getpassword函数是找回密码的功能，其中分为两步：第一步根据用户名或者邮箱向注册的邮件发送重置密码链接；第二步根据重置密码的链接重置用户密码，然后再将新密码发送到对应邮箱。第二步代码如下：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId25.jpg"></p>
+<p>这里的ENCODE_KEY是在安装时生成的6位密钥，想通过构造$_GET[&#39;code&#39;]来重置其他用户的密码初步是不现实的。</p>
+<p>但之后又看到在regist功能中，第176行调用了自定义的set_cookie函数，如下：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId26.jpg"></p>
+<p>跟进set_cookie函数，是在protected/include/lib/common.function.php中607行定义，如下：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId27.jpg"></p>
+<p>这里是用ENCODE_KEY对原值进行加密再设置cookie。所以萌生了一个想法，将注册后对应设置的auth<br>cookie作为getpassword的code，就可以正确地进行解密，解密后的内容即为regist函数中第175行拼接的字符串：</p>
+<pre><code>$cookie_auth = $id.&#39;\t&#39;.$data[&#39;groupid&#39;].&#39;\t&#39;.$data[&#39;account&#39;].&#39;\t&#39;.$data[&#39;nickname&#39;].&#39;\t&#39;.$data[&#39;lastip&#39;];
+</code></pre>
+<p>其中会对account的格式进行校验，ip也是正则匹配的结果无法伪造，那么可控的就只有nickname了，我们可以跟踪一下nickname的过滤过程，首先是进入common.function.php的in函数：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId28.jpg"></p>
+<p>接着就直接连接成字符串，虽然htmlspecialchars函数默认不会对单引号编码，但是addslashes函数会对单引号转义，这里的nickname就无法利用了。</p>
+<p>可是再往上看login逻辑时，发现在登陆成功后就会从数据库中取出账号信息，拼接成字符串设置为对应的auth<br>cookie，如下：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId29.jpg"></p>
+<p>我们可以考虑考虑二次注入的可能性，但还是需要跟踪一下在regist时insert数据是如何过滤的，最后可以跟到在protected/include/core/db/cpMysql.class.php中escape函数对数据进行了过滤：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId30.jpg"></p>
+<p>因为在登陆成功后是直接拼接字符串就加密，所以单引号还是能够还原出来的，单引号的整个输入输出过程如下：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId31.jpg"></p>
+<p>所以我们可以注册个带单引号nickname的账号，注册成功后退出重新登陆，使用auth<br>cookie来作为重置密码的code，就会产生报错，如下（因为在解密的时候会把code进行urldecode，所以需要把cookie中的+改为%252B，/改为%252F）：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId32.jpg"></p>
+<h3 id="漏洞证明"><a href="#漏洞证明" class="headerlink" title="漏洞证明"></a>漏洞证明</h3><p>漏洞的本质是二次注入<br>，但是我们在数据库中可以看到nickname限制为30个字符，而且在这里我们可控的也只有nickname，所以进行报错注入几乎是不可能了。</p>
+<p>既然是在找回密码处的二次注入，就看看能不能重置任意用户名的密码。还是再来看看getpassword函数的逻辑：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId34.jpg"></p>
+<p>假如说我们的payload改为&#39; or 1=1#<br>那么肯定是可以将所有用户的密码都update为同一个newpass，这个newpass还是会发给info[&#39;email&#39;]这个邮箱的，跟进187行看看find函数的结果是否是我们可控的，在protected/include/core/cpModel.calss.php中：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId35.jpg"></p>
+<p>find函数虽然加了一个limit<br>1的条件，但返回的也还是结果中的第一个值，所以如果我们能把自己邮箱排到查询结果中的首位就可以从邮件中知晓所有账号的新密码了。</p>
+<p>因为是利用新注册的账号来产生payload，很容易就可以想到payload为&#39; or 1=1<br>order by id desc#</p>
+<p>然后注册账号，重新登陆，直接上code访问，可以监控到mysql执行语句如下：</p>
+<p><img src="/resource/YXcmsApp1.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/media/rId36.jpg"></p>
+<p>顺利收到新密码的邮件：</p>
+<p>image</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YXcms/YXcmsApp%201.4.3%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qz6o00npy8v17hga5wz2" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/YXcms/%EF%BC%88CVE-2018-11003%EF%BC%89YXcms%201.4.7%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/YXcms/YXCMS%201.4.7%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

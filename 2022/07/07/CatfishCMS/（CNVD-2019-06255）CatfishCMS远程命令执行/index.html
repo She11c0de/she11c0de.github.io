@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="（CNVD-2019-06255）CatfishCMS远程命令执行一、漏洞简介二、漏洞影响v4.8.54 三、复现过程1、_method&#x3D;__constructCatfishCMS基于thinkPHP5开发。Request类（catfish&#x2F;library&#x2F;think&#x2F;Request.php）用于处理请求。它的成员函数method用于获取请求的类型。  application&#x2F;config.php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/CatfishCMS/%EF%BC%88CNVD-2019-06255%EF%BC%89CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="（CNVD-2019-06255）CatfishCMS远程命令执行一、漏洞简介二、漏洞影响v4.8.54 三、复现过程1、_method&#x3D;__constructCatfishCMS基于thinkPHP5开发。Request类（catfish&#x2F;library&#x2F;think&#x2F;Request.php）用于处理请求。它的成员函数method用于获取请求的类型。  application&#x2F;config.php">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId31.png">
+<meta property="article:published_time" content="2022-07-08T06:25:53.601Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CatfishCMS/（CNVD-2019-06255）CatfishCMS远程命令执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/CatfishCMS/%EF%BC%88CNVD-2019-06255%EF%BC%89CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.601Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CNVD-2019-06255）CatfishCMS远程命令执行"><a href="#（CNVD-2019-06255）CatfishCMS远程命令执行" class="headerlink" title="（CNVD-2019-06255）CatfishCMS远程命令执行"></a>（CNVD-2019-06255）CatfishCMS远程命令执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>v4.8.54</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1、-method-construct"><a href="#1、-method-construct" class="headerlink" title="1、_method=__construct"></a>1、_method=__construct</h3><p>CatfishCMS基于thinkPHP5开发。Request类（catfish/library/think/Request.php）用于处理请求。它的成员函数method用于获取请求的类型。</p>
+<p><img src="/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId25.png"></p>
+<p>application/config.php 中定义了”表单请求类型伪装变量”:</p>
+<p><img src="/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId26.png"></p>
+<p>POST请求参数 “ _method=__construct “，将 __construct<br>传给了var_method ，在Request类的method函数中执行后，实现了对Request类的<br>__construct 构造函数的调用；并且将完整的POST参数传给了构造函数。</p>
+<h3 id="2、method-amp-filter-system"><a href="#2、method-amp-filter-system" class="headerlink" title="2、method=*&amp;filter[]=system"></a>2、method=*&amp;filter[]=system</h3><p>catfish/library/think/Request.php模块中的Request类的构造函数：</p>
+<p><img src="/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId28.png"></p>
+<p>中存在的参数，就取用户传入的值为其赋值。</p>
+<p>_method=__construct 使得 method 函数调用了 __construct 构造函数，<br>并且将完整的POST参数传递过去。实现了对本类中的 $method 和 $filter<br>两个全局变量的覆盖。</p>
+<p><img src="/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId29.png"></p>
+<p><img src="/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId30.png"></p>
+<p>filter[]=system 的补充说明：filter[]=system 或者<br>filter=system都可以，[]符号可有可无；system意为执行系统命令。</p>
+<p>Method=* 的补充说明：</p>
+<p>method参数的取值限定为：catfish/library/think/Route.php<br>模块中定义的路由规则。如：GET、POST、PUT、*<br>等任何一个值都可以；如果值不在此表或为空，都会报错。</p>
+<p><img src="/resource/(CNVD-2019-06255)CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/media/rId31.png"></p>
+<h3 id="3、s-dir"><a href="#3、s-dir" class="headerlink" title="3、s=dir"></a>3、s=dir</h3><p>application/config.php 中定义PATHINFO变量名为’ s<br>‘。可用s传入需要执行的命令，如s=dir</p>
+<p>最终的的payload：</p>
+<pre><code>s=dir&amp;_method=__construct&amp;method=*&amp;filter[]=system
+</code></pre>
+<p>_method=__construct 使得 Request类的method函数调用 __construct<br>构造函数，并且将完整的payload传递给构造函数；构造函数中对 method<br>和filter 两个全局变量进行覆盖，method=&amp;filter[]=system<br>；参数s=dir传入需要执行的系统命令 dir 。</p>
+<pre><code>s=echo &quot;shell&quot; &gt;shell.php&amp;filter[]=system&amp;method=*&amp;_method=__construct
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/CatfishCMS/%EF%BC%88CNVD-2019-06255%EF%BC%89CatfishCMS%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" data-id="cl5c2qn3r003hy8v15060etls" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Chrome/Windows%20Chrome%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/CatfishCMS/CatfishCMS%E5%90%8E%E5%8F%B0%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

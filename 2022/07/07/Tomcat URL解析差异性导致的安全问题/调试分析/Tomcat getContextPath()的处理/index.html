@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Tomcat getContextPath()的处理在getContextPath()函数中，调用了Request.getContextPath()函数：  跟进该函数，先是调用getServletContext().getContextPath()来获取当前Servlet上下文路径以及调用getRequestURI()函数获取当前请求的目录路径：  往下的这段循环是处理uri变量值中如果存在多个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%20getContextPath()%E7%9A%84%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Tomcat getContextPath()的处理在getContextPath()函数中，调用了Request.getContextPath()函数：  跟进该函数，先是调用getServletContext().getContextPath()来获取当前Servlet上下文路径以及调用getRequestURI()函数获取当前请求的目录路径：  往下的这段循环是处理uri变量值中如果存在多个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId21.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId22.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId23.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId26.png">
+<meta property="article:published_time" content="2022-07-08T06:26:05.954Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.402Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId21.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Tomcat URL解析差异性导致的安全问题/调试分析/Tomcat getContextPath()的处理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%20getContextPath()%E7%9A%84%E5%A4%84%E7%90%86/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.954Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Tomcat-getContextPath-的处理"><a href="#Tomcat-getContextPath-的处理" class="headerlink" title="Tomcat getContextPath()的处理"></a>Tomcat getContextPath()的处理</h3><p>在getContextPath()函数中，调用了Request.getContextPath()函数：</p>
+<p><img src="/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId21.png"></p>
+<p>跟进该函数，先是调用getServletContext().getContextPath()来获取当前Servlet上下文路径以及调用getRequestURI()函数获取当前请求的目录路径：</p>
+<p><img src="/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId22.png"></p>
+<p>往下的这段循环是处理uri变量值中如果存在多个连续的<code>/</code>则删除掉：</p>
+<p><img src="/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId23.png"></p>
+<p>再往下，获取下一个<code>/</code>符号的位置，然后根据该位置索引对uri变量值进行工程名的切分提取：</p>
+<p><img src="/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId24.png"></p>
+<p>接着，就是对刚刚切分得到的candidate变量进行和Tomcat一样的特殊字符处理过程，先调用removePathParameters()处理<code>;</code>和<code>.</code>，然后进行URL解码，再调用normalize()函数进行标准化处理，处理过后比较处理完的candidate变量值和之前获取的规范上下文路径是否一致，不一致的话就循环继续前面的操作直至一致为止：</p>
+<p><img src="/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId25.png"></p>
+<p>最后，直接返回按pos索引切分的uri变量值：</p>
+<p><img src="/resource/TomcatgetContextPath()%E7%9A%84%E5%A4%84%E7%90%86/media/rId26.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%20getContextPath()%E7%9A%84%E5%A4%84%E7%90%86/" data-id="cl5c2qxio00k7y8v14az936td" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%20getPathInfo()%E7%9A%84%E5%A4%84%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/URL%E5%B7%AE%E5%BC%82%E6%80%A7/Tomcat%20%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%9A%84URL%E8%A7%A3%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

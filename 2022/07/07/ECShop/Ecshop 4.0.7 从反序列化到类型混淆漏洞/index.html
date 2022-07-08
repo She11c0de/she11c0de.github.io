@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Ecshop 从反序列化到类型混淆漏洞一、漏洞简介漏洞利用条件•php 5.6.x •反序列化入口点 •可以触发__wakeup的触发点（在php &lt; 5.6.11以下，可以使用内置类） 二、漏洞影响Ecshop 4.0.7 三、复现过程首先我们需要找到一个反序列化入口点，这里我们可以全局搜索unserialize，挨个看一下我们可以找到两个可控的反序列化入口。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/ECShop/Ecshop%204.0.7%20%E4%BB%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%88%B0%E7%B1%BB%E5%9E%8B%E6%B7%B7%E6%B7%86%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Ecshop 从反序列化到类型混淆漏洞一、漏洞简介漏洞利用条件•php 5.6.x •反序列化入口点 •可以触发__wakeup的触发点（在php &lt; 5.6.11以下，可以使用内置类） 二、漏洞影响Ecshop 4.0.7 三、复现过程首先我们需要找到一个反序列化入口点，这里我们可以全局搜索unserialize，挨个看一下我们可以找到两个可控的反序列化入口。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:55.213Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ECShop/Ecshop 4.0.7 从反序列化到类型混淆漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ECShop/Ecshop%204.0.7%20%E4%BB%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%88%B0%E7%B1%BB%E5%9E%8B%E6%B7%B7%E6%B7%86%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.213Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Ecshop-从反序列化到类型混淆漏洞"><a href="#Ecshop-从反序列化到类型混淆漏洞" class="headerlink" title="Ecshop 从反序列化到类型混淆漏洞"></a>Ecshop 从反序列化到类型混淆漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h3 id="漏洞利用条件"><a href="#漏洞利用条件" class="headerlink" title="漏洞利用条件"></a>漏洞利用条件</h3><p>•php 5.6.x</p>
+<p>•反序列化入口点</p>
+<p>•可以触发__wakeup的触发点（在php &lt; 5.6.11以下，可以使用内置类）</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Ecshop 4.0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先我们需要找到一个反序列化入口点，这里我们可以全局搜索<code>unserialize</code>，挨个看一下我们可以找到两个可控的反序列化入口。</p>
+<p>其中一个是search.php line 45</p>
+<pre><code>...
+&#123;
+    $string = base64_decode(trim($_GET[&#39;encode&#39;]));
+
+    if ($string !== false)
+    &#123;
+        $string = unserialize($string);
+        if ($string !== false)
+...
+</code></pre>
+<p>这是一个前台的入口，但可惜的是引入初始化文件在反序列化之后，这也就导致我们没办法找到可以覆盖类变量属性的目标，也就没办法进一步利用。</p>
+<p>还有一个是<code>admin/order.php</code> line 229</p>
+<pre><code>    /* 取得上一个、下一个订单号 */
+    if (!empty($_COOKIE[&#39;ECSCP&#39;][&#39;lastfilter&#39;]))
+    &#123;
+        $filter = unserialize(urldecode($_COOKIE[&#39;ECSCP&#39;][&#39;lastfilter&#39;]));
+
+       ...
+</code></pre>
+<p>后台的表单页的这个功能就满足我们的要求了，不但可控，还可以用urlencode来绕过ecshop对全局变量的过滤。</p>
+<p>这样一来我们就找到了一个可控并且合适的反序列化入口点。</p>
+<h3 id="寻找合适的类属性利用链"><a href="#寻找合适的类属性利用链" class="headerlink" title="寻找合适的类属性利用链"></a>寻找合适的类属性利用链</h3><p>在寻找利用链之前，我们可以用</p>
+<pre><code>get_declared_classes()
+</code></pre>
+<p>来确定在反序列化时，已经声明定义过的类。</p>
+<p>在我本地环境下，除了PHP内置类以外我一共找到13个类</p>
+<pre><code>  [129]=&gt;
+  string(3) &quot;ECS&quot;
+  [130]=&gt;
+  string(9) &quot;ecs_error&quot;
+  [131]=&gt;
+  string(8) &quot;exchange&quot;
+  [132]=&gt;
+  string(9) &quot;cls_mysql&quot;
+  [133]=&gt;
+  string(11) &quot;cls_session&quot;
+  [134]=&gt;
+  string(12) &quot;cls_template&quot;
+  [135]=&gt;
+  string(11) &quot;certificate&quot;
+  [136]=&gt;
+  string(6) &quot;oauth2&quot;
+  [137]=&gt;
+  string(15) &quot;oauth2_response&quot;
+  [138]=&gt;
+  string(14) &quot;oauth2_request&quot;
+  [139]=&gt;
+  string(9) &quot;transport&quot;
+  [140]=&gt;
+  string(6) &quot;matrix&quot;
+  [141]=&gt;
+  string(16) &quot;leancloud_client&quot;
+</code></pre>
+<p>从代码中也可以看到在文件头引入了多个库文件</p>
+<pre><code>require(dirname(__FILE__) . &#39;/includes/init.php&#39;);
+require_once(ROOT_PATH . &#39;includes/lib_order.php&#39;);
+require_once(ROOT_PATH . &#39;includes/lib_goods.php&#39;);
+require_once(ROOT_PATH . &#39;includes/cls_matrix.php&#39;);
+include_once(ROOT_PATH . &#39;includes/cls_certificate.php&#39;);
+require(&#39;leancloud_push.php&#39;);
+</code></pre>
+<p>这里我们主要关注init.php，因为在这个文件中声明了ecshop的大部分通用类。</p>
+<p>在逐个看这里面的类变量时，我们可以敏锐的看到一个特殊的变量，由于ecshop的后台结构特殊，页面内容大多都是由模板编译而成，而这个模板类恰好也在init.php中声明</p>
+<pre><code>require(ROOT_PATH . &#39;includes/cls_template.php&#39;);
+$smarty = new cls_template;
+</code></pre>
+<p>回到order.php中我们寻找与<code>$smarty</code>相关的方法，不难发现，主要集中在两个方法中</p>
+<pre><code>...
+    $smarty-&gt;assign(&#39;shipping&#39;, $shipping);
+
+    $smarty-&gt;display(&#39;print.htm&#39;);
+...
+</code></pre>
+<p>而这里我们主要把视角集中在display方法上。</p>
+<p>粗略的浏览下display方法的逻辑大致是</p>
+<pre><code>请求相应的模板文件
+--&gt;
+经过一系列判断，将相应的模板文件做相应的编译
+--&gt;
+输出编译后的文件地址
+</code></pre>
+<p>比较重要的代码会在<code>make_compiled</code>这个函数中被定义</p>
+<pre><code>function make_compiled($filename)
+    &#123;
+        $name = $this-&gt;compile_dir . &#39;/&#39; . basename($filename) . &#39;.php&#39;;
+
+        ...
+
+        if ($this-&gt;force_compile || $filestat[&#39;mtime&#39;] &gt; $expires)
+        &#123;
+            $this-&gt;_current_file = $filename;
+            $source = $this-&gt;fetch_str(file_get_contents($filename));
+
+            if (file_put_contents($name, $source, LOCK_EX) === false)
+            &#123;
+                trigger_error(&#39;can\&#39;t write:&#39; . $name);
+            &#125;
+
+            $source = $this-&gt;_eval($source);
+        &#125;
+
+        return $source;
+    &#125;
+</code></pre>
+<p>当流程走到这一步的时候，我们需要先找到我们的目标是什么？</p>
+<p>重新审视<code>cls_template.php</code>的代码，我们可以发现涉及到代码执行的只有几个函数。</p>
+<pre><code>   function get_para($val, $type = 1) // 处理insert外部函数/需要include运行的函数的调用数据
+    &#123;
+        $pa = $this-&gt;str_trim($val);
+        foreach ($pa AS $value)
+        &#123;
+            if (strrpos($value, &#39;=&#39;))
+            &#123;
+                list($a, $b) = explode(&#39;=&#39;, str_replace(array(&#39; &#39;, &#39;&quot;&#39;, &quot;&#39;&quot;, &#39;&quot;&#39;), &#39;&#39;, $value));
+                if ($b&#123;0&#125; == &#39;$&#39;)
+                &#123;
+                    if ($type)
+                    &#123;
+                        eval(&#39;$para[\&#39;&#39; . $a . &#39;\&#39;]=&#39; . $this-&gt;get_val(substr($b, 1)) . &#39;;&#39;);
+                    &#125;
+                    else
+                    &#123;
+                        $para[$a] = $this-&gt;get_val(substr($b, 1));
+                    &#125;
+                &#125;
+                else
+                &#123;
+                    $para[$a] = $b;
+                &#125;
+            &#125;
+        &#125;
+
+        return $para;
+    &#125;
+</code></pre>
+<p>get_para只在select中调用，但是没找到能触发select的地方。</p>
+<p>然后是pop_vars</p>
+<pre><code>    function pop_vars()
+    &#123;
+        $key = array_pop($this-&gt;_temp_key);
+        $val = array_pop($this-&gt;_temp_val);
+
+        if (!empty($key))
+        &#123;
+            eval($key);
+        &#125;
+    &#125;
+</code></pre>
+<p>恰好配合GMP我们可以控制<code>$this-&gt;_temp_key</code>变量，所以我们只要能在上面的流程中找到任意地方调用这个方法，我们就可以配合变量覆盖构造一个代码执行。</p>
+<p>在回看刚才的代码流程时，我们从编译后的PHP文件中找到了这样的代码</p>
+<p>order_info.htm.php</p>
+<pre><code>  &lt;?php endforeach; endif; unset($_from); ?&gt;&lt;?php $this-&gt;pop_vars();; ?&gt;
+</code></pre>
+<p>在遍历完表单之后，正好会触发<code>pop_vars</code>。</p>
+<p>这样一来，只要我们控制覆盖<code>cls_template</code>变量的<code>_temp_key</code>属性，我们就可以完成一次getshell</p>
+<h3 id="最终利用效果"><a href="#最终利用效果" class="headerlink" title="最终利用效果"></a>最终利用效果</h3><p>1.png</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/KD0fKbSA9SUGY1lGas1xSA">https://mp.weixin.qq.com/s/KD0fKbSA9SUGY1lGas1xSA</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ECShop/Ecshop%204.0.7%20%E4%BB%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%88%B0%E7%B1%BB%E5%9E%8B%E6%B7%B7%E6%B7%86%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qo63005my8v1fc8ndjjw" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/ECShop/ECShop%20_=%202.7.x%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/DzzOffice/DzzOffice%20_=%202.02%20RCE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

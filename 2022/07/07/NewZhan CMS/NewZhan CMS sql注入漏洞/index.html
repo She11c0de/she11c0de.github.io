@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="NewZhan CMS sql注入漏洞一、漏洞简介二、漏洞影响NewZhan CMS 商业版 2.4.1 NewZhan CMS 个人版 2.6.3 三、复现过程漏洞分析数据库操作函数对传入的数组仅仅对value进行了转义处理，并没有把key考虑在内，前台控制器可以通过提交POST控制key进行注入。 db_mysql.class.php public function update($key,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/NewZhan%20CMS/NewZhan%20CMS%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="NewZhan CMS sql注入漏洞一、漏洞简介二、漏洞影响NewZhan CMS 商业版 2.4.1 NewZhan CMS 个人版 2.6.3 三、复现过程漏洞分析数据库操作函数对传入的数组仅仅对value进行了转义处理，并没有把key考虑在内，前台控制器可以通过提交POST控制key进行注入。 db_mysql.class.php public function update($key,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/NewZhanCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/NewZhanCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/NewZhanCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/NewZhanCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="article:published_time" content="2022-07-08T06:26:00.086Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.670Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/NewZhanCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-NewZhan CMS/NewZhan CMS sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/NewZhan%20CMS/NewZhan%20CMS%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.086Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="NewZhan-CMS-sql注入漏洞"><a href="#NewZhan-CMS-sql注入漏洞" class="headerlink" title="NewZhan CMS sql注入漏洞"></a>NewZhan CMS sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>NewZhan CMS 商业版 2.4.1</p>
+<p>NewZhan CMS 个人版 2.6.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>数据库操作函数对传入的数组仅仅对value进行了转义处理，并没有把key考虑在内，前台控制器可以通过提交POST<br>控制key进行注入。 db_mysql.class.php</p>
+<pre><code>public function update($key, $data) &#123;
+
+list($table, $keyarr, $keystr) = $this-&gt;key2arr($key);
+
+$s = $this-&gt;arr2sql($data);
+
+return $this-&gt;query(&quot;UPDATE &#123;$this-&gt;tablepre&#125;$table SET $s WHERE $keystr LIMIT 1&quot;, $this-&gt;wlink);
+
+&#125;
+
+private function key2arr($key) &#123;
+
+$arr = explode(&#39;-&#39;, $key);
+
+
+if(empty($arr[0])) &#123;
+
+throw new Exception(&#39;table name is empty.&#39;);
+
+&#125;
+
+
+$table = $arr[0];
+
+$keyarr = array();
+
+$keystr = &#39;&#39;;
+
+$len = count($arr);
+
+for($i = 1; $i &lt; $len; $i = $i + 2) &#123;
+
+if(isset($arr[$i + 1])) &#123;
+
+$v = $arr[$i + 1];
+
+$keyarr[$arr[$i]] = is_numeric($v) ? intval($v) : $v;
+// 因为 mongodb 区分数字和字符串
+
+
+$keystr .= ($keystr ? &#39; AND &#39; : &#39;&#39;).$arr[$i].&quot;=&#39;&quot;.addslashes($v).&quot;&#39;&quot;;
+
+&#125; else &#123;
+
+$keyarr[$arr[$i]] = NULL;
+
+&#125;
+
+&#125;
+
+
+if(empty($keystr)) &#123;
+
+throw new Exception(&#39;keystr name is empty.&#39;);
+
+&#125;
+
+return array($table, $keyarr, $keystr);
+
+&#125;
+</code></pre>
+<p>审计发现前台商品管理控制器有$POST 数据传入update($data)可以触发SQL<br>注入</p>
+<p><img src="/resource/NewZhanCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p><img src="/resource/NewZhanCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png" alt="2.png"><img src="/resource/NewZhanCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.png" alt="3.png"><img src="/resource/NewZhanCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.png" alt="4.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/NewZhan%20CMS/NewZhan%20CMS%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsxa00c2y8v1ex20c6ae" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Nexus/Nexus%20Repository%20Manager3%20ProXXE%E5%88%86%E6%9E%90(CVE-2020-29436)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Newbee-mall/CVE-2019-19113%EF%BC%89Newbee-mall%E6%96%B0%E8%9C%82%E5%95%86%E5%9F%8Esql%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Druid 未授权访问漏洞一、漏洞简介二、漏洞影响三、复现过程当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径&#x2F;druid&#x2F;websession.html &#x2F;system&#x2F;druid&#x2F;websession.html &#x2F;webpage&#x2F;system&#x2F;druid&#x2F;websession.html(jeecg)  当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Druid/Druid%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Druid 未授权访问漏洞一、漏洞简介二、漏洞影响三、复现过程当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径&#x2F;druid&#x2F;websession.html &#x2F;system&#x2F;druid&#x2F;websession.html &#x2F;webpage&#x2F;system&#x2F;druid&#x2F;websession.html(jeecg)  当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:55.093Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Druid/Druid 未授权访问漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Druid/Druid%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.093Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Druid-未授权访问漏洞"><a href="#Druid-未授权访问漏洞" class="headerlink" title="Druid 未授权访问漏洞"></a>Druid 未授权访问漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h5 id="当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径"><a href="#当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径" class="headerlink" title="当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径"></a>当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径</h5><pre><code>/druid/websession.html
+/system/druid/websession.html
+/webpage/system/druid/websession.html(jeecg)
+</code></pre>
+<h5 id="当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常见登录口路径。"><a href="#当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常见登录口路径。" class="headerlink" title="当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常见登录口路径。"></a>当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常见登录口路径。</h5><pre><code>/druid/login.html
+/system/druid/login.html
+/webpage/system/druid/login.html
+</code></pre>
+<h5 id="以上路径可能不止存在于根目录，遇到过在二级目录下的，我们扫路径时可能就关注根目录这个点可以注意一下"><a href="#以上路径可能不止存在于根目录，遇到过在二级目录下的，我们扫路径时可能就关注根目录这个点可以注意一下" class="headerlink" title="以上路径可能不止存在于根目录，遇到过在二级目录下的，我们扫路径时可能就关注根目录这个点可以注意一下"></a>以上路径可能不止存在于根目录，遇到过在二级目录下的，我们扫路径时可能就关注根目录这个点可以注意一下</h5><h3 id="Druid的一些利用方式"><a href="#Druid的一些利用方式" class="headerlink" title="Druid的一些利用方式"></a>Druid的一些利用方式</h3><h4 id="通过泄露的Session登录后台"><a href="#通过泄露的Session登录后台" class="headerlink" title="通过泄露的Session登录后台"></a>通过泄露的Session登录后台</h4><p>1.png</p>
+<h5 id="直接在-druid-websession-html页面ctrl-a复制整个页面内容到EmEditor"><a href="#直接在-druid-websession-html页面ctrl-a复制整个页面内容到EmEditor" class="headerlink" title="直接在/druid/websession.html页面ctrl+a复制整个页面内容到EmEditor"></a>直接在/druid/websession.html页面ctrl+a复制整个页面内容到EmEditor</h5><p>2.png</p>
+<h5 id="删除红框部分，点击制表符"><a href="#删除红框部分，点击制表符" class="headerlink" title="删除红框部分，点击制表符"></a>删除红框部分，点击制表符</h5><p>3.png</p>
+<h5 id="这样就可以直接复制了，也可以通过其他方式处理，个人比较喜欢这个方式"><a href="#这样就可以直接复制了，也可以通过其他方式处理，个人比较喜欢这个方式" class="headerlink" title="这样就可以直接复制了，也可以通过其他方式处理，个人比较喜欢这个方式"></a>这样就可以直接复制了，也可以通过其他方式处理，个人比较喜欢这个方式</h5><p>4.png</p>
+<h5 id="然后再到URI监控处找一条看起来像登录后台才能访问的路径（可用home等关键词快速定位）"><a href="#然后再到URI监控处找一条看起来像登录后台才能访问的路径（可用home等关键词快速定位）" class="headerlink" title="然后再到URI监控处找一条看起来像登录后台才能访问的路径（可用home等关键词快速定位）"></a>然后再到URI监控处找一条看起来像登录后台才能访问的路径（可用home等关键词快速定位）</h5><p>5.png</p>
+<p>6.png</p>
+<h5 id="此处设置爆破，将刚才得到的Session值填入，因为此处的session值存在一些特殊符号需要关闭burp默认的url编码"><a href="#此处设置爆破，将刚才得到的Session值填入，因为此处的session值存在一些特殊符号需要关闭burp默认的url编码" class="headerlink" title="此处设置爆破，将刚才得到的Session值填入，因为此处的session值存在一些特殊符号需要关闭burp默认的url编码"></a>此处设置爆破，将刚才得到的Session值填入，因为此处的session值存在一些特殊符号需要关闭burp默认的url编码</h5><p>7.png</p>
+<h5 id="200即为有效session，用改cookie的插件改成有效的就能进入后台测试"><a href="#200即为有效session，用改cookie的插件改成有效的就能进入后台测试" class="headerlink" title="200即为有效session，用改cookie的插件改成有效的就能进入后台测试"></a>200即为有效session，用改cookie的插件改成有效的就能进入后台测试</h5><p>8.png</p>
+<h4 id="通过URI监控测试未授权越权"><a href="#通过URI监控测试未授权越权" class="headerlink" title="通过URI监控测试未授权越权"></a>通过URI监控测试未授权越权</h4><h5 id="由于有的Druid可能Session监控处没有东西，可以通过URI监控测试未授权越权"><a href="#由于有的Druid可能Session监控处没有东西，可以通过URI监控测试未授权越权" class="headerlink" title="由于有的Druid可能Session监控处没有东西，可以通过URI监控测试未授权越权"></a>由于有的Druid可能Session监控处没有东西，可以通过URI监控测试未授权越权</h5><p>9.png</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cwkiller/p/12483223.html">https://www.cnblogs.com/cwkiller/p/12483223.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Druid/Druid%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qo1k0056y8v1756a5csv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Drupal/%EF%BC%88CVE-2014-3704%EF%BC%89Drupal%20_%207.32%20%E2%80%9CDrupalgeddon%E2%80%9D%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Docker/%EF%BC%88CVE-2019-14271%EF%BC%89Docker%20copy%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

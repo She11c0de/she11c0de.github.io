@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Thinkphp 5.x 命令执行漏洞说明先简单说明一下吧，5.x我们这里罗列了目前碰到的全部tp系列的对应版本漏洞，我在这里简要说明一下，不看别后悔  tp框架系列中，5.0.x 跟 5.1.x 中，各个系列里的poc是几乎为通用的 比如5.0.1中某个poc在5.0.3中也是可以用的，也就是说当我们碰到5.0.8的时候，可以尝试用5.0.1或 5.0.5等 5.0.x 系列的poc去尝试使用，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E8%AF%B4%E6%98%8E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Thinkphp 5.x 命令执行漏洞说明先简单说明一下吧，5.x我们这里罗列了目前碰到的全部tp系列的对应版本漏洞，我在这里简要说明一下，不看别后悔  tp框架系列中，5.0.x 跟 5.1.x 中，各个系列里的poc是几乎为通用的 比如5.0.1中某个poc在5.0.3中也是可以用的，也就是说当我们碰到5.0.8的时候，可以尝试用5.0.1或 5.0.5等 5.0.x 系列的poc去尝试使用，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:04.630Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 5.x 命令执行漏洞/Thinkphp 5.x 命令执行漏洞说明" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E8%AF%B4%E6%98%8E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.630Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-5-x-命令执行漏洞说明"><a href="#Thinkphp-5-x-命令执行漏洞说明" class="headerlink" title="Thinkphp 5.x 命令执行漏洞说明"></a>Thinkphp 5.x 命令执行漏洞说明</h1><p><strong>先简单说明一下吧，5.x我们这里罗列了目前碰到的全部tp系列的对应版本漏洞，我在这里简要说明一下，不看别后悔</strong></p>
+<blockquote>
+<p>tp框架系列中，5.0.x 跟 5.1.x 中，各个系列里的poc是几乎为通用的</p>
+<p>比如<br>5.0.1中某个poc在5.0.3中也是可以用的，也就是说当我们碰到5.0.8的时候，可以尝试用5.0.1<br>或 5.0.5等 5.0.x 系列的poc去尝试使用，</p>
+<p>5.1.x 系列同理</p>
+</blockquote>
+<h2 id="执行流程："><a href="#执行流程：" class="headerlink" title="执行流程："></a>执行流程：</h2><p>首先发起请求-&gt;开始路由检测-&gt;获取pathinfo信息-&gt;路由匹配-&gt;开始路由解析-&gt;获得模块、控制器、操作方法调度信息-&gt;开始路由调度-&gt;解析模块和类名-&gt;组建命名空间&gt;查找并加载类-&gt;实例化控制器并调用操作方法-&gt;构建响应对象-&gt;响应输出-&gt;日志保存-&gt;程序运行结束</p>
+<h2 id="漏洞原因："><a href="#漏洞原因：" class="headerlink" title="漏洞原因："></a>漏洞原因：</h2><p>路由控制不严谨，默认不开启强制路由，从而可以任意调用Thinkphp的类库</p>
+<p>主要有俩种方法，<strong>1.Request中的变量覆盖导致RCE<br>2.路由控制不严谨导致的RCE</strong></p>
+<h2 id="Request中的变量覆盖导致RCE"><a href="#Request中的变量覆盖导致RCE" class="headerlink" title="Request中的变量覆盖导致RCE"></a>Request中的变量覆盖导致RCE</h2><p>版本名 是否可被攻击 攻击条件5.0.0 否 无5.0.1 否 无5.0.2 否 无5.0.3 否 无5.0.4 否 无5.0.5 否 无5.0.6 否 无5.0.7 否 无5.0.8 是 无需开启debug5.0.9 是 无需开启debug5.0.10 是 无需开启debug5.0.11 是 无需开启debug5.0.12 是 无需开启debug5.0.13 是 需开启debug5.0.14 是 需开启debug5.0.15 是 需开启debug5.0.16 是 需开启debug5.0.17 是 需开启debug5.0.18 是 需开启debug5.0.19 是 需开启debug5.0.20 否 无5.0.21 是 需开启debug5.0.22 是 需开启debug5.0.23 是 需开启debug</p>
+<h2 id="路由控制不严谨导致的RCE"><a href="#路由控制不严谨导致的RCE" class="headerlink" title="路由控制不严谨导致的RCE"></a>路由控制不严谨导致的RCE</h2><blockquote>
+<p>5.0.23--5.1.31版本</p>
+</blockquote>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><blockquote>
+<p>由于受windows系统的影响，会导致部分payload在windows主机无法使用</p>
+<p>并且由于windows自动加载类加载不到想要的类文件，所以能够下手的就是在框架加载的时候已经加载的类。</p>
+</blockquote>
+<p><strong>5.1是下面这些：</strong></p>
+<pre><code>think\Loader 
+Composer\Autoload\ComposerStaticInit289837ff5d5ea8a00f5cc97a07c04561
+think\Error 
+think\Container
+think\App 
+think\Env 
+think\Config 
+think\Hook 
+think\Facade
+think\facade\Env
+env
+think\Db
+think\Lang 
+think\Request 
+think\Log 
+think\log\driver\File
+think\facade\Route
+route
+think\Route 
+think\route\Rule
+think\route\RuleGroup
+think\route\Domain
+think\route\RuleItem
+think\route\RuleName
+think\route\Dispatch
+think\route\dispatch\Url
+think\route\dispatch\Module
+think\Middleware
+think\Cookie
+think\View
+think\view\driver\Think
+think\Template
+think\template\driver\File
+think\Session
+think\Debug
+think\Cache
+think\cache\Driver
+think\cache\driver\File
+</code></pre>
+<p><strong>5.0 的有：</strong></p>
+<pre><code>think\Route
+think\Config
+think\Error
+think\App
+think\Request
+think\Hook
+think\Env
+think\Lang
+think\Log
+think\Loader
+</code></pre>
+<p><strong>两个版本公有的是：</strong></p>
+<pre><code>think\Route 
+think\Loader 
+think\Error 
+think\App 
+think\Env 
+think\Config 
+think\Hook 
+think\Lang 
+think\Request 
+think\Log
+</code></pre>
+<p>本想找出两个版本共有的利用类和方法，但由于类文件大多被重写了，所以没耐住性子一一去找（菜）</p>
+<p>所以，payload为上述类的利用方法，是可以兼容windows和linux多个平台的，兼容多个平台有什么用呢？插件批量可以减少误判等，一条payload通用，一把梭多好。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E8%AF%B4%E6%98%8E/" data-id="cl5c2qwlq00idy8v1d9ohfvoc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%205.x%20%E6%BC%8F%E6%B4%9E/5.0.0%20_=%20Thinkphp%20_=%205.0.21%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.29/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

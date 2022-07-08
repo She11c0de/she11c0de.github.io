@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Yunyecms V2.0.2 前台注入漏洞（一）一、漏洞简介云业CMS内容管理系统是由云业信息科技开发的一款专门用于中小企业网站建设的PHP开源CMS，可用来快速建设一个品牌官网(PC，手机，微信都能访问)，后台功能强大，安全稳定，操作简单。 二、漏洞影响yunyecms 2.0.2 三、复现过程漏洞分析下载源码，搭建起来，打开登录页面。 http:&#x2F;&#x2F;127.0.0.1&#x2F;yunyecms_2.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Yunyecms/Yunyecms%20V2.0.2%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Yunyecms V2.0.2 前台注入漏洞（一）一、漏洞简介云业CMS内容管理系统是由云业信息科技开发的一款专门用于中小企业网站建设的PHP开源CMS，可用来快速建设一个品牌官网(PC，手机，微信都能访问)，后台功能强大，安全稳定，操作简单。 二、漏洞影响yunyecms 2.0.2 三、复现过程漏洞分析下载源码，搭建起来，打开登录页面。 http:&#x2F;&#x2F;127.0.0.1&#x2F;yunyecms_2.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId34.png">
+<meta property="article:published_time" content="2022-07-08T06:26:08.517Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.398Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Yunyecms/Yunyecms V2.0.2 前台注入漏洞（一）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Yunyecms/Yunyecms%20V2.0.2%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.517Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Yunyecms-V2-0-2-前台注入漏洞（一）"><a href="#Yunyecms-V2-0-2-前台注入漏洞（一）" class="headerlink" title="Yunyecms V2.0.2 前台注入漏洞（一）"></a>Yunyecms V2.0.2 前台注入漏洞（一）</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>云业CMS内容管理系统是由云业信息科技开发的一款专门用于中小企业网站建设的PHP开源CMS，可用来快速建设一个品牌官网(PC，手机，微信都能访问)，后台功能强大，安全稳定，操作简单。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>yunyecms 2.0.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>下载源码，搭建起来，打开登录页面。</p>
+<pre><code>http://127.0.0.1/yunyecms_2.0.2/admin.php?c=login&amp;=
+1
+</code></pre>
+<p>打开Seay源代码审计工具，分析代码。经过一番寻找与”提示”，发现getip()方法获取ip没有进行过滤，可能有戏。</p>
+<p><img src="/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId25.png"></p>
+<p>搜索getip()函数，发现login.php调用了该函数，变量为$logiparr。</p>
+<p><img src="/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId26.png"></p>
+<p>跟踪该变量，发现CheckLoginTimes函数调用该变量。</p>
+<p><img src="/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId27.png"></p>
+<p>去到该函数定义处，发现我们的ip变量没有进行任何过滤直接由GetCount函数执行。</p>
+<p><img src="/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId28.png"></p>
+<h3 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h3><pre><code>$cnt=$this-&gt;db-&gt;GetCount(&quot;select count(*) as total from `#yunyecms_adminloginfail`  where ip=&#39;$ip&#39; and failtimes&gt;=&quot;.ADMLOGIN_MINUTES.&quot; and lastlogintime&gt;$checktime limit 1&quot;);
+</code></pre>
+<p>可以看出，我们可以构造该ip变量达到注入目的，打开burp抓包。</p>
+<p><img src="/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId30.png"></p>
+<p>发送到Repeater模块，构造参数，可以看到sql报错。</p>
+<p><img src="/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId31.png"></p>
+<p>进一步利用，得到数据库名称，漏洞存在。</p>
+<p><img src="/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId32.png"></p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>将抓的包保存下来，使用sqlmap去跑就可以了。</p>
+<pre><code>sqlmap.py -r C:\Users\Administrator\Desktop\yunye.txt --batch
+</code></pre>
+<p><img src="/resource/YunyecmsV2.0.2%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(%E4%B8%80)/media/rId34.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.freesion.com/article/7074313754/">http://www.freesion.com/article/7074313754/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Yunyecms/Yunyecms%20V2.0.2%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="cl5c2qz5o00ngy8v1exoxcds3" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Yunyecms/Yunyecms%20V2.0.2%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%88%E4%BA%8C%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Yunucms/Yunucms%20v2.0.7%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%84%E9%9C%B2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

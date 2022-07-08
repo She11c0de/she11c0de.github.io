@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/42/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot Tomcat导致的JNDI注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Tomcat%E5%AF%BC%E8%87%B4%E7%9A%84JNDI%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.803Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-Tomcat导致的JNDI注入"><a href="#Spring-Boot-Tomcat导致的JNDI注入" class="headerlink" title="Spring Boot Tomcat导致的JNDI注入"></a>Spring Boot Tomcat导致的JNDI注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Boot 1 - 1.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>spring Boot 内嵌了一个 Tomcat，所以在 MBean 列表中列出了 Tomcat 的<br>MBean。通过漫长的寻找（花了我两三天的晚上），找到了几个比较有意思的且感觉可以利用的<br>MBean operation。</p>
+<ol>
+<li> Tomcat:type=MBeanFactory createJNDIRealm -&gt; JNDI Injection</li>
+<li> Tomcat:type=MBeanFactory createJDBCRealm -&gt; JNDI Injection</li>
+<li> Tomcat:type=MBeanFactory createDataSourceRealm -&gt; JNDI Injection</li>
+<li> Tomcat:type=MBeanFactory createUserDatabaseRealm -&gt; JNDI Injection</li>
+<li>Tomcat:type=MBeanFactory createValve -&gt; Create Valve (File<br> Writting, JNDI Injection)</li>
+</ol>
+<p>这里举一个 createUserDatabaseRealm 的例子：</p>
+<pre><code>  FILE: tomcat-embed-core-8.5.15-sources.jar!\org\apache\catalina\mbeans\MBeanFactory.java
+   public String createUserDatabaseRealm(String parent, String resourceName)
+       throws Exception &#123;
+
+        // Create a new UserDatabaseRealm instance
+       UserDatabaseRealm realm = new UserDatabaseRealm();
+       realm.setResourceName(resourceName);
+       
+       // Add the new instance to its parent component
+       ObjectName pname = new ObjectName(parent);
+       Container container = getParentContainerFromParent(pname);
+       // Add the new instance to its parent component
+       container.setRealm(realm);
+       // Return the corresponding MBean name
+       ObjectName oname = realm.getObjectName();
+       // FIXME getObjectName() returns null
+       //ObjectName oname =
+       //    MBeanUtils.createObjectName(pname.getDomain(), realm);
+       if (oname != null) &#123;
+           return (oname.toString());
+       &#125; else &#123;
+           return null;
+       &#125;
+
+   &#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Tomcat%E5%AF%BC%E8%87%B4%E7%9A%84JNDI%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20Tomcat%E5%AF%BC%E8%87%B4%E7%9A%84JNDI%E6%B3%A8%E5%85%A5/" data-id="cl5c2qvmr00gpy8v11cvg37q8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot Thymeleaf 模板注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Thymeleaf%20%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.791Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-Thymeleaf-模板注入"><a href="#Spring-Boot-Thymeleaf-模板注入" class="headerlink" title="Spring Boot Thymeleaf 模板注入"></a>Spring Boot Thymeleaf 模板注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Thymeleaf是用于Web和独立环境的现代服务器端Java模板引擎。类似与python<br>web开发中的jinja模板引擎。顺便说一句，Thymeleaf是spring boot的推荐引擎</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="0x01-基础知识"><a href="#0x01-基础知识" class="headerlink" title="0x01 基础知识"></a>0x01 基础知识</h3><p>Spring Boot 本身就 Spring MVC 的简化版本。是在 Spring MVC<br>的基础上实现了自动配置，简化了开发人员开发过程。Spring MVC 是通过一个叫<br>DispatcherServlet 前端控制器的来拦截请求的。而在 Spring Boot 中<br>使用自动配置把 DispatcherServlet 前端控制器自动配置到框架中。</p>
+<p>例如，我们来解析 /users 这个请求</p>
+<p><img src="/resource/SpringBootThymeleaf%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/media/rId25.png" alt="1.png"></p>
+<ol>
+<li><p> DispatcherServlet 前端控制器拦截请求 /users</p>
+</li>
+<li><p> servlet 决定使用哪个 handler 处理</p>
+</li>
+<li><p>Spring 检测哪个控制器匹配 /users，Spring 从 @RquestMapping<br> 中查找出需要的信息</p>
+</li>
+<li><p> Spring 找到正确的 Controller 方法后，开始执行 Controller 方法</p>
+</li>
+<li><p> 返回 users 对象列表</p>
+</li>
+<li><p> 根据与客户端交互需要返回 Json 或者 Xml 格式</p>
+</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Thymeleaf%20%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20Thymeleaf%20%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" data-id="cl5c2qvmq00goy8v1195k5s58" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot sql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20sql/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.787Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-sql"><a href="#Spring-Boot-sql" class="headerlink" title="Spring Boot sql"></a>Spring Boot sql</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>spring.datasource.tomcat.validationQuery=drop+table+users
+</code></pre>
+<p>许您指定任何SQL查询，它将针对当前数据库自动执行。它可以是任何语句，包括插入，更新或删除。</p>
+<p><img src="/resource/SpringBootsql/media/rId24.png"></p>
+<pre><code>spring.datasource.tomcat.url=jdbc:hsqldb:https://localhost:3002/xdb
+</code></pre>
+<p>允许您修改当前的JDBC连接字符串。</p>
+<p>最后一个看起来不错，但是问题是当运行数据库连接的应用程序已经建立时，仅更新JDBC字符串没有任何效果。希望在这种情况下，还有另一个属性可以对我们有所帮助：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20sql/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20sql/" data-id="cl5c2qvmp00gny8v15y9w5d74" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot mysql jdbc deserialization rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20mysql%20jdbc%20deserialization%20rce/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.784Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-mysql-jdbc-deserialization-rce"><a href="#Spring-Boot-mysql-jdbc-deserialization-rce" class="headerlink" title="Spring Boot mysql jdbc deserialization rce"></a>Spring Boot mysql jdbc deserialization rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  可以 POST 请求目标网站的 <code>/env</code> 接口设置属性</li>
+<li>可以 POST 请求目标网站的 <code>/refresh</code> 接口刷新配置（存在<br>  <code>spring-boot-starter-actuator</code> 依赖）</li>
+<li>  目标环境中存在 <code>mysql-connector-java</code> 依赖</li>
+<li>  目标可以请求攻击者的服务器（请求可出外网）</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><ol>
+<li> spring.datasource.url 属性被设置为外部恶意 mysql jdbc url 地址</li>
+<li> refresh 刷新后设置了一个新的 spring.datasource.url 属性值</li>
+<li>当网站进行数据库查询等操作时，会尝试使用恶意 mysql jdbc url<br> 建立新的数据库连接</li>
+<li>然后恶意 mysql server 就会在建立连接的合适阶段返回反序列化 payload<br> 数据</li>
+<li>目标依赖的 mysql-connector-java 就会反序列化设置好的 gadget，造成<br> RCE 漏洞</li>
+</ol>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h5 id="步骤一：查看环境依赖"><a href="#步骤一：查看环境依赖" class="headerlink" title="步骤一：查看环境依赖"></a>步骤一：查看环境依赖</h5>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20mysql%20jdbc%20deserialization%20rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20mysql%20jdbc%20deserialization%20rce/" data-id="cl5c2qvlt00gmy8v1bpw0bsrz" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot h2 database query rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20h2%20database%20query%20rce/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.782Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-h2-database-query-rce"><a href="#Spring-Boot-h2-database-query-rce" class="headerlink" title="Spring Boot h2 database query rce"></a>Spring Boot h2 database query rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>H2 database是一款Java内存数据库，多用于单元测试。H2<br>database自带一个Web管理页面，在Spirng开发中，如果我们设置如下选项，即可允许外部用户访问Web管理页面，且没有鉴权：</p>
+<pre><code>spring.h2.console.enabled=true
+spring.h2.console.settings.web-allow-others=true
+</code></pre>
+<p>利用这个管理页面，我们可以进行JNDI注入攻击，进而在目标环境下执行任意命令。</p>
+<h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  可以 POST 请求目标网站的 <code>/env</code> 接口设置属性</li>
+<li>可以 POST 请求目标网站的 <code>/restart</code> 接口重启应用（存在<br>  spring-boot-starter-actuator 依赖）</li>
+<li>  存在 <code>com.h2database.h2</code> 依赖（版本要求暂未知）</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20h2%20database%20query%20rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20h2%20database%20query%20rce/" data-id="cl5c2qvls00gly8v1b3pxa7rl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot eureka xstream deserialization rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20eureka%20xstream%20deserialization%20rce/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.779Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-eureka-xstream-deserialization-rce"><a href="#Spring-Boot-eureka-xstream-deserialization-rce" class="headerlink" title="Spring Boot eureka xstream deserialization rce"></a>Spring Boot eureka xstream deserialization rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  可以 POST 请求目标网站的 <code>/env</code> 接口设置属性</li>
+<li>可以 POST 请求目标网站的 <code>/refresh</code> 接口刷新配置（存在<br>  <code>spring-boot-starter-actuator</code> 依赖）</li>
+<li>目标使用的 <code>eureka-client</code> &lt; 1.8.7（通常包含在<br>  <code>spring-cloud-starter-netflix-eureka-client</code> 依赖中）</li>
+<li>  目标可以请求攻击者的 HTTP 服务器（请求可出外网）</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h4><ol>
+<li>eureka.client.serviceUrl.defaultZone 属性被设置为恶意的外部 eureka<br> server URL 地址</li>
+<li>refresh 触发目标机器请求远程 URL，提前架设的 fake eureka server<br> 就会返回恶意的 payload</li>
+<li> 目标机器相关依赖解析 payload，触发 XStream 反序列化，造成 RCE 漏洞</li>
+</ol>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h5 id="步骤一：架设响应恶意-XStream-payload-的网站"><a href="#步骤一：架设响应恶意-XStream-payload-的网站" class="headerlink" title="步骤一：架设响应恶意 XStream payload 的网站"></a>步骤一：架设响应恶意 XStream payload 的网站</h5>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20eureka%20xstream%20deserialization%20rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20eureka%20xstream%20deserialization%20rce/" data-id="cl5c2qvls00gky8v1bx25er08" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot Actuator jolokia 配置不当导致的XXE漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Actuator%20jolokia%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84XXE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.770Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-Actuator-jolokia-配置不当导致的XXE漏洞"><a href="#Spring-Boot-Actuator-jolokia-配置不当导致的XXE漏洞" class="headerlink" title="Spring Boot Actuator jolokia 配置不当导致的XXE漏洞"></a>Spring Boot Actuator jolokia 配置不当导致的XXE漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Spring boot 会把 <strong>/!</strong> 解析成<br><em>/<em>，所以我们只要署恶意脚本，让被攻击服务器访问就会触发漏洞。</em></em><em>前提条件****<em>查看jolokia/list中存在的 Mbeans，是否存在logback<br>库提供的reloadByURL方法</em></em></p>
+<pre><code>https://www.0-sec.org:9090/jolokia/list
+</code></pre>
+<p><img src="/resource/SpringBootActuatorjolokia%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84XXE%E6%BC%8F%E6%B4%9E/media/rId22.png" alt="4140320665.png"></p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Boot 2.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><h4 id="触发流程"><a href="#触发流程" class="headerlink" title="触发流程"></a>触发流程</h4>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Actuator%20jolokia%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84XXE%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20Actuator%20jolokia%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84XXE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvls00gjy8v12qx1di3j" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot Actuator jolokia 配置不当导致的rce漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Actuator%20jolokia%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84rce%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.768Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-Actuator-jolokia-配置不当导致的rce漏洞"><a href="#Spring-Boot-Actuator-jolokia-配置不当导致的rce漏洞" class="headerlink" title="Spring Boot Actuator jolokia 配置不当导致的rce漏洞"></a>Spring Boot Actuator jolokia 配置不当导致的rce漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h3 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h3><ul>
+<li><p>  目标网站存在 /jolokia 或 /actuator/jolokia 接口</p>
+</li>
+<li><p>目标使用了 jolokia-core 依赖（版本要求暂未知）并且环境中存在相关<br>  MBean</p>
+</li>
+<li><p>  目标可以请求攻击者的 HTTP 服务器（请求可出外网）</p>
+</li>
+<li><p>  ldap 注入可能会受目标 JDK 版本影响，jdk &lt; 6u201/7u191/8u182/11.0.1</p>
+</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><ul>
+<li>直接访问可触发漏洞的 URL，相当于通过 jolokia 调用<br>  ch.qos.logback.classic.jmx.JMXConfigurator 类的 reloadByURL 方法</li>
+<li>  目标机器请求外部日志配置文件 URL 地址，获得恶意 xml 文件内容</li>
+<li>  目标机器使用 saxParser.parse 解析 xml 文件 (这里导致了 xxe 漏洞)</li>
+<li>xml 文件中利用 logback 依赖的 insertFormJNDI 标签，设置了外部 JNDI<br>  服务器地址</li>
+<li>  目标机器请求恶意 JNDI 服务器，导致 JNDI 注入，造成 RCE 漏洞</li>
+</ul>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h3 id="步骤一：查看已存在的-MBeans"><a href="#步骤一：查看已存在的-MBeans" class="headerlink" title="步骤一：查看已存在的 MBeans"></a>步骤一：查看已存在的 MBeans</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Actuator%20jolokia%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84rce%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20Actuator%20jolokia%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84rce%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvls00giy8v14vtl558b" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot Actuator hikari配置不当导致的远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Actuator%20hikari%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.765Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-Actuator-hikari配置不当导致的远程命令执行漏洞"><a href="#Spring-Boot-Actuator-hikari配置不当导致的远程命令执行漏洞" class="headerlink" title="Spring Boot Actuator hikari配置不当导致的远程命令执行漏洞"></a>Spring Boot Actuator hikari配置不当导致的远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Spring Boot<br>2.x默认使用的HikariCP数据库连接池提供了一个可以RCE的变量。这个变量就是<code>spring.datasource.hikari.connection-test-query</code>。这个变量与HikariCP中的<code>connectionTestQuery</code>配置相匹配。根据文档，此配置定义的是在从池中给出一个连接之前被执行的query，它的作用是验证数据库连接是否处于活动状态。简言之，无论何时一个恶心的数据库连接被建立时，<code>spring.datasource.hikari.connection-test-query</code>的值将会被作为一个SQL语句执行。然后利用SQL语句中的用户自定义函数，进行RCE。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Boot 2.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞环境</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/springboot/_actuator">https://github.com/ianxtianxt/springboot\_actuator</a></p>
+</blockquote>
+<h3 id="H2-CREATE-ALIAS-命令"><a href="#H2-CREATE-ALIAS-命令" class="headerlink" title="H2 CREATE ALIAS 命令"></a>H2 CREATE ALIAS 命令</h3><p>H2数据库引擎是一个流行的java开发数据库，非常容易与Spring<br>Boot集成，仅仅需要如下的一个dependency。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20Actuator%20hikari%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20Actuator%20hikari%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E5%AF%BC%E8%87%B4%E7%9A%84%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvlr00ghy8v18pj39xm5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-SonarQube/SonarQube api 信息泄露漏洞 CVE-2020-27986" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/SonarQube/SonarQube%20api%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E%20CVE-2020-27986/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.739Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SonarQube-api-信息泄露漏洞-CVE-2020-27986"><a href="#SonarQube-api-信息泄露漏洞-CVE-2020-27986" class="headerlink" title="SonarQube api 信息泄露漏洞 CVE-2020-27986"></a>SonarQube api 信息泄露漏洞 CVE-2020-27986</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>SonarQube 某接口存在信息泄露漏洞，可以获取部分敏感信息</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>SonarQube</p>
+</blockquote>
+<h2 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h2><blockquote>
+<p>[!NOTE]</p>
+<p>app=”sonarQube-代码管理”</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>主页如下</p>
+<p>![](/resource/SonarQube-api-信息泄露漏洞CVE-2020-27986/media/1.png)</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/SonarQube/SonarQube%20api%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E%20CVE-2020-27986/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/SonarQube/SonarQube%20api%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E%20CVE-2020-27986/" data-id="cl5c2qvmt00gxy8v1ghqy9hzx" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/41/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><a class="page-number" href="/page/41/">41</a><span class="page-number current">42</span><a class="page-number" href="/page/43/">43</a><a class="page-number" href="/page/44/">44</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/43/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

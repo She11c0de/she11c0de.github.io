@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="FineReport 任意文件读取漏洞一、漏洞简介二、漏洞影响FineReport v8.0FineReport v9.0 三、复现过程漏洞代码位于fr-chart-8.0.jar文件的com.fr.chart.web.ChartGetFileContentAction中 1.png这里由ActionNoSessionCMD类扩展而来，跟进这个类其实就是对用户权限做一个简单的认证，实际上帆软报表在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/FineReport/FineReport%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="FineReport 任意文件读取漏洞一、漏洞简介二、漏洞影响FineReport v8.0FineReport v9.0 三、复现过程漏洞代码位于fr-chart-8.0.jar文件的com.fr.chart.web.ChartGetFileContentAction中 1.png这里由ActionNoSessionCMD类扩展而来，跟进这个类其实就是对用户权限做一个简单的认证，实际上帆软报表在">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:56.767Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-FineReport/FineReport 任意文件读取漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/FineReport/FineReport%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.767Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="FineReport-任意文件读取漏洞"><a href="#FineReport-任意文件读取漏洞" class="headerlink" title="FineReport 任意文件读取漏洞"></a>FineReport 任意文件读取漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>FineReport v8.0FineReport v9.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞代码位于fr-chart-8.0.jar文件的com.fr.chart.web.ChartGetFileContentAction中</p>
+<p>1.png这里由ActionNoSessionCMD类扩展而来，跟进这个类其实就是对用户权限做一个简单的认证，实际上帆软报表在具体函数里会自定义认证模式，所以这个类可以略过。2.png这里通过request将文件名传进来，同时这里使用了cjkDecode函数来解密文件名，但跟进这个函数就会发现对我们所传入的文件名没有任何影响，继续跟进接着使用invalidResourcePath函数来验证文件名是否存在</p>
+<p>  1234   public static boolean invalidResourcePath(String paramString) { return (StringUtils.isEmpty(paramString) || paramString.indexOf(false) != -1) ? true : (paramString.startsWith(&quot;http&quot;) ? ((paramString.indexOf(&quot;127.0.0.1&quot;) != -1 || paramString.indexOf(&quot;localhost&quot;) != -1)) : ((paramString.indexOf(&quot;..&quot;) != -1 &amp;&amp; paramString.split(&quot;\Q..\E&quot;).length &gt; 3))); }</p>
+<hr>
+<p>初步看来应该是为了防止ssrf？但对这个任意文件读取漏洞而言依旧没有任何影响。</p>
+<p>最后使用了readResource函数来去读文件流，将其显示浏览器当中，这里其实在初步审的时候其实是有一点问题的，那就是文件的默认路径，这里必须要跟进这个FRContext类中去看看如何初始化文件默认路径，由于跟的过程比较复杂，最终发现默认是访问resources目录下的文件3.png这里面较为关键的是privilege.xml，因为其中存储的就是超级管理员的账号和加密密码，在官网补丁中推荐的修补建议是加大密码强度，但实际情况是这里面的解密函数已经内置在jar包里，并且使用了硬编码的方式，所以如果能够拿到加密字符串，等同于拿到了管理员账号和密码4.png至此利用任意文件读取漏洞可以拿到管理员的账号和密码，从而进入到后台。</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>http://www.0-sec.org:8080/WebReport/ReportServer?op=fs_remote_design&amp;cmd=design_list_file&amp;file_path=..&amp;currentUserName=admin&amp;currentUserId=1&amp;isWebReport=true
+</code></pre>
+<p>5.png</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.freesion.com/article/1056237571/">https://www.freesion.com/article/1056237571/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/FineReport/FineReport%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qpa3007ky8v1e8jpdlgx" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/FineReport/FineReport%20%E5%90%8E%E5%8F%B0getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Finecms/%EF%BC%88CVE-2018-6893%EF%BC%89Finecms%205.2.0%20SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

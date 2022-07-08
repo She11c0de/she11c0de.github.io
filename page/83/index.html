@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/83/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Druid/Druid 未授权访问漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Druid/Druid%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.093Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Druid-未授权访问漏洞"><a href="#Druid-未授权访问漏洞" class="headerlink" title="Druid 未授权访问漏洞"></a>Druid 未授权访问漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h5 id="当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径"><a href="#当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径" class="headerlink" title="当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径"></a>当开发者配置不当时就可能造成未授权访问下面给出常见Druid未授权访问路径</h5><pre><code>/druid/websession.html
+/system/druid/websession.html
+/webpage/system/druid/websession.html(jeecg)
+</code></pre>
+<h5 id="当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常见登录口路径。"><a href="#当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常见登录口路径。" class="headerlink" title="当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常见登录口路径。"></a>当遇到需要登录的Druid是可能存在弱口令的，下面给出Druid常见登录口路径。</h5><pre><code>/druid/login.html
+/system/druid/login.html
+/webpage/system/druid/login.html
+</code></pre>
+<h5 id="以上路径可能不止存在于根目录，遇到过在二级目录下的，我们扫路径时可能就关注根目录这个点可以注意一下"><a href="#以上路径可能不止存在于根目录，遇到过在二级目录下的，我们扫路径时可能就关注根目录这个点可以注意一下" class="headerlink" title="以上路径可能不止存在于根目录，遇到过在二级目录下的，我们扫路径时可能就关注根目录这个点可以注意一下"></a>以上路径可能不止存在于根目录，遇到过在二级目录下的，我们扫路径时可能就关注根目录这个点可以注意一下</h5><h3 id="Druid的一些利用方式"><a href="#Druid的一些利用方式" class="headerlink" title="Druid的一些利用方式"></a>Druid的一些利用方式</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Druid/Druid%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Druid/Druid%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qo1k0056y8v1756a5csv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Docker/（CVE-2019-14271）Docker copy漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Docker/%EF%BC%88CVE-2019-14271%EF%BC%89Docker%20copy%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.042Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-14271）Docker-copy漏洞"><a href="#（CVE-2019-14271）Docker-copy漏洞" class="headerlink" title="（CVE-2019-14271）Docker copy漏洞"></a>（CVE-2019-14271）Docker copy漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Docker 19.03.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="Docker-cp"><a href="#Docker-cp" class="headerlink" title="Docker cp"></a>Docker cp</h3><p>Copy命令允许从容器、向容器中、或容器之间复制文件。语法与标准的unix<br>cp命令非常相似。要从容器中复制/var/logs，语法是docker cp<br>container_name:/var/logs /some/host/path。</p>
+<p>从下图所示，要从容器中将文件复制出去，Docker使用了一个名为docker-tar的帮助进程。</p>
+<p><img src="/resource/(CVE-2019-14271)Dockercopy%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>图 1. 从容器中复制文件</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Docker/%EF%BC%88CVE-2019-14271%EF%BC%89Docker%20copy%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Docker/%EF%BC%88CVE-2019-14271%EF%BC%89Docker%20copy%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qo69005py8v1ew6dbvqs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Docker/Docker 未授权访问" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Docker/Docker%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.039Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Docker-未授权访问"><a href="#Docker-未授权访问" class="headerlink" title="Docker 未授权访问"></a>Docker 未授权访问</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h4 id="1-基础介绍"><a href="#1-基础介绍" class="headerlink" title="1. 基础介绍"></a>1. 基础介绍</h4><p><a target="_blank" rel="noopener" href="http://www.loner.fm/drops//#\#!/drops/1203.%E6%96%B0%E5%A7%BF%E5%8A%BF%E4%B9%8BDocker%20Remote%20API%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%92%8C%E5%88%A9%E7%94%A8">http://www.loner.fm/drops/\#\#!/drops/1203.%E6%96%B0%E5%A7%BF%E5%8A%BF%E4%B9%8BDocker%20Remote%20API%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%92%8C%E5%88%A9%E7%94%A8</a></p>
+<p>docker swarm 是一个将docker集群变成单一虚拟的docker<br>host工具，使用标准的Docker<br>API，能够方便docker集群的管理和扩展，由docker官方提供，具体的大家可以看官网介绍。</p>
+<p>漏洞发现的起因是，有一位同学在使用docker swarm的时候，发现了管理的docker<br>节点上会开放一个TCP端口2375，绑定在0.0.0.0上，http访问会返回 404 page<br>not found ，然后他研究了下，发现这是 Docker Remote<br>API，可以执行docker命令，比如访问 <a target="_blank" rel="noopener" href="http://host:2375/containers/json">http://host:2375/containers/json</a><br>会返回服务器当前运行的 container列表，和在docker CLI上执行 docker ps<br>的效果一样，其他操作比如创建/删除container，拉取image等操作也都可以通过API调用完成，然后他就开始吐槽了，这尼玛太不安全了。</p>
+<p>然后我想了想<br>swarm是用来管理docker集群的，应该放在内网才对。问了之后发现，他是在公网上的几台机器上安装swarm的，并且2375端口的访问策略是开放的，所以可以直接访问。</p>
+<h4 id="2-测试环境配置"><a href="#2-测试环境配置" class="headerlink" title="2. 测试环境配置"></a>2. 测试环境配置</h4><p>先关闭docker，然后开启：</p>
+<pre><code>sudo service docker stop
+# 绑定Docker Remote Api在指定端口（这里是2375），可以自行测试。
+sudo docker daemon  -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Docker/Docker%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Docker/Docker%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE/" data-id="cl5c2qo69005oy8v1dx6l2c8e" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Docker/Docker 容器逃逸漏洞 (CVE-2020-15257)复现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Docker/Docker%20%E5%AE%B9%E5%99%A8%E9%80%83%E9%80%B8%E6%BC%8F%E6%B4%9E%20(CVE-2020-15257)%E5%A4%8D%E7%8E%B0/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.037Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Docker-容器逃逸漏洞-CVE-2020-15257-复现"><a href="#Docker-容器逃逸漏洞-CVE-2020-15257-复现" class="headerlink" title="Docker 容器逃逸漏洞 (CVE-2020-15257)复现"></a>Docker 容器逃逸漏洞 (CVE-2020-15257)复现</h1><h2 id="漏洞概述"><a href="#漏洞概述" class="headerlink" title="漏洞概述"></a>漏洞概述</h2><p><code>containerd</code>是行业标准的容器运行时，可作为<code>Linux</code>和<code>Windows</code>的守护程序使用。在版本<code>1.3.9</code>和<code>1.4.3</code>之前的容器中，容器填充的<code>API</code>不正确地暴露给主机网络容器。填充程序的<code>API</code>套接字的访问控制验证了连接过程的有效<code>UID</code>为0，但没有以其他方式限制对抽象<code>Unix</code>域套接字的访问。这将允许在与填充程序相同的网络名称空间中运行的恶意容器（有效<code>UID</code>为0，但特权降低）导致新进程以提升的特权运行。</p>
+<h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><pre><code>containerd &lt; 1.4.3
+containerd &lt; 1.3.9
+</code></pre>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>安装有漏洞的<code>containerd</code>版本</p>
+<p>这里我使用的版本是<code>1.2.10</code></p>
+<p>![640](/resource/Docker 容器逃逸漏洞 (CVE-2020-15257)复现/media/640.png)</p>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Docker/Docker%20%E5%AE%B9%E5%99%A8%E9%80%83%E9%80%B8%E6%BC%8F%E6%B4%9E%20(CVE-2020-15257)%E5%A4%8D%E7%8E%B0/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Docker/Docker%20%E5%AE%B9%E5%99%A8%E9%80%83%E9%80%B8%E6%BC%8F%E6%B4%9E%20(CVE-2020-15257)%E5%A4%8D%E7%8E%B0/" data-id="cl5c2qo68005ny8v1d9tef5w9" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Django/（CVE-2020-9402）Django Geo sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Django/%EF%BC%88CVE-2020-9402%EF%BC%89Django%20Geo%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.935Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-9402）Django-Geo-sql注入"><a href="#（CVE-2020-9402）Django-Geo-sql注入" class="headerlink" title="（CVE-2020-9402）Django Geo sql注入"></a>（CVE-2020-9402）Django Geo sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Django<br>1.11.29之前的1.11.x版本、2.2.11之前的2.2.x版本和3.0.4之前的3.0.x版本中存在SQL注入漏洞。攻击者可借助特制的SQL语句利用该漏洞查看、添加、修改或删除数据库中的信息。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Django<br>1.11.29之前的1.11.x版本、2.2.11之前的2.2.x版本和3.0.4之前的3.0.x版本中存在SQL注入漏洞</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>根据官网的修复<a target="_blank" rel="noopener" href="https://github.com/django/django/commit/6695d29b1c1ce979725816295a26ecc64ae0e927/#diff-229e38ececbfc591f7a5e595bf5707c4%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E9%97%AE%E9%A2%98%E5%87%BA%E5%9C%A8GIS%E7%9A%84%E6%9F%A5%E8%AF%A2%E4%B8%8A%E9%9D%A2">https://github.com/django/django/commit/6695d29b1c1ce979725816295a26ecc64ae0e927\#diff-229e38ececbfc591f7a5e595bf5707c4，可以看到问题出在GIS的查询上面</a></p>
+<p><img src="/resource/(CVE-2020-9402)DjangoGeosql%E6%B3%A8%E5%85%A5/media/rId24.png"></p>
+<p><img src="/resource/(CVE-2020-9402)DjangoGeosql%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+<p>官方只修复了这两个位置，可以发现基本上是对于<code>tolerance</code>参数进行判断是否为数字。那首先来了解一下GIS查询。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Django/%EF%BC%88CVE-2020-9402%EF%BC%89Django%20Geo%20sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Django/%EF%BC%88CVE-2020-9402%EF%BC%89Django%20Geo%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qo37005ay8v1gooug5bp" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Django/（CVE-2020-7471）Django sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Django/%EF%BC%88CVE-2020-7471%EF%BC%89Django%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.932Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-7471）Django-sql注入漏洞"><a href="#（CVE-2020-7471）Django-sql注入漏洞" class="headerlink" title="（CVE-2020-7471）Django sql注入漏洞"></a>（CVE-2020-7471）Django sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Django是高水准的由Python编程语言驱动的一个开源Web应用程序框架，起源于开源社区。使用Django，程序员可以方便、快捷地创建高品质、易维护、数据库驱动的应用程序，应用广泛。2020年2月初，Django<br>官方发布安全通告公布了一个通过StringAgg（分隔符）实现利用的潜在SQL注入漏洞（CVE-2020-7471）。攻击者可通过构造分隔符传递给聚合函数contrib.postgres.aggregates.StringAgg，从而绕过转义并注入恶意SQL语句</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Django 1.11.x &lt; 1.11.28Django 2.2.x &lt; 2.2.10Django 3.0.x &lt; 3.0.3Django 主开发分支</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><ol>
+<li> 安装 django 漏洞版本，我测试用的是</li>
+</ol>
+<ul>
+<li>  pip install django==3.0.2 -i <a target="_blank" rel="noopener" href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></li>
+</ul>
+<ol start="2">
+<li><p>参考<br> <a target="_blank" rel="noopener" href="https://www.runoob.com/postgresql/windows-install-postgresql.html">https://www.runoob.com/postgresql/windows-install-postgresql.html</a><br> 完成 postgres 数据库的安装</p>
+</li>
+<li><p> 新建数据库</p>
+</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Django/%EF%BC%88CVE-2020-7471%EF%BC%89Django%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Django/%EF%BC%88CVE-2020-7471%EF%BC%89Django%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qo38005by8v13wewbmz5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Django/（CVE-2019-14234）Django JSONField sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Django/%EF%BC%88CVE-2019-14234%EF%BC%89Django%20JSONField%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.929Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-14234）Django-JSONField-sql注入漏洞"><a href="#（CVE-2019-14234）Django-JSONField-sql注入漏洞" class="headerlink" title="（CVE-2019-14234）Django JSONField sql注入漏洞"></a>（CVE-2019-14234）Django JSONField sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞需要开发者使用了JSONField/HStoreField，且用户可控queryset查询时的键名，在键名的位置注入SQL语句。</p>
+<p>Django通常搭配postgresql数据库，而JSONField是该数据库的一种数据类型。该漏洞的出现的原因在于Django中JSONField类的实现，Django的model最本质的作用是生成SQL语句，而在Django通过JSONField生成sql语句时，是通过简单的字符串拼接。</p>
+<p>通过JSONField类获得KeyTransform类并生成sql语句的位置。</p>
+<p>其中key_name是可控的字符串，最终生成的语句是WHERE<br>(field-&gt;&#39;[key_name]&#39;) = &#39;value&#39;，因此可以进行SQL注入。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>1.11.x before 1.11.23</p>
+<p>2.1.x before 2.1.11</p>
+<p>2.2.x before 2.2.4</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Django/%EF%BC%88CVE-2019-14234%EF%BC%89Django%20JSONField%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Django/%EF%BC%88CVE-2019-14234%EF%BC%89Django%20JSONField%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qo360059y8v13wr08u08" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Django/（CVE-2018-14574）Django _ 2.0.8 任意URL跳转漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Django/%EF%BC%88CVE-2018-14574%EF%BC%89Django%20_%202.0.8%20%E4%BB%BB%E6%84%8FURL%E8%B7%B3%E8%BD%AC%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.927Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-14574）Django-lt-2-0-8-任意URL跳转漏洞"><a href="#（CVE-2018-14574）Django-lt-2-0-8-任意URL跳转漏洞" class="headerlink" title="（CVE-2018-14574）Django &lt; 2.0.8 任意URL跳转漏洞"></a>（CVE-2018-14574）Django &lt; 2.0.8 任意URL跳转漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Django默认配置下，如果匹配上的URL路由中最后一位是/，而用户访问的时候没加/，Django默认会跳转到带/的请求中。（由配置项中的<code>django.middleware.common.CommonMiddleware</code>、<code>APPEND_SLASH</code>来决定）。</p>
+<p>在path开头为<code>//example.com</code>的情况下，Django没做处理，导致浏览器认为目的地址是绝对路径，最终造成任意URL跳转漏洞。</p>
+<p>该漏洞利用条件是目标<code>URLCONF</code>中存在能匹配上<code>//example.com</code>的规则。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Django &lt; 2.0.8</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>访问<code>http://your-ip:8000//www.example.com</code>，即可返回是301跳转到<code>//www.example.com/</code>：</p>
+<p><img src="/resource/(CVE-2018-14574)Django%3C2.0.8%E4%BB%BB%E6%84%8FURL%E8%B7%B3%E8%BD%AC%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Django/%EF%BC%88CVE-2018-14574%EF%BC%89Django%20_%202.0.8%20%E4%BB%BB%E6%84%8FURL%E8%B7%B3%E8%BD%AC%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Django/%EF%BC%88CVE-2018-14574%EF%BC%89Django%20_%202.0.8%20%E4%BB%BB%E6%84%8FURL%E8%B7%B3%E8%BD%AC%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qo350058y8v1ef87g49u" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Django/（CVE-2017-12794）Django debug page XSS漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Django/%EF%BC%88CVE-2017-12794%EF%BC%89Django%20debug%20page%20XSS%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.924Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-12794）Django-debug-page-XSS漏洞"><a href="#（CVE-2017-12794）Django-debug-page-XSS漏洞" class="headerlink" title="（CVE-2017-12794）Django debug page XSS漏洞"></a>（CVE-2017-12794）Django debug page XSS漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Django 发布了新版本1.11.5，修复了500页面中可能存在的一个 XSS 漏洞</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Django &lt; 1.11.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>经过我的测试，我发现在使用Postgres数据库并触发异常的时候，psycopg2会将字段名和字段值全部抛出。那么，如果字段值中包含我们可控的字符串，又由于0x02中说到的，这个字符串其实就会被设置成<code>__cause__</code>，最后被显示在页面中。</p>
+<p>所以我们假设有如下场景：</p>
+<ol>
+<li><p> 用户注册页面，未检查用户名</p>
+</li>
+<li><p> 注册一个用户名为<code>alert(1)</code>的用户</p>
+</li>
+<li><p> 再次注册一个用户名为<code>alert(1)</code>的用户</p>
+</li>
+<li><p> 触发duplicate key异常，导致XSS漏洞</p>
+</li>
+</ol>
+<p>访问<code>http://www.0-sec.org:8000/create_user/?username=alert(1)</code>创建一个用户，成功；再次访问<code>http://www.0-sec.org:8000/create_user/?username=alert(1)</code>，触发异常：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Django/%EF%BC%88CVE-2017-12794%EF%BC%89Django%20debug%20page%20XSS%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Django/%EF%BC%88CVE-2017-12794%EF%BC%89Django%20debug%20page%20XSS%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qo310057y8v1ahd53do2" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Discuz/（CVE-2018-14729）Discuz! X1.5 ~ X2.5 后台数据库备份功能远程命令执行 Getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Discuz/%EF%BC%88CVE-2018-14729%EF%BC%89Discuz!%20X1.5%20~%20X2.5%20%E5%90%8E%E5%8F%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%8A%9F%E8%83%BD%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%20Getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.616Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-14729）Discuz-X-1-5-X2-5-后台数据库备份功能远程命令执行-Getshell"><a href="#（CVE-2018-14729）Discuz-X-1-5-X2-5-后台数据库备份功能远程命令执行-Getshell" class="headerlink" title="（CVE-2018-14729）Discuz!X 1.5 ~ X2.5 后台数据库备份功能远程命令执行 Getshell"></a>（CVE-2018-14729）Discuz!X 1.5 ~ X2.5 后台数据库备份功能远程命令执行 Getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Discuz! X1.5-2.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>需要注意的是这个漏洞其实是需要登录后台的，并且能有数据库备份权限，所以比较鸡肋。</p>
+<p>我这边是用Discuz! 2.5完成漏洞复现的，并用此进行漏洞分析的。</p>
+<p>漏洞点在：</p>
+<pre><code>source/admincp/admincp_db.php
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Discuz/%EF%BC%88CVE-2018-14729%EF%BC%89Discuz!%20X1.5%20~%20X2.5%20%E5%90%8E%E5%8F%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%8A%9F%E8%83%BD%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%20Getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Discuz/%EF%BC%88CVE-2018-14729%EF%BC%89Discuz!%20X1.5%20~%20X2.5%20%E5%90%8E%E5%8F%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%8A%9F%E8%83%BD%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%20Getshell/" data-id="cl5c2qnsr0055y8v1bs6lhxpb" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/82/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/81/">81</a><a class="page-number" href="/page/82/">82</a><span class="page-number current">83</span><a class="page-number" href="/page/84/">84</a><a class="page-number" href="/page/85/">85</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/84/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

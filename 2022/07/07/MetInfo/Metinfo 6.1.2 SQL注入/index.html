@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Metinfo 6.1.2 SQL注入一、漏洞简介二、漏洞影响三、复现过程漏洞分析漏洞文件：&#x2F;var&#x2F;www&#x2F;html&#x2F;metinfo6.1.2&#x2F;app&#x2F;system&#x2F;message&#x2F;web&#x2F;message.class.php漏洞函数：add 37-51行 public function add($info) &amp;#123;           global $_M;           if(!$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/MetInfo/Metinfo%206.1.2%20SQL%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Metinfo 6.1.2 SQL注入一、漏洞简介二、漏洞影响三、复现过程漏洞分析漏洞文件：&#x2F;var&#x2F;www&#x2F;html&#x2F;metinfo6.1.2&#x2F;app&#x2F;system&#x2F;message&#x2F;web&#x2F;message.class.php漏洞函数：add 37-51行 public function add($info) &amp;#123;           global $_M;           if(!$">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Metinfo6.1.2SQL%E6%B3%A8%E5%85%A5/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Metinfo6.1.2SQL%E6%B3%A8%E5%85%A5/media/rId26.png">
+<meta property="article:published_time" content="2022-07-08T06:25:59.259Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.672Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Metinfo6.1.2SQL%E6%B3%A8%E5%85%A5/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MetInfo/Metinfo 6.1.2 SQL注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MetInfo/Metinfo%206.1.2%20SQL%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.259Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Metinfo-6-1-2-SQL注入"><a href="#Metinfo-6-1-2-SQL注入" class="headerlink" title="Metinfo 6.1.2 SQL注入"></a>Metinfo 6.1.2 SQL注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞文件：/var/www/html/metinfo6.1.2/app/system/message/web/message.class.php<br>漏洞函数：add 37-51行</p>
+<pre><code>public function add($info) &#123;
+          global $_M;
+          if(!$_M[form][id])&#123;
+     $message=DB::get_one(&quot;select * from &#123;$_M[table][column]&#125; where module= 7 and lang =&#39;&#123;$_M[form][lang]&#125;&#39;&quot;);
+     $_M[form][id]=$message[id];
+          &#125;
+          $met_fd_ok=DB::get_one(&quot;select * from &#123;$_M[table][config]&#125; where lang =&#39;&#123;$_M[form][lang]&#125;&#39; and  name= &#39;met_fd_ok&#39; and columnid = &#123;$_M[form][id]&#125;&quot;);
+  $_M[config][met_fd_ok]= $met_fd_ok[value];
+          if(!$_M[config][met_fd_ok])okinfo(&#39;javascript:history.back();&#39;,&quot;&#123;$_M[word][Feedback5]&#125;&quot;);
+          if($_M[config][met_memberlogin_code])&#123;
+                  if(!load::sys_class(&#39;pin&#39;, &#39;new&#39;)-&gt;check_pin($_M[&#39;form&#39;][&#39;code&#39;]))&#123;
+
+                                           okinfo(-1, $_M[&#39;word&#39;][&#39;membercode&#39;]);
+                  &#125;
+      &#125;
+</code></pre>
+<p>漏洞触发点：</p>
+<pre><code>$met_fd_ok=DB::get_one(&quot;select * from &#123;$_M[table][config]&#125; where lang =&#39;&#123;$_M[form][lang]&#125;&#39; and  name= &#39;met_fd_ok&#39; and columnid = &#123;$_M[form][id]&#125;&quot;);
+</code></pre>
+<p>由于无单引号过滤导致sql注入，这个时候尝试注入发现关键词全被替换了，无法注入。于是查看__controler函数发现调用了父类的初始化函数。</p>
+<p>class feedback extends web</p>
+<p>跟进web类，没有对用户传入的数据进行过滤等操作，却初始化了common类</p>
+<p>class web extends common</p>
+<p>查看Common类的初始化函数发现了问题所在</p>
+<pre><code>public function __construct() &#123;
+           global $_M;//全局数组$_M
+           ob_start();//开启缓存
+           $this-&gt;load_mysql();//数据库连接
+           $this-&gt;load_form();//表单过滤
+           $this-&gt;load_lang();//加载语言配置
+           $this-&gt;load_config_global();//加载全站配置数据
+           $this-&gt;load_url_site();
+           $this-&gt;load_config_lang();//加载当前语言配置数据
+           $this-&gt;load_url();//加载url数据
+   &#125;
+</code></pre>
+<p>跟踪 $this→load_form() 函数</p>
+<pre><code>protected function load_form() &#123;
+           global $_M;
+           $_M[&#39;form&#39;] =array();
+           isset($_REQUEST[&#39;GLOBALS&#39;]) &amp;&amp; exit(&#39;Access Error&#39;);
+           foreach($_COOKIE as $_key =&gt; $_value) &#123;
+                   $_key&#123;0&#125; != &#39;_&#39; &amp;&amp; $_M[&#39;form&#39;][$_key] = daddslashes($_value);
+           &#125;
+           foreach($_POST as $_key =&gt; $_value) &#123;
+                   $_key&#123;0&#125; != &#39;_&#39; &amp;&amp; $_M[&#39;form&#39;][$_key] = daddslashes($_value);
+           &#125;
+           foreach($_GET as $_key =&gt; $_value) &#123;
+                   $_key&#123;0&#125; != &#39;_&#39; &amp;&amp; $_M[&#39;form&#39;][$_key] = daddslashes($_value);
+           &#125;
+           if(is_numeric($_M[&#39;form&#39;][&#39;lang&#39;]))&#123;//伪静态兼容
+                   $_M[&#39;form&#39;][&#39;page&#39;] = $_M[&#39;form&#39;][&#39;lang&#39;];
+                   $_M[&#39;form&#39;][&#39;lang&#39;] = &#39;&#39;;
+           &#125;
+           if($_M[&#39;form&#39;][&#39;metid&#39;] == &#39;list&#39;)&#123;
+                   $_M[&#39;form&#39;][&#39;list&#39;] = 1;
+                   $_M[&#39;form&#39;][&#39;metid&#39;] = $_M[&#39;form&#39;][&#39;page&#39;];
+                   $_M[&#39;form&#39;][&#39;page&#39;] = 1;
+           &#125;
+           if(!preg_match(&#39;/^[0-9A-Za-z]+$/&#39;, $_M[&#39;form&#39;][&#39;lang&#39;]) &amp;&amp; $_M[&#39;form&#39;][&#39;lang&#39;])&#123;
+                   echo &quot;No data in the database,please reinstall.&quot;;
+                   die();
+           &#125;
+   &#125;
+</code></pre>
+<p>把COOKIE、POST、GET 传入 daddslashes函数进行过滤</p>
+<pre><code>function daddslashes($string, $force = 0) &#123;
+        !defined(&#39;MAGIC_QUOTES_GPC&#39;) &amp;&amp; define(&#39;MAGIC_QUOTES_GPC&#39;,         get_magic_quotes_gpc());
+        if(!MAGIC_QUOTES_GPC || $force) &#123;
+                if(is_array($string)) &#123;
+                        foreach($string as $key =&gt; $val) &#123;
+                                $string[$key] = daddslashes($val, $force);
+                        &#125;
+                &#125; else &#123;
+                        if(!defined(&#39;IN_ADMIN&#39;))&#123;
+                                $string = trim(addslashes(sqlinsert($string)));
+                        &#125;else&#123;
+                                $string = trim(addslashes($string));
+                        &#125;
+                &#125;
+        &#125;
+        return $string;
+&#125;
+</code></pre>
+<p>这里判断是否开启了get_magic_quotes_gpc() 如果没开启或者 $force !=0<br>就进入过滤。 然而最重要的环节在这里</p>
+<pre><code>    if(!defined(&#39;IN_ADMIN&#39;))&#123;
+                               $string = trim(addslashes(sqlinsert($string)));
+                       &#125;else&#123;
+                               $string = trim(addslashes($string));
+                       &#125;
+</code></pre>
+<p>判断 IN_ADMIN 常量是否已经定义了，如果没定义就使用$string =<br>trim(addslashes(sqlinsert($string)));来过滤我们的值</p>
+<p>而如果定义了就使用$string = trim(addslashes($string));来过滤。</p>
+<p>刚刚我们进行sql注入测试失败而且语句被过滤了，<br>addslashes只过滤特殊字符，所以我们肯定是被<br>sqlinsert函数给过滤了。导致我们无法sql注入。至于sqlinsert函数我就不贴出来了，我们要做的是饶过这个函数，而不是饶过他这个规则。</p>
+<p>defined(&#39;IN_ADMIN&#39;)<br>我们需要找这个常量在哪里定义的。其实写这句话有点多余，看过我之前几篇Metinfo漏洞的话应该就会发现问题了。我写过一个关于/admin/index.php文件任意调用带do方法的问题。</p>
+<p>然后我们打开这个文件看一下。</p>
+<pre><code>&lt;?php
+define(&#39;IN_ADMIN&#39;, true);
+$M_MODULE=&#39;admin&#39;;
+if(@$_GET[&#39;m&#39;])$M_MODULE=$_GET[&#39;m&#39;];
+if(@!$_GET[&#39;n&#39;])$_GET[&#39;n&#39;]=&quot;index&quot;;
+if(@!$_GET[&#39;c&#39;])$_GET[&#39;c&#39;]=&quot;index&quot;;
+if(@!$_GET[&#39;a&#39;])$_GET[&#39;a&#39;]=&quot;doindex&quot;;
+@define(&#39;M_NAME&#39;, $_GET[&#39;n&#39;]);
+@define(&#39;M_MODULE&#39;, $M_MODULE);
+@define(&#39;M_CLASS&#39;, $_GET[&#39;c&#39;]);
+@define(&#39;M_ACTION&#39;, $_GET[&#39;a&#39;]);
+require_once &#39;../app/system/entrance.php&#39;;
+?&gt;
+</code></pre>
+<p>没错这个常量就是在这个文件定义的。而且他可以调用任意带do方法。不过问题又来了，漏洞函数是add并且不带do，那就找调用白，于是找到<br>domessage这个函数。</p>
+<p>domessage方法 18-24</p>
+<pre><code>public function domessage() &#123;
+              global $_M;
+              if($_M[&#39;form&#39;][&#39;action&#39;] == &#39;add&#39;)&#123;
+                      $this-&gt;check_field();
+                      $this→add($_M[&#39;form&#39;]);
+</code></pre>
+<p>这里在调用 add方法之前先调用了<br>check_field方法，我们要做的就是保证程序能够顺利执行到add方法，研究了一会发现只需要正常留言，把它传递的参数拷下来就ok了。<br>然后顺利执行到了add方法，成功的进行了sql注入。</p>
+<pre><code>payload：
+
+http:/0-sec.org/metinfo6//admin/index.php?m=web&amp;n=message&amp;c=message&amp;a=domessage&amp;action=add&amp;lang=cn¶137=1¶186=1¶138=1¶139=1¶140=1&amp;id=42
+</code></pre>
+<p>这里说一下这个id=42，这个值42是不能修改的，目的是让他返回验证码错误，饶过了第一层判断。</p>
+<pre><code>    if(!$_M[config][met_fd_ok])okinfo(&#39;javascript:history.back();&#39;,&quot;&#123;$_M[word][Feedback5]&#125;&quot;);
+    if($_M[config][met_memberlogin_code])&#123;
+            if(!load::sys_class(&#39;pin&#39;, &#39;new&#39;)-&gt;check_pin($_M[&#39;form&#39;][&#39;code&#39;]))&#123;
+
+                                     okinfo(-1, $_M[&#39;word&#39;][&#39;membercode&#39;]);
+            &#125;
+&#125;
+</code></pre>
+<p>至于为什么让他饶过第一层判断返回验证码错误，这样的话我们可以布尔盲注，否则只能进行时间注入。这里不多解释，自己研究一下。</p>
+<p><img src="/resource/Metinfo6.1.2SQL%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+<p><img src="/resource/Metinfo6.1.2SQL%E6%B3%A8%E5%85%A5/media/rId26.png"></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><pre><code>修改文件：metinfo6.1.2/app/system/message/web/message.class.php
+修改内容：
+        $met_fd_ok=DB::get_one(&quot;select * from &#123;$_M[table][config]&#125; where lang =&#39;&#123;$_M[form][lang]&#125;&#39; and  name= &#39;met_fd_ok&#39; and columnid = &#123;$_M[form][id]&#125;&quot;);
+修改为：
+        $met_fd_ok=DB::get_one(&quot;select * from &#123;$_M[table][config]&#125; where lang =&#39;&#123;$_M[form][lang]&#125;&#39; and  name= &#39;met_fd_ok&#39; and columnid = ‘&#123;$_M[form][id]&#125;’&quot;);
+这样就解决了。
+</code></pre>
+<h3 id="漏洞验证脚本"><a href="#漏洞验证脚本" class="headerlink" title="漏洞验证脚本"></a>漏洞验证脚本</h3><p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/Metinfo-6.1.2-SQL-inj">https://github.com/ianxtianxt/Metinfo-6.1.2-SQL-inj</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MetInfo/Metinfo%206.1.2%20SQL%E6%B3%A8%E5%85%A5/" data-id="cl5c2qrs600awy8v1h5a9d64r" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/MetInfo/Metinfo%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/MetInfo/MetInfo%205.3.12%20member_login.php%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

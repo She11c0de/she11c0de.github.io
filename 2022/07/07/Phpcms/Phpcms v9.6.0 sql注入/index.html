@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpcms v9.6.0 sql注入一、漏洞简介二、漏洞影响Phpcms v9.6.0 三、复现过程这个版本的 SQL注入主要在于程序对解密后的数据没有进行过滤，我们来看一下漏洞文件phpcms&#x2F;modules&#x2F;content&#x2F;down.php 。在其 init 方法中，从 GET数据中获取了 a_k的值，该值若能解密成程序规定格式的字符串，则程序继续运行（这里加解密使用的秘钥必须一致，例如这里">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.0%20sql%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpcms v9.6.0 sql注入一、漏洞简介二、漏洞影响Phpcms v9.6.0 三、复现过程这个版本的 SQL注入主要在于程序对解密后的数据没有进行过滤，我们来看一下漏洞文件phpcms&#x2F;modules&#x2F;content&#x2F;down.php 。在其 init 方法中，从 GET数据中获取了 a_k的值，该值若能解密成程序规定格式的字符串，则程序继续运行（这里加解密使用的秘钥必须一致，例如这里">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId38.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId39.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId40.png">
+<meta property="article:published_time" content="2022-07-08T06:26:01.717Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpcms/Phpcms v9.6.0 sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.717Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-v9-6-0-sql注入"><a href="#Phpcms-v9-6-0-sql注入" class="headerlink" title="Phpcms v9.6.0 sql注入"></a>Phpcms v9.6.0 sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms v9.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个版本的 <strong>SQL注入</strong><br>主要在于程序对解密后的数据没有进行过滤，我们来看一下漏洞文件<br><strong>phpcms/modules/content/down.php</strong> 。在其 <strong>init</strong> 方法中，从 <strong>GET</strong><br>数据中获取了 <strong>a_k</strong><br>的值，该值若能解密成程序规定格式的字符串，则程序继续运行（这里加解密使用的秘钥必须一致，例如这里秘钥为<br><strong>pc_base::load_config(&#39;system&#39;,&#39;auth_key&#39;)</strong><br>）。程序将解密后的数据用 <strong>parse_str</strong><br>函数处理，这里又存在变量覆盖问题。然后将可控变量 <strong>$id</strong><br>带入数据库查询，我们跟进 <strong>get_one</strong> 方法。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId24.png"></p>
+<p><strong>get_one</strong> 方法调用了 <strong>sqls</strong> 方法，而在 <strong>sqls</strong><br>方法中可以明显看到，未过滤的数据直接拼接进了 <strong>SQL</strong> 语句中。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+<p>那么现在，我们要解决的问题是：如何构造出加密数据，使得数据能够被正常解密？我们先来看一下<br><strong>sys_auth</strong> 函数的代码，其代码位于<br><strong>phpcms/libs/functions/global.func.php</strong><br>中。开头我们可以很明显看到，当我们没有指定加解密用的 <strong>key</strong><br>时，系统默认使用 <strong>pc_base::load_config(&#39;system&#39;,&#39;auth_key&#39;)</strong><br>作为 <strong>key</strong> ，这样我们就不用特地去搜索形如<br><strong>sys_auth(&#39;xxx&#39;,&#39;ENCODE&#39;,pc_base::load_config(&#39;system&#39;,&#39;auth_key&#39;))</strong><br>的代码段，直接搜索形如 <strong>sys_auth(&#39;可控字符串&#39;,&#39;ENCODE&#39;)</strong> 或<br><strong>sys_auth(&#39;可控字符串&#39;)</strong><br>的代码段即可。（这里搜索这种代码段的目的，是为了找到可利用的点将恶意<br><strong>payload</strong> 进行加密，然后传输给开头 <strong>phpcms/modules/content/down.php</strong><br>文件的 <strong>init</strong> 方法进一步利用）</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId26.png"></p>
+<p>通过搜索，会发现在 <strong>set_cookie</strong> 方法中使用了 <strong>sys_auth($value,<br>&#39;ENCODE&#39;)</strong> ，我们可以寻找是否存在可控的 <strong>$value</strong> 。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId27.png"></p>
+<p>我们可以搜到 <strong>phpcms/modules/wap/index.php</strong> 文件，在该文件中<br><strong>$_GET[&#39;siteid&#39;]</strong> 可控，并且可以通过 <strong>cookie</strong><br>获得加密后的数据，但是这里有 <strong>intval</strong> 过滤，所以无法放置我们的<br><strong>payload</strong> 。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId28.png"></p>
+<p>我们继续寻找，会发现 <strong>phpcms/modules/attachment/attachments.php</strong><br>文件的 <strong>swfupload_json</strong><br>方法有满足我们需要的代码。程序将可控数据放在了 <strong>cookie</strong><br>，其中可控数据中，比较好利用的是 <strong>$_GET[&#39;src&#39;]</strong> 。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId29.png"></p>
+<p><strong>$_GET[&#39;src&#39;]</strong> 只是经过了 <strong>safe_replace</strong><br>函数的过滤，该函数会将某些字符替换为空，而我们却可以在 <strong>payload</strong><br>中插入这些字符，从而绕过黑名单的过滤。 <strong>safe_replace</strong> 函数代码如下：</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId30.png"></p>
+<p>貌似现在已经找到了利用链了？别高兴的太早。在调用这个 <strong>swfupload_json</strong><br>方法之前，程序会执行 <strong>attachments</strong> 类的 <strong>__construct</strong><br>方法，而这个方法中有用户登录状态检测。用于登录状态检测的<br><strong>$this-&gt;userid</strong> 可以来自<br><strong>sys_auth($_POST[&#39;userid_flash&#39;],&#39;DECODE&#39;)</strong> ，即我们让<br><strong>$_POST[&#39;userid_flash&#39;]</strong> 经过 <strong>sys_auth</strong><br>方法解密之后有东西即可。而这个加密数据，就可以利用我们上面说到的<br><strong>phpcms/modules/wap/index.php</strong> 文件。通过 <strong>cookie</strong> 获取<br><strong>$_GET[&#39;siteid&#39;]</strong> 加密后的数据，然后再作为<br><strong>$_POST[&#39;userid_flash&#39;]</strong> 的值，即可绕过登录检测。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId31.png"></p>
+<p>绕过登录检测后，我们将 <strong>payload</strong> 传给<br><strong>phpcms/modules/attachment/attachments.php</strong> 文件 <strong>swfupload_json</strong><br>方法中的 <strong>$_GET[&#39;src&#39;]</strong> ，再利用开头 <strong>parse_str</strong><br>函数进行变量覆盖，最终完成整个漏洞链。整个漏洞的利用流程图如下：</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId32.png"></p>
+<p>按照默认配置安装的网站搭建好后， <strong>WAP</strong><br>是处于禁用状态，但是这并不影响我们获得加密后的 <strong>$_GET[&#39;siteid&#39;]</strong><br>。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId33.png"></p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId34.png"></p>
+<p>我们再来假设，如果网站管理员删除了 <strong>WAP</strong><br>模块的代码，这个洞还能利用吗？我们可以继续来挖掘一下这个漏洞链的其他入口，这也是网络上未公开的一个入口点。上面我们在搜索<br><strong>set_cookie</strong> 方法找可控数据时，会发现<br><strong>phpcms/modules/mood/index.php</strong> 文件的 <strong>post</strong><br>方法可以直接获得一个加密后的数据，这样我们就可以将这个数据，用在漏洞链的第二步：绕过用户登录验证，具体代码如下：</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId35.png"></p>
+<p>这里只要按照代码逻辑，构造参数即可。这里可能还要注意本类的<br><strong>__construct</strong> 方法，同样按照逻辑构造参数即可，具体构造这里不再赘述。</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId36.png"></p>
+<p>通过上面这个漏洞链入口，我们便可以进行 <strong>报错SQL注入</strong><br>。比较有意思的是， <strong>PHPCMS</strong> 会将 <strong>admin</strong> 登录的 <strong>cookie</strong><br>存储在数据库中，我们可以通过注入获取管理员 <strong>cookie</strong><br>，然后伪造管理员身份利用后台 <strong>getshell</strong><br>。这里如何伪造身份，网络上貌似提及很少，唯一找到一篇文章<a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/57486.html">https://www.secpulse.com/archives/57486.html</a><br>，发现作者竟然还少提及了一个关键参数。于是我将伪造的数据包，与正常登录的数据包进行对比，逐个删除<br><strong>cookie</strong><br>中的数据，看看少了哪个关键参数。接下来，我们来具体看一下如何伪造<br><strong>cookie</strong> 进入后台。</p>
+<p><strong>PHPCMS</strong> 专门在数据库中建了一个表来存放 <strong>PHPSESSID</strong><br>，其中也包含管理员的 <strong>PHPSESSID</strong> ，且登录状态下的 <strong>userid</strong><br>字段会被设为1，注销则为0，具体如下：</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId38.png"></p>
+<p>我们把 <strong>PHPSESSID=9t9mrk25ak5sb9v60nc255ql11</strong> 加到 <strong>cookie</strong><br>中，直接访问后台，这是发现程序还是会让你登录，估计我们是少了什么，下面来动态调试一下。经过调试，我们会发现程序终止在了<br><strong>admin</strong> 类 <strong>__construct</strong> 方法的 <strong>self::check_admin()</strong><br>语句中，其具体代码如下：</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId39.png"></p>
+<p>可以明显看到，我们原先的 <strong>cookie</strong> 中少了 <strong>$userid</strong><br>对应的字段，而且要想绕过登录，必须保证 <strong>$_SESSION[&#39;roleid&#39;]</strong> 和<br><strong>$userid</strong> 相等且它们两者非空。那么现在，我们只要加上 <strong>$userid</strong><br>对应字段就行了，其值可以从上面漏洞链第一步中的响应包 <strong>Set-Cookie</strong><br>字段获取。这里要注意一个点，一旦管理员注销，我们就无法利用这个点伪造<br><strong>cookie</strong> 了，这也是这个漏洞的鸡肋之处。</p>
+<p>最后来看一下官方发布的 <strong>PHPCMS v9.6.1</strong><br>中是如何修复这个漏洞的，补丁如下：</p>
+<p><img src="/resource/Phpcmsv9.6.0sql%E6%B3%A8%E5%85%A5/media/rId40.png"></p>
+<p>可以看到官方对解密后的数据进行了 <strong>safe_replace、intval</strong><br>双重过滤处理。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/5730">https://xz.aliyun.com/t/5730</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20v9.6.0%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qu5q00dwy8v17p1ohz4i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E4%BB%BB%E6%84%8F%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20authkey%E6%B3%84%E9%9C%B2%E5%AF%BC%E8%87%B4%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

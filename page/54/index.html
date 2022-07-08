@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/54/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-Php/php mt_rand函数的安全问题探讨" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Php/php%20mt_rand%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.291Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="php-mt-rand函数的安全问题探讨"><a href="#php-mt-rand函数的安全问题探讨" class="headerlink" title="php mt_rand函数的安全问题探讨"></a>php mt_rand函数的安全问题探讨</h1><h2 id="mt-rand-函数的安全性问题"><a href="#mt-rand-函数的安全性问题" class="headerlink" title="mt_rand() 函数的安全性问题"></a>mt_rand() 函数的安全性问题</h2><pre><code>php -r &#39;echo getrandmax().&quot;\n&quot;.mt_getrandmax().&quot;\n&quot;; echo (pow(2,31)-1).&quot;\n&quot;;&#39;
+</code></pre>
+<p><img src="/resource/phpmt_rand%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/media/rId22.png"></p>
+<p>在我的 linux 64 位系统中,rand() 和 mt_rand()<br>产生的最大随机数都是2147483647, 正好是 2^31-1 ,<br>也就是说随机播种的种子也是在这个范围中,0 – 2147483647<br>的这个范围是允许我们进行爆破的. 但是用 php爆破比较慢</p>
+<p>这里放一个爆破poc的d地址</p>
+<p>php_mt_seed爆破程序 <a target="_blank" rel="noopener" href="https://github.com/ianxtianxt/php-mt_rand">https://github.com/ianxtianxt/php-mt_rand</a></p>
+<p>下面演示一下它的用法:</p>
+<p><img src="/resource/phpmt_rand%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/media/rId24.png"></p>
+<p>在例子中,我没有自己播种种子,而是让php自动去播种一个种子并产生一个随机数,然后用<br>php_mt_seed<br>这个工具把产生的随机数作为参数,去爆破种子,最后的得到了四个结果.<br>经过验证,四个结果都是对的.都会产生这样的一个随机数.</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Php/php%20mt_rand%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Php/php%20mt_rand%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/" data-id="cl5c2qtr900dhy8v1779k74xc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PbootCMS/（CVE-2018-16357）PbootCMS sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/%EF%BC%88CVE-2018-16357%EF%BC%89PbootCMS%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.922Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-16357）PbootCMS-sql注入漏洞"><a href="#（CVE-2018-16357）PbootCMS-sql注入漏洞" class="headerlink" title="（CVE-2018-16357）PbootCMS sql注入漏洞"></a>（CVE-2018-16357）PbootCMS sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>PbootCMS是一款使用PHP语言开发的开源企业建站内容管理系统（CMS）。<br>PbootCMS中存在SQL注入漏洞。该漏洞源于基于数据库的应用缺少对外部输入SQL语句的验证。攻击者可利用该漏洞执行非法SQL命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org/api.php/Cms/search?#acode=1&amp;num=1&amp;order=1
+</code></pre>
+<p>参数$field是我们可以控制的，去检查函数过滤器</p>
+<p><img src="/resource/(CVE-2018-16357)PbootCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>使用函数trim和escape字符串避免sql注入</p>
+<p><img src="/resource/(CVE-2018-16357)PbootCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/%EF%BC%88CVE-2018-16357%EF%BC%89PbootCMS%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/%EF%BC%88CVE-2018-16357%EF%BC%89PbootCMS%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qtjn00dfy8v1h10l6vso" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PbootCMS/（CVE-2018-16356）PbootCMS sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/%EF%BC%88CVE-2018-16356%EF%BC%89PbootCMS%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.919Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2018-16356）PbootCMS-sql注入漏洞"><a href="#（CVE-2018-16356）PbootCMS-sql注入漏洞" class="headerlink" title="（CVE-2018-16356）PbootCMS sql注入漏洞"></a>（CVE-2018-16356）PbootCMS sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>PbootCMS是一款使用PHP语言开发的开源企业建站内容管理系统（CMS）。<br>PbootCMS中存在SQL注入漏洞。该漏洞源于基于数据库的应用缺少对外部输入SQL语句的验证。攻击者可利用该漏洞执行非法SQL命令。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org/api.php/List/index?order=123
+</code></pre>
+<p>$order参数是我们可以控制的</p>
+<p><img src="/resource/(CVE-2018-16356)PbootCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>转到函数getList，该参数在函数顺序中使用</p>
+<p><img src="/resource/(CVE-2018-16356)PbootCMSsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/%EF%BC%88CVE-2018-16356%EF%BC%89PbootCMS%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/%EF%BC%88CVE-2018-16356%EF%BC%89PbootCMS%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qtjn00dey8v1d0l1emom" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PbootCMS/PbootCMS v3.0.1 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v3.0.1%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.917Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-v3-0-1-远程代码执行漏洞"><a href="#PbootCMS-v3-0-1-远程代码执行漏洞" class="headerlink" title="PbootCMS v3.0.1 远程代码执行漏洞"></a>PbootCMS v3.0.1 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PbootCMS v3.0.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>依然是先查看<code>apps\home\controller\ParserController.php中的parserIfLabel</code>方法的两个if标签的过滤项</p>
+<pre><code>if (preg_match_all(&#39;/([\w]+)([\/\*\&lt;\&gt;\%\w\s\\\\]+)?\(/i&#39;, $matches[1][$i], $matches2)) &#123;
+                    foreach ($matches2[1] as $value) &#123;
+                        if (function_exists($value) &amp;&amp; ! in_array($value, $white_fun)) &#123;
+                            $danger = true;
+                            break;
+                        &#125;
+                    &#125;
+                &#125;
+if (preg_match(&#39;/(\$_GET\[)|(\$_POST\[)|(\$_REQUEST\[)|(\$_COOKIE\[)|(\$_SESSION\[)|(file_put_contents)|(file_get_contents)|(fwrite)|(phpinfo)|(base64)|(`)|(shell_exec)|(eval)|(assert)|(system)|(exec)|(passthru)|(pcntl_exec)|(popen)|(proc_open)|(print_r)|(print)|(urldecode)|(chr)|(include)|(request)|(__FILE__)|(__DIR__)|(copy)|(call_user_)|(preg_replace)|(array_map)|(array_reverse)|(getallheaders)|(get_headers)|(decode_string)|(htmlspecialchars)/i&#39;, $matches[1][$i]))
+</code></pre>
+<p>关于第一处的判断，我们依然可以使用在函数名和括号之间插入控制字符的方法来绕过该处校验，对于第二处，可以看到在黑名单中相较于上个分析版本（2.0.9）添加了getallheaders的黑名单判断，于是该处我们需要寻找新的方法来实现代码执行的目的，这让我想到了array_filter函数</p>
+<p><img src="/resource/PbootCMSv3.0.1%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/PbootCMS%20v3.0.1%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v3.0.1%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qtjm00ddy8v154fxdg7u" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PbootCMS/PbootCMS v2.0.9 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.9%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.915Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-v2-0-9-远程代码执行漏洞"><a href="#PbootCMS-v2-0-9-远程代码执行漏洞" class="headerlink" title="PbootCMS v2.0.9 远程代码执行漏洞"></a>PbootCMS v2.0.9 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PbootCMS v2.0.9</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞可以利用的原因在于apps\home\controller\ParserController.php中parserIfLabel函数对if标签解析时安全检验做的不够全面，函数主要存在两处安全校验，如图<img src="/resource/PbootCMSv2.0.9%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+<p>对于第一处if判断，我们可以在函数名和括号之间插入控制字符，如\x01，这样即可绕过该处正则校验，并且可以正常执行php代码，该trick来源于KCon2019的一个议题</p>
+<p><img src="/resource/PbootCMSv2.0.9%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="2.png"></p>
+<p>完整的ppt可以参见文末链接</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.9%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v2.0.9%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qtjk00dcy8v11bvlgoa5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PbootCMS/PbootCMS v2.0.7 默认数据库下载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E9%BB%98%E8%AE%A4%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8B%E8%BD%BD/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.912Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-v2-0-7-默认数据库下载"><a href="#PbootCMS-v2-0-7-默认数据库下载" class="headerlink" title="PbootCMS v2.0.7 默认数据库下载"></a>PbootCMS v2.0.7 默认数据库下载</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PbootCMS v2.0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>默认的数据库路径是<code>/data/pbootcms.db</code>，且data目录下没有进行任何的判断，后台也没有提供修改数据库路径的功能，所以可直接下载。</p>
+<pre><code>www.0-sec.org/data/pbootcms.db
+</code></pre>
+<p><img src="/resource/PbootCMSv2.0.7%E9%BB%98%E8%AE%A4%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8B%E8%BD%BD/media/rId24.png"></p>
+<p>下载后用<code>sqlite3</code>打开就可以得到用户的hash，hash使用的是<code>md5(md5($pass))</code>生成的。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E9%BB%98%E8%AE%A4%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8B%E8%BD%BD/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E9%BB%98%E8%AE%A4%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8B%E8%BD%BD/" data-id="cl5c2qtji00day8v1epe4gn5t" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PbootCMS/PbootCMS v2.0.7 模板注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.910Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-v2-0-7-模板注入"><a href="#PbootCMS-v2-0-7-模板注入" class="headerlink" title="PbootCMS v2.0.7 模板注入"></a>PbootCMS v2.0.7 模板注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PbootCMS v2.0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>文件：<code>apps/home/controller/ParserController.php</code></p>
+<p>精简后的代码如下：</p>
+<pre><code>&lt;?php
+    public function parserIfLabel($content)&#123;
+        $pattern = &#39;/\&#123;pboot:if\(([^&#125;^\$]+)\)\&#125;([\s\S]*?)\&#123;\/pboot:if\&#125;/&#39;;
+        if (preg_match_all($pattern, $content, $matches)) &#123;
+            $count = count($matches[0]);
+            for ($i = 0; $i &lt; $count; $i ++) &#123;
+                $danger = false;
+
+                // 带有函数的条件语句进行安全校验
+                if (preg_match_all(&#39;/([\w]+)([\\\s]+)?\(/i&#39;, $matches[1][$i], $matches2)) &#123;
+                    foreach ($matches2[1] as $value) &#123;
+                        if (function_exists($value))&#123;
+                            $danger = true;
+                            break;
+                        &#125;
+                    &#125;
+                &#125;
+
+                // 过滤特殊字符串
+                if (preg_match(&#39;/(\$_GET\[)|(\$_POST\[)|(\$_REQUEST\[)|(\$_COOKIE\[)|(\$_SESSION\[)|(file_put_contents)|(fwrite)|(phpinfo)|(base64_decode)|(`)|(shell_exec)|(eval)|(system)|(exec)|(passthru)/i&#39;, $matches[1][$i])) &#123;
+                    $danger = true;
+                &#125;
+
+                // 如果有危险函数，则不解析该IF
+                if ($danger) &#123;
+                    continue;
+                &#125;
+
+                eval(&#39;if(&#39; . $matches[1][$i] . &#39;)&#123;$flag=&quot;if&quot;;&#125;else&#123;$flag=&quot;else&quot;;&#125;&#39;);
+                ...
+?&gt;
+</code></pre>
+<p>这里大概的意思就是，在模板的<code>if</code>语句中，通过正则找到函数的结构，然后将其传入<code>function_exists</code>，如果该函数存在则不执行下面的<code>eval()</code></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" data-id="cl5c2qtjj00dby8v16lkp1f3i" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PbootCMS/PbootCMS v2.0.7 前台任意文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.908Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-v2-0-7-前台任意文件包含漏洞"><a href="#PbootCMS-v2-0-7-前台任意文件包含漏洞" class="headerlink" title="PbootCMS v2.0.7 前台任意文件包含漏洞"></a>PbootCMS v2.0.7 前台任意文件包含漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PbootCMS v2.0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞发生在PbootCMS内核的模板解析函数中为了方便看直接上一个完整的Parser代码吧</p>
+<pre><code>public function parser($file)
+    &#123;
+        // 设置主题
+        $theme = isset($this-&gt;vars[&#39;theme&#39;]) ? $this-&gt;vars[&#39;theme&#39;] : &#39;default&#39;;
+        //file形式:xxxxx/../../../可以双写穿越
+        $theme = preg_replace(&#39;/\.\.(\/|\\\)/&#39;, &#39;&#39;, $theme); // 过滤掉相对路径
+        $file = preg_replace(&#39;/\.\.(\/|\\\)/&#39;, &#39;&#39;, $file); // 过滤掉相对路径
+
+        if (strpos($file, &#39;/&#39;) === 0) &#123; // 绝对路径模板
+            $tpl_file = ROOT_PATH . $file;
+        &#125; elseif (! ! $pos = strpos($file, &#39;@&#39;)) &#123; // 跨模块调用
+            $path = APP_PATH . &#39;/&#39; . substr($file, 0, $pos) . &#39;/view/&#39; . $theme;
+            define(&#39;APP_THEME_DIR&#39;, str_replace(DOC_PATH, &#39;&#39;, $path));
+            if (! is_dir($path)) &#123; // 检查主题是否存在
+                error(&#39;模板主题目录不存在！主题路径：&#39; . $path);
+            &#125; else &#123;
+                $this-&gt;tplPath = $path;
+            &#125;
+            $tpl_file = $path . &#39;/&#39; . substr($file, $pos + 1);
+        &#125; else &#123;
+            // 定义当前应用主题目录
+            define(&#39;APP_THEME_DIR&#39;, str_replace(DOC_PATH, &#39;&#39;, APP_VIEW_PATH) . &#39;/&#39; . $theme);
+            if (! is_dir($this-&gt;tplPath .= &#39;/&#39; . $theme)) &#123; // 检查主题是否存在
+                error(&#39;模板主题目录不存在！主题路径：&#39; . APP_THEME_DIR);
+            &#125;
+            $tpl_file = $this-&gt;tplPath . &#39;/&#39; . $file; // 模板文件
+        &#125;
+        $note = Config::get(&#39;tpl_html_dir&#39;) ? &#39;&lt;br&gt;同时检测到您系统中启用了模板子目录&#39; . Config::get(&#39;tpl_html_dir&#39;) . &#39;，请核对是否是此原因导致！&#39; : &#39;&#39;;
+        file_exists($tpl_file) ?: error(&#39;模板文件&#39; . APP_THEME_DIR . &#39;/&#39; . $file . &#39;不存在！&#39; . $note);
+        $tpl_c_file = $this-&gt;tplcPath . &#39;/&#39; . md5($tpl_file) . &#39;.php&#39;; // 编译文件
+
+        // 当编译文件不存在，或者模板文件修改过，则重新生成编译文件
+        if (! file_exists($tpl_c_file) || filemtime($tpl_c_file) &lt; filemtime($tpl_file) || ! Config::get(&#39;tpl_parser_cache&#39;)) &#123;
+            $content = Parser::compile($this-&gt;tplPath, $tpl_file); // 解析模板
+            file_put_contents($tpl_c_file, $content) ?: error(&#39;编译文件&#39; . $tpl_c_file . &#39;生成出错！请检查目录是否有可写权限！&#39;); // 写入编译文件
+            $compile = true;
+        &#125;
+        //tplPath:PbootCMS/template
+        ob_start(); // 开启缓冲区,引入编译文件
+        $rs = include $tpl_c_file;
+        if (! isset($compile)) &#123;
+            foreach ($rs as $value) &#123; // 检查包含文件是否更新,其中一个包含文件不存在或修改则重新解析模板
+                if (! file_exists($value) || filemtime($tpl_c_file) &lt; filemtime($value) || ! Config::get(&#39;tpl_parser_cache&#39;)) &#123;
+                    $content = Parser::compile($this-&gt;tplPath, $tpl_file); // 解析模板
+                    file_put_contents($tpl_c_file, $content) ?: error(&#39;编译文件&#39; . $tpl_c_file . &#39;生成出错！请检查目录是否有可写权限！&#39;); // 写入编译文件
+                    ob_clean();
+                    include $tpl_c_file;
+                    break;
+                &#125;
+            &#125;
+        &#125;
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    &#125;
+</code></pre>
+<p>简单讲一下重点<img src="/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png">这里对传入路径的过滤并不严格，可以双写绕过再往下跟一下<img src="/resource/PbootCMSv2.0.7%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="2.png">当模板文件不在缓存中的时候，会读取$tpl_file中的内容，然后写入缓存文件中并且包含。也就是说，当parser函数的参数可以被控制的时候，就会造成一个任意文件包含。所以，要找一个可控参数的parser调用经过简单寻找，就可以发现前台控制器TagController中的index方法，完美符合我们的要求上代码：</p>
+<pre><code>public function index()
+    &#123;
+        // 在非兼容模式接受地址第二参数值
+        if (defined(&#39;RVAR&#39;)) &#123;
+            $_GET[&#39;tag&#39;] = RVAR;
+        &#125;
+
+        if (! get(&#39;tag&#39;)) &#123;
+            _404(&#39;您访问的页面不存在，请核对后重试！&#39;);
+        &#125;
+        $a=get(&#39;tag&#39;);
+        $tagstpl = request(&#39;tagstpl&#39;);
+        if (! preg_match(&#39;/^[\w\-\.\/]+$/&#39;, $tagstpl)) &#123;
+            $tagstpl = &#39;tags.html&#39;;
+        &#125;
+        $content = parent::parser($this-&gt;htmldir . $tagstpl); // 框架标签解析
+        $content = $this-&gt;parser-&gt;parserBefore($content); // CMS公共标签前置解析
+        $content = $this-&gt;parser-&gt;parserPositionLabel($content, 0, &#39;相关内容&#39;, homeurl(&#39;tag/&#39; . get(&#39;tag&#39;))); // CMS当前位置标签解析
+        $content = $this-&gt;parser-&gt;parserSpecialPageSortLabel($content, - 2, &#39;相关内容&#39;, homeurl(&#39;tag/&#39; . get(&#39;tag&#39;))); // 解析分类标签
+        $content = $this-&gt;parser-&gt;parserAfter($content); // CMS公共标签后置解析
+        $this-&gt;cache($content, true);
+    &#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qti900d8y8v17yk86snh" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PbootCMS/PbootCMS v2.0.7 任意文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.905Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-v2-0-7-任意文件读取"><a href="#PbootCMS-v2-0-7-任意文件读取" class="headerlink" title="PbootCMS v2.0.7 任意文件读取"></a>PbootCMS v2.0.7 任意文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>仅限在Windows下，Linux不支持在不存在的文件夹下上跳，Linux下利用的话得找到一个系统或者程序自带的/script/目录</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PbootCMS v2.0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>漏洞文件<code>apps/admin/controller/system/UpgradeController.php</code></p>
+<pre><code>&lt;?php
+    ...
+    public function update()&#123;
+        if ($_POST) &#123;
+            if (! ! $list = post(&#39;list&#39;)) &#123;
+                $list = explode(&#39;,&#39;, $list);
+                $backdir = date(&#39;YmdHis&#39;);
+
+                // 分离文件
+                foreach ($list as $value) &#123;
+                    if (stripos($value, &#39;/script/&#39;) !== false) &#123;
+                        $sqls[] = $value;
+                    &#125; else &#123;
+                        $path = RUN_PATH . &#39;/upgrade&#39; . $value;
+                        $des_path = ROOT_PATH . $value;
+                        $back_path = DOC_PATH . STATIC_DIR . &#39;/backup/upgrade/&#39; . $backdir . $value;
+                        if (! check_dir(dirname($des_path), true)) &#123;
+                            json(0, &#39;目录写入权限不足，无法正常升级！&#39; . dirname($des_path));
+                        &#125;
+                        if (file_exists($des_path)) &#123; // 文件存在时执行备份
+                            check_dir(dirname($back_path), true);
+                            copy($des_path, $back_path);
+                        &#125;
+
+                        // 如果后台入口文件修改过名字，则自动适配
+                        if (stripos($path, &#39;admin.php&#39;) !== false &amp;&amp; stripos($_SERVER[&#39;SCRIPT_FILENAME&#39;], &#39;admin.php&#39;) === false) &#123;
+                            if (file_exists($_SERVER[&#39;SCRIPT_FILENAME&#39;])) &#123;
+                                $des_path = $_SERVER[&#39;SCRIPT_FILENAME&#39;];
+                            &#125;
+                        &#125;
+
+                        $files[] = array(
+                            &#39;sfile&#39; =&gt; $path,
+                            &#39;dfile&#39; =&gt; $des_path
+                        );
+                    &#125;
+                &#125;
+
+                // 更新数据库
+                if (isset($sqls)) &#123;
+                    $db = new DatabaseController();
+                    switch (get_db_type()) &#123;
+                        case &#39;sqlite&#39;:
+                            copy(DOC_PATH . $this-&gt;config(&#39;database.dbname&#39;), DOC_PATH . STATIC_DIR . &#39;/backup/sql/&#39; . date(&#39;YmdHis&#39;) . &#39;_&#39; . basename($this-&gt;config(&#39;database.dbname&#39;)));
+                            break;
+                        case &#39;mysql&#39;:
+                            $db-&gt;backupDB();
+                            break;
+                    &#125;
+                    sort($sqls); // 排序
+                    foreach ($sqls as $value) &#123;
+                        $path = RUN_PATH . &#39;/upgrade&#39; . $value;
+                        if (file_exists($path)) &#123;
+                            //echo $path;
+                            //exit;
+                            $sql = file_get_contents($path);
+                            if (! $this-&gt;upsql($sql)) &#123;
+                                $this-&gt;log(&quot;数据库 $value 更新失败!&quot;);
+                                json(0, &quot;数据库&quot; . basename($value) . &quot; 更新失败！&quot;);
+                            &#125;
+                        &#125; else &#123;
+                            json(0, &quot;数据库文件&quot; . basename($value) . &quot;不存在！&quot;);
+                        &#125;
+                    &#125;
+                &#125;
+
+                // 替换文件
+                if (isset($files)) &#123;
+                    foreach ($files as $value) &#123;
+                        if (! copy($value[&#39;sfile&#39;], $value[&#39;dfile&#39;])) &#123;
+                            $this-&gt;log(&quot;文件 &quot; . $value[&#39;dfile&#39;] . &quot; 更新失败!&quot;);
+                            json(0, &quot;文件 &quot; . basename($value[&#39;dfile&#39;]) . &quot; 更新失败，请重试!&quot;);
+                        &#125;
+                    &#125;
+                &#125;
+
+                // 清理缓存
+                path_delete(RUN_PATH . &#39;/upgrade&#39;, true);
+                path_delete(RUN_PATH . &#39;/cache&#39;);
+                path_delete(RUN_PATH . &#39;/complite&#39;);
+                path_delete(RUN_PATH . &#39;/config&#39;);
+
+                $this-&gt;log(&quot;系统更新成功!&quot;);
+                json(1, &#39;系统更新成功！&#39;);
+            &#125; else &#123;
+                json(0, &#39;请选择要更新的文件！&#39;);
+            &#125;
+        &#125;
+    &#125;
+    ...
+?&gt;
+</code></pre>
+<p>可以看到注释写着更新数据库的部分，将<code>$sqls</code>遍历出来后放进了<code>file_get_contents</code>函数，然后调用了一个<code>upsql()</code>方法。跟过去看一下。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20v2.0.7%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2qti800d6y8v18oe1gkq2" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PbootCMS/PbootCMS sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PbootCMS/PbootCMS%20sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:00.902Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PbootCMS-sql注入"><a href="#PbootCMS-sql注入" class="headerlink" title="PbootCMS sql注入"></a>PbootCMS sql注入</h1><h2 id="0x01-前台home模块注入漏洞"><a href="#0x01-前台home模块注入漏洞" class="headerlink" title="0x01 前台home模块注入漏洞"></a>0x01 前台home模块注入漏洞</h2><h2 id="0x01-1-在线留言处insert-sql注入"><a href="#0x01-1-在线留言处insert-sql注入" class="headerlink" title="0x01.1 在线留言处insert sql注入"></a>0x01.1 在线留言处insert sql注入</h2><h3 id="0x01-1-2-漏洞演示"><a href="#0x01-1-2-漏洞演示" class="headerlink" title="0x01.1.2 漏洞演示"></a>0x01.1.2 漏洞演示</h3><p>注：我本地测试的所以我把验证验证码那一步关闭了=-=，实战中请自己加上验证码</p>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId24.png"></p>
+<pre><code>url:http://127.0.0.1/cms/PbootCMS-V1.2.1/index.php/Message/add
+post:
+    contacts[content`,`create_time`,`update_time`) VALUES (&#39;1&#39;, &#39;1&#39; ,1 and updatexml(1,concat(0x3a,user()),1) );-- a] = 1111
+    content = 1111
+    mobile = 1111
+</code></pre>
+<p><img src="/resource/PbootCMSsql%E6%B3%A8%E5%85%A5/media/rId25.png"></p>
+<h3 id="0x01-1-2-漏洞解读"><a href="#0x01-1-2-漏洞解读" class="headerlink" title="0x01.1.2 漏洞解读"></a>0x01.1.2 漏洞解读</h3><p>路径：PbootCMS-V1.2.1\apps\home\controller\MessageController.php<br>方法：add(</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PbootCMS/PbootCMS%20sql%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PbootCMS/PbootCMS%20sql%E6%B3%A8%E5%85%A5/" data-id="cl5c2qtjh00d9y8v1h6pi3wrs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/53/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/52/">52</a><a class="page-number" href="/page/53/">53</a><span class="page-number current">54</span><a class="page-number" href="/page/55/">55</a><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/55/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

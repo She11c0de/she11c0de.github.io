@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Yunucms v2.0.7 后台xss一、漏洞简介云优CMS是一款基于TP5.0框架为核心开发的一套免费+开源的城市分站内容管理系统。云优CMS前身为远航CMS。云优CMS于2017年9月上线全新版本，二级域名分站，内容分站独立，七牛云存储，自定义字段，自定义表单，自定义栏目权限，自定义管理权限等众多功能深受用户青睐。 二、漏洞影响Yunucms v2.0.7 三、复现过程环境搭建从官网下载源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Yunucms/Yunucms%20v2.0.7%20%E5%90%8E%E5%8F%B0xss/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Yunucms v2.0.7 后台xss一、漏洞简介云优CMS是一款基于TP5.0框架为核心开发的一套免费+开源的城市分站内容管理系统。云优CMS前身为远航CMS。云优CMS于2017年9月上线全新版本，二级域名分站，内容分站独立，七牛云存储，自定义字段，自定义表单，自定义栏目权限，自定义管理权限等众多功能深受用户青睐。 二、漏洞影响Yunucms v2.0.7 三、复现过程环境搭建从官网下载源码">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId35.png">
+<meta property="article:published_time" content="2022-07-08T06:26:08.457Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.398Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Yunucms/Yunucms v2.0.7 后台xss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Yunucms/Yunucms%20v2.0.7%20%E5%90%8E%E5%8F%B0xss/" class="article-date">
+  <time datetime="2022-07-08T06:26:08.457Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Yunucms-v2-0-7-后台xss"><a href="#Yunucms-v2-0-7-后台xss" class="headerlink" title="Yunucms v2.0.7 后台xss"></a>Yunucms v2.0.7 后台xss</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>云优CMS是一款基于TP5.0框架为核心开发的一套免费+开源的城市分站内容管理系统。云优CMS前身为远航CMS。云优CMS于2017年9月上线全新版本，二级域名分站，内容分站独立，七牛云存储，自定义字段，自定义表单，自定义栏目权限，自定义管理权限等众多功能深受用户青睐。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Yunucms v2.0.7</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>从<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/www.yunucms.com/Buy/program.html">官网</a>下载源码并进行过安装</p>
+<p>需要注意的是需要填云账号，我去官网注册了一个随便填上了，账号testqwe，密码123456，手机号利用的在线短信注册的</p>
+<p><img src="/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId26.png"></p>
+<p>填上MySQL密码即可</p>
+<p><img src="/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId27.png"></p>
+<p>前台界面</p>
+<p><img src="/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId28.png"></p>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><pre><code>http://www.0-sec.org/index.php?s=/admin/tagurl/addtagurl
+</code></pre>
+<p>该cms路由为<code>目录/文件/方法</code>，直接查看方法</p>
+<pre><code>public function addTagurl()
+    &#123;
+        if(request()-&gt;isAjax())&#123; # 判断是否是ajax请求
+            $param = input(&#39;post.&#39;); # 获取参数
+            $tagurl = new TagurlModel();
+            $flag = $tagurl-&gt;insertTagurl($param); # 将结果进行保存并返回响应
+            return json([&#39;code&#39; =&gt; $flag[&#39;code&#39;], &#39;data&#39; =&gt; $flag[&#39;data&#39;], &#39;msg&#39; =&gt; $flag[&#39;msg&#39;]]);
+        &#125;
+        return $this-&gt;fetch();
+    &#125;
+</code></pre>
+<p>跟进insertTagurl方法</p>
+<pre><code>public function insertTagurl($param)
+    &#123;
+        try&#123;
+            $result = $this-&gt;allowField(true)-&gt;save($param); # 保存当前数据对象
+            if(false === $result)&#123;            
+                return [&#39;code&#39; =&gt; -1, &#39;data&#39; =&gt; &#39;&#39;, &#39;msg&#39; =&gt; $this-&gt;getError()];
+            &#125;else&#123;
+                return [&#39;code&#39; =&gt; 1, &#39;data&#39; =&gt; &#39;&#39;, &#39;msg&#39; =&gt; &#39;添加TAG成功&#39;];
+            &#125;
+        &#125;catch( PDOException $e)&#123;
+            return [&#39;code&#39; =&gt; -2, &#39;data&#39; =&gt; &#39;&#39;, &#39;msg&#39; =&gt; $e-&gt;getMessage()];
+        &#125;
+    &#125;
+</code></pre>
+<p>继续跟进save方法</p>
+<pre><code>if (!empty($data)) &#123;
+            // 数据自动验证
+            if (!$this-&gt;validateData($data)) &#123; # 验证集为空，直接返回true
+                return false;
+            &#125;
+            // 数据对象赋值
+            foreach ($data as $key =&gt; $value) &#123;
+                $this-&gt;setAttr($key, $value, $data); # 将参数赋值给$this-&gt;data数组
+            &#125;
+            if (!empty($where)) &#123;
+                $this-&gt;isUpdate = true;
+            &#125;
+        &#125;
+
+......        
+
+$result = $this-&gt;getQuery()-&gt;insert($this-&gt;data);
+
+......
+``
+</code></pre>
+<p>validateData方法需要验证集，而本身没有传入</p>
+<pre><code>protected function validateData($data, $rule = null, $batch = null)
+    &#123;
+        $info = is_null($rule) ? $this-&gt;validate : $rule;
+
+        if (!empty($info)) &#123;
+            ......
+        &#125;
+        return true;
+    &#125;
+</code></pre>
+<p>且<code>$this-&gt;validate</code>参数为空，因此直接返回true</p>
+<p>跟进insert方法</p>
+<pre><code>.....
+        // 生成SQL语句
+        $sql = $this-&gt;builder-&gt;insert($data, $options, $replace);
+        $bind = $this-&gt;getBind();
+        if ($options[&#39;fetch_sql&#39;]) &#123;
+            // 获取实际执行的SQL语句
+            return $this-&gt;connection-&gt;getRealSql($sql, $bind);
+        &#125;
+
+        // 执行操作
+        $result = $this-&gt;execute($sql, $bind);
+</code></pre>
+<p>fetch_sql变量为false，跟进execute方法</p>
+<pre><code>......
+    if ($procedure) &#123; # false
+                $this-&gt;bindParam($bind);
+            &#125; else &#123;
+                $this-&gt;bindValue($bind);
+            &#125;
+......
+</code></pre>
+<p>最后跟进参数绑定方法</p>
+<pre><code>protected function bindValue(array $bind = [])
+    &#123;
+        foreach ($bind as $key =&gt; $val) &#123;
+            // 占位符
+            $param = is_numeric($key) ? $key + 1 : &#39;:&#39; . $key;
+            if (is_array($val)) &#123;
+                if (PDO::PARAM_INT == $val[1] &amp;&amp; &#39;&#39; === $val[0]) &#123;
+                    $val[0] = 0;
+                &#125;
+                $result = $this-&gt;PDOStatement-&gt;bindValue($param, $val[0], $val[1]);
+            &#125; else &#123;
+                $result = $this-&gt;PDOStatement-&gt;bindValue($param, $val);
+            &#125;
+            if (!$result) &#123;
+                throw new BindParamException(
+                    &quot;Error occurred  when binding parameters &#39;&#123;$param&#125;&#39;&quot;,
+                    $this-&gt;config,
+                    $this-&gt;getLastsql(),
+                    $bind
+                );
+            &#125;
+        &#125;
+    &#125;
+</code></pre>
+<p>可以看到最后是调用PDO对象对参数进行的绑定，除此之外并没有任何过滤，因此XSS代码可插入并执行</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>后台TAG管理模块</p>
+<p><img src="/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId31.png"></p>
+<p>进行添加TAG</p>
+<p><img src="/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId32.png"></p>
+<p>在名称处填入XSS代码并提交</p>
+<p><img src="/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId33.png"></p>
+<p>返回模块即可看到效果</p>
+<p><img src="/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId34.png"></p>
+<p>查看源码，发现已经插入</p>
+<p><img src="/resource/Yunucmsv2.0.7%E5%90%8E%E5%8F%B0xss/media/rId35.png"></p>
+<p>查看数据库</p>
+<p>image</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Yunucms/Yunucms%20v2.0.7%20%E5%90%8E%E5%8F%B0xss/" data-id="cl5c2qz0m00ney8v1dkykh32z" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Yunucms/Yunucms%20v2.0.7%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%84%E9%9C%B2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/YouDianCMS/YouDianCMS%208.0%20Storeage%20XSS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

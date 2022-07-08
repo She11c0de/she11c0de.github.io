@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="（SSV-97074）DeDecms 前台任意用户密码修改一、漏洞简介无CVE， SSV-97074，提交时间：20180110 在用户密码重置功能处，php存在弱类型比较，导致如果用户没有设置密保问题的情况下可以绕过验证密保问题，直接修改密码(管理员账户默认不设置密保问题)。值得注意的是修改的密码是member表中的密码，即使修改了管理员密码也是member表中的管理员密码，仍是无法进入管理 二">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97074%EF%BC%89DeDecms%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="（SSV-97074）DeDecms 前台任意用户密码修改一、漏洞简介无CVE， SSV-97074，提交时间：20180110 在用户密码重置功能处，php存在弱类型比较，导致如果用户没有设置密保问题的情况下可以绕过验证密保问题，直接修改密码(管理员账户默认不设置密保问题)。值得注意的是修改的密码是member表中的密码，即使修改了管理员密码也是member表中的管理员密码，仍是无法进入管理 二">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91(SSV-97074)DeDecms%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91(SSV-97074)DeDecms%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91(SSV-97074)DeDecms%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/media/rId28.png">
+<meta property="article:published_time" content="2022-07-08T06:25:54.429Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.674Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91(SSV-97074)DeDecms%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/media/rId26.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Dedecms/【开启会员注册】（SSV-97074）DeDecms 前台任意用户密码修改" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97074%EF%BC%89DeDecms%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/" class="article-date">
+  <time datetime="2022-07-08T06:25:54.429Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（SSV-97074）DeDecms-前台任意用户密码修改"><a href="#（SSV-97074）DeDecms-前台任意用户密码修改" class="headerlink" title="（SSV-97074）DeDecms 前台任意用户密码修改"></a>（SSV-97074）DeDecms 前台任意用户密码修改</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>无CVE， SSV-97074，提交时间：20180110</p>
+<p>在用户密码重置功能处，php存在弱类型比较，导致如果用户没有设置密保问题的情况下可以绕过验证密保问题，直接修改密码(管理员账户默认不设置密保问题)。值得注意的是修改的密码是member表中的密码，即使修改了管理员密码也是member表中的管理员密码，仍是无法进入管理</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>php弱类型比较问题很常见，在不同类型比较时，如果使用的是==，php会将其中一个数据进行强制转换为另一个，比如’123a’就会被强制转换成123。这样就出现了弱类型比较问题，当然如果使用===判断比较就不会出现问题了。常见比较如下</p>
+<pre><code>&#39;&#39; == 0 == false &#39;123&#39; == 123             //&#39;123&#39;强制转换为123 
+&#39;abc&#39; == 0　        //intval(&#39;abc&#39;)==0 
+&#39;123a&#39; == 123            //intval(&#39;123a&#39;)==123 
+&#39;0x01&#39; == 1             //被识别为十六进制
+&#39;0e123456789&#39; == &#39;0e987654321&#39;　　//被识别为科学计数法 
+[false] == [0] == [NULL] == [&#39;&#39;] 
+NULL == false == 0 
+true == 1
+</code></pre>
+<p>dedecms的/member/resetpassword.php就是用来处理用户密码重置的问题，问题出在75行开始处理验证密保问题处。</p>
+<pre><code>else if($dopost == &quot;safequestion&quot;)
+&#123;
+    $mid = preg_replace(&quot;#[^0-9]#&quot;, &quot;&quot;, $id);
+    $sql = &quot;SELECT safequestion,safeanswer,userid,email FROM #@__member WHERE mid = &#39;$mid&#39;&quot;;
+    $row = $db-&gt;GetOne($sql);
+    if(empty($safequestion)) $safequestion = &#39;&#39;;
+ 
+    if(empty($safeanswer)) $safeanswer = &#39;&#39;;
+ 
+    if($row[&#39;safequestion&#39;] == $safequestion &amp;&amp; $row[&#39;safeanswer&#39;] == $safeanswer)
+    &#123;
+        sn($mid, $row[&#39;userid&#39;], $row[&#39;email&#39;], &#39;N&#39;);
+        exit();
+    &#125;
+    else
+    &#123;
+        ShowMsg(&quot;对不起，您的安全问题或答案回答错误&quot;,&quot;-1&quot;);
+        exit();
+    &#125;
+ 
+&#125;
+</code></pre>
+<p>可以看到，这段代码先是从数据库取出相关用户的密保问题及密保答案，在对用户输入做了一些处理后，进行了关键性的判断if($row[&#39;safequestion&#39;]<br>== $safequestion &amp;&amp; $row[&#39;safeanswer&#39;] == $safeanswer)<br>，就在这里用了弱类型判断==。</p>
+<p>首先我们知道，如果没有设置密保的话safequestion从数据库取出默认为’0’，safeanswer为空。根据empty函数特性，’0’会被判断为空，会进入重新将$safequestion赋值为’’。而&#39;0&#39;<br>!= &#39;&#39;<br>，所以我们需要一个输入即不使empty为空，且弱类型等于’0’的字符串。&#39;00&#39;、&#39;000&#39;、&#39;0.0&#39;以上这些都是可以的。</p>
+<p>接下来safeanswer既然本来就为空，那么不输入正好也就相等了。跟踪sn函数</p>
+<pre><code>function sn($mid,$userid,$mailto, $send = &#39;Y&#39;)
+&#123;
+    global $db;
+    $tptim= (60*10);
+    $dtime = time();
+    $sql = &quot;SELECT * FROM #@__pwd_tmp WHERE mid = &#39;$mid&#39;&quot;;
+    $row = $db-&gt;GetOne($sql);
+    if(!is_array($row))
+    &#123;
+        //发送新邮件；
+        newmail($mid,$userid,$mailto,&#39;INSERT&#39;,$send);
+    &#125;
+    //10分钟后可以再次发送新验证码；
+    elseif($dtime - $tptim &gt; $row[&#39;mailtime&#39;])
+    &#123;
+        newmail($mid,$userid,$mailto,&#39;UPDATE&#39;,$send);
+    &#125;
+    //重新发送新的验证码确认邮件；
+    else
+    &#123;
+        return ShowMsg(&#39;对不起，请10分钟后再重新申请&#39;, &#39;login.php&#39;);
+    &#125;
+&#125;
+</code></pre>
+<p>跟踪newmail</p>
+<pre><code>function newmail($mid, $userid, $mailto, $type, $send)
+&#123;
+    global $db,$cfg_adminemail,$cfg_webname,$cfg_basehost,$cfg_memberurl;
+    $mailtime = time();
+    $randval = random(8);
+    $mailtitle = $cfg_webname.&quot;:密码修改&quot;;
+    $mailto = $mailto;
+    $headers = &quot;From: &quot;.$cfg_adminemail.&quot;\r\nReply-To: $cfg_adminemail&quot;;
+    $mailbody = &quot;亲爱的&quot;.$userid.&quot;：\r\n您好！感谢您使用&quot;.$cfg_webname.&quot;网。\r\n&quot;.$cfg_webname.&quot;应您的要求，重新设置密码：（注：如果您没有提出申请，请检查您的信息是否泄漏。）\r\n本次临时登陆密码为：&quot;.$randval.&quot; 请于三天内登陆下面网址确认修改。\r\n&quot;.$cfg_basehost.$cfg_memberurl.&quot;/resetpassword.php?dopost=getpasswd&amp;id=&quot;.$mid;
+    if($type == &#39;INSERT&#39;)
+    &#123;
+        $key = md5($randval);
+        $sql = &quot;INSERT INTO `#@__pwd_tmp` (`mid` ,`membername` ,`pwd` ,`mailtime`)VALUES (&#39;$mid&#39;, &#39;$userid&#39;,  &#39;$key&#39;, &#39;$mailtime&#39;);&quot;;
+        if($db-&gt;ExecuteNoneQuery($sql))
+        &#123;
+            if($send == &#39;Y&#39;)
+            &#123;
+                sendmail($mailto,$mailtitle,$mailbody,$headers);
+                return ShowMsg(&#39;EMAIL修改验证码已经发送到原来的邮箱请查收&#39;, &#39;login.php&#39;,&#39;&#39;,&#39;5000&#39;);
+            &#125; else if ($send == &#39;N&#39;)
+            &#123;
+                return ShowMsg(&#39;稍后跳转到修改页&#39;, $cfg_basehost.$cfg_memberurl.&quot;/resetpassword.php?dopost=getpasswd&amp;amp;id=&quot;.$mid.&quot;&amp;amp;key=&quot;.$randval);
+            &#125;
+        &#125;
+        else
+        &#123;
+            return ShowMsg(&#39;对不起修改失败，请联系管理员&#39;, &#39;login.php&#39;);
+        &#125;
+    &#125;
+</code></pre>
+<p>可见在sn函数中将send参数设置了’N’，其实就是生成了暂时密码并插入了数据库中，并进行跳转：</p>
+<pre><code>else if ($send == &#39;N&#39;)
+&#123;
+    return ShowMsg(&#39;稍后跳转到修改页&#39;, $cfg_basehost.$cfg_memberurl.&quot;/resetpassword.php?dopost=getpasswd&amp;amp;id=&quot;.$mid.&quot;&amp;amp;key=&quot;.$randval);
+&#125;
+</code></pre>
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p>在找回密码处，点击通过安全问题取回。</p>
+<p><img src="/resource/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91(SSV-97074)DeDecms%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/media/rId26.png"></p>
+<p>填写信息并抓包，修改id和userid为想要重置密码的对象，再加上以上分析内容，发包即可得到修改密码url</p>
+<p><img src="/resource/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91(SSV-97074)DeDecms%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/media/rId27.png"></p>
+<p>进入该url，修改密码。</p>
+<p><img src="/resource/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91(SSV-97074)DeDecms%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/media/rId28.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97074%EF%BC%89DeDecms%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9/" data-id="cl5c2qnpk004iy8v17zb5c0p1" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88SSV-97087%EF%BC%89DeDecms%20%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Dedecms/%E3%80%90%E5%BC%80%E5%90%AF%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E3%80%91%EF%BC%88CVE-2018-20129%EF%BC%89Dedecms%E5%89%8D%E5%8F%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

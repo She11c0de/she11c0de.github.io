@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="CatfishCMS 4.5.7 csrf getshell一、漏洞简介二、漏洞影响CatfishCMS 4.5 三、复现过程思路： 前台评论出插入xss代码-&gt;诱骗后台管理员访问网站-内容管理-评论管理-自动执行xss代码-&gt;通过csrf插入一条新文章-&gt;通过csrf清除缓存-&gt;在通过js访问前端任意页面生成缓存建立shell大概的想法就是这样做了。 后台创建文章方法 地">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/CatfishCMS/CatfishCMS%204.5.7%20csrf%20getshell/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="CatfishCMS 4.5.7 csrf getshell一、漏洞简介二、漏洞影响CatfishCMS 4.5 三、复现过程思路： 前台评论出插入xss代码-&gt;诱骗后台管理员访问网站-内容管理-评论管理-自动执行xss代码-&gt;通过csrf插入一条新文章-&gt;通过csrf清除缓存-&gt;在通过js访问前端任意页面生成缓存建立shell大概的想法就是这样做了。 后台创建文章方法 地">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId24.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId25.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId26.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId27.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId28.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId29.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId30.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId31.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId32.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId34.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId35.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId36.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId37.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId38.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId39.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId40.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId41.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId42.png">
+<meta property="og:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId43.png">
+<meta property="article:published_time" content="2022-07-08T06:25:53.584Z">
+<meta property="article:modified_time" content="2022-07-08T07:24:51.675Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://she11c0de.github.io/resource/CatfishCMS4.5.7csrfgetshell/media/rId24.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CatfishCMS/CatfishCMS 4.5.7 csrf getshell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/CatfishCMS/CatfishCMS%204.5.7%20csrf%20getshell/" class="article-date">
+  <time datetime="2022-07-08T06:25:53.584Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CatfishCMS-4-5-7-csrf-getshell"><a href="#CatfishCMS-4-5-7-csrf-getshell" class="headerlink" title="CatfishCMS 4.5.7 csrf getshell"></a>CatfishCMS 4.5.7 csrf getshell</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>CatfishCMS 4.5</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><p>思路：</p>
+<p>前台评论出插入xss代码-&gt;诱骗后台管理员访问网站-内容管理-评论管理-自动执行xss代码-&gt;通过csrf插入一条新文章-&gt;通过csrf清除缓存-&gt;在通过js访问前端任意页面生成缓存建立shell大概的想法就是这样做了。</p>
+<p>后台创建文章方法</p>
+<p>地址：application\admin\controller\Index.php</p>
+<p>方法：write();</p>
+<p>这个方法没有什么可以讲的只是后面的组合漏洞要使用到他</p>
+<p>后台清除缓存方法</p>
+<p>地址：application\admin\controller\Index.php</p>
+<p>方法：clearcache()</p>
+<p>这个方法没有什么可以讲的只是后面的组合漏洞要使用到他</p>
+<p>例子：</p>
+<p>1， 准备好脚本</p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId24.png"></p>
+<p>2，利用前面的xss漏洞，配合这个脚本形成xsrf漏洞</p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId25.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId26.png"></p>
+<p>这样我们在前端的事情就完事了。接着我们模拟后台管理员进入后台的操作</p>
+<p>模拟的后端管理员操作：</p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId27.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId28.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId29.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId30.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId31.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId32.png"></p>
+<h3 id="漏洞原理与流程："><a href="#漏洞原理与流程：" class="headerlink" title="漏洞原理与流程："></a>漏洞原理与流程：</h3><p>1,后台创建文章方法地址：application\admin\controller\Index.php方法：write();这个方法没有什么可以讲只是单纯的从前端获取数据然后写入数据库罢了</p>
+<p>2,后台清除缓存方法地址：application\admin\controller\Index.php方法：clearcache()这个方法没有什么可以讲的。只是单纯的删除缓存数据</p>
+<p>3,访问前端重新生成缓存地址： application\index\controller\Index.php方法：index()</p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId34.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId35.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId36.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId37.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId38.png"></p>
+<p>缓存的名字由来缓存的名字组成就是比较简单的了。</p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId39.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId40.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId41.png"></p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId42.png"></p>
+<p>这上面几幅图就是缓存的名字了什么意思呢？很简单</p>
+<p>首先是从index目录里面的index模块下面的index方法调用了一个方法$template= $this-&gt;receive(&#39;index&#39;); = index</p>
+<p>然后是ndex目录里面的Common模块里面的receive 方法获取了变量$source 值 = index获取了变量$page 值 = 1</p>
+<p>Cache::set(&#39;hunhe_&#39;.$source.$page,$hunhe,3600); 缓存方法最后就是</p>
+<p>MD5(hunhe_index1) = 9040ab6906a15768edcd9e5b1d57fcda</p>
+<p><img src="/resource/CatfishCMS4.5.7csrfgetshell/media/rId43.png"></p>
+<h3 id="后记："><a href="#后记：" class="headerlink" title="后记："></a>后记：</h3><p>使用此方法的话，尝试一下在url中输入</p>
+<pre><code>http://www.xxxxxxx.com/runtime
+http://www.xxxxxxx.com/runtime/cache
+http://www.xxxxxxx.com/runtime/cache/8d6ab84ca2af9fccd4e4048694176ebf.php
+按顺序输入如果前两个访问得到的结果是403  最后的结果不是403或是404 而是返回正常的页面，那么说明站点的缓存目录是可以访问的，这个时候可以使用此漏洞。配合xss+csrf 获取getshell
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/CatfishCMS/CatfishCMS%204.5.7%20csrf%20getshell/" data-id="cl5c2qn3o003ay8v19hcv4krl" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/CatfishCMS/CatfishCMS%204.5.7%20xss/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Cacti/%EF%BC%88CVE-2020-8813%EF%BC%89Cacti%20v1.2.8%20%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

